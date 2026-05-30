@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { requireAuth } from '@/lib/auth-guard'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // 조회는 ADMIN/MASTER만
+  const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
+  if (!auth.ok) return auth.response
+
   const { data, error } = await supabaseAdmin
     .from('user_info')
     .select('usr_no, usr_nm, dept_no, role_cd, use_yn')
@@ -11,15 +16,23 @@ export async function GET() {
 }
 
 export async function PUT(req: NextRequest) {
+  // 역할 변경은 ADMIN/MASTER만
+  const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
+  if (!auth.ok) return auth.response
+
   const { usr_no, role_cd } = await req.json()
   if (!usr_no || !role_cd)
     return NextResponse.json({ error: 'usr_no, role_cd 필수' }, { status: 400 })
 
-  const ALLOWED_ROLES = new Set(['ADMIN','MASTER','MANAGER','SUBMANAGER','USER'])
+  const ALLOWED_ROLES = new Set(['ADMIN', 'MASTER', 'MANAGER', 'SUBMANAGER', 'USER'])
   if (!ALLOWED_ROLES.has(role_cd))
     return NextResponse.json({ error: '허용되지 않은 역할' }, { status: 400 })
 
-  // ADMIN은 최대 1명 제약
+  // MASTER는 ADMIN 역할을 부여할 수 없음
+  if (auth.role_cd === 'MASTER' && role_cd === 'ADMIN')
+    return NextResponse.json({ error: 'MASTER는 ADMIN 역할을 부여할 수 없습니다' }, { status: 403 })
+
+  // ADMIN 최대 1명 제약
   if (role_cd === 'ADMIN') {
     const { count } = await supabaseAdmin
       .from('user_info')
@@ -30,7 +43,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: 'ADMIN은 1명만 가능합니다' }, { status: 409 })
   }
 
-  // MASTER는 최대 2명 제약
+  // MASTER 최대 2명 제약
   if (role_cd === 'MASTER') {
     const { count } = await supabaseAdmin
       .from('user_info')

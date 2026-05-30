@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { requireAuth } from '@/lib/auth-guard'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // 그룹 목록은 ADMIN/MASTER/MANAGER 조회 가능
+  const auth = await requireAuth(req, ['ADMIN', 'MASTER', 'MANAGER'])
+  if (!auth.ok) return auth.response
+
   const { data, error } = await supabaseAdmin
     .from('grp_mst')
     .select(`
@@ -17,7 +22,14 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  // 그룹 생성은 ADMIN/MASTER만
+  const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
+  if (!auth.ok) return auth.response
+
   const body = await req.json()
+  if (!body.grp_cd || !body.grp_nm)
+    return NextResponse.json({ error: 'grp_cd, grp_nm 필수' }, { status: 400 })
+
   const { error, data } = await supabaseAdmin
     .from('grp_mst')
     .insert({ grp_cd: body.grp_cd, grp_nm: body.grp_nm, grp_cont: body.grp_cont ?? null })
@@ -28,7 +40,14 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  // 그룹 삭제는 ADMIN/MASTER만
+  const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
+  if (!auth.ok) return auth.response
+
   const { grp_cd } = await req.json()
+  if (!grp_cd)
+    return NextResponse.json({ error: 'grp_cd 필수' }, { status: 400 })
+
   await supabaseAdmin.from('grp_mbr_perm').delete().eq('grp_cd', grp_cd)
   await supabaseAdmin.from('grp_mbr').delete().eq('grp_cd', grp_cd)
   const { error } = await supabaseAdmin.from('grp_mst').delete().eq('grp_cd', grp_cd)
