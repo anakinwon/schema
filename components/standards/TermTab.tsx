@@ -1,6 +1,8 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
 import type { StdWord, StdDomain } from '@/lib/da-types'
+import DdlExportDialog from './DdlExportDialog'
+import AuditPanel from './AuditPanel'
 
 interface TermRow extends StdWord {
   KEY_DOM_PHY_NM?: string
@@ -32,6 +34,8 @@ export default function TermTab() {
   const [termDesc, setTermDesc] = useState('')
   const [saving, setSaving] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
+  const [ddlOpen, setDdlOpen] = useState(false)    // TASK-010
+  const [auditOpen, setAuditOpen] = useState(false) // TASK-009
 
   const loadTerms = useCallback(async () => {
     const r = await fetch(`/api/std-dic?type=0002&q=${encodeURIComponent(q)}`)
@@ -143,15 +147,35 @@ export default function TermTab() {
         />
         <button onClick={loadTerms} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">조회</button>
         <div className="ml-auto flex gap-2">
+          <button onClick={() => setAuditOpen(true)} disabled={!selected}
+            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 이력</button>
+          <button onClick={() => setDdlOpen(true)} disabled={terms.length === 0}
+            className="px-3 py-1 bg-emerald-600 text-white rounded text-sm hover:bg-emerald-700 disabled:opacity-40">
+            ⬇ DDL Export
+          </button>
           <button onClick={resetForm} className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">+ 신규</button>
           <button onClick={del} disabled={!selected}
             className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:opacity-40">삭제</button>
         </div>
       </div>
 
+      {/* TASK-010: DDL Export 다이얼로그 */}
+      {ddlOpen && <DdlExportDialog terms={terms} onClose={() => setDdlOpen(false)} />}
+
+      {/* TASK-009: 변경이력 */}
+      {auditOpen && selected && (
+        <AuditPanel
+          entityType="STD_DIC"
+          entityId={selected.DIC_ID}
+          entityNm={selected.DIC_LOG_NM}
+          onClose={() => setAuditOpen(false)}
+        />
+      )}
+
       {/* 상단: 용어 리스트 */}
       <div className="flex-1 overflow-auto border-b" style={{ maxHeight: '45%' }}>
-        <table className="w-full text-xs border-collapse">
+        <div className="overflow-x-auto min-h-0">
+        <table className="w-full min-w-[600px] text-xs border-collapse">
           <thead className="sticky top-0 bg-[#2c4a6e] text-white">
             <tr>
               {['번호','논리용어명','물리용어명','도메인','설명'].map(h => (
@@ -178,6 +202,7 @@ export default function TermTab() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* 하단: 용어 등록 폼 */}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
+import { writeAudit, getChangedBy } from '@/lib/audit'
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -19,6 +20,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const body = await req.json()
   const db = getDb()
 
+  // Audit: 변경 전 데이터 캡처
+  const before = db.prepare('SELECT * FROM STD_DIC WHERE DIC_ID=?').get(id) as Record<string, unknown>
+
   db.prepare(`
     UPDATE STD_DIC SET
       DIC_LOG_NM=?, DIC_PHY_NM=?, DIC_PHY_FLL_NM=?, DIC_DESC=?,
@@ -37,7 +41,6 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     id,
   )
 
-  // STD_WORD_COMBI 재등록
   if (Array.isArray(body.wordIds)) {
     db.prepare('DELETE FROM STD_WORD_COMBI WHERE TERM_ID=?').run(id)
     const stmt = db.prepare(`
@@ -51,13 +54,52 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     })
   }
 
+  // Audit: UPDATE 기록
+  writeAudit({
+    entityType: 'STD_DIC', entityId: id,
+    entityNm: body.DIC_LOG_NM ?? (before?.DIC_LOG_NM as string),
+    actionType: 'UPDATE',
+    before, after: body,
+    changedBy: getChangedBy(req),
+  })
+
   return NextResponse.json({ ok: true })
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const db = getDb()
+
+  // TASK-012: 참조 용어 확인
+  const refs = db.prepare(`
+    SELECT d.DIC_ID, d.DIC_LOG_NM, d.DIC_PHY_FLL_NM
+    FROM STD_WORD_COMBI c
+    JOIN STD_DIC d ON c.TERM_ID = d.DIC_ID
+    WHERE c.WORD_ID = ?
+  `).all(id) as { DIC_ID: string; DIC_LOG_NM: string; DIC_PHY_FLL_NM: string }[]
+
+  if (refs.length > 0) {
+    return NextResponse.json({
+      error: `이 단어를 사용하는 용어가 ${refs.length}건 있어 삭제할 수 없습니다.`,
+      usedBy: refs,
+    }, { status: 409 })
+  }
+
+  // Audit: 삭제 전 데이터 캡처
+  const before = db.prepare('SELECT * FROM STD_DIC WHERE DIC_ID=?').get(id) as Record<string, unknown>
+
   db.prepare('DELETE FROM STD_WORD_COMBI WHERE TERM_ID=?').run(id)
   db.prepare('DELETE FROM STD_DIC WHERE DIC_ID=?').run(id)
+
+  // Audit: DELETE 기록
+  if (before) {
+    writeAudit({
+      entityType: 'STD_DIC', entityId: id,
+      entityNm: before.DIC_LOG_NM as string,
+      actionType: 'DELETE', before,
+      changedBy: getChangedBy(req),
+    })
+  }
+
   return NextResponse.json({ ok: true })
 }

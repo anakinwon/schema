@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb, STD_AREA } from '@/lib/db'
 import { randomUUID } from 'crypto'
+import { writeAudit, getChangedBy } from '@/lib/audit'
 
 const NOW = () => new Date().toISOString().replace(/[-:T.Z]/g, '').slice(0, 14)
 const END = '99991231235959'
@@ -55,7 +56,6 @@ export async function POST(req: NextRequest) {
     body.SORTED_TERM_COMP_IDS ?? null,
   )
 
-  // STD_WORD_COMBI 등록 (용어인 경우)
   if (body.DIC_GBN_CD === '0002' && Array.isArray(body.wordIds)) {
     const stmt = db.prepare(`
       INSERT INTO STD_WORD_COMBI
@@ -66,6 +66,14 @@ export async function POST(req: NextRequest) {
       stmt.run(STD_AREA, id, '0001', i + 1, wid, END, NOW())
     })
   }
+
+  // Audit: INSERT 기록
+  writeAudit({
+    entityType: 'STD_DIC', entityId: id,
+    entityNm: body.DIC_LOG_NM, actionType: 'INSERT',
+    after: { ...body, DIC_ID: id },
+    changedBy: getChangedBy(req),
+  })
 
   return NextResponse.json({ DIC_ID: id }, { status: 201 })
 }

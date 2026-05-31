@@ -2,12 +2,14 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { StdWord } from '@/lib/da-types'
 import WordDialog from './WordDialog'
+import AuditPanel from './AuditPanel'
 
 export default function WordTab() {
   const [rows, setRows] = useState<StdWord[]>([])
   const [q, setQ] = useState('')
   const [selected, setSelected] = useState<StdWord | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [auditOpen, setAuditOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<StdWord | null>(null)
 
   const load = useCallback(async () => {
@@ -20,7 +22,15 @@ export default function WordTab() {
   const del = async () => {
     if (!selected) return
     if (!confirm(`"${selected.DIC_LOG_NM}" 단어를 삭제하시겠습니까?`)) return
-    await fetch(`/api/std-dic/${selected.DIC_ID}`, { method: 'DELETE' })
+    const r = await fetch(`/api/std-dic/${selected.DIC_ID}`, { method: 'DELETE' })
+    if (r.status === 409) {
+      // TASK-012: 참조 용어 경고 (AC5)
+      const data = await r.json()
+      const termList = (data.usedBy as { DIC_LOG_NM: string }[])
+        .map(t => `• ${t.DIC_LOG_NM}`).join('\n')
+      alert(`${data.error}\n\n사용 용어 목록:\n${termList}`)
+      return
+    }
     setSelected(null)
     load()
   }
@@ -48,6 +58,8 @@ export default function WordTab() {
         />
         <button onClick={load} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">조회</button>
         <div className="ml-auto flex gap-2">
+          <button onClick={() => setAuditOpen(true)} disabled={!selected}
+            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 이력</button>
           <button onClick={openAdd}
             className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">+ 추가</button>
           <button onClick={openEdit} disabled={!selected}
@@ -61,7 +73,8 @@ export default function WordTab() {
       <div className="flex flex-1 overflow-hidden">
         {/* 좌측: 리스트 */}
         <div className="flex-1 overflow-auto border-r">
-          <table className="w-full text-xs border-collapse">
+          <div className="overflow-x-auto min-h-0">
+          <table className="w-full min-w-[680px] text-xs border-collapse">
             <thead className="sticky top-0 bg-[#2c4a6e] text-white">
               <tr>
                 {['번호','논리명','물리명','영문풀네임','분류','물리타입','설명'].map(h => (
@@ -96,6 +109,7 @@ export default function WordTab() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
 
         {/* 우측: 상세 패널 */}
@@ -138,6 +152,15 @@ export default function WordTab() {
         onClose={() => setDialogOpen(false)}
         onSaved={load}
       />
+
+      {auditOpen && selected && (
+        <AuditPanel
+          entityType="STD_DIC"
+          entityId={selected.DIC_ID}
+          entityNm={selected.DIC_LOG_NM}
+          onClose={() => setAuditOpen(false)}
+        />
+      )}
     </div>
   )
 }

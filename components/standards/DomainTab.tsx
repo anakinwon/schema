@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import type { StdDomain } from '@/lib/da-types'
 import { DOM_TYPE_OPTIONS, DATA_TYPE_LABEL } from '@/lib/da-types'
 import DomainDialog from './DomainDialog'
+import AuditPanel from './AuditPanel'
 
 export default function DomainTab() {
   const [rows, setRows] = useState<StdDomain[]>([])
@@ -10,6 +11,7 @@ export default function DomainTab() {
   const [selected, setSelected] = useState<StdDomain | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editTarget, setEditTarget] = useState<StdDomain | null>(null)
+  const [auditOpen, setAuditOpen] = useState(false)
 
   const load = useCallback(async () => {
     const r = await fetch(`/api/std-dom?q=${encodeURIComponent(q)}`)
@@ -41,6 +43,8 @@ export default function DomainTab() {
         />
         <button onClick={load} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">조회</button>
         <div className="ml-auto flex gap-2">
+          <button onClick={() => setAuditOpen(true)} disabled={!selected}
+            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 이력</button>
           <button onClick={() => { setEditTarget(null); setDialogOpen(true) }}
             className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">+ 추가</button>
           <button onClick={() => { if (selected) { setEditTarget(selected); setDialogOpen(true) } }} disabled={!selected}
@@ -52,7 +56,8 @@ export default function DomainTab() {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 overflow-auto border-r">
-          <table className="w-full text-xs border-collapse">
+          <div className="overflow-x-auto min-h-0">
+          <table className="w-full min-w-[680px] text-xs border-collapse">
             <thead className="sticky top-0 bg-[#2c4a6e] text-white">
               <tr>
                 {['번호','대표도메인','논리명','도메인명','도메인유형','논리타입','길이','물리타입(설명)'].map(h => (
@@ -90,6 +95,7 @@ export default function DomainTab() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
 
         <div className="w-64 p-4 bg-gray-50 text-xs overflow-auto">
@@ -134,6 +140,15 @@ export default function DomainTab() {
         onClose={() => setDialogOpen(false)}
         onSaved={load}
       />
+
+      {auditOpen && selected && (
+        <AuditPanel
+          entityType="STD_DOM"
+          entityId={selected.DOM_ID}
+          entityNm={selected.KEY_DOM_NM}
+          onClose={() => setAuditOpen(false)}
+        />
+      )}
     </div>
   )
 }

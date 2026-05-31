@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
+import { writeAudit, getChangedBy } from '@/lib/audit'
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -13,6 +14,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const { id } = await params
   const body = await req.json()
   const db = getDb()
+
+  // Audit: 변경 전 데이터 캡처
+  const before = db.prepare('SELECT * FROM STD_DOM WHERE DOM_ID=?').get(id) as Record<string, unknown>
 
   db.prepare(`
     UPDATE STD_DOM SET
@@ -29,14 +33,37 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     body.KEY_DOM_PHY_NM, id,
   )
 
+  // Audit: UPDATE 기록
+  writeAudit({
+    entityType: 'STD_DOM', entityId: id,
+    entityNm: body.KEY_DOM_NM ?? (before?.KEY_DOM_NM as string),
+    actionType: 'UPDATE',
+    before, after: body,
+    changedBy: getChangedBy(req),
+  })
+
   return NextResponse.json({ ok: true })
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const db = getDb()
-  // STD_DIC 분류어 연결 해제
+
+  // Audit: 삭제 전 데이터 캡처
+  const before = db.prepare('SELECT * FROM STD_DOM WHERE DOM_ID=?').get(id) as Record<string, unknown>
+
   db.prepare("UPDATE STD_DIC SET DOM_USE_YN='N', DOM_NM_USE_YN='N', DOM_ID=NULL WHERE DOM_ID=?").run(id)
   db.prepare('DELETE FROM STD_DOM WHERE DOM_ID=?').run(id)
+
+  // Audit: DELETE 기록
+  if (before) {
+    writeAudit({
+      entityType: 'STD_DOM', entityId: id,
+      entityNm: before.KEY_DOM_NM as string,
+      actionType: 'DELETE', before,
+      changedBy: getChangedBy(req),
+    })
+  }
+
   return NextResponse.json({ ok: true })
 }
