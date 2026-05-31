@@ -25,7 +25,10 @@ export async function GET(request: NextRequest) {
 
 // POST /api/approval — 승인 요청 등록
 export async function POST(request: NextRequest) {
-  // Fix 2: req_by를 클라이언트 입력 대신 서버 측 세션에서 추출
+  if (!isAdminSession(request)) {
+    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
+  }
+
   const requester = getChangedBy(request)  // 'ADMIN' | 'USER' | 'SYSTEM'
 
   const body = await request.json()

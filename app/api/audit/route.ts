@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
+import { isAdminSession } from '@/lib/admin-auth'
 
 interface AuditLog {
   LOG_ID:      string
@@ -16,6 +17,10 @@ interface AuditLog {
 // GET /api/audit?entity=STD_DIC&id=xxx&limit=30
 // GET /api/audit?limit=50  (전체 최신 이력)
 export async function GET(req: NextRequest) {
+  if (!isAdminSession(req)) {
+    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
+  }
+
   const sp     = req.nextUrl.searchParams
   const entity = sp.get('entity')           // STD_DIC | STD_DOM
   const id     = sp.get('id')               // 특정 엔터티 ID
