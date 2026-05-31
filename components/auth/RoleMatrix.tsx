@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 interface Role  { role_cd: string; role_nm: string; role_lvl: number; role_cont: string }
 interface Perm  { perm_cd: string; perm_nm: string; perm_cat_cd: string }
@@ -23,15 +23,25 @@ export default function RoleMatrix() {
   const [perms, setPerms] = useState<Perm[]>([])
   const [matrix, setMatrix] = useState<Set<string>>(new Set())
   const [saving, setSaving] = useState<string | null>(null)
+  const [authError, setAuthError] = useState<string | null>(null)
 
   const load = useCallback(async () => {
-    const [r, p, rp] = await Promise.all([
+    const [r, p, rpRes] = await Promise.all([
       fetch('/api/auth/roles').then(x => x.json()),
       fetch('/api/auth/perms').then(x => x.json()),
-      fetch('/api/auth/role-perm').then(x => x.json()),
+      fetch('/api/auth/role-perm').then(async x => ({ ok: x.ok, body: await x.json() })),
     ])
-    setRoles(r); setPerms(p)
-    setMatrix(new Set((rp as RolePermRow[]).map(x => `${x.role_cd}::${x.perm_cd}`)))
+    setRoles(Array.isArray(r) ? r : [])
+    setPerms(Array.isArray(p) ? p : [])
+
+    if (!rpRes.ok) {
+      setAuthError(rpRes.body?.error ?? '역할-권한 조회에 실패했습니다')
+      setMatrix(new Set())
+      return
+    }
+    setAuthError(null)
+    const rp: RolePermRow[] = Array.isArray(rpRes.body) ? rpRes.body : []
+    setMatrix(new Set(rp.map(x => `${x.role_cd}::${x.perm_cd}`)))
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -63,6 +73,11 @@ export default function RoleMatrix() {
 
   return (
     <div className="flex flex-col h-full">
+      {authError && (
+        <div className="px-4 py-2 bg-red-50 border-b border-red-200 text-xs text-red-700">
+          ⚠ {authError} — ADMIN 또는 MASTER 계정으로 로그인 후 이용하세요.
+        </div>
+      )}
       <div className="p-3 border-b bg-gray-50 text-xs text-gray-500">
         ※ ADMIN은 모든 권한 고정 / 체크박스 클릭으로 역할-권한을 즉시 부여·회수합니다
       </div>
@@ -90,9 +105,9 @@ export default function RoleMatrix() {
           </thead>
           <tbody>
             {cats.map(cat => (
-              <>
+              <React.Fragment key={cat}>
                 {/* 카테고리 헤더 */}
-                <tr key={`cat-${cat}`}>
+                <tr>
                   <td colSpan={roles.length + 1}
                     className={`px-4 py-1.5 font-semibold text-[11px] text-gray-600 border-b ${CAT_COLOR[cat] ?? 'bg-gray-50'}`}>
                     ▸ {CAT_LABEL[cat] ?? cat}
@@ -114,6 +129,7 @@ export default function RoleMatrix() {
                       return (
                         <td key={role.role_cd} className="px-3 py-2 text-center border-r border-gray-200">
                           <button
+                            type="button"
                             onClick={() => toggle(role.role_cd, perm.perm_cd, has)}
                             disabled={isSaving || isAdmin}
                             title={isAdmin ? 'ADMIN은 모든 권한 고정' : (has ? '클릭하여 회수' : '클릭하여 부여')}
@@ -132,7 +148,7 @@ export default function RoleMatrix() {
                     })}
                   </tr>
                 ))}
-              </>
+              </React.Fragment>
             ))}
           </tbody>
         </table>

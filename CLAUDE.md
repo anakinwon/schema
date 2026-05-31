@@ -15,6 +15,11 @@ npm run lint     # ESLint 실행 (eslint 직접 호출)
 
 **중요**: `next lint` 명령어는 Next.js 16에서 제거되었습니다. 린트는 반드시 `eslint` CLI 직접 호출 또는 `npm run lint`를 사용하세요.
 
+## 개발 가이드
+
+- **📋 프로젝트 요구사항**: `@/docs/PRD.md`
+- **🛠️ PRD 생성 메타 프롬프트**: `@/docs/PRD_PROMPT.md`
+
 ## 기술 스택
 
 - **Next.js 16.2.6** (App Router) + **React 19.2**
