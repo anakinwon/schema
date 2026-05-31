@@ -1,19 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase, supabaseAdmin } from './supabase'
+import { isAdminSession } from './admin-auth'
 
 export type AuthResult =
   | { ok: true;  email: string; role_cd: string; usr_no: string | null }
   | { ok: false; response: NextResponse }
 
 /**
- * Supabase JWT 검증 후 user_info.role_cd로 역할 인가
- * @param req - NextRequest
- * @param allowedRoles - 허용 역할 목록 (예: ['ADMIN','MASTER'])
+ * 인증·인가 검증
+ * 1) 관리자 Back Office 쿠키 세션 → ADMIN 역할로 처리 (Bearer 토큰 불필요)
+ * 2) Supabase JWT Bearer 토큰 → user_info.role_cd로 역할 인가
  */
 export async function requireAuth(
   req: NextRequest,
   allowedRoles: string[],
 ): Promise<AuthResult> {
+  // 관리자 쿠키 세션 — Back Office에서 Bearer 없이 호출되는 경우
+  if (isAdminSession(req)) {
+    if (!allowedRoles.includes('ADMIN')) {
+      return {
+        ok: false,
+        response: NextResponse.json(
+          { error: `권한 없음 — Admin 세션: 필요 역할 ${allowedRoles.join('/')}` },
+          { status: 403 },
+        ),
+      }
+    }
+    return { ok: true, email: 'admin@system', role_cd: 'ADMIN', usr_no: null }
+  }
+
   // Authorization: Bearer <token> 헤더 추출
   const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
   if (!token) {
