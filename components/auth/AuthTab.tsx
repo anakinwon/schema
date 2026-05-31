@@ -20,7 +20,7 @@ export default function AuthTab() {
       <div className="flex items-center gap-0 border-b bg-white px-4 shrink-0">
         {SUBS.map(s => (
           <button key={s.key} onClick={() => setSub(s.key)}
-            className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium border-b-2 transition-colors
+            className={`flex items-center gap-1.5 px-2 sm:px-4 py-2 text-[11px] sm:text-xs font-medium border-b-2 transition-colors
               ${sub === s.key
                 ? 'border-blue-600 text-blue-700 bg-white'
                 : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
