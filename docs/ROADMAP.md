@@ -2,8 +2,8 @@
 
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
-> **기준일**: 2026-05-31 (최종 업데이트: 2026-05-31)
-> **현재 버전**: v2 Phase 0 완료 → Phase 1 진행 중
+> **기준일**: 2026-06-01 (최종 업데이트: 2026-06-01)
+> **현재 버전**: v3 Phase 2 완료 — 통합게시판 8/8 태스크 완료
 > **기술 스택**: Next.js 16.2.6 (App Router) · React 19.2 · TypeScript · Tailwind CSS v4 · SQLite(better-sqlite3) · Supabase PostgreSQL
 
 ---
@@ -151,13 +151,14 @@
 > **예상 기간**: 2026-06 ~ 2026-07
 > **목표**: Audit Trail · DDL Export · 검색 고도화 · MVP 잔여 항목 완성
 
-- **TASK-009: Audit Trail (변경 이력 추적)** ⏳ - **다음 작업**
-  - 표준 변경 시 `변경자 / 변경일시 / 변경 전후 값` 자동 기록
-  - audit 로그 테이블 스키마 설계 (SQLite: `STD_AUDIT_LOG`)
-  - STD_DIC / STD_DOM CRUD API에 이력 기록 훅 삽입
-  - 변경 이력 조회 API (`GET /api/audit?entity=&id=`) 구현
-  - 이력 조회 UI (변경 전후 diff 표시)
-  - See: `/tasks/009-audit-trail.md`
+- **TASK-009: Audit Trail (변경 이력 추적)** ✅ - 완료 (2026-06-01)
+  - ✅ `STD_AUDIT_LOG` 테이블 자동 생성 (`lib/audit.ts`)
+  - ✅ `writeAudit()` — STD_DIC/STD_DOM 전 CRUD에 훅 삽입
+  - ✅ `getChangedBy()` async 개선 — Bearer 토큰에서 실제 이메일 추출
+  - ✅ 변경 이력 조회 API (`GET /api/audit`) — `requireAuth(['ADMIN','MASTER','MANAGER'])`
+  - ✅ `AuditPanel.tsx` — 개별 항목 변경 이력 diff 뷰 (Bearer 토큰 포함 fetch)
+  - ✅ `AuditLogViewer.tsx` — 관리자 전체 이력 뷰 (엔터티·행위 필터, 200건)
+  - ✅ 관리자 라우트: `/admin/audit` + 네비게이션·대시보드 등록
 
 - **TASK-010: DDL Export (DDL 스크립트 다운로드)** ✅ - 완료
   - ✅ 표준용어 선택 후 PostgreSQL/MySQL DDL 스크립트 생성
@@ -213,7 +214,111 @@
 
 ---
 
-## 향후 계획 (Out of Scope — v3+)
+---
+
+## 🚀 v3 개발 계획
+
+### Phase 1 (v3): 기반 강화 ✅ (완료: 2026-06-01, M7)
+
+> **목표**: 공통코드 관리 · Audit Trail · 개인 프로필 구현
+
+- **TASK-021: 공통코드 관리 (DA §40 표준코드)** ✅ - 완료
+  - ✅ SQLite `STD_CODE_GRP` / `STD_CODE` 테이블 생성 (DA 물리DB 표준: 시스템컬럼 4종 포함)
+  - ✅ 서버 기동 시 자동 마이그레이션 + 초기 시드 데이터 7개 그룹 26개 코드값 (`lib/db.ts`)
+  - ✅ 코드 그룹 CRUD API (`GET/POST/PUT /api/codes`)
+  - ✅ 코드값 CRUD API + 논리 삭제 (`GET/POST/PUT/DELETE /api/codes/[grpId]`)
+  - ✅ 공통코드 관리 UI (`components/admin/CodesPage.tsx`) — 좌측 그룹 목록 + 우측 코드값 테이블
+  - ✅ 관리자 라우트: `/admin/codes`
+  - ✅ 관리자 네비게이션 + 대시보드 빠른 이동 등록
+  - 초기 코드 그룹: `ROLE_CD`, `DATA_TYPE_CD`, `DOM_TYPE_CD`, `DIC_GBN_CD`, `APV_STATUS_CD`, `AUDIT_ACT_CD`, `GRP_CD`
+
+- **TASK-022: 개인 프로필 / 설정** ✅ - 완료 (2026-06-01)
+  - ✅ 프로필 조회/수정 API (`GET/PATCH /api/profile`) — Bearer 토큰 기반 인증
+  - ✅ 개인 프로필 페이지 (`/profile`) — 이름·사용자명·연락처·자기소개 수정
+  - ✅ 비밀번호 변경 (`supabase.auth.updateUser`) — 클라이언트 사이드 처리
+  - ✅ 역할 정보 읽기 전용 표시 (관리자만 변경 가능)
+  - ✅ 헤더 개선: 이메일 → 이름+역할 표시 + 프로필 아바타 링크
+
+- **TASK-023: Audit Trail 구현** ✅ - 완료 (TASK-009와 통합 완료)
+
+---
+
+### Phase 2 (v3): 통합게시판 ✅ (완료: 2026-06-01, M8)
+
+> **목표**: 팀 내 커뮤니케이션·자료공유용 통합게시판 (공지/자료실/자유/Q&A)
+> **DA 표준**: brd_ctgr·brd_post·brd_cmnt·brd_attch 4테이블 (시스템컬럼·여부컬럼·소문자 준수)
+
+- **TASK-024: DB 스키마 + 기반 구조 + 빈 페이지 스캐폴딩** ✅ - 완료 (2026-06-01)
+  - ✅ STD_DOM 5종 + STD_DIC 17종 메타DB 등록 (DA 워크플로우 5단계 완료)
+  - ✅ Supabase 4테이블 마이그레이션 + mod_dts 트리거 + increment_vw_cnt RPC
+  - ✅ 카테고리 시드 (NOTICE·ARCHIVE·FREE·QNA)
+  - ✅ `lib/auth-guard.ts` — AuthResult에 user_id 추가
+  - ✅ `lib/board.ts` 신규 — CATEGORY_NAME·BOARD_WRITE_ROLES·canWrite·isOwnerOrAdmin
+  - ✅ `app/board/` 12개 파일 스캐폴딩 (layout·redirect·not-found·[category]·[id]·edit·new)
+  - ✅ DA QA 감리 통과 (시스템컬럼·여부컬럼·소문자·트리거·RLS 전원 확인)
+  - See: `/tasks/024-board-scaffold.md`
+
+- **TASK-025: 게시판 전체 UI (더미 데이터)** ✅ - 완료 (2026-06-01)
+  - ✅ `BoardList.tsx` — 목록 테이블, 📌 고정글, 답변상태 뱃지, 댓글수
+  - ✅ `Pagination.tsx` — 페이지 이동 버튼
+  - ✅ `PostDetail.tsx` — 본문(`pre whitespace-pre-wrap`), 첨부다운로드, 수정/삭제
+  - ✅ `PostForm.tsx` — 등록/수정 모드 분기, 글자수, AttachmentUploader 포함
+  - ✅ `CommentSection.tsx` — 댓글목록·작성폼·QNA 채택버튼
+  - ✅ `AttachmentUploader.tsx` — 드래그앤드롭, 20MB/5개 제한
+  - ✅ page.tsx 4종에 컴포넌트 연결 완료
+  - See: `/tasks/025-board-ui.md`
+
+- **TASK-026: 게시글 CRUD API** ✅ - 완료 (2026-06-01)
+  - ✅ `GET /api/board/categories` — 카테고리 4건
+  - ✅ `GET /api/board/[category]/posts` — 페이지네이션(`.range()`+`count:'exact'`), 검색
+  - ✅ `POST /api/board/[category]/posts` — canWrite() 권한 검증, 403 차단
+  - ✅ `GET /api/board/[category]/posts/[id]` — 조회수 RPC + is_owner 반환
+  - ✅ `PUT /api/board/[category]/posts/[id]` — isOwnerOrAdmin() 소유권 검증
+  - ✅ `DELETE /api/board/[category]/posts/[id]` — Storage 명시 삭제 + CASCADE
+  - ✅ PostgREST Filter Injection 보안 패치 (`sanitizeSearch()`)
+  - See: `/tasks/026-posts-api.md`
+
+- **TASK-027: 댓글 + QNA 채택 API** ✅ - 완료 (2026-06-01)
+  - ✅ `GET/POST /api/board/[category]/posts/[id]/comments` — cmnt_yn='Y' 게시판만 허용
+  - ✅ `DELETE /api/board/[category]/posts/[id]/comments/[cmntId]` — 소유권 검증
+  - ✅ `POST /api/board/[category]/posts/[id]/accept` — 순차 2쿼리 (CTE 가시성 이슈 해결)
+  - ✅ 채택 권한: 글 작성자만 가능 (관리자 포함 불가 — 질문자 의도 존중)
+  - See: `/tasks/027-comments-api.md`
+
+- **TASK-028: 첨부파일 API** ✅ - 완료 (2026-06-01)
+  - ✅ `GET /api/board/[category]/posts/[id]/attachments`
+  - ✅ `POST /api/board/[category]/posts/[id]/attachments` — multipart FormData, 20MB/5개 서버 검증
+  - ✅ `DELETE /api/board/[category]/posts/[id]/attachments/[attId]` — Storage 먼저 삭제 후 DB
+  - ✅ `board-attachments` Storage 버킷 생성 (public, 20MB, 14개 MIME)
+  - ✅ DB 실패 시 Storage 자동 롤백
+  - See: `/tasks/028-attachments-api.md`
+
+- **TASK-029: UI-API 연동** ✅ - 완료 (2026-06-01)
+  - ✅ `BoardList` — Bearer fetch + 검색(sanitizeSearch) + 페이지네이션 + 스켈레톤 로딩
+  - ✅ `PostDetail` — API `is_owner` 반환값으로 수정/삭제 버튼 제어
+  - ✅ `PostForm` — POST·PUT + 첨부파일 순차 multipart 업로드, 수정 모드 초기값 API 로드
+  - ✅ `CommentSection` — GET·POST·DELETE comments + POST accept 연동
+  - ✅ 인증 우선순위 버그 수정: Bearer 토큰 > admin 쿠키 순서 변경 (`lib/auth-guard.ts`)
+  - See: `/tasks/029-ui-api-connect.md`
+
+- **TASK-030: 관리자 게시판 + 진입점** ✅ - 완료 (2026-06-01)
+  - ✅ `components/admin/BoardAdmin.tsx` — 좌측 카테고리 + 우측 게시글 목록
+  - ✅ 관리자 강제 삭제 + 📌 핀 토글 (선택적 필드 업데이트 — 본문 보존)
+  - ✅ `app/admin/(protected)/board/page.tsx` + NAV_LINKS 추가
+  - ✅ `StandardsPage` 헤더 게시판 링크 추가
+  - ✅ PUT API 선택적 업데이트 (`'key' in body` 패턴)
+  - See: `/tasks/030-board-admin.md`
+
+- **TASK-031: 통합 테스트 (E2E)** ✅ - 완료 (2026-06-01)
+  - ✅ `tests/e2e/board-flow.spec.ts` — 15건 (4 passed · 11 skipped/환경변수 대기)
+  - ✅ Layer 1: 미인증 API 4건 즉시 실행 (401·307 확인)
+  - ✅ Layer 2: MASTER CRUD·USER 권한 차단·Q&A 채택·관리자 강제 삭제 (환경변수 설정 시 활성화)
+  - ✅ `playwright.config.ts` — port 3001 + `reuseExistingServer: true`
+  - See: `/tasks/031-integration-test.md`
+
+---
+
+## 향후 계획 (Out of Scope — v4+)
 
 - 외부 ERD 도구 연동 (DBeaver, DataGrip)
 - 다국어 지원 (영문 UI)
@@ -233,19 +338,21 @@
 | M4: 인증 시스템 + 관리자 | Phase 0 (v2) | 2026-05-31 | 회원가입·로그인·Google OAuth·Back Office | ✅ 완료 |
 | M5: 핵심 기능 고도화 | Phase 1 (v2) | 2026-05-31 | DDL Export·검색·MVP잔여·Audit Trail | ✅ 완료 |
 | M6: 동기화·승인·반응형 | Phase 2 (v2) | 2026-05-31 | Supabase 동기화·승인 워크플로우·E2E | ✅ 완료 |
+| M7: v3 기반 강화 | Phase 1 (v3) | 2026-06-01 | 공통코드·프로필·Audit Trail 통합 | ✅ 완료 |
+| M8: 통합게시판 | Phase 2 (v3) | 2026-06-01 | 게시판 8종 CRUD·댓글·첨부·관리자·E2E | ✅ 완료 |
 
 ---
 
 ## 성공 지표 목표
 
-| 지표 | 현재 (2026-05-31) | v2 목표 | 측정 방법 |
-|------|-----------------|--------|---------|
-| 등록 표준단어 수 | 40건 | 100건 | STD_DIC 레코드 수 |
-| 등록 표준도메인 수 | 22건 | 30건 | STD_DOM 레코드 수 |
-| 등록 표준용어 수 | 51건 | 200건 | DA_TERM 레코드 수 |
-| 보안 취약점 | 0건 | 0건 유지 | 코드 리뷰 |
-| 표준 목록 조회 응답 | 미측정 | 1,000건 기준 1초 이내 | 성능 테스트 |
-| API/비즈니스 로직 테스트 커버리지 | — | 80% 이상 | Playwright MCP |
+| 지표 | 현재 (2026-06-01) | 목표 | 측정 방법 |
+|------|-----------------|------|---------|
+| 등록 표준단어 수 | 53건 (+17 게시판용) | 100건 | STD_DIC 레코드 수 |
+| 등록 표준도메인 수 | 17건 (+5 게시판용) | 30건 | STD_DOM 레코드 수 |
+| 등록 표준용어 수 | 0건 (DA_TERM 비어있음) | 200건 | DA_TERM 레코드 수 |
+| 보안 취약점 | 0건 | 0건 유지 | 코드 리뷰 (PostgREST 인젝션 패치 포함) |
+| Playwright 테스트 | 15건 (4 passed · 11 skip) | 환경변수 설정 후 15 passed | `npx playwright test` |
+| 게시판 API 라우트 | 11개 | — | app/api/board 라우트 수 |
 
 ---
 
@@ -255,6 +362,7 @@
 |------|------|---------|
 | **Google OAuth** | Google Cloud Console → OAuth 2.0 클라이언트 등록 → Supabase Authentication → Google Provider 활성화 | 높음 |
 | **이메일 템플릿** | Supabase Dashboard → Authentication → Email Templates → 한국어 커스터마이징 | 중간 |
+| **E2E 테스트 환경변수** | `.env.test` — `TEST_MASTER_EMAIL`, `TEST_MASTER_PW`, `TEST_USER_EMAIL`, `TEST_USER_PW` 설정 → Layer 2 E2E 활성화 | 중간 |
 
 ---
 
@@ -265,3 +373,4 @@
 | v1.0 | 2026-05-31 | PRD 기반 ROADMAP 초안 생성 (MVP 완료 반영, v2 Phase 1~2 수립) | anakin |
 | v1.1 | 2026-05-31 | v2 Phase 0 추가 — 회원가입·로그인·구글 OAuth (TASK-017~019) | anakin |
 | v2.0 | 2026-05-31 | v2 Phase 0 완료 반영 — TASK-017~020 완료, TASK-010~012 완료, M4 완료 표시 | anakin |
+| v3.0 | 2026-06-01 | v3 Phase 2 완료 반영 — 통합게시판 TASK-024~031 전체 완료, M7·M8 추가, 성공 지표 업데이트 | anakin |

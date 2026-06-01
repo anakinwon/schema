@@ -60,7 +60,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     entityNm: body.DIC_LOG_NM ?? (before?.DIC_LOG_NM as string),
     actionType: 'UPDATE',
     before, after: body,
-    changedBy: getChangedBy(req),
+    changedBy: await getChangedBy(req),
   })
 
   return NextResponse.json({ ok: true })
@@ -97,7 +97,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       entityType: 'STD_DIC', entityId: id,
       entityNm: before.DIC_LOG_NM as string,
       actionType: 'DELETE', before,
-      changedBy: getChangedBy(req),
+      changedBy: await getChangedBy(req),
     })
   }
 

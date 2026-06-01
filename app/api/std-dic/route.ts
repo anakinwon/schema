@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     entityType: 'STD_DIC', entityId: id,
     entityNm: body.DIC_LOG_NM, actionType: 'INSERT',
     after: { ...body, DIC_ID: id },
-    changedBy: getChangedBy(req),
+    changedBy: await getChangedBy(req),
   })
 
   return NextResponse.json({ DIC_ID: id }, { status: 201 })

@@ -31,7 +31,7 @@ export default defineConfig({
   // 공통 설정 (모든 프로젝트에 적용)
   use: {
     // 기본 URL
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3001',
 
     // 실패 시 스크린샷
     screenshot: 'only-on-failure',
@@ -71,9 +71,9 @@ export default defineConfig({
 
   // 테스트 실행 전 개발 서버 자동 시작
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    command: 'npm run dev -- --port 3001',
+    url: 'http://localhost:3001',
+    reuseExistingServer: true,
     timeout: 120 * 1000,
   },
 })

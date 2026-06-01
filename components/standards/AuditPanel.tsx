@@ -1,6 +1,7 @@
 'use client'
 // TASK-009: Audit Trail — 변경 이력 조회 + diff UI
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
+import { createBrowserClient } from '@supabase/ssr'
 
 interface AuditLog {
   LOG_ID:      string
@@ -89,13 +90,36 @@ export default function AuditPanel({ entityType, entityId, entityNm, onClose }: 
   const [logs, setLogs]         = useState<AuditLog[]>([])
   const [selected, setSelected] = useState<AuditLog | null>(null)
   const [loading, setLoading]   = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const supabase = useMemo(() => createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+  ), [])
+
+  const load = useCallback(async () => {
     setLoading(true)
-    fetch(`/api/audit?entity=${entityType}&id=${entityId}&limit=50`)
-      .then(r => r.json())
-      .then(data => { setLogs(Array.isArray(data) ? data : []); setLoading(false) })
-  }, [entityType, entityId])
+    setFetchError(null)
+    const { data: { session } } = await supabase.auth.getSession()
+    const headers: HeadersInit = session?.access_token
+      ? { Authorization: `Bearer ${session.access_token}` }
+      : {}
+    const res = await fetch(
+      `/api/audit?entity=${entityType}&id=${entityId}&limit=50`,
+      { headers },
+    )
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      setFetchError(body.error ?? `오류 (${res.status})`)
+      setLoading(false)
+      return
+    }
+    const data = await res.json()
+    setLogs(Array.isArray(data) ? data : [])
+    setLoading(false)
+  }, [supabase, entityType, entityId])
+
+  useEffect(() => { load() }, [load])
 
   const before = selected ? parseSafe(selected.BEFORE_DATA) : {}
   const after  = selected ? parseSafe(selected.AFTER_DATA)  : {}
@@ -126,6 +150,11 @@ export default function AuditPanel({ entityType, entityId, entityNm, onClose }: 
             <div className="flex-1 overflow-auto">
               {loading ? (
                 <div className="py-8 text-center text-xs text-gray-400 animate-pulse">로딩 중…</div>
+              ) : fetchError ? (
+                <div className="py-8 text-center text-xs text-red-400 px-4">
+                  ⚠ {fetchError}<br />
+                  <span className="text-[10px] text-gray-400">MANAGER 이상 권한이 필요합니다</span>
+                </div>
               ) : logs.length === 0 ? (
                 <div className="py-8 text-center text-xs text-gray-400">
                   변경 이력이 없습니다<br />

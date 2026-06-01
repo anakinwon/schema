@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     entityType: 'STD_DOM', entityId: id,
     entityNm: body.KEY_DOM_NM, actionType: 'INSERT',
     after: { ...body, DOM_ID: id },
-    changedBy: getChangedBy(req),
+    changedBy: await getChangedBy(req),
   })
 
   return NextResponse.json({ DOM_ID: id }, { status: 201 })

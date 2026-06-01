@@ -16,6 +16,15 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(data ?? [])
 }
 
+// profiles.main_role(소문자) → user_info.role_cd(대문자) 변환 맵
+const PROFILE_TO_ROLE_CD: Record<string, string> = {
+  admin:     'ADMIN',
+  master:    'MASTER',
+  manager:   'MANAGER',
+  sub_admin: 'SUBMANAGER',
+  user:      'USER',
+}
+
 export async function PATCH(request: NextRequest) {
   if (!isAdminSession(request)) {
     return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
@@ -27,11 +36,23 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'user_id, main_role 필수' }, { status: 400 })
   }
 
-  const { error } = await supabaseAdmin
+  // 1) profiles.main_role 업데이트
+  const { error: profileErr } = await supabaseAdmin
     .from('profiles')
     .update({ main_role })
     .eq('user_id', user_id)
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (profileErr) return NextResponse.json({ error: profileErr.message }, { status: 500 })
+
+  // 2) user_info.role_cd 동기화 (레코드가 있는 경우만)
+  const role_cd = PROFILE_TO_ROLE_CD[main_role]
+  const { data: au } = await supabaseAdmin.auth.admin.getUserById(user_id)
+  if (au?.user?.email) {
+    await supabaseAdmin
+      .from('user_info')
+      .update({ role_cd })
+      .eq('eml_addr', au.user.email)
+  }
+
   return NextResponse.json({ ok: true })
 }

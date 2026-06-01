@@ -2,6 +2,7 @@ import { getDb } from './db'
 import { randomUUID } from 'crypto'
 import { type NextRequest } from 'next/server'
 import { isAdminSession } from './admin-auth'
+import { supabase } from './supabase'
 
 export type EntityType  = 'STD_DIC' | 'STD_DOM'
 export type ActionType  = 'INSERT'  | 'UPDATE' | 'DELETE'
@@ -50,10 +51,11 @@ export function writeAudit({
   )
 }
 
-// 요청에서 변경자 추출
-export function getChangedBy(req: NextRequest): string {
+// 요청에서 변경자 추출 — Bearer 토큰이 있으면 실제 이메일 반환
+export async function getChangedBy(req: NextRequest): Promise<string> {
   if (isAdminSession(req)) return 'ADMIN'
-  const auth = req.headers.get('authorization')
-  if (auth) return 'USER'
-  return 'SYSTEM'
+  const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
+  if (!token) return 'SYSTEM'
+  const { data: { user } } = await supabase.auth.getUser(token)
+  return user?.email ?? 'USER'
 }

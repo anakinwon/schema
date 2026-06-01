@@ -50,8 +50,10 @@ export default async function AdminDashboard() {
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
           {[
             { href: '/admin/standards', label: '표준단어 관리'  , desc: 'STD_DIC 등록/수정/삭제', icon: '📝' },
-            { href: '/admin/standards', label: '표준도메인 관리', desc: 'STD_DOM 등록/수정/삭제', icon: '🗂️' },
-            { href: '/admin/standards', label: '표준용어 관리'  , desc: 'DA_TERM 등록/수정/삭제', icon: '📋' },
+            { href: '/admin/standards', label: '표준도메인 관리', desc: 'STD_DOM 등록/수정/삭제', icon: '📋' },
+            { href: '/admin/standards', label: '표준용어 관리'  , desc: 'DA_TERM 등록/수정/삭제', icon: '🔤' },
+            { href: '/admin/codes'    , label: '공통코드 관리'  , desc: 'DA §40 STD_CODE 관리'  , icon: '🗂️' },
+            { href: '/admin/audit'    , label: '변경 이력'      , desc: 'STD_DIC·STD_DOM Audit Trail', icon: '📋' },
             { href: '/admin/users'    , label: '사용자 목록'    , desc: '역할 부여 및 권한 관리' , icon: '👥' },
             { href: '/'               , label: '일반 사용자 화면', desc: '표준 데이터 조회/편집'  , icon: '🖥️' },
           ].map((item) => (

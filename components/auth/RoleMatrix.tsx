@@ -1,5 +1,6 @@
 'use client'
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import { createBrowserClient } from '@supabase/ssr'
 
 interface Role  { role_cd: string; role_nm: string; role_lvl: number; role_cont: string }
 interface Perm  { perm_cd: string; perm_nm: string; perm_cat_cd: string }
@@ -25,11 +26,24 @@ export default function RoleMatrix() {
   const [saving, setSaving] = useState<string | null>(null)
   const [authError, setAuthError] = useState<string | null>(null)
 
+  const supabase = useMemo(() => createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+  ), [])
+
+  // Supabase 세션 토큰을 Bearer로 포함 — admin-session 쿠키 없이도 동작
+  const authHeader = useCallback(async (): Promise<HeadersInit> => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session?.access_token) return {}
+    return { Authorization: `Bearer ${session.access_token}` }
+  }, [supabase])
+
   const load = useCallback(async () => {
+    const headers = await authHeader()
     const [r, p, rpRes] = await Promise.all([
       fetch('/api/auth/roles').then(x => x.json()),
       fetch('/api/auth/perms').then(x => x.json()),
-      fetch('/api/auth/role-perm').then(async x => ({ ok: x.ok, body: await x.json() })),
+      fetch('/api/auth/role-perm', { headers }).then(async x => ({ ok: x.ok, body: await x.json() })),
     ])
     setRoles(Array.isArray(r) ? r : [])
     setPerms(Array.isArray(p) ? p : [])
@@ -42,7 +56,7 @@ export default function RoleMatrix() {
     setAuthError(null)
     const rp: RolePermRow[] = Array.isArray(rpRes.body) ? rpRes.body : []
     setMatrix(new Set(rp.map(x => `${x.role_cd}::${x.perm_cd}`)))
-  }, [])
+  }, [authHeader])
 
   useEffect(() => { load() }, [load])
 
@@ -53,9 +67,10 @@ export default function RoleMatrix() {
     if (role_cd === 'ADMIN') { setSaving(null); return }
 
     const grnt_yn = current ? 'N' : 'Y'
+    const headers = await authHeader()
     const r = await fetch('/api/auth/role-perm', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({ role_cd, perm_cd, grnt_yn }),
     })
     if (r.ok) {

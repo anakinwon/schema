@@ -3,20 +3,34 @@ import { supabase, supabaseAdmin } from './supabase'
 import { isAdminSession } from './admin-auth'
 
 export type AuthResult =
-  | { ok: true;  email: string; role_cd: string; usr_no: string | null }
+  | { ok: true;  email: string; role_cd: string; usr_no: string | null; user_id: string | null }
   | { ok: false; response: NextResponse }
+
+// profiles.main_role(소문자) → auth 역할 코드(대문자) 매핑
+// profiles가 47명 기준 단일 소스, user_info.role_cd는 동기화 불완전 상태
+const PROFILE_ROLE_MAP: Record<string, string> = {
+  admin:     'ADMIN',
+  master:    'MASTER',
+  manager:   'MANAGER',
+  sub_admin: 'SUBMANAGER',
+  user:      'USER',
+}
 
 /**
  * 인증·인가 검증
  * 1) 관리자 Back Office 쿠키 세션 → ADMIN 역할로 처리 (Bearer 토큰 불필요)
- * 2) Supabase JWT Bearer 토큰 → user_info.role_cd로 역할 인가
+ * 2) Supabase JWT Bearer 토큰 → profiles.main_role로 역할 인가 (단일 소스)
  */
 export async function requireAuth(
   req: NextRequest,
   allowedRoles: string[],
 ): Promise<AuthResult> {
-  // 관리자 쿠키 세션 — Back Office에서 Bearer 없이 호출되는 경우
-  if (isAdminSession(req)) {
+  // Bearer 토큰 우선 — 있으면 항상 JWT 검증 (admin 쿠키보다 우선)
+  // admin 쿠키가 브라우저에 남아있어도 Bearer가 있으면 사용자 세션을 정확히 식별해야 함
+  const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
+
+  // 관리자 쿠키 세션 — Bearer 없이 Back Office에서 호출되는 경우에만 사용
+  if (!token && isAdminSession(req)) {
     if (!allowedRoles.includes('ADMIN')) {
       return {
         ok: false,
@@ -26,11 +40,9 @@ export async function requireAuth(
         ),
       }
     }
-    return { ok: true, email: 'admin@system', role_cd: 'ADMIN', usr_no: null }
+    return { ok: true, email: 'admin@system', role_cd: 'ADMIN', usr_no: null, user_id: null }
   }
 
-  // Authorization: Bearer <token> 헤더 추출
-  const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
   if (!token) {
     return {
       ok: false,
@@ -47,14 +59,14 @@ export async function requireAuth(
     }
   }
 
-  // user_info에서 이메일로 역할 조회
-  const { data: userInfo } = await supabaseAdmin
-    .from('user_info')
-    .select('usr_no, role_cd')
-    .eq('eml_addr', user.email)
+  // profiles에서 역할 조회 (단일 소스 — user_info.role_cd 동기화 불완전 우회)
+  const { data: profile } = await supabaseAdmin
+    .from('profiles')
+    .select('main_role')
+    .eq('user_id', user.id)
     .maybeSingle()
 
-  const role_cd = userInfo?.role_cd ?? 'USER'
+  const role_cd = PROFILE_ROLE_MAP[profile?.main_role ?? 'user'] ?? 'USER'
 
   if (!allowedRoles.includes(role_cd)) {
     return {
@@ -66,7 +78,14 @@ export async function requireAuth(
     }
   }
 
-  return { ok: true, email: user.email, role_cd, usr_no: userInfo?.usr_no ?? null }
+  // usr_no: user_info에 없으면 null (하위 호환)
+  const { data: userInfo } = await supabaseAdmin
+    .from('user_info')
+    .select('usr_no')
+    .eq('eml_addr', user.email)
+    .maybeSingle()
+
+  return { ok: true, email: user.email, role_cd, usr_no: userInfo?.usr_no ?? null, user_id: user.id }
 }
 
 /** MANAGER가 특정 그룹의 담당자인지 확인 (그룹 스코프 권한) */

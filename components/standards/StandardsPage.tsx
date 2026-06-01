@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import WordTab from './WordTab'
 import DomainTab from './DomainTab'
@@ -16,21 +16,42 @@ const TABS: { key: Tab; label: string; icon: string; badge?: string }[] = [
   { key: 'auth',   label: '권한 관리',      icon: '🔐', badge: 'RBAC' },
 ]
 
+const ROLE_LABEL: Record<string, string> = {
+  admin: '시스템관리자', master: '데이터관리자', manager: '표준관리자',
+  sub_admin: '부표준관리자', user: '일반사용자',
+}
+
+interface UserInfo { displayName: string; role: string; email: string }
+
 export default function StandardsPage() {
   const [tab, setTab] = useState<Tab>('word')
-  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const [loggingOut, setLoggingOut] = useState(false)
 
-  const supabase = createBrowserClient(
+  const supabase = useMemo(() => createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-  )
+  ), [])
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUserEmail(data.user?.email ?? null)
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!session) return
+      // 프로필에서 이름·역할 조회
+      const res = await fetch('/api/profile', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      })
+      if (res.ok) {
+        const p = await res.json()
+        setUserInfo({
+          displayName: p.full_name ?? p.email?.split('@')[0] ?? '사용자',
+          role: p.main_role ?? 'user',
+          email: p.email ?? '',
+        })
+      } else {
+        setUserInfo({ displayName: session.user.email ?? '사용자', role: 'user', email: session.user.email ?? '' })
+      }
     })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [supabase])
 
   const handleLogout = async () => {
     setLoggingOut(true)
@@ -49,10 +70,27 @@ export default function StandardsPage() {
           </div>
         </div>
         <div className="ml-auto flex items-center gap-3 text-xs text-blue-300">
+          <a href="/board/notice" className="hidden sm:flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 transition-colors text-blue-200 hover:text-white text-xs">
+            📢 게시판
+          </a>
           <span className="hidden lg:block">DA#5 SQLiteDB_for_META_v5 · Supabase PostgreSQL</span>
-          {userEmail && (
+          {userInfo && (
             <>
-              <span className="text-blue-400">{userEmail}</span>
+              <a href="/profile"
+                className="flex items-center gap-2 px-2.5 py-1 rounded hover:bg-white/10 transition-colors group"
+                title="내 프로필">
+                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[11px] font-bold text-white">
+                  {userInfo.displayName[0].toUpperCase()}
+                </div>
+                <div className="hidden sm:block text-left">
+                  <div className="text-white text-[11px] font-medium leading-tight group-hover:underline">
+                    {userInfo.displayName}
+                  </div>
+                  <div className="text-blue-300 text-[10px] leading-tight">
+                    {ROLE_LABEL[userInfo.role] ?? userInfo.role}
+                  </div>
+                </div>
+              </a>
               <button
                 onClick={handleLogout}
                 disabled={loggingOut}

@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
   }
 
-  const requester = getChangedBy(request)  // 'ADMIN' | 'USER' | 'SYSTEM'
+  const requester = await getChangedBy(request)  // 'ADMIN' | email | 'SYSTEM'
 
   const body = await request.json()
   const { entity_type, entity_id, entity_nm, req_data } = body  // req_by 클라이언트 입력 무시

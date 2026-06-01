@@ -8,9 +8,12 @@ export const metadata: Metadata = {
 const NAV_LINKS = [
   { href: '/admin',            label: '대시보드',  icon: '📊' },
   { href: '/admin/standards',  label: '표준관리',  icon: '📝' },
+  { href: '/admin/codes',      label: '공통코드',  icon: '🗂️' },
+  { href: '/admin/audit',      label: '변경이력',  icon: '📋' },
   { href: '/admin/approval',   label: '승인관리',  icon: '✅' },
   { href: '/admin/sync',       label: '동기화',    icon: '🔄' },
   { href: '/admin/users',      label: '사용자관리', icon: '👥' },
+  { href: '/admin/board',      label: '게시판관리', icon: '📢' },
 ]
 
 export default function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
