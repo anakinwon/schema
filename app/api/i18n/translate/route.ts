@@ -14,6 +14,34 @@ const GOOGLE_LANG_MAP: Record<string, string> = {
   'fil':   'tl',  // 필리핀어 = Tagalog
 }
 
+// 딜레이 헬퍼
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+// 지수 백오프 재시도: Too Many Requests(429) 대응
+async function translateWithRetry(
+  text: string,
+  to: string,
+  maxRetries = 4,
+): Promise<string> {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const { text: result } = await translate(text, { from: 'ko', to })
+      return result
+    } catch (e: unknown) {
+      const msg = String(e)
+      const is429 = msg.includes('Too Many Requests') || msg.includes('429')
+      if (is429 && attempt < maxRetries) {
+        const wait = 2000 * Math.pow(2, attempt) // 2s → 4s → 8s → 16s
+        console.warn(`[translate] 429 재시도 ${attempt + 1}/${maxRetries}, ${wait}ms 대기`)
+        await sleep(wait)
+      } else {
+        throw e
+      }
+    }
+  }
+  throw new Error('최대 재시도 초과')
+}
+
 // safeLangPath: path traversal 방지
 function safeLangPath(messagesDir: string, lang_cd: string): string {
   if (!LANG_CD_RE.test(lang_cd)) throw new Error(`유효하지 않은 lang_cd: ${lang_cd}`)
@@ -46,11 +74,12 @@ function restoreTokens(text: string, tokenMap: string[]): string {
   return text.replace(/PLHDR(\d+)X/g, (_, n) => tokenMap[+n] ?? `{${n}}`)
 }
 
-// 단일 값 번역 (fallback용)
+// 단일 값 번역 (fallback용) — 재시도 포함
 async function translateOne(value: string, to: string): Promise<string> {
   const tokenMap: string[] = []
   const san = tokenize(value, tokenMap)
-  const { text } = await translate(san, { from: 'ko', to })
+  await sleep(600)   // 개별 키 호출 간 쿨다운
+  const text = await translateWithRetry(san, to)
   return restoreTokens(text.trim(), tokenMap)
 }
 
@@ -70,7 +99,7 @@ async function translateSection(
 
   // 줄바꿈으로 결합 — Google Translate는 \n 경계를 비교적 잘 보존
   const combined = sanitized.join('\n')
-  const { text: translated } = await translate(combined, { from: 'ko', to })
+  const translated = await translateWithRetry(combined, to)
   const parts = translated.split('\n')
 
   const result: Record<string, string> = {}
@@ -112,8 +141,11 @@ export async function POST(req: NextRequest) {
   const translated: { ns_cd: string; msg_key: string; lang_cd: string; msg_val: string }[] = []
   const sectionErrors: string[] = []
 
-  // 섹션별 번역
-  for (const [ns_cd, koSection] of Object.entries(koByNs)) {
+  // 섹션별 번역 — 섹션 사이 쿨다운으로 Too Many Requests 방지
+  const sections = Object.entries(koByNs)
+  for (let si = 0; si < sections.length; si++) {
+    const [ns_cd, koSection] = sections[si]
+    if (si > 0) await sleep(1500)   // 섹션 간 1.5초 쿨다운
     try {
       const result = await translateSection(koSection, lang_cd)
       for (const [msg_key, msg_val] of Object.entries(result)) {
