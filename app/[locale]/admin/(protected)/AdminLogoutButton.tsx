@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
-import { useRouter } from 'next/navigation'
 
 interface Props {
   userName: string
@@ -11,7 +10,6 @@ interface Props {
 }
 
 export default function AdminLogoutButton({ userName, isAdminSession }: Props) {
-  const router = useRouter()
   const [loading, setLoading] = useState(false)
 
   const handleLogout = async () => {
@@ -22,7 +20,7 @@ export default function AdminLogoutButton({ userName, isAdminSession }: Props) {
     )
     await supabase.auth.signOut()
     await fetch('/api/admin/logout', { method: 'POST' })
-    router.push('/login')
+    window.location.href = '/login'
   }
 
   return (

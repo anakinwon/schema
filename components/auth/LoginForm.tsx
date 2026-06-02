@@ -42,8 +42,9 @@ export default function LoginForm() {
       return
     }
 
-    router.refresh()
-    router.push('/')
+    // router.refresh() + router.push('/') 조합은 Race Condition 유발
+    // signInWithPassword 후 세션 쿠키가 즉시 반영되도록 full page reload 사용
+    window.location.href = '/notice'
   }
 
   const handleGoogleLogin = async () => {

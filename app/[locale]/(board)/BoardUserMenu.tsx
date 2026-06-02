@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@supabase/ssr'
-import { useRouter } from 'next/navigation'
 
 interface Props {
   userName: string
@@ -11,7 +10,6 @@ interface Props {
 }
 
 export default function BoardUserMenu({ userName, isAdminSession }: Props) {
-  const router = useRouter()
   const [loading, setLoading] = useState(false)
 
   const supabase = createBrowserClient(
@@ -23,10 +21,10 @@ export default function BoardUserMenu({ userName, isAdminSession }: Props) {
     setLoading(true)
     if (isAdminSession) {
       await fetch('/api/admin/logout', { method: 'POST' })
-      router.push('/admin/login')
+      window.location.href = '/admin/login'
     } else {
       await supabase.auth.signOut()
-      router.push('/login')
+      window.location.href = '/login'
     }
   }
 
