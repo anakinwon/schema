@@ -15,6 +15,8 @@ interface AuditLog {
   CHANGED_AT:  string
 }
 
+const PAGE_SIZE = 50
+
 const ACTION_BADGE: Record<string, string> = {
   INSERT: 'bg-green-100 text-green-700',
   UPDATE: 'bg-amber-100 text-amber-700',
@@ -24,8 +26,11 @@ const ACTION_LABEL: Record<string, string> = {
   INSERT: '등록', UPDATE: '수정', DELETE: '삭제',
 }
 const ENTITY_BADGE: Record<string, string> = {
-  STD_DIC: 'bg-blue-50 text-blue-700',
-  STD_DOM: 'bg-indigo-50 text-indigo-700',
+  STD_DIC:      'bg-blue-50 text-blue-700',
+  STD_DOM:      'bg-indigo-50 text-indigo-700',
+  APPROVAL:     'bg-green-50 text-green-700',
+  SYS_CODE_GRP: 'bg-orange-50 text-orange-700',
+  SYS_CODE_VAL: 'bg-amber-50 text-amber-700',
 }
 
 const SKIP_FIELDS = new Set([
@@ -77,85 +82,232 @@ function DiffView({ log }: { log: AuditLog }) {
 
 export default function AuditLogViewer() {
   const [logs, setLogs]         = useState<AuditLog[]>([])
+  const [total, setTotal]       = useState(0)
   const [selected, setSelected] = useState<AuditLog | null>(null)
   const [loading, setLoading]   = useState(true)
-  const [entity, setEntity]     = useState<string>('')
-  const [action, setAction]     = useState<string>('')
-  const [q, setQ]               = useState('')
+
+  // 필터 상태 (변경 시 page 0으로 리셋)
+  const [entity,   setEntity]   = useState('')
+  const [action,   setAction]   = useState('')
+  const [q,        setQ]        = useState('')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo,   setDateTo]   = useState('')
+  const [page,     setPage]     = useState(0)
+
+  // CSV 내보내기
+  const [exporting, setExporting] = useState(false)
+
+  // 보존 정책 (cleanup)
+  const [showCleanup,    setShowCleanup]    = useState(false)
+  const [retentionDays,  setRetentionDays]  = useState(90)
+  const [cleaning,       setCleaning]       = useState(false)
+  const [cleanResult,    setCleanResult]    = useState<{ deleted: number; days: number } | null>(null)
 
   const supabase = useMemo(() => createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
   ), [])
 
-  const load = useCallback(async () => {
+  const fetchLogs = useCallback(async (pg: number) => {
     setLoading(true)
     const { data: { session } } = await supabase.auth.getSession()
     const headers: HeadersInit = session?.access_token
       ? { Authorization: `Bearer ${session.access_token}` }
       : {}
-    const params = new URLSearchParams({ limit: '200' })
-    if (entity) params.set('entity', entity)
+
+    const params = new URLSearchParams({
+      limit:  String(PAGE_SIZE),
+      offset: String(pg * PAGE_SIZE),
+    })
+    if (entity)       params.set('entity', entity)
+    if (action)       params.set('action', action)
+    if (q.trim())     params.set('q', q.trim())
+    if (dateFrom)     params.set('from', dateFrom)
+    if (dateTo)       params.set('to', dateTo)
+
     const res = await fetch(`/api/audit?${params}`, { headers })
     if (res.ok) {
+      const cnt  = parseInt(res.headers.get('X-Total-Count') ?? '0', 10)
       const data = await res.json()
+      setTotal(cnt)
       setLogs(Array.isArray(data) ? data : [])
     }
     setLoading(false)
-  }, [supabase, entity])
+  }, [supabase, entity, action, q, dateFrom, dateTo])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { fetchLogs(page) }, [fetchLogs, page])
 
-  const filtered = logs.filter(l => {
-    if (action && l.ACTION_TYPE !== action) return false
-    if (q) {
-      const kw = q.toLowerCase()
-      return (
-        (l.ENTITY_NM ?? '').toLowerCase().includes(kw) ||
-        l.CHANGED_BY.toLowerCase().includes(kw) ||
-        l.ENTITY_ID.toLowerCase().includes(kw)
-      )
+  // 필터 변경 핸들러 — page를 0으로 리셋
+  const changeEntity   = (v: string) => { setEntity(v);   setPage(0) }
+  const changeAction   = (v: string) => { setAction(v);   setPage(0) }
+  const changeQ        = (v: string) => { setQ(v);        setPage(0) }
+  const changeDateFrom = (v: string) => { setDateFrom(v); setPage(0) }
+  const changeDateTo   = (v: string) => { setDateTo(v);   setPage(0) }
+  const resetFilters   = () => {
+    setEntity(''); setAction(''); setQ(''); setDateFrom(''); setDateTo('')
+    setPage(0)
+  }
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
+  const hasFilter  = entity || action || q || dateFrom || dateTo
+
+  // CSV 다운로드 — 현재 필터 조건 그대로 export API 호출
+  const downloadCsv = async () => {
+    setExporting(true)
+    const { data: { session } } = await supabase.auth.getSession()
+    const authHeader: HeadersInit = session?.access_token
+      ? { Authorization: `Bearer ${session.access_token}` }
+      : {}
+    const params = new URLSearchParams()
+    if (entity)   params.set('entity', entity)
+    if (action)   params.set('action', action)
+    if (q.trim()) params.set('q', q.trim())
+    if (dateFrom) params.set('from', dateFrom)
+    if (dateTo)   params.set('to', dateTo)
+
+    const res = await fetch(`/api/audit/export?${params}`, { headers: authHeader })
+    if (res.ok) {
+      const blob = await res.blob()
+      const url  = URL.createObjectURL(blob)
+      const a    = document.createElement('a')
+      a.href     = url
+      a.download = `audit_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
     }
-    return true
-  })
+    setExporting(false)
+  }
+
+  // 보존 정책 실행 — retentionDays 이전 이력 물리 삭제
+  const runCleanup = async () => {
+    setCleaning(true)
+    setCleanResult(null)
+    const res = await fetch(`/api/audit/cleanup?days=${retentionDays}`, { method: 'DELETE' })
+    if (res.ok) {
+      const data = await res.json()
+      setCleanResult(data)
+      setPage(0)
+      fetchLogs(0)
+    }
+    setCleaning(false)
+  }
 
   return (
     <div className="flex h-full">
-      {/* 좌측: 이력 목록 */}
+
+      {/* ════════ 좌측: 필터 + 목록 + 페이지네이션 ════════ */}
       <div className="w-80 shrink-0 border-r flex flex-col">
-        {/* 필터 */}
-        <div className="px-3 py-2 border-b bg-gray-50 space-y-2">
-          <div className="flex gap-2">
-            <select value={entity} onChange={e => setEntity(e.target.value)}
-              className="flex-1 border rounded px-2 py-1 text-xs focus:outline-none">
+
+        {/* 필터 패널 */}
+        <div className="px-3 py-2 border-b bg-gray-50 space-y-1.5">
+          {/* 엔터티 / 행위 */}
+          <div className="flex gap-1.5">
+            <select value={entity} onChange={e => changeEntity(e.target.value)}
+              className="flex-1 border rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white">
               <option value="">전체 엔터티</option>
               <option value="STD_DIC">STD_DIC (표준단어)</option>
               <option value="STD_DOM">STD_DOM (표준도메인)</option>
+              <option value="APPROVAL">APPROVAL (승인결정)</option>
+              <option value="SYS_CODE_GRP">SYS_CODE_GRP (코드그룹)</option>
+              <option value="SYS_CODE_VAL">SYS_CODE_VAL (코드값)</option>
             </select>
-            <select value={action} onChange={e => setAction(e.target.value)}
-              className="flex-1 border rounded px-2 py-1 text-xs focus:outline-none">
-              <option value="">전체 행위</option>
+            <select value={action} onChange={e => changeAction(e.target.value)}
+              className="w-20 border rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white">
+              <option value="">전체</option>
               <option value="INSERT">등록</option>
               <option value="UPDATE">수정</option>
               <option value="DELETE">삭제</option>
             </select>
           </div>
-          <input value={q} onChange={e => setQ(e.target.value)}
-            placeholder="이름 / 변경자 / ID 검색"
-            className="w-full border rounded px-2 py-1 text-xs focus:outline-none" />
-          <div className="flex items-center justify-between text-[11px] text-gray-400">
-            <span>전체 {logs.length}건 · 표시 {filtered.length}건</span>
-            <button onClick={load} className="text-blue-500 hover:underline">새로고침</button>
+
+          {/* 날짜 범위 */}
+          <div className="flex items-center gap-1">
+            <input type="date" value={dateFrom} onChange={e => changeDateFrom(e.target.value)}
+              className="flex-1 border rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white" />
+            <span className="text-gray-300 text-xs shrink-0">–</span>
+            <input type="date" value={dateTo} onChange={e => changeDateTo(e.target.value)}
+              className="flex-1 border rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white" />
           </div>
+
+          {/* 검색어 */}
+          <input value={q} onChange={e => changeQ(e.target.value)}
+            placeholder="이름 / 변경자 / ID 검색"
+            className="w-full border rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400" />
+
+          {/* 카운트 + 버튼 */}
+          <div className="flex items-center justify-between text-[11px] text-gray-400">
+            <span>
+              전체 <span className="font-medium text-gray-600">{total}</span>건
+              {totalPages > 1 && <span className="ml-1">· {page + 1}/{totalPages}페이지</span>}
+            </span>
+            <div className="flex items-center gap-2">
+              {hasFilter && (
+                <button onClick={resetFilters} className="text-gray-400 hover:text-gray-600">
+                  초기화
+                </button>
+              )}
+              <button onClick={() => fetchLogs(page)} className="text-blue-500 hover:underline">
+                새로고침
+              </button>
+            </div>
+          </div>
+
+          {/* 운영 도구: CSV 내보내기 + 보존 정책 */}
+          <div className="flex items-center gap-1.5 pt-0.5 border-t border-gray-200">
+            <button
+              onClick={downloadCsv}
+              disabled={exporting || total === 0}
+              className="flex items-center gap-1 px-2 py-1 text-[11px] border border-gray-300 rounded hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+              {exporting ? '…' : '↓'} CSV
+            </button>
+            <button
+              onClick={() => { setShowCleanup(s => !s); setCleanResult(null) }}
+              className={`flex items-center gap-1 px-2 py-1 text-[11px] border rounded transition-colors ${
+                showCleanup
+                  ? 'border-red-300 bg-red-50 text-red-600'
+                  : 'border-gray-300 hover:bg-white text-gray-500'
+              }`}>
+              🗑 보존 정책
+            </button>
+          </div>
+
+          {/* 보존 정책 패널 */}
+          {showCleanup && (
+            <div className="p-2 bg-red-50 border border-red-200 rounded space-y-1.5">
+              <p className="text-[11px] text-red-700 font-medium">⚠ 지정 기간 이전 이력 영구 삭제 (ADMIN 전용)</p>
+              <div className="flex items-center gap-1.5">
+                <input
+                  type="number"
+                  min={1}
+                  value={retentionDays}
+                  onChange={e => setRetentionDays(Math.max(1, +e.target.value))}
+                  className="w-16 border border-red-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-red-400 bg-white" />
+                <span className="text-[11px] text-red-600">일 이전 삭제</span>
+                <button
+                  onClick={runCleanup}
+                  disabled={cleaning}
+                  className="ml-auto px-2.5 py-1 text-[11px] bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 transition-colors">
+                  {cleaning ? '처리 중…' : '실행'}
+                </button>
+              </div>
+              {cleanResult && (
+                <p className={`text-[11px] font-medium ${cleanResult.deleted > 0 ? 'text-green-700' : 'text-gray-500'}`}>
+                  {cleanResult.deleted > 0
+                    ? `✓ ${cleanResult.deleted}건 삭제 완료 (${cleanResult.days}일 이전)`
+                    : `삭제할 이력이 없습니다 (${cleanResult.days}일 이전)`}
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* 목록 */}
+        {/* 이력 목록 */}
         <div className="flex-1 overflow-auto divide-y divide-gray-100">
           {loading ? (
             <div className="py-10 text-center text-xs text-gray-400 animate-pulse">로딩 중…</div>
-          ) : filtered.length === 0 ? (
+          ) : logs.length === 0 ? (
             <div className="py-10 text-center text-xs text-gray-400">이력이 없습니다</div>
-          ) : filtered.map(log => (
+          ) : logs.map(log => (
             <button key={log.LOG_ID} type="button"
               onClick={() => setSelected(log)}
               className={`w-full text-left px-3 py-2.5 hover:bg-blue-50 transition-colors
@@ -179,9 +331,30 @@ export default function AuditLogViewer() {
             </button>
           ))}
         </div>
+
+        {/* 페이지네이션 */}
+        {totalPages > 1 && (
+          <div className="px-3 py-2 border-t bg-gray-50 flex items-center justify-between shrink-0">
+            <button
+              disabled={page === 0}
+              onClick={() => setPage(p => p - 1)}
+              className="px-2.5 py-1 text-xs border rounded hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+              ◀ 이전
+            </button>
+            <span className="text-[11px] text-gray-500 font-medium">
+              {page + 1} / {totalPages}
+            </span>
+            <button
+              disabled={page >= totalPages - 1}
+              onClick={() => setPage(p => p + 1)}
+              className="px-2.5 py-1 text-xs border rounded hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+              다음 ▶
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* 우측: diff 뷰 */}
+      {/* ════════ 우측: Diff 뷰 ════════ */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {!selected ? (
           <div className="flex-1 flex flex-col items-center justify-center text-gray-400 gap-2">

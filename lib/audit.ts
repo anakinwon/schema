@@ -4,7 +4,7 @@ import { type NextRequest } from 'next/server'
 import { isAdminSession } from './admin-auth'
 import { supabase } from './supabase'
 
-export type EntityType  = 'STD_DIC' | 'STD_DOM'
+export type EntityType  = 'STD_DIC' | 'STD_DOM' | 'APPROVAL' | 'SYS_CODE_GRP' | 'SYS_CODE_VAL'
 export type ActionType  = 'INSERT'  | 'UPDATE' | 'DELETE'
 
 let tableReady = false

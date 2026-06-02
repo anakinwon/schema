@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { requireAuth } from '@/lib/auth-guard'
+import { writeAudit } from '@/lib/audit'
 
 type Params = { params: Promise<{ grpId: string }> }
 const NOW = () => new Date().toISOString().slice(0, 19).replace('T', ' ')
@@ -48,6 +49,14 @@ export async function POST(req: NextRequest, { params }: Params) {
       VALUES (?, ?, ?, ?, ?, 'Y', ?, ?, ?)
     `).run(grpId, CODE_VAL, CODE_VAL_NM, CODE_VAL_ENG ?? null, CODE_VAL_DESC ?? null, SORT_SN ?? 0, auth.email, NOW())
 
+    writeAudit({
+      entityType: 'SYS_CODE_VAL',
+      entityId:   `${grpId}:${CODE_VAL}`,
+      entityNm:   `${grpId} · ${CODE_VAL_NM}`,
+      actionType: 'INSERT',
+      after: { CODE_GRP_ID: grpId, CODE_VAL, CODE_VAL_NM, CODE_VAL_ENG: CODE_VAL_ENG ?? null, CODE_VAL_DESC: CODE_VAL_DESC ?? null, USE_YN: 'Y', SORT_SN: SORT_SN ?? 0 },
+      changedBy: auth.email,
+    })
     return NextResponse.json({ ok: true }, { status: 201 })
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e)
@@ -70,6 +79,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
   try {
     const db = getDb()
+    const before = db.prepare('SELECT * FROM SYS_CODE_VAL WHERE CODE_GRP_ID = ? AND CODE_VAL = ?').get(grpId, CODE_VAL) as Record<string, unknown> | undefined
     const result = db.prepare(`
       UPDATE SYS_CODE_VAL
       SET CODE_VAL_NM   = COALESCE(?, CODE_VAL_NM),
@@ -88,6 +98,16 @@ export async function PUT(req: NextRequest, { params }: Params) {
     )
 
     if (result.changes === 0) return NextResponse.json({ error: '코드값 없음' }, { status: 404 })
+
+    writeAudit({
+      entityType: 'SYS_CODE_VAL',
+      entityId:   `${grpId}:${CODE_VAL}`,
+      entityNm:   `${grpId} · ${CODE_VAL_NM ?? String(before?.CODE_VAL_NM ?? CODE_VAL)}`,
+      actionType: 'UPDATE',
+      before,
+      after: { CODE_GRP_ID: grpId, CODE_VAL, CODE_VAL_NM, CODE_VAL_ENG, CODE_VAL_DESC, USE_YN, SORT_SN },
+      changedBy: auth.email,
+    })
     return NextResponse.json({ ok: true })
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 })
@@ -106,6 +126,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
   try {
     const db = getDb()
+    const before = db.prepare('SELECT * FROM SYS_CODE_VAL WHERE CODE_GRP_ID = ? AND CODE_VAL = ?').get(grpId, codeVal) as Record<string, unknown> | undefined
     // 물리 삭제 대신 USE_YN='N' 처리 (DA §40: 코드 이력 보존)
     const result = db.prepare(`
       UPDATE SYS_CODE_VAL
@@ -114,6 +135,16 @@ export async function DELETE(req: NextRequest, { params }: Params) {
     `).run(auth.email, NOW(), grpId, codeVal)
 
     if (result.changes === 0) return NextResponse.json({ error: '코드값 없음' }, { status: 404 })
+
+    writeAudit({
+      entityType: 'SYS_CODE_VAL',
+      entityId:   `${grpId}:${codeVal}`,
+      entityNm:   `${grpId} · ${String(before?.CODE_VAL_NM ?? codeVal)}`,
+      actionType: 'DELETE',
+      before,
+      after: { USE_YN: 'N' },
+      changedBy: auth.email,
+    })
     return NextResponse.json({ ok: true })
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 })
