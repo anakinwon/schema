@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "マネージャー",
     "backOffice": "管理ページ（Back Office）",
+    "dashboard": {
+      "card": {
+        "domains": "標準ドメイン",
+        "terms": "標準用語",
+        "users": "アクティブユーザー",
+        "words": "標準単語"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "標準データ管理システムの現状",
+      "pageTitle": "管理者ダッシュボード",
+      "quick": {
+        "audit": "変更履歴",
+        "auditDesc": "STD_DIC・STD_DOM Audit Trail",
+        "codes": "共通コード管理",
+        "codesDesc": "DA§40 STD_CODE管理",
+        "domains": "標準ドメイン管理",
+        "domainsDesc": "STD_DOM登録/修正/削除",
+        "terms": "標準用語管理",
+        "termsDesc": "DA_TERM登録/修正/削除",
+        "users": "ユーザーリスト",
+        "userScreen": "一般ユーザー画面",
+        "userScreenDesc": "標準データ照会/編集",
+        "usersDesc": "役割の付与と権限の管理",
+        "words": "標準単語管理",
+        "wordsDesc": "STD_DIC登録/修正/削除"
+      },
+      "quickMenu": "クイック移動"
+    },
     "menu": {
       "approval": "承認管理",
       "audit": "変更履歴",
@@ -13,35 +41,7 @@
       "sync": "同期",
       "users": "ユーザー管理"
     },
-    "noPermission": "アクセス権がありません",
-    "dashboard": {
-      "pageTitle": "管理者ダッシュボード",
-      "pageSubtitle": "標準データ管理システムの現状",
-      "quickMenu": "クイック移動",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "標準単語",
-        "domains": "標準ドメイン",
-        "terms": "標準用語",
-        "users": "アクティブユーザー"
-      },
-      "quick": {
-        "words": "標準単語管理",
-        "wordsDesc": "STD_DIC登録/修正/削除",
-        "domains": "標準ドメイン管理",
-        "domainsDesc": "STD_DOM登録/修正/削除",
-        "terms": "標準用語管理",
-        "termsDesc": "DA_TERM登録/修正/削除",
-        "codes": "共通コード管理",
-        "codesDesc": "DA§40 STD_CODE管理",
-        "audit": "変更履歴",
-        "auditDesc": "STD_DIC・STD_DOM Audit Trail",
-        "users": "ユーザーリスト",
-        "usersDesc": "役割の付与と権限の管理",
-        "userScreen": "一般ユーザー画面",
-        "userScreenDesc": "標準データ照会/編集"
-      }
-    }
+    "noPermission": "アクセス権がありません"
   },
   "auth": {
     "email": "Eメール",
@@ -94,31 +94,12 @@
     "search": "検索"
   },
   "languageSwitcher": {
+    "de": "ドイツ語",
     "en": "English",
     "en-ZA": "English (SA)",
     "fil": "Filipino",
     "hi": "銭िन्दी",
     "id": "Bahasa Indonesia",
-    "ja": "日本語",
-    "ko": "韓国語",
-    "label": "言語",
-    "ms": "Bahasa Melayu",
-    "th": "ไทย",
-    "vi": "Tiếng Việt",
-    "zh": "中文",
-    "de": "ドイツ語"
-  },
-  "profile": {
-    "edit": "プロフィールを編集",
-    "fullName": "名前",
-    "role": "役割",
-    "title": "私の情報",
-    "username": "ID"
-  },
-  "validation": {
-    "fileSizeExceeded": "アップロードファイルサイズ制限{maxMb}MBを超えました",
-    "invalidEmail": "正しいメール形式ではありません",
-    "required": "必須入力項目です",
-    "tooShort": "{min}文字以上入力してください"
+    "ja": "日本語"
   }
 }

@@ -36,7 +36,7 @@ export default function I18nDashboard() {
 
   const loadStats = useCallback(async () => {
     const headers = await authHeader()
-    const res = await fetch('/api/i18n/stats', { headers })
+    const res = await fetch('/api/i18n/stats', { headers, cache: 'no-store' })
     if (res.ok) {
       const d = await res.json()
       setStats(d.stats ?? [])

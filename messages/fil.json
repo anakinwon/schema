@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "Administrator",
     "backOffice": "Administrator Page (Back Office)",
+    "dashboard": {
+      "card": {
+        "domains": "Pamantayang Domain",
+        "terms": "Pamantayang Termino",
+        "users": "Aktibong Gumagamit",
+        "words": "Pamantayang Salita"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Katayuan ng Sistema ng Pamamahala ng Pamantayang Data",
+      "pageTitle": "Admin Dashboard",
+      "quick": {
+        "audit": "Kasaysayan ng Pagbabago",
+        "auditDesc": "Audit Trail STD_DIC·STD_DOM",
+        "codes": "Pamamahala ng Karaniwang Code",
+        "codesDesc": "Pamamahala ng DA §40 STD_CODE",
+        "domains": "Pamamahala ng Domain",
+        "domainsDesc": "STD_DOM Irehistro/I-edit/Tanggalin",
+        "terms": "Pamamahala ng Termino",
+        "termsDesc": "DA_TERM Irehistro/I-edit/Tanggalin",
+        "users": "Listahan ng Gumagamit",
+        "userScreen": "Screen ng Gumagamit",
+        "userScreenDesc": "Tingnan/I-edit ang Pamantayang Data",
+        "usersDesc": "Pagtatalaga ng Papel at Kontrol sa Access",
+        "words": "Pamamahala ng Salita",
+        "wordsDesc": "STD_DIC Irehistro/I-edit/Tanggalin"
+      },
+      "quickMenu": "Mabilis na Nabigasyon"
+    },
     "menu": {
       "approval": "Pamamahala ng Pag-apruba",
       "audit": "Kasaysayan ng pagbabago",
@@ -13,35 +41,7 @@
       "sync": "I-sync",
       "users": "Pamamahala ng User"
     },
-    "noPermission": "Wala kang pahintulot sa pag-access",
-    "dashboard": {
-      "pageTitle": "Admin Dashboard",
-      "pageSubtitle": "Katayuan ng Sistema ng Pamamahala ng Pamantayang Data",
-      "quickMenu": "Mabilis na Nabigasyon",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "Pamantayang Salita",
-        "domains": "Pamantayang Domain",
-        "terms": "Pamantayang Termino",
-        "users": "Aktibong Gumagamit"
-      },
-      "quick": {
-        "words": "Pamamahala ng Salita",
-        "wordsDesc": "STD_DIC Irehistro/I-edit/Tanggalin",
-        "domains": "Pamamahala ng Domain",
-        "domainsDesc": "STD_DOM Irehistro/I-edit/Tanggalin",
-        "terms": "Pamamahala ng Termino",
-        "termsDesc": "DA_TERM Irehistro/I-edit/Tanggalin",
-        "codes": "Pamamahala ng Karaniwang Code",
-        "codesDesc": "Pamamahala ng DA §40 STD_CODE",
-        "audit": "Kasaysayan ng Pagbabago",
-        "auditDesc": "Audit Trail STD_DIC·STD_DOM",
-        "users": "Listahan ng Gumagamit",
-        "usersDesc": "Pagtatalaga ng Papel at Kontrol sa Access",
-        "userScreen": "Screen ng Gumagamit",
-        "userScreenDesc": "Tingnan/I-edit ang Pamantayang Data"
-      }
-    }
+    "noPermission": "Wala kang pahintulot sa pag-access"
   },
   "auth": {
     "email": "Email",
@@ -94,31 +94,13 @@
     "search": "paghahanap"
   },
   "languageSwitcher": {
+    "de": "Aleman",
     "en": "English",
     "en-ZA": "English (SA)",
     "fil": "Filipino",
     "hi": "हिन्दी",
     "id": "Bahasa Indonesia",
     "ja": "wikang Hapon",
-    "ko": "Korean",
-    "label": "wika",
-    "ms": "Bahasa Melayu",
-    "th": "ไทย",
-    "vi": "Tiếng Việt",
-    "zh": "中文",
-    "de": "Aleman"
-  },
-  "profile": {
-    "edit": "I-edit ang profile",
-    "fullName": "Pangalan",
-    "role": "Tungkulin",
-    "title": "Aking Impormasyon",
-    "username": "ID"
-  },
-  "validation": {
-    "fileSizeExceeded": "Lumampas na ang limitasyon sa laki ng pag-upload ng file na {maxMb}MB.",
-    "invalidEmail": "Ang email ay wala sa tamang format",
-    "required": "Kinakailangan ang field na ito",
-    "tooShort": "Mangyaring maglagay ng {min} na mga character o higit pa"
+    "ko": "Korean"
   }
 }

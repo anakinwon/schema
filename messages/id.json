@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "Admin",
     "backOffice": "Back Office (Admin)",
+    "dashboard": {
+      "card": {
+        "domains": "Domain Standar",
+        "terms": "Istilah Standar",
+        "users": "Pengguna Aktif",
+        "words": "Kata Standar"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Status Sistem Manajemen Data Standar",
+      "pageTitle": "Dasbor Admin",
+      "quick": {
+        "audit": "Riwayat Perubahan",
+        "auditDesc": "Audit Trail STD_DIC·STD_DOM",
+        "codes": "Manajemen Kode Umum",
+        "codesDesc": "Manajemen DA §40 STD_CODE",
+        "domains": "Manajemen Domain",
+        "domainsDesc": "STD_DOM Daftar/Edit/Hapus",
+        "terms": "Manajemen Istilah",
+        "termsDesc": "DA_TERM Daftar/Edit/Hapus",
+        "users": "Daftar Pengguna",
+        "userScreen": "Layar Pengguna",
+        "userScreenDesc": "Lihat/Edit Data Standar",
+        "usersDesc": "Penugasan Peran & Kontrol Akses",
+        "words": "Manajemen Kata",
+        "wordsDesc": "STD_DIC Daftar/Edit/Hapus"
+      },
+      "quickMenu": "Navigasi Cepat"
+    },
     "menu": {
       "approval": "Manajemen Persetujuan",
       "audit": "Riwayat Perubahan",
@@ -13,35 +41,7 @@
       "sync": "Sinkronisasi",
       "users": "Manajemen Pengguna"
     },
-    "noPermission": "Akses ditolak",
-    "dashboard": {
-      "pageTitle": "Dasbor Admin",
-      "pageSubtitle": "Status Sistem Manajemen Data Standar",
-      "quickMenu": "Navigasi Cepat",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "Kata Standar",
-        "domains": "Domain Standar",
-        "terms": "Istilah Standar",
-        "users": "Pengguna Aktif"
-      },
-      "quick": {
-        "words": "Manajemen Kata",
-        "wordsDesc": "STD_DIC Daftar/Edit/Hapus",
-        "domains": "Manajemen Domain",
-        "domainsDesc": "STD_DOM Daftar/Edit/Hapus",
-        "terms": "Manajemen Istilah",
-        "termsDesc": "DA_TERM Daftar/Edit/Hapus",
-        "codes": "Manajemen Kode Umum",
-        "codesDesc": "Manajemen DA §40 STD_CODE",
-        "audit": "Riwayat Perubahan",
-        "auditDesc": "Audit Trail STD_DIC·STD_DOM",
-        "users": "Daftar Pengguna",
-        "usersDesc": "Penugasan Peran & Kontrol Akses",
-        "userScreen": "Layar Pengguna",
-        "userScreenDesc": "Lihat/Edit Data Standar"
-      }
-    }
+    "noPermission": "Akses ditolak"
   },
   "auth": {
     "email": "Email",
@@ -94,31 +94,12 @@
     "search": "Cari"
   },
   "languageSwitcher": {
+    "de": "Jerman",
     "en": "Inggris",
     "en-ZA": "Inggris (Afrika Selatan)",
     "fil": "Filipina",
     "hi": "Hindi",
     "id": "Indonesia",
-    "ja": "Jepang",
-    "ko": "Korea",
-    "label": "Bahasa",
-    "ms": "Melayu",
-    "th": "Thai",
-    "vi": "Vietnam",
-    "zh": "Cina",
-    "de": "Jerman"
-  },
-  "profile": {
-    "edit": "Edit Profil",
-    "fullName": "Nama Lengkap",
-    "role": "Peran",
-    "title": "Profil Saya",
-    "username": "Nama Pengguna"
-  },
-  "validation": {
-    "fileSizeExceeded": "Ukuran file melebihi batas {maxMb}MB",
-    "invalidEmail": "Format email tidak valid",
-    "required": "Bidang ini wajib diisi",
-    "tooShort": "Harus minimal {min} karakter"
+    "ja": "Jepang"
   }
 }

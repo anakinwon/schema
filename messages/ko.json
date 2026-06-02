@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "관리자",
     "backOffice": "관리자페이지(Back Office)",
+    "dashboard": {
+      "card": {
+        "domains": "표준도메인",
+        "terms": "표준용어",
+        "users": "활성 사용자",
+        "words": "표준단어"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "표준데이터 관리 시스템 현황",
+      "pageTitle": "관리자 대시보드",
+      "quick": {
+        "audit": "변경 이력",
+        "auditDesc": "STD_DIC·STD_DOM Audit Trail",
+        "codes": "공통코드 관리",
+        "codesDesc": "DA §40 STD_CODE 관리",
+        "domains": "표준도메인 관리",
+        "domainsDesc": "STD_DOM 등록/수정/삭제",
+        "terms": "표준용어 관리",
+        "termsDesc": "DA_TERM 등록/수정/삭제",
+        "users": "사용자 목록",
+        "userScreen": "일반 사용자 화면",
+        "userScreenDesc": "표준 데이터 조회/편집",
+        "usersDesc": "역할 부여 및 권한 관리",
+        "words": "표준단어 관리",
+        "wordsDesc": "STD_DIC 등록/수정/삭제"
+      },
+      "quickMenu": "빠른 이동"
+    },
     "menu": {
       "approval": "승인관리",
       "audit": "변경이력",
@@ -13,35 +41,7 @@
       "sync": "동기화",
       "users": "사용자관리"
     },
-    "noPermission": "접근 권한이 없습니다",
-    "dashboard": {
-      "pageTitle": "관리자 대시보드",
-      "pageSubtitle": "표준데이터 관리 시스템 현황",
-      "quickMenu": "빠른 이동",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "표준단어",
-        "domains": "표준도메인",
-        "terms": "표준용어",
-        "users": "활성 사용자"
-      },
-      "quick": {
-        "words": "표준단어 관리",
-        "wordsDesc": "STD_DIC 등록/수정/삭제",
-        "domains": "표준도메인 관리",
-        "domainsDesc": "STD_DOM 등록/수정/삭제",
-        "terms": "표준용어 관리",
-        "termsDesc": "DA_TERM 등록/수정/삭제",
-        "codes": "공통코드 관리",
-        "codesDesc": "DA §40 STD_CODE 관리",
-        "audit": "변경 이력",
-        "auditDesc": "STD_DIC·STD_DOM Audit Trail",
-        "users": "사용자 목록",
-        "usersDesc": "역할 부여 및 권한 관리",
-        "userScreen": "일반 사용자 화면",
-        "userScreenDesc": "표준 데이터 조회/편집"
-      }
-    }
+    "noPermission": "접근 권한이 없습니다"
   },
   "auth": {
     "email": "이메일",
@@ -94,31 +94,12 @@
     "search": "검색"
   },
   "languageSwitcher": {
+    "de": "독일어",
     "en": "English",
     "en-ZA": "English (SA)",
     "fil": "Filipino",
     "hi": "हिन्दी",
     "id": "Bahasa Indonesia",
-    "ja": "日本語",
-    "ko": "한국어",
-    "label": "언어",
-    "ms": "Bahasa Melayu",
-    "th": "ไทย",
-    "vi": "Tiếng Việt",
-    "zh": "中文",
-    "de": "독일어"
-  },
-  "profile": {
-    "edit": "프로필 수정",
-    "fullName": "이름",
-    "role": "역할",
-    "title": "내 정보",
-    "username": "아이디"
-  },
-  "validation": {
-    "fileSizeExceeded": "업로드 파일크기제한 {maxMb}MB를 초과했습니다",
-    "invalidEmail": "올바른 이메일 형식이 아닙니다",
-    "required": "필수 입력 항목입니다",
-    "tooShort": "{min}자 이상 입력하세요"
+    "ja": "日本語"
   }
 }

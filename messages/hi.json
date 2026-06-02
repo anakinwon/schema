@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "व्यवस्थापक",
     "backOffice": "बैक ऑफिस (व्यवस्थापक)",
+    "dashboard": {
+      "card": {
+        "domains": "मानक डोमेन",
+        "terms": "मानक शर्तें",
+        "users": "सक्रिय उपयोगकर्ता",
+        "words": "मानक शब्द"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "मानक डेटा प्रबंधन प्रणाली की स्थिति",
+      "pageTitle": "व्यवस्थापक डैशबोर्ड",
+      "quick": {
+        "audit": "परिवर्तन इतिहास",
+        "auditDesc": "STD_DIC·STD_DOM ऑडिट ट्रेल",
+        "codes": "सामान्य कोड प्रबंधन",
+        "codesDesc": "DA §40 STD_CODE प्रबंधन",
+        "domains": "डोमेन प्रबंधन",
+        "domainsDesc": "STD_DOM पंजीकरण/संपादन/हटाना",
+        "terms": "शर्त प्रबंधन",
+        "termsDesc": "DA_TERM पंजीकरण/संपादन/हटाना",
+        "users": "उपयोगकर्ता सूची",
+        "userScreen": "उपयोगकर्ता स्क्रीन",
+        "userScreenDesc": "मानक डेटा देखें/संपादित करें",
+        "usersDesc": "भूमिका असाइनमेंट और एक्सेस नियंत्रण",
+        "words": "शब्द प्रबंधन",
+        "wordsDesc": "STD_DIC पंजीकरण/संपादन/हटाना"
+      },
+      "quickMenu": "त्वरित नेविगेशन"
+    },
     "menu": {
       "approval": "अनुमोदन",
       "audit": "परिवर्तन इतिहास",
@@ -13,35 +41,7 @@
       "sync": "सिंक",
       "users": "उपयोगकर्ता प्रबंधन"
     },
-    "noPermission": "पहुंच अस्वीकृत",
-    "dashboard": {
-      "pageTitle": "व्यवस्थापक डैशबोर्ड",
-      "pageSubtitle": "मानक डेटा प्रबंधन प्रणाली की स्थिति",
-      "quickMenu": "त्वरित नेविगेशन",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "मानक शब्द",
-        "domains": "मानक डोमेन",
-        "terms": "मानक शर्तें",
-        "users": "सक्रिय उपयोगकर्ता"
-      },
-      "quick": {
-        "words": "शब्द प्रबंधन",
-        "wordsDesc": "STD_DIC पंजीकरण/संपादन/हटाना",
-        "domains": "डोमेन प्रबंधन",
-        "domainsDesc": "STD_DOM पंजीकरण/संपादन/हटाना",
-        "terms": "शर्त प्रबंधन",
-        "termsDesc": "DA_TERM पंजीकरण/संपादन/हटाना",
-        "codes": "सामान्य कोड प्रबंधन",
-        "codesDesc": "DA §40 STD_CODE प्रबंधन",
-        "audit": "परिवर्तन इतिहास",
-        "auditDesc": "STD_DIC·STD_DOM ऑडिट ट्रेल",
-        "users": "उपयोगकर्ता सूची",
-        "usersDesc": "भूमिका असाइनमेंट और एक्सेस नियंत्रण",
-        "userScreen": "उपयोगकर्ता स्क्रीन",
-        "userScreenDesc": "मानक डेटा देखें/संपादित करें"
-      }
-    }
+    "noPermission": "पहुंच अस्वीकृत"
   },
   "auth": {
     "email": "ईमेल",
@@ -94,31 +94,12 @@
     "search": "खोजें"
   },
   "languageSwitcher": {
+    "de": "जर्मन",
     "en": "अंग्रेज़ी",
     "en-ZA": "अंग्रेज़ी (दक्षिण अफ्रीका)",
     "fil": "फिलिपिनो",
     "hi": "हिंदी",
     "id": "इंडोनेशियाई",
-    "ja": "जापानी",
-    "ko": "कोरियाई",
-    "label": "भाषा",
-    "ms": "मलय",
-    "th": "थाई",
-    "vi": "वियतनामी",
-    "zh": "चीनी",
-    "de": "जर्मन"
-  },
-  "profile": {
-    "edit": "प्रोफ़ाइल संपादित करें",
-    "fullName": "पूरा नाम",
-    "role": "भूमिका",
-    "title": "मेरी प्रोफ़ाइल",
-    "username": "उपयोगकर्ता नाम"
-  },
-  "validation": {
-    "fileSizeExceeded": "फ़ाइल का आकार {maxMb}MB से अधिक है",
-    "invalidEmail": "अमान्य ईमेल प्रारूप",
-    "required": "यह फ़ील्ड आवश्यक है",
-    "tooShort": "{min} अक्षर से अधिक होना चाहिए"
+    "ja": "जापानी"
   }
 }

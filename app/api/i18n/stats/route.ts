@@ -4,6 +4,9 @@ import { requireAuth } from '@/lib/auth-guard'
 import { inferLocale } from '@/lib/i18n/countryLangMap'
 import type { NextRequest } from 'next/server'
 
+// 번역 현황은 항상 최신 DB 값을 반환해야 함 — 캐싱 금지
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
   if (!auth.ok) return auth.response

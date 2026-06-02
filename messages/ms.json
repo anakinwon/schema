@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "Pentadbir",
     "backOffice": "Halaman Pentadbir (Pejabat Belakang)",
+    "dashboard": {
+      "card": {
+        "domains": "Domain Standard",
+        "terms": "Istilah Standard",
+        "users": "Pengguna Aktif",
+        "words": "Perkataan Standard"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Status Sistem Pengurusan Data Standard",
+      "pageTitle": "Papan Pemuka Pentadbir",
+      "quick": {
+        "audit": "Sejarah Perubahan",
+        "auditDesc": "Jejak Audit STD_DIC·STD_DOM",
+        "codes": "Pengurusan Kod Umum",
+        "codesDesc": "Pengurusan DA §40 STD_CODE",
+        "domains": "Pengurusan Domain",
+        "domainsDesc": "STD_DOM Daftar/Edit/Padam",
+        "terms": "Pengurusan Istilah",
+        "termsDesc": "DA_TERM Daftar/Edit/Padam",
+        "users": "Senarai Pengguna",
+        "userScreen": "Skrin Pengguna",
+        "userScreenDesc": "Lihat/Edit Data Standard",
+        "usersDesc": "Penugasan Peranan & Kawalan Akses",
+        "words": "Pengurusan Perkataan",
+        "wordsDesc": "STD_DIC Daftar/Edit/Padam"
+      },
+      "quickMenu": "Navigasi Pantas"
+    },
     "menu": {
       "approval": "Pengurusan Kelulusan",
       "audit": "Sejarah perubahan",
@@ -13,35 +41,7 @@
       "sync": "Segerakkan",
       "users": "Pengurusan Pengguna"
     },
-    "noPermission": "Anda tiada kebenaran akses",
-    "dashboard": {
-      "pageTitle": "Papan Pemuka Pentadbir",
-      "pageSubtitle": "Status Sistem Pengurusan Data Standard",
-      "quickMenu": "Navigasi Pantas",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "Perkataan Standard",
-        "domains": "Domain Standard",
-        "terms": "Istilah Standard",
-        "users": "Pengguna Aktif"
-      },
-      "quick": {
-        "words": "Pengurusan Perkataan",
-        "wordsDesc": "STD_DIC Daftar/Edit/Padam",
-        "domains": "Pengurusan Domain",
-        "domainsDesc": "STD_DOM Daftar/Edit/Padam",
-        "terms": "Pengurusan Istilah",
-        "termsDesc": "DA_TERM Daftar/Edit/Padam",
-        "codes": "Pengurusan Kod Umum",
-        "codesDesc": "Pengurusan DA §40 STD_CODE",
-        "audit": "Sejarah Perubahan",
-        "auditDesc": "Jejak Audit STD_DIC·STD_DOM",
-        "users": "Senarai Pengguna",
-        "usersDesc": "Penugasan Peranan & Kawalan Akses",
-        "userScreen": "Skrin Pengguna",
-        "userScreenDesc": "Lihat/Edit Data Standard"
-      }
-    }
+    "noPermission": "Anda tiada kebenaran akses"
   },
   "auth": {
     "email": "E-mel",
@@ -94,31 +94,12 @@
     "search": "Cari"
   },
   "languageSwitcher": {
+    "de": "Jerman",
     "en": "Inggeris",
     "en-ZA": "Inggeris (SA)",
     "fil": "Filipina",
     "hi": "हिन्दी",
     "id": "Bahasa Indonesia",
-    "ja": "Bahasa Jepun",
-    "ko": "Korea",
-    "label": "bahasa",
-    "ms": "Bahasa Melayu",
-    "th": "ไทย",
-    "vi": "Tiếng Việt",
-    "zh": "中文",
-    "de": "Jerman"
-  },
-  "profile": {
-    "edit": "Edit profil",
-    "fullName": "Nama",
-    "role": "Peranan",
-    "title": "Maklumat Saya",
-    "username": "ID"
-  },
-  "validation": {
-    "fileSizeExceeded": "Saiz fail melebihi had {maxMb}MB",
-    "invalidEmail": "Format e-mel tidak sah",
-    "required": "Medan ini diperlukan",
-    "tooShort": "Mestilah sekurang-kurangnya {min} aksara"
+    "ja": "Bahasa Jepun"
   }
 }

@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "Administrator",
     "backOffice": "Backoffice (Admin)",
+    "dashboard": {
+      "card": {
+        "domains": "Standarddomänen",
+        "terms": "Standardbegriffe",
+        "users": "Aktive Benutzer",
+        "words": "Standardwörter"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Status des Standarddaten-Verwaltungssystems",
+      "pageTitle": "Administrator-Dashboard",
+      "quick": {
+        "audit": "Änderungsverlauf",
+        "auditDesc": "STD_DIC·STD_DOM Audit-Trail",
+        "codes": "Allgemeine Code-Verwaltung",
+        "codesDesc": "DA §40 STD_CODE Verwaltung",
+        "domains": "Domänenverwaltung",
+        "domainsDesc": "STD_DOM Registrieren/Bearbeiten/Löschen",
+        "terms": "Begriffsverwaltung",
+        "termsDesc": "DA_TERM Registrieren/Bearbeiten/Löschen",
+        "users": "Benutzerliste",
+        "userScreen": "Benutzeroberfläche",
+        "userScreenDesc": "Standarddaten anzeigen/bearbeiten",
+        "usersDesc": "Rollenzuweisung & Zugriffskontrolle",
+        "words": "Wörterveraltung",
+        "wordsDesc": "STD_DIC Registrieren/Bearbeiten/Löschen"
+      },
+      "quickMenu": "Schnellnavigation"
+    },
     "menu": {
       "approval": "Genehmigungsverwaltung",
       "audit": "Änderungsprotokoll",
@@ -13,15 +41,7 @@
       "sync": "Synchronisierung",
       "users": "Benutzerverwaltung"
     },
-    "noPermission": "Zugriff verweigert",
-    "dashboard": {
-      "pageTitle": "Administrator-Dashboard",
-      "pageSubtitle": "Status des Standarddaten-Verwaltungssystems",
-      "quickMenu": "Schnellnavigation",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": { "words": "Standardwörter", "domains": "Standarddomänen", "terms": "Standardbegriffe", "users": "Aktive Benutzer" },
-      "quick": { "words": "Wörterveraltung", "wordsDesc": "STD_DIC Registrieren/Bearbeiten/Löschen", "domains": "Domänenverwaltung", "domainsDesc": "STD_DOM Registrieren/Bearbeiten/Löschen", "terms": "Begriffsverwaltung", "termsDesc": "DA_TERM Registrieren/Bearbeiten/Löschen", "codes": "Allgemeine Code-Verwaltung", "codesDesc": "DA §40 STD_CODE Verwaltung", "audit": "Änderungsverlauf", "auditDesc": "STD_DIC·STD_DOM Audit-Trail", "users": "Benutzerliste", "usersDesc": "Rollenzuweisung & Zugriffskontrolle", "userScreen": "Benutzeroberfläche", "userScreenDesc": "Standarddaten anzeigen/bearbeiten" }
-    }
+    "noPermission": "Zugriff verweigert"
   },
   "auth": {
     "email": "E-Mail",
@@ -81,24 +101,6 @@
     "hi": "Hindi",
     "id": "Indonesisch",
     "ja": "Japanisch",
-    "ko": "Koreanisch",
-    "label": "Sprache",
-    "ms": "Malaiisch",
-    "th": "Thailändisch",
-    "vi": "Vietnamesisch",
-    "zh": "Chinesisch"
-  },
-  "profile": {
-    "edit": "Profil bearbeiten",
-    "fullName": "Vollständiger Name",
-    "role": "Rolle",
-    "title": "Mein Profil",
-    "username": "Benutzername"
-  },
-  "validation": {
-    "fileSizeExceeded": "Dateigröße überschreitet das Limit von {maxMb}MB",
-    "invalidEmail": "Ungültiges E-Mail-Format",
-    "required": "Dieses Feld ist erforderlich",
-    "tooShort": "Mindestens {min} Zeichen erforderlich"
+    "ko": "Koreanisch"
   }
 }

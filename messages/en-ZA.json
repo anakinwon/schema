@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "Administrator",
     "backOffice": "Administrator Page (Back Office)",
+    "dashboard": {
+      "card": {
+        "domains": "Standard Domains",
+        "terms": "Standard Terms",
+        "users": "Active Users",
+        "words": "Standard Words"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Standard Data Management System Status",
+      "pageTitle": "Admin Dashboard",
+      "quick": {
+        "audit": "Change History",
+        "auditDesc": "STD_DIC·STD_DOM Audit Trail",
+        "codes": "Common Code Management",
+        "codesDesc": "DA §40 STD_CODE Management",
+        "domains": "Domain Management",
+        "domainsDesc": "STD_DOM Register/Edit/Delete",
+        "terms": "Term Management",
+        "termsDesc": "DA_TERM Register/Edit/Delete",
+        "users": "User List",
+        "userScreen": "User Screen",
+        "userScreenDesc": "Standard Data View/Edit",
+        "usersDesc": "Role Assignment & Access Control",
+        "words": "Word Management",
+        "wordsDesc": "STD_DIC Register/Edit/Delete"
+      },
+      "quickMenu": "Quick Navigation"
+    },
     "menu": {
       "approval": "Approval Management",
       "audit": "Change history",
@@ -13,35 +41,7 @@
       "sync": "Sync",
       "users": "User Management"
     },
-    "noPermission": "You do not have access permission",
-    "dashboard": {
-      "pageTitle": "Admin Dashboard",
-      "pageSubtitle": "Standard Data Management System Status",
-      "quickMenu": "Quick Navigation",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "Standard Words",
-        "domains": "Standard Domains",
-        "terms": "Standard Terms",
-        "users": "Active Users"
-      },
-      "quick": {
-        "words": "Word Management",
-        "wordsDesc": "STD_DIC Register/Edit/Delete",
-        "domains": "Domain Management",
-        "domainsDesc": "STD_DOM Register/Edit/Delete",
-        "terms": "Term Management",
-        "termsDesc": "DA_TERM Register/Edit/Delete",
-        "codes": "Common Code Management",
-        "codesDesc": "DA §40 STD_CODE Management",
-        "audit": "Change History",
-        "auditDesc": "STD_DIC·STD_DOM Audit Trail",
-        "users": "User List",
-        "usersDesc": "Role Assignment & Access Control",
-        "userScreen": "User Screen",
-        "userScreenDesc": "Standard Data View/Edit"
-      }
-    }
+    "noPermission": "You do not have access permission"
   },
   "auth": {
     "email": "Email",
@@ -94,31 +94,13 @@
     "search": "search"
   },
   "languageSwitcher": {
+    "de": "German",
     "en": "English",
     "en-ZA": "English (SA)",
     "fil": "Filipino",
     "hi": "हिन्दी",
     "id": "Bahasa Indonesia",
     "ja": "Japanese language",
-    "ko": "Korean",
-    "label": "language",
-    "ms": "Bahasa Melayu",
-    "th": "ไทย",
-    "vi": "Tiếng Việt",
-    "zh": "中文",
-    "de": "German"
-  },
-  "profile": {
-    "edit": "Edit profile",
-    "fullName": "Name",
-    "role": "Role",
-    "title": "My Information",
-    "username": "ID"
-  },
-  "validation": {
-    "fileSizeExceeded": "The upload file size limit of {maxMb}MB has been exceeded.",
-    "invalidEmail": "Email is not in correct format",
-    "required": "This field is required",
-    "tooShort": "Please enter {min} characters or more"
+    "ko": "Korean"
   }
 }

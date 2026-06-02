@@ -2,6 +2,34 @@
   "admin": {
     "adminLabel": "Quản trị viên",
     "backOffice": "Văn phòng sau (Quản trị)",
+    "dashboard": {
+      "card": {
+        "domains": "Miền tiêu chuẩn",
+        "terms": "Thuật ngữ tiêu chuẩn",
+        "users": "Người dùng hoạt động",
+        "words": "Từ tiêu chuẩn"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Trạng thái hệ thống quản lý dữ liệu tiêu chuẩn",
+      "pageTitle": "Bảng điều khiển quản trị",
+      "quick": {
+        "audit": "Lịch sử thay đổi",
+        "auditDesc": "Kiểm tra STD_DIC·STD_DOM",
+        "codes": "Quản lý mã chung",
+        "codesDesc": "Quản lý DA §40 STD_CODE",
+        "domains": "Quản lý miền",
+        "domainsDesc": "STD_DOM Đăng ký/Chỉnh sửa/Xóa",
+        "terms": "Quản lý thuật ngữ",
+        "termsDesc": "DA_TERM Đăng ký/Chỉnh sửa/Xóa",
+        "users": "Danh sách người dùng",
+        "userScreen": "Màn hình người dùng",
+        "userScreenDesc": "Xem/Chỉnh sửa dữ liệu tiêu chuẩn",
+        "usersDesc": "Phân công vai trò & Kiểm soát truy cập",
+        "words": "Quản lý từ",
+        "wordsDesc": "STD_DIC Đăng ký/Chỉnh sửa/Xóa"
+      },
+      "quickMenu": "Điều hướng nhanh"
+    },
     "menu": {
       "approval": "Quản lý phê duyệt",
       "audit": "Lịch sử thay đổi",
@@ -13,35 +41,7 @@
       "sync": "Đồng bộ",
       "users": "Quản lý người dùng"
     },
-    "noPermission": "Từ chối truy cập",
-    "dashboard": {
-      "pageTitle": "Bảng điều khiển quản trị",
-      "pageSubtitle": "Trạng thái hệ thống quản lý dữ liệu tiêu chuẩn",
-      "quickMenu": "Điều hướng nhanh",
-      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": {
-        "words": "Từ tiêu chuẩn",
-        "domains": "Miền tiêu chuẩn",
-        "terms": "Thuật ngữ tiêu chuẩn",
-        "users": "Người dùng hoạt động"
-      },
-      "quick": {
-        "words": "Quản lý từ",
-        "wordsDesc": "STD_DIC Đăng ký/Chỉnh sửa/Xóa",
-        "domains": "Quản lý miền",
-        "domainsDesc": "STD_DOM Đăng ký/Chỉnh sửa/Xóa",
-        "terms": "Quản lý thuật ngữ",
-        "termsDesc": "DA_TERM Đăng ký/Chỉnh sửa/Xóa",
-        "codes": "Quản lý mã chung",
-        "codesDesc": "Quản lý DA §40 STD_CODE",
-        "audit": "Lịch sử thay đổi",
-        "auditDesc": "Kiểm tra STD_DIC·STD_DOM",
-        "users": "Danh sách người dùng",
-        "usersDesc": "Phân công vai trò & Kiểm soát truy cập",
-        "userScreen": "Màn hình người dùng",
-        "userScreenDesc": "Xem/Chỉnh sửa dữ liệu tiêu chuẩn"
-      }
-    }
+    "noPermission": "Từ chối truy cập"
   },
   "auth": {
     "email": "Email",
@@ -94,31 +94,12 @@
     "search": "Tìm kiếm"
   },
   "languageSwitcher": {
+    "de": "Tiếng Đức",
     "en": "Tiếng Anh",
     "en-ZA": "Tiếng Anh (Nam Phi)",
     "fil": "Tiếng Philippines",
     "hi": "Tiếng Hindi",
     "id": "Tiếng Indonesia",
-    "ja": "Tiếng Nhật",
-    "ko": "Tiếng Hàn",
-    "label": "Ngôn ngữ",
-    "ms": "Tiếng Mã Lai",
-    "th": "Tiếng Thái",
-    "vi": "Tiếng Việt",
-    "zh": "Tiếng Trung",
-    "de": "Tiếng Đức"
-  },
-  "profile": {
-    "edit": "Chỉnh sửa hồ sơ",
-    "fullName": "Họ và tên",
-    "role": "Vai trò",
-    "title": "Hồ sơ của tôi",
-    "username": "Tên người dùng"
-  },
-  "validation": {
-    "fileSizeExceeded": "Kích thước tệp vượt quá giới hạn {maxMb}MB",
-    "invalidEmail": "Định dạng email không hợp lệ",
-    "required": "Trường này là bắt buộc",
-    "tooShort": "Phải có ít nhất {min} ký tự"
+    "ja": "Tiếng Nhật"
   }
 }
