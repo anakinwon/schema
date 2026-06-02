@@ -180,84 +180,84 @@
       "scale": "少数"
     },
     "groupTab": {
-      "add": "추가",
-      "alertRequired": "그룹코드와 그룹명은 필수입니다.",
-      "alertSystemDelete": "시스템 그룹은 삭제할 수 없습니다.",
-      "clickToSetPerm": "클릭 → 권한 설정",
-      "colEmpNo": "사원번호",
-      "colGroupMove": "그룹 이동",
-      "colGroupRole": "그룹 내 역할",
-      "colName": "이름",
-      "colProfileRole": "Profiles 역할",
-      "colRemove": "제거",
-      "colSubPerm": "SubManager 권한",
+      "add": "追加",
+      "alertRequired": "グループコードとグループ名は必須です。",
+      "alertSystemDelete": "システムグループは削除できません。",
+      "clickToSetPerm": "クリック→権限設定",
+      "colEmpNo": "社員番号",
+      "colGroupMove": "グループ移動",
+      "colGroupRole": "グループ内の役割",
+      "colName": "名前",
+      "colProfileRole": "Profiles ロール",
+      "colRemove": "削除",
+      "colSubPerm": "SubManager権限",
       "colUserId": "User ID",
-      "confirmDelete": "그룹 {grp}를 삭제하시겠습니까?",
-      "confirmRemove": "구성원을 제거하시겠습니까?",
-      "createGroup": "+ 그룹 생성",
-      "customGroupLabel": "커스텀 그룹 ({n})",
-      "daOnly": "DA 전용",
-      "deleteGroup": "그룹 삭제",
-      "groupAdd": "그룹 추가",
-      "groupCodePlaceholder": "코드 (예: DA_TEAM)",
-      "groupNamePlaceholder": "그룹명",
+      "confirmDelete": "グループ{grp}を削除しますか？",
+      "confirmRemove": "メンバーを削除しますか？",
+      "createGroup": "+ グループの作成",
+      "customGroupLabel": "カスタムグループ({n})",
+      "daOnly": "DAのみ",
+      "deleteGroup": "グループの削除",
+      "groupAdd": "グループを追加",
+      "groupCodePlaceholder": "コード（例：DA_TEAM）",
+      "groupNamePlaceholder": "グループ名",
       "groups": {
         "G_MASTER": {
-          "desc": "부관리자 (DA 전용)",
-          "name": "마스터"
+          "desc": "副管理者(DAのみ)",
+          "name": "マスター"
         },
         "G_MNGR": {
-          "desc": "사용자 중 최고권한자",
-          "name": "매니저"
+          "desc": "ユーザーの中で最高の権利者",
+          "name": "マネージャー"
         },
         "G_SMNGR": {
-          "desc": "매니저가 지정하는 서브매니저",
-          "name": "부매니저"
+          "desc": "マネージャーが指定するサブマネージャー",
+          "name": "副マネージャー"
         },
         "G_SUPER": {
-          "desc": "최상위 관리자",
-          "name": "수퍼관리자"
+          "desc": "トップレベルマネージャ",
+          "name": "スーパー管理者"
         },
         "G_USER": {
-          "desc": "일반 사용자",
-          "name": "사용자"
+          "desc": "一般ユーザー",
+          "name": "ユーザー"
         }
       },
-      "masterGroupDesc1": "Profiles의 main_role과 직접 매핑되지 않습니다.",
-      "masterGroupDesc2": "아래 구성원 관리를 통해 직접 추가해 주세요.",
-      "masterGroupTitle": "마스터 그룹 (DA 전용)",
-      "memberAdd": "구성원 추가",
+      "masterGroupDesc1": "Profiles の main_role に直接マップされません。",
+      "masterGroupDesc2": "以下のメンバー管理を通じて直接追加してください。",
+      "masterGroupTitle": "マスターグループ(DAのみ)",
+      "memberAdd": "メンバーを追加",
       "moveRole": {
-        "admin": "수퍼관리자 (admin)",
-        "manager": "매니저 (manager)",
-        "sub_admin": "부매니저 (sub_admin)",
-        "user": "사용자 (user)"
+        "admin": "スーパー管理者（admin）",
+        "manager": "マネージャー(manager)",
+        "sub_admin": "副マネージャー(sub_admin)",
+        "user": "ユーザー(user)"
       },
-      "noGroupUsers": "이 그룹에 해당하는 사용자가 없습니다.",
-      "noMembers": "구성원이 없습니다.",
-      "notCreated": "미생성",
-      "permGranted": "{perm} 권한 부여",
-      "permRevoked": "{perm} 권한 회수",
-      "remove": "제거",
+      "noGroupUsers": "このグループに対応するユーザーはいません。",
+      "noMembers": "メンバーはいません。",
+      "notCreated": "微生物",
+      "permGranted": "{perm}認可",
+      "permRevoked": "{perm}権限回収",
+      "remove": "削除",
       "role": {
-        "admin": "수퍼관리자",
-        "manager": "매니저",
-        "sub_admin": "부매니저",
-        "user": "사용자"
+        "admin": "スーパー管理者",
+        "manager": "マネージャー",
+        "sub_admin": "副マネージャー",
+        "user": "ユーザー"
       },
-      "roleChangeToast": "✅ 역할 변경 완료",
-      "saving": "저장 중…",
-      "seedDone": "✓ 완료",
-      "seedDoneToast": "✅ 시스템 그룹 초기화 완료",
-      "seedInit": "+ 초기화",
-      "seedInitializing": "초기화 중…",
-      "selectGroup": "왼쪽에서 그룹을 선택하세요",
-      "selectUser": "— 사용자 선택 —",
-      "subPermOnly": "쓰기·삭제 권한만 부여 가능",
-      "subPermPanel": "SubManager 권한",
-      "systemGroupBadge": "시스템 그룹",
-      "systemGroupLabel": "시스템 그룹",
-      "totalMembers": "총 {n}명"
+      "roleChangeToast": "✅ 役割変更完了",
+      "saving": "保存中…",
+      "seedDone": "✓ 完了",
+      "seedDoneToast": "✅ システムグループの初期化完了",
+      "seedInit": "+初期化",
+      "seedInitializing": "初期化中…",
+      "selectGroup": "左側からグループを選択してください",
+      "selectUser": "— ユーザーの選択 —",
+      "subPermOnly": "書き込み・削除権限のみ付与可能",
+      "subPermPanel": "SubManager権限",
+      "systemGroupBadge": "システムグループ",
+      "systemGroupLabel": "システムグループ",
+      "totalMembers": "総{n}名"
     },
     "role": {
       "dataAdmin": "データ管理者",

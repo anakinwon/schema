@@ -180,84 +180,84 @@
       "scale": "decimal"
     },
     "groupTab": {
-      "add": "추가",
-      "alertRequired": "그룹코드와 그룹명은 필수입니다.",
-      "alertSystemDelete": "시스템 그룹은 삭제할 수 없습니다.",
-      "clickToSetPerm": "클릭 → 권한 설정",
-      "colEmpNo": "사원번호",
-      "colGroupMove": "그룹 이동",
-      "colGroupRole": "그룹 내 역할",
-      "colName": "이름",
-      "colProfileRole": "Profiles 역할",
-      "colRemove": "제거",
-      "colSubPerm": "SubManager 권한",
+      "add": "idagdag",
+      "alertRequired": "Kinakailangan ang code ng grupo at pangalan ng grupo.",
+      "alertSystemDelete": "Hindi matatanggal ang mga pangkat ng system.",
+      "clickToSetPerm": "I-click ang → Mga Setting ng Pahintulot",
+      "colEmpNo": "Numero ng empleyado",
+      "colGroupMove": "kilusan ng grupo",
+      "colGroupRole": "Papel sa pangkat",
+      "colName": "pangalan",
+      "colProfileRole": "Tungkulin ng Mga Profile",
+      "colRemove": "tanggalin",
+      "colSubPerm": "Mga Pahintulot sa SubManager",
       "colUserId": "User ID",
-      "confirmDelete": "그룹 {grp}를 삭제하시겠습니까?",
-      "confirmRemove": "구성원을 제거하시겠습니까?",
-      "createGroup": "+ 그룹 생성",
-      "customGroupLabel": "커스텀 그룹 ({n})",
-      "daOnly": "DA 전용",
-      "deleteGroup": "그룹 삭제",
-      "groupAdd": "그룹 추가",
-      "groupCodePlaceholder": "코드 (예: DA_TEAM)",
-      "groupNamePlaceholder": "그룹명",
+      "confirmDelete": "Sigurado ka bang gusto mong tanggalin ang pangkat na {grp}?",
+      "confirmRemove": "Sigurado ka bang gusto mong tanggalin ang miyembro?",
+      "createGroup": "+ Lumikha ng pangkat",
+      "customGroupLabel": "Custom na Pangkat ({n})",
+      "daOnly": "DA lang",
+      "deleteGroup": "Tanggalin ang pangkat",
+      "groupAdd": "Magdagdag ng grupo",
+      "groupCodePlaceholder": "Code (hal. DA_TEAM)",
+      "groupNamePlaceholder": "pangalan ng grupo",
       "groups": {
         "G_MASTER": {
-          "desc": "부관리자 (DA 전용)",
-          "name": "마스터"
+          "desc": "Assistant Administrator (DA lang)",
+          "name": "master"
         },
         "G_MNGR": {
-          "desc": "사용자 중 최고권한자",
-          "name": "매니저"
+          "desc": "Ang pinakamataas na awtoridad sa mga user",
+          "name": "manager"
         },
         "G_SMNGR": {
-          "desc": "매니저가 지정하는 서브매니저",
-          "name": "부매니저"
+          "desc": "Submanager na itinalaga ng manager",
+          "name": "assistant manager"
         },
         "G_SUPER": {
-          "desc": "최상위 관리자",
-          "name": "수퍼관리자"
+          "desc": "top level administrator",
+          "name": "Super Administrator"
         },
         "G_USER": {
-          "desc": "일반 사용자",
-          "name": "사용자"
+          "desc": "regular na gumagamit",
+          "name": "gumagamit"
         }
       },
-      "masterGroupDesc1": "Profiles의 main_role과 직접 매핑되지 않습니다.",
-      "masterGroupDesc2": "아래 구성원 관리를 통해 직접 추가해 주세요.",
-      "masterGroupTitle": "마스터 그룹 (DA 전용)",
-      "memberAdd": "구성원 추가",
+      "masterGroupDesc1": "Hindi ito direktang nagmamapa sa main_role sa Mga Profile.",
+      "masterGroupDesc2": "Mangyaring idagdag ang iyong sarili sa pamamagitan ng pamamahala ng miyembro sa ibaba.",
+      "masterGroupTitle": "Master Group (DA lang)",
+      "memberAdd": "Magdagdag ng miyembro",
       "moveRole": {
-        "admin": "수퍼관리자 (admin)",
-        "manager": "매니저 (manager)",
-        "sub_admin": "부매니저 (sub_admin)",
-        "user": "사용자 (user)"
+        "admin": "Super Administrator (admin)",
+        "manager": "manager",
+        "sub_admin": "Sub-manager (sub_admin)",
+        "user": "gumagamit"
       },
-      "noGroupUsers": "이 그룹에 해당하는 사용자가 없습니다.",
-      "noMembers": "구성원이 없습니다.",
-      "notCreated": "미생성",
-      "permGranted": "{perm} 권한 부여",
-      "permRevoked": "{perm} 권한 회수",
-      "remove": "제거",
+      "noGroupUsers": "Walang mga gumagamit sa pangkat na ito.",
+      "noMembers": "Walang miyembro.",
+      "notCreated": "hindi nilikha",
+      "permGranted": "Bigyan ng pahintulot ang {perm}",
+      "permRevoked": "Pagbawi ng Pahintulot ng {perm}",
+      "remove": "tanggalin",
       "role": {
-        "admin": "수퍼관리자",
-        "manager": "매니저",
-        "sub_admin": "부매니저",
-        "user": "사용자"
+        "admin": "Super Administrator",
+        "manager": "manager",
+        "sub_admin": "assistant manager",
+        "user": "gumagamit"
       },
-      "roleChangeToast": "✅ 역할 변경 완료",
-      "saving": "저장 중…",
-      "seedDone": "✓ 완료",
-      "seedDoneToast": "✅ 시스템 그룹 초기화 완료",
-      "seedInit": "+ 초기화",
-      "seedInitializing": "초기화 중…",
-      "selectGroup": "왼쪽에서 그룹을 선택하세요",
-      "selectUser": "— 사용자 선택 —",
-      "subPermOnly": "쓰기·삭제 권한만 부여 가능",
-      "subPermPanel": "SubManager 권한",
-      "systemGroupBadge": "시스템 그룹",
-      "systemGroupLabel": "시스템 그룹",
-      "totalMembers": "총 {n}명"
+      "roleChangeToast": "✅ Nakumpleto ang pagbabago ng tungkulin",
+      "saving": "Sine-save...",
+      "seedDone": "✓ Tapos na",
+      "seedDoneToast": "✅ Kumpleto na ang pagsisimula ng pangkat ng system",
+      "seedInit": "+ i-reset",
+      "seedInitializing": "Sinisimulan...",
+      "selectGroup": "Pumili ng grupo sa kaliwa",
+      "selectUser": "— Pagpili ng Gumagamit —",
+      "subPermOnly": "Tanging ang pahintulot na magsulat/magtanggal ang maaaring ibigay",
+      "subPermPanel": "Mga Pahintulot sa SubManager",
+      "systemGroupBadge": "pangkat ng sistema",
+      "systemGroupLabel": "pangkat ng sistema",
+      "totalMembers": "Kabuuang {n} tao"
     },
     "role": {
       "dataAdmin": "tagapamahala ng data",

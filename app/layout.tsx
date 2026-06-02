@@ -4,6 +4,9 @@ import { ALL_FONT_VARS } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import './globals.css'
 import 'flag-icons/css/flag-icons.min.css'
+import { Oxanium } from "next/font/google";
+
+const oxanium = Oxanium({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: '표준데이터 관리 프로그램',
@@ -16,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       suppressHydrationWarning
-      className={cn('h-full antialiased', ...ALL_FONT_VARS)}
+      className={cn('h-full antialiased', ...ALL_FONT_VARS, "font-sans", oxanium.variable)}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col">
         {children}
