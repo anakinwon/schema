@@ -7,27 +7,25 @@ import { countryToFlag } from '@/lib/i18n/countryToFlag'
 import type { Locale } from '@/i18n/routing'
 
 interface Country {
-  country_cd: string
-  dis_ord_seq: number
+  country_cd:     string
+  dis_ord_seq:    number
   country_eng_nm: string
   country_mot_nm: string
-  currency_cd: string
+  currency_cd:    string
   currency_eng_nm: string
-  locale_cd: string | null
+  locale_cd:      string | null
 }
 
-// dis_ord_seq 1~11 이 우선 표시 국가
 const PRIORITY_LIMIT = 11
 
 interface Props {
-  /** 트리거 버튼에 적용할 Tailwind 클래스 (헤더 테마별로 다르게 전달) */
   triggerClass?: string
 }
 
 export default function CountrySelector({ triggerClass }: Props) {
-  const locale    = useLocale()
-  const router    = useRouter()
-  const pathname  = usePathname()
+  const locale   = useLocale()
+  const router   = useRouter()
+  const pathname = usePathname()
 
   const [countries, setCountries] = useState<Country[]>([])
   const [isOpen,    setIsOpen]    = useState(false)
@@ -35,7 +33,6 @@ export default function CountrySelector({ triggerClass }: Props) {
   const [loading,   setLoading]   = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // 국가 목록 로드 (5분 캐싱 API)
   useEffect(() => {
     fetch('/api/i18n/countries')
       .then(r => r.json())
@@ -43,108 +40,138 @@ export default function CountrySelector({ triggerClass }: Props) {
       .catch(() => setLoading(false))
   }, [])
 
-  // 컨테이너 외부 클릭 → 닫기
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (!containerRef.current?.contains(e.target as Node)) {
-        setIsOpen(false)
-        setQuery('')
+        setIsOpen(false); setQuery('')
       }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  // 국가 선택 → locale 전환
-  const handleSelect = useCallback((country: Country) => {
-    const newLocale = (country.locale_cd ?? 'en') as Locale
-    router.replace(pathname, { locale: newLocale })
-    setIsOpen(false)
-    setQuery('')
+  const handleSelect = useCallback((c: Country) => {
+    router.replace(pathname, { locale: (c.locale_cd ?? 'en') as Locale })
+    setIsOpen(false); setQuery('')
   }, [router, pathname])
 
   if (loading) return null
 
-  const currentCountry = countries.find(c => c.locale_cd === locale)
+  const current  = countries.find(c => c.locale_cd === locale)
   const priority = countries.filter(c => c.dis_ord_seq <= PRIORITY_LIMIT)
   const rest     = countries.filter(c => c.dis_ord_seq >  PRIORITY_LIMIT)
 
-  const filterList = (list: Country[]) =>
-    query.trim()
-      ? list.filter(c =>
-          c.country_eng_nm.toLowerCase().includes(query.toLowerCase()) ||
-          c.country_mot_nm.includes(query) ||
-          c.currency_cd.toLowerCase().includes(query.toLowerCase())
-        )
-      : list
+  const filterList = (list: Country[]) => !query.trim() ? list : list.filter(c =>
+    c.country_eng_nm.toLowerCase().includes(query.toLowerCase()) ||
+    c.country_mot_nm.includes(query) ||
+    c.currency_cd.toLowerCase().includes(query.toLowerCase())
+  )
 
-  const filteredPriority = filterList(priority)
-  const filteredRest     = filterList(rest)
-  const hasResult        = filteredPriority.length > 0 || filteredRest.length > 0
+  const fp = filterList(priority)
+  const fr = filterList(rest)
 
-  const defaultTriggerClass =
-    'text-blue-200 border-blue-400/40 hover:text-white hover:bg-white/10 hover:border-white/30'
+  const defaultTrigger = 'text-blue-200 border-blue-400/40 hover:text-white hover:bg-white/10 hover:border-white/30'
 
   return (
     <div ref={containerRef} className="relative">
-      {/* 트리거 버튼 */}
+
+      {/* ── 트리거 버튼 ── */}
       <button
         onClick={() => setIsOpen(o => !o)}
-        className={`flex items-center gap-1.5 px-2.5 py-1 rounded border text-sm transition-colors ${triggerClass ?? defaultTriggerClass}`}
+        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm transition-all ${triggerClass ?? defaultTrigger}`}
         title="국가·언어 선택"
       >
-        <span className="text-base leading-none">
-          {currentCountry ? countryToFlag(currentCountry.country_cd) : '🌐'}
+        {/* 국기 크게 */}
+        <span className="text-2xl leading-none drop-shadow-sm">
+          {current ? countryToFlag(current.country_cd) : '🌐'}
         </span>
-        <span className="hidden sm:inline text-xs font-medium">
-          {currentCountry?.currency_cd ?? ''}
+        {/* 통화코드 */}
+        <span className="hidden sm:flex flex-col items-start leading-tight">
+          <span className="text-[11px] font-bold tracking-wide opacity-90">
+            {current?.currency_cd ?? '—'}
+          </span>
         </span>
-        <span className="text-[9px] opacity-50">▼</span>
+        {/* 화살표 */}
+        <svg
+          className={`w-3 h-3 opacity-60 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
 
-      {/* 드롭다운 */}
+      {/* ── 드롭다운 ── */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-72 bg-white rounded-lg shadow-2xl border border-gray-200 z-50 overflow-hidden">
-          {/* 검색 */}
-          <div className="p-2 border-b border-gray-100">
-            <input
-              autoFocus
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              placeholder="국가명·통화 검색"
-              className="w-full px-2.5 py-1.5 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-400 text-gray-800"
-            />
+        <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden ring-1 ring-black/5">
+
+          {/* 헤더 — 현재 선택 */}
+          {current && (
+            <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+              <span className="text-4xl leading-none drop-shadow">{countryToFlag(current.country_cd)}</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold text-gray-900 truncate">{current.country_mot_nm}</div>
+                <div className="text-xs text-gray-500 truncate">{current.country_eng_nm} · {current.currency_cd}</div>
+              </div>
+              <span className="text-xs text-blue-600 font-medium bg-blue-100 px-2 py-0.5 rounded-full">{locale}</span>
+            </div>
+          )}
+
+          {/* 검색창 */}
+          <div className="px-3 py-2 border-b border-gray-100">
+            <div className="relative">
+              <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                autoFocus
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                placeholder="국가명 또는 통화코드 검색..."
+                className="w-full pl-8 pr-3 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white text-gray-800 placeholder-gray-400"
+              />
+            </div>
           </div>
 
-          <div className="overflow-y-auto max-h-64">
-            {/* 우선 11개국 */}
-            {filteredPriority.map(c => (
-              <CountryRow
-                key={c.country_cd}
-                country={c}
-                selected={c.locale_cd === locale}
-                onSelect={handleSelect}
-              />
-            ))}
+          {/* 목록 */}
+          <div className="overflow-y-auto max-h-72">
 
-            {/* 구분선 — 검색 없을 때 + 나머지 있을 때만 */}
-            {!query && filteredRest.length > 0 && filteredPriority.length > 0 && (
-              <div className="mx-3 my-1 border-t border-gray-100" />
+            {/* 우선 11개국 */}
+            {fp.length > 0 && (
+              <>
+                {!query && (
+                  <div className="px-3 pt-2 pb-1">
+                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">주요 언어</span>
+                  </div>
+                )}
+                {fp.map(c => (
+                  <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} large />
+                ))}
+              </>
+            )}
+
+            {/* 구분선 */}
+            {!query && fr.length > 0 && fp.length > 0 && (
+              <div className="px-3 pt-3 pb-1 border-t border-gray-100 mt-1">
+                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">전체 국가</span>
+              </div>
             )}
 
             {/* 나머지 176개국 */}
-            {filteredRest.map(c => (
-              <CountryRow
-                key={c.country_cd}
-                country={c}
-                selected={c.locale_cd === locale}
-                onSelect={handleSelect}
-              />
+            {fr.map(c => (
+              <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} />
             ))}
 
-            {!hasResult && (
-              <p className="py-6 text-center text-sm text-gray-400">검색 결과 없음</p>
+            {fp.length === 0 && fr.length === 0 && (
+              <div className="py-10 text-center">
+                <span className="text-3xl">🔍</span>
+                <p className="mt-2 text-sm text-gray-400">검색 결과 없음</p>
+              </div>
             )}
+          </div>
+
+          {/* 하단 */}
+          <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 text-[10px] text-gray-400 text-right">
+            {countries.length}개국 지원
           </div>
         </div>
       )}
@@ -152,28 +179,50 @@ export default function CountrySelector({ triggerClass }: Props) {
   )
 }
 
-function CountryRow({
-  country, selected, onSelect,
+function FlagRow({
+  country, selected, onSelect, large = false,
 }: {
   country: Country
   selected: boolean
   onSelect: (c: Country) => void
+  large?: boolean
 }) {
+  const flag = countryToFlag(country.country_cd)
   return (
     <button
       onClick={() => onSelect(country)}
-      className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm text-left transition-colors
-        ${selected ? 'bg-blue-50' : 'hover:bg-gray-50'}`}
+      className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-all group
+        ${selected
+          ? 'bg-blue-50 border-l-2 border-blue-500'
+          : 'hover:bg-gray-50 border-l-2 border-transparent'
+        }`}
     >
-      <span className="text-base shrink-0 leading-none">
-        {countryToFlag(country.country_cd)}
+      {/* 국기 */}
+      <span className={`shrink-0 leading-none drop-shadow-sm ${large ? 'text-2xl' : 'text-xl'}`}>
+        {flag}
       </span>
-      <span className={`flex-1 truncate ${selected ? 'font-semibold text-blue-700' : 'text-gray-800'}`}>
-        {country.country_mot_nm}
-      </span>
-      <span className="text-xs text-gray-400 shrink-0 font-mono">
+
+      {/* 국가명 */}
+      <div className="flex-1 min-w-0">
+        <div className={`text-sm truncate leading-tight ${selected ? 'font-semibold text-blue-700' : 'text-gray-800'}`}>
+          {country.country_mot_nm}
+        </div>
+        {large && (
+          <div className="text-[11px] text-gray-400 truncate leading-tight">{country.country_eng_nm}</div>
+        )}
+      </div>
+
+      {/* 통화코드 */}
+      <span className="text-[11px] text-gray-400 shrink-0 font-mono tabular-nums">
         {country.currency_cd}
       </span>
+
+      {/* 선택 체크 */}
+      {selected && (
+        <svg className="w-4 h-4 text-blue-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      )}
     </button>
   )
 }
