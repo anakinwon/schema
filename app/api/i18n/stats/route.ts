@@ -39,27 +39,33 @@ export async function GET(req: NextRequest) {
 
   const activeLangSet = new Set((langs ?? []).map(l => l.lang_cd))
 
-  // 활성 국가 수 — 언어 관리 화면 "활성" 카운트와 동일 기준
-  // (locale_cd가 DB값 또는 inferLocale 추론값이고, 활성 언어인 국가)
-  const activeCountries = (cntryRows ?? []).filter(c => {
+  // 언어별 활성 국가 목록 그룹화 (locale_cd DB값 또는 inferLocale 추론)
+  const countriesByLang: Record<string, string[]> = {}
+  for (const c of cntryRows ?? []) {
     const loc = c.locale_cd ?? inferLocale(c.country_cd)
-    return loc !== null && activeLangSet.has(loc)
-  }).length
+    if (loc && activeLangSet.has(loc)) {
+      ;(countriesByLang[loc] ??= []).push(c.country_cd)
+    }
+  }
+
+  // 활성 국가 수 — 언어별 국가 목록 합계 (언어 관리 화면 "활성"과 동일 기준)
+  const activeCountries = Object.values(countriesByLang).reduce((sum, arr) => sum + arr.length, 0)
 
   const total = totalKeys ?? 0
   const stats = (langs ?? []).map(l => ({
-    lang_cd:    l.lang_cd,
-    lang_nm:    l.lang_nm,
-    native_nm:  l.native_nm,
-    translated: (langStats as Record<string, number>)?.[l.lang_cd] ?? 0,
+    lang_cd:      l.lang_cd,
+    lang_nm:      l.lang_nm,
+    native_nm:    l.native_nm,
+    translated:   (langStats as Record<string, number>)?.[l.lang_cd] ?? 0,
     total,
     pct: total > 0 ? Math.round(((langStats as Record<string, number>)?.[l.lang_cd] ?? 0) / total * 100) : 0,
+    countries:    countriesByLang[l.lang_cd] ?? [],   // 이 언어를 쓰는 국가 목록
   }))
 
   return NextResponse.json({
     stats,
     totalKeys: total,
-    langCount: stats.length,   // 고유 언어 수 (12)
-    activeCountries,           // 활성 국가 수 (20)
+    langCount: stats.length,   // 고유 언어 수
+    activeCountries,           // 활성 국가 수
   })
 }

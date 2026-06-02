@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
+import { CountryFlag } from '@/components/i18n/CountryFlag'
 
 interface LangStat {
   lang_cd: string
@@ -10,6 +11,7 @@ interface LangStat {
   translated: number
   total: number
   pct: number
+  countries: string[]   // 이 언어를 쓰는 국가 코드 목록
 }
 
 type WorkResult = { lang: string; cnt: number; skipped?: number; type: 'translate' | 'sync' }
@@ -115,10 +117,26 @@ export default function I18nDashboard() {
         <div className="divide-y divide-gray-50">
           {stats.map(s => (
             <div key={s.lang_cd} className="px-4 py-3 flex items-center gap-4">
-              {/* 언어 코드 + 이름 */}
-              <div className="w-28 shrink-0">
-                <span className="text-xs font-mono text-gray-400">{s.lang_cd}</span>
-                <p className="text-sm font-medium text-gray-800">{s.native_nm}</p>
+              {/* 언어 코드 + 이름 + 사용 국가 국기 */}
+              <div className="w-44 shrink-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-mono text-gray-400">{s.lang_cd}</span>
+                  {s.countries.length > 1 && (
+                    <span className="text-[10px] text-gray-400 bg-gray-100 rounded px-1">{s.countries.length}개국</span>
+                  )}
+                </div>
+                <p className="text-sm font-medium text-gray-800 truncate">{s.native_nm}</p>
+                {/* 국가 국기 — 최대 6개 + 나머지 카운트 */}
+                {s.countries.length > 0 && (
+                  <div className="flex items-center gap-0.5 mt-1">
+                    {s.countries.slice(0, 6).map(cc => (
+                      <CountryFlag key={cc} countryCd={cc} size="sm" className="!w-4 !h-3" />
+                    ))}
+                    {s.countries.length > 6 && (
+                      <span className="text-[10px] text-gray-400 ml-0.5">+{s.countries.length - 6}</span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* 프로그레스바 */}
