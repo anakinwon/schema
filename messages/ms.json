@@ -15,10 +15,32 @@
     },
     "noPermission": "Anda tiada kebenaran akses",
     "dashboard": {
-      "pageTitle": "Papan Pemuka Pentadbir", "pageSubtitle": "Status Sistem Pengurusan Data Standard",
-      "quickMenu": "Navigasi Pantas", "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": { "words": "Perkataan Standard", "domains": "Domain Standard", "terms": "Istilah Standard", "users": "Pengguna Aktif" },
-      "quick": { "words": "Pengurusan Perkataan", "wordsDesc": "STD_DIC Daftar/Edit/Padam", "domains": "Pengurusan Domain", "domainsDesc": "STD_DOM Daftar/Edit/Padam", "terms": "Pengurusan Istilah", "termsDesc": "DA_TERM Daftar/Edit/Padam", "codes": "Pengurusan Kod Umum", "codesDesc": "Pengurusan DA §40 STD_CODE", "audit": "Sejarah Perubahan", "auditDesc": "Jejak Audit STD_DIC·STD_DOM", "users": "Senarai Pengguna", "usersDesc": "Penugasan Peranan & Kawalan Akses", "userScreen": "Skrin Pengguna", "userScreenDesc": "Lihat/Edit Data Standard" }
+      "pageTitle": "Papan Pemuka Pentadbir",
+      "pageSubtitle": "Status Sistem Pengurusan Data Standard",
+      "quickMenu": "Navigasi Pantas",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": {
+        "words": "Perkataan Standard",
+        "domains": "Domain Standard",
+        "terms": "Istilah Standard",
+        "users": "Pengguna Aktif"
+      },
+      "quick": {
+        "words": "Pengurusan Perkataan",
+        "wordsDesc": "STD_DIC Daftar/Edit/Padam",
+        "domains": "Pengurusan Domain",
+        "domainsDesc": "STD_DOM Daftar/Edit/Padam",
+        "terms": "Pengurusan Istilah",
+        "termsDesc": "DA_TERM Daftar/Edit/Padam",
+        "codes": "Pengurusan Kod Umum",
+        "codesDesc": "Pengurusan DA §40 STD_CODE",
+        "audit": "Sejarah Perubahan",
+        "auditDesc": "Jejak Audit STD_DIC·STD_DOM",
+        "users": "Senarai Pengguna",
+        "usersDesc": "Penugasan Peranan & Kawalan Akses",
+        "userScreen": "Skrin Pengguna",
+        "userScreenDesc": "Lihat/Edit Data Standard"
+      }
     }
   },
   "auth": {
@@ -83,7 +105,8 @@
     "ms": "Bahasa Melayu",
     "th": "ไทย",
     "vi": "Tiếng Việt",
-    "zh": "中文"
+    "zh": "中文",
+    "de": "Jerman"
   },
   "profile": {
     "edit": "Edit profil",

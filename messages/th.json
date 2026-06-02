@@ -15,10 +15,32 @@
     },
     "noPermission": "คุณไม่มีสิทธิ์เข้าถึง",
     "dashboard": {
-      "pageTitle": "แดชบอร์ดผู้ดูแลระบบ", "pageSubtitle": "สถานะระบบจัดการข้อมูลมาตรฐาน",
-      "quickMenu": "การนำทางด่วน", "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "card": { "words": "คำมาตรฐาน", "domains": "โดเมนมาตรฐาน", "terms": "คำศัพท์มาตรฐาน", "users": "ผู้ใช้งานที่ใช้งานอยู่" },
-      "quick": { "words": "การจัดการคำ", "wordsDesc": "STD_DIC ลงทะเบียน/แก้ไข/ลบ", "domains": "การจัดการโดเมน", "domainsDesc": "STD_DOM ลงทะเบียน/แก้ไข/ลบ", "terms": "การจัดการคำศัพท์", "termsDesc": "DA_TERM ลงทะเบียน/แก้ไข/ลบ", "codes": "การจัดการรหัสทั่วไป", "codesDesc": "การจัดการ DA §40 STD_CODE", "audit": "ประวัติการเปลี่ยนแปลง", "auditDesc": "เส้นทางตรวจสอบ STD_DIC·STD_DOM", "users": "รายชื่อผู้ใช้", "usersDesc": "การมอบหมายบทบาทและการควบคุมการเข้าถึง", "userScreen": "หน้าจอผู้ใช้", "userScreenDesc": "ดู/แก้ไขข้อมูลมาตรฐาน" }
+      "pageTitle": "แดชบอร์ดผู้ดูแลระบบ",
+      "pageSubtitle": "สถานะระบบจัดการข้อมูลมาตรฐาน",
+      "quickMenu": "การนำทางด่วน",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": {
+        "words": "คำมาตรฐาน",
+        "domains": "โดเมนมาตรฐาน",
+        "terms": "คำศัพท์มาตรฐาน",
+        "users": "ผู้ใช้งานที่ใช้งานอยู่"
+      },
+      "quick": {
+        "words": "การจัดการคำ",
+        "wordsDesc": "STD_DIC ลงทะเบียน/แก้ไข/ลบ",
+        "domains": "การจัดการโดเมน",
+        "domainsDesc": "STD_DOM ลงทะเบียน/แก้ไข/ลบ",
+        "terms": "การจัดการคำศัพท์",
+        "termsDesc": "DA_TERM ลงทะเบียน/แก้ไข/ลบ",
+        "codes": "การจัดการรหัสทั่วไป",
+        "codesDesc": "การจัดการ DA §40 STD_CODE",
+        "audit": "ประวัติการเปลี่ยนแปลง",
+        "auditDesc": "เส้นทางตรวจสอบ STD_DIC·STD_DOM",
+        "users": "รายชื่อผู้ใช้",
+        "usersDesc": "การมอบหมายบทบาทและการควบคุมการเข้าถึง",
+        "userScreen": "หน้าจอผู้ใช้",
+        "userScreenDesc": "ดู/แก้ไขข้อมูลมาตรฐาน"
+      }
     }
   },
   "auth": {
@@ -83,7 +105,8 @@
     "ms": "บาฮาซามลายู",
     "th": "ไทย",
     "vi": "เตียงเวียต",
-    "zh": "ภาษาจีน"
+    "zh": "ภาษาจีน",
+    "de": "เยอรมัน"
   },
   "profile": {
     "edit": "แก้ไขโปรไฟล์",
