@@ -87,241 +87,259 @@
     "back": "Back",
     "cancel": "Cancel",
     "dashboard": "Dashboard",
-    "delete": "Delete"
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "save": "Save",
+    "search": "Search"
+  },
+  "languageSwitcher": {
+    "de": "German",
+    "en": "English",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "hi": "Hindi",
+    "id": "Indonesian",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "label": "Language",
+    "ms": "Malay",
+    "ps": "Pashto",
+    "sq": "Albanian",
+    "th": "Thai",
+    "vi": "Vietnamese",
+    "zh": "Chinese"
+  },
+  "profile": {
+    "edit": "Edit Profile",
+    "fullName": "Full Name",
+    "role": "Role",
+    "title": "My Profile",
+    "username": "Username"
   },
   "standards": {
-    "appName": "Standard Data Management",
-    "appSub": "DA Standard Data Management · Shopping Mall",
-    "boardLink": "Board",
-    "searchLabel": "Search:",
-    "placeholder": {
-      "word": "Logical / Physical Name",
-      "domain": "Domain / Rep. Domain",
-      "term": "Logical / Physical Term"
-    },
-    "tab": {
-      "word": "Word Management",
-      "domain": "Domain Management",
-      "term": "Term Management",
-      "auth": "Access Control"
-    },
     "action": {
       "add": "+ Add",
+      "cancel": "Cancel",
+      "close": "Close",
+      "delete": "Delete",
       "edit": "Edit",
       "editSave": "Save Changes",
-      "delete": "Delete",
-      "save": "Save",
-      "cancel": "Cancel",
-      "search": "Search",
-      "reset": "Reset",
       "register": "Register",
-      "close": "Close",
-      "query": "Search",
-      "history": "History",
-      "ddlExport": "DDL Export",
-      "new": "+ New"
+      "reset": "Reset",
+      "save": "Save",
+      "search": "Search"
     },
-    "state": {
-      "select": "Select an item",
-      "linked": "Linked",
-      "unused": "(Unused)",
-      "saveFail": "Save Failed",
-      "noData": "No data",
-      "noTerms": "No terms registered",
-      "totalWords": "Total {n} words",
-      "totalDomains": "Total {n} domains",
-      "totalTerms": "Total {n} terms"
-    },
-    "field": {
-      "no": "No.",
-      "logicalName": "Logical Name",
-      "physicalName": "Physical Name",
-      "physicalFullName": "English Full Name",
-      "category": "Category",
-      "physicalType": "Physical Type",
-      "physicalTypeDesc": "Physical Type (Desc.)",
-      "description": "Description",
-      "domain": "Domain",
-      "domainName": "Domain Name",
-      "domainType": "Domain Type",
-      "repDomain": "Representative Domain",
-      "repDomainPhysical": "Rep. Domain (Physical)",
-      "logicalType": "Logical Type",
-      "logicalNameKey": "Logical Name (Key)",
-      "logicalDataType": "Logical Data Type",
-      "dataLength": "Data Length",
-      "length": "Length",
-      "scale": "Decimal",
-      "range": "Range",
-      "dataFormat": "Data Format",
-      "domainLink": "Domain Link",
-      "classWord": "Base Word",
-      "entityClass": "Entity",
-      "attrClass": "Attribute",
-      "entityAttr": "Entity/Attribute",
-      "logicalTermName": "Logical Term Name",
-      "physicalTermName": "Physical Term Name",
-      "logicalPhysical": "Logical / Physical",
-      "logicalPhysicalTerm": "Logical / Physical Term",
-      "domainNameRep": "Domain Name / Rep. Domain"
-    },
-    "domain": {
-      "detailTitle": "Domain Details",
-      "physicalTypeDesc": "Description (Physical Type)"
-    },
-    "term": {
-      "editMode": "Edit Term",
-      "addMode": "Register Term",
-      "infoSection": "Term Information",
-      "baseWordSelect": "Base Word Selection (Click to Add)",
-      "compositionInfo": "Composition (Selected Base Word Order)",
-      "selectBaseWord": "Please select a base word",
-      "domainSelectPlaceholder": "-- Select Domain --",
-      "autoLogicalName": "Logical Term Name (Auto-generated)",
-      "autoPhysicalName": "Physical Term Name (Auto-generated)",
-      "termDesc": "Term Description",
-      "saving": "Saving…"
-    },
+    "appName": "Standard Data Management",
+    "appSub": "DA Standard Data Management · Shopping Mall",
     "auth": {
-      "matrix": "Role-Permission Matrix",
-      "users": "User Role Management",
-      "groups": "Group Management",
       "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "cat": {
+        "STD_DOM": "Standard Domains",
+        "STD_MGMT": "Standard Management",
+        "STD_TERM": "Standard Terms",
+        "STD_WORD": "Standard Words",
+        "SYS_MGMT": "System Management"
+      },
+      "groups": "Group Management",
+      "matrix": "Role-Permission Matrix",
       "permHeader": "Permission",
       "roleLevel": "Role Level:",
-      "cat": {
-        "STD_WORD": "Standard Words",
-        "STD_DOM": "Standard Domains",
-        "STD_TERM": "Standard Terms",
-        "STD_MGMT": "Standard Management",
-        "SYS_MGMT": "System Management"
-      }
+      "users": "User Role Management"
+    },
+    "boardLink": "Board",
+    "field": {
+      "attrClass": "Attribute",
+      "category": "Category",
+      "classWord": "Base Word",
+      "dataFormat": "Data Format",
+      "dataLength": "Data Length",
+      "description": "Description",
+      "domain": "Domain",
+      "domainLink": "Domain Link",
+      "domainName": "Domain Name",
+      "domainNameRep": "Domain Name / Rep. Domain",
+      "domainType": "Domain Type",
+      "entityAttr": "Entity/Attribute",
+      "entityClass": "Entity",
+      "length": "Length",
+      "logicalDataType": "Logical Data Type",
+      "logicalName": "Logical Name",
+      "logicalPhysical": "Logical / Physical",
+      "logicalPhysicalTerm": "Logical / Physical Term",
+      "logicalTermName": "Logical Term Name",
+      "logicalType": "Logical Type",
+      "no": "No.",
+      "physicalFullName": "English Full Name",
+      "physicalName": "Physical Name",
+      "physicalTermName": "Physical Term Name",
+      "physicalType": "Physical Type",
+      "range": "Range",
+      "repDomain": "Representative Domain",
+      "repDomainPhysical": "Rep. Domain (Physical)",
+      "scale": "Decimal"
     },
     "groupTab": {
-      "systemGroupLabel": "System Groups",
-      "customGroupLabel": "Custom Groups ({n})",
-      "groupAdd": "Add Group",
-      "seedInit": "+ Initialize",
-      "seedInitializing": "Initializing…",
-      "seedDone": "✓ Done",
-      "notCreated": "Not created",
-      "daOnly": "DA Only",
-      "selectGroup": "Select a group from the left",
-      "systemGroupBadge": "System Group",
-      "masterGroupTitle": "Master Group (DA Only)",
-      "masterGroupDesc1": "Not directly mapped to profiles.main_role.",
-      "masterGroupDesc2": "Please add members directly via member management below.",
-      "memberAdd": "Add Member",
-      "selectUser": "— Select User —",
       "add": "Add",
-      "totalMembers": "Total {n} members",
-      "colName": "Name",
-      "colEmpNo": "Employee No.",
-      "colGroupRole": "Group Role",
-      "colSubPerm": "SubManager Permission",
-      "colRemove": "Remove",
-      "colProfileRole": "Profiles Role",
-      "colGroupMove": "Move Group",
-      "colUserId": "User ID",
-      "clickToSetPerm": "Click → Set Permission",
-      "remove": "Remove",
-      "noGroupUsers": "No users in this group.",
-      "noMembers": "No members.",
-      "subPermPanel": "SubManager Permission",
-      "subPermOnly": "Only Write/Delete permissions can be granted",
-      "deleteGroup": "Delete Group",
-      "groupCodePlaceholder": "Code (e.g. DA_TEAM)",
-      "groupNamePlaceholder": "Group Name",
-      "saving": "Saving…",
-      "createGroup": "+ Create Group",
-      "seedDoneToast": "✅ System groups initialized",
-      "roleChangeToast": "✅ Role changed",
-      "permGranted": "{perm} permission granted",
-      "permRevoked": "{perm} permission revoked",
       "alertRequired": "Group code and group name are required.",
       "alertSystemDelete": "System groups cannot be deleted.",
+      "clickToSetPerm": "Click → Set Permission",
+      "colEmpNo": "Employee No.",
+      "colGroupMove": "Move Group",
+      "colGroupRole": "Group Role",
+      "colName": "Name",
+      "colProfileRole": "Profiles Role",
+      "colRemove": "Remove",
+      "colSubPerm": "SubManager Permission",
+      "colUserId": "User ID",
       "confirmDelete": "Delete group {grp}?",
       "confirmRemove": "Remove this member?",
+      "createGroup": "+ Create Group",
+      "customGroupLabel": "Custom Groups ({n})",
+      "daOnly": "DA Only",
+      "deleteGroup": "Delete Group",
+      "groupAdd": "Add Group",
+      "groupCodePlaceholder": "Code (e.g. DA_TEAM)",
+      "groupNamePlaceholder": "Group Name",
+      "groups": {
+        "G_MASTER": {
+          "desc": "Sub Admin (DA Only)",
+          "name": "Master"
+        },
+        "G_MNGR": {
+          "desc": "Highest Privilege User",
+          "name": "Manager"
+        },
+        "G_SMNGR": {
+          "desc": "Sub Manager assigned by Manager",
+          "name": "Sub Manager"
+        },
+        "G_SUPER": {
+          "desc": "Top-level Admin",
+          "name": "Super Admin"
+        },
+        "G_USER": {
+          "desc": "Regular User",
+          "name": "User"
+        }
+      },
+      "masterGroupDesc1": "Not directly mapped to profiles.main_role.",
+      "masterGroupDesc2": "Please add members directly via member management below.",
+      "masterGroupTitle": "Master Group (DA Only)",
+      "memberAdd": "Add Member",
+      "moveRole": {
+        "admin": "Super Admin (admin)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      },
+      "noGroupUsers": "No users in this group.",
+      "noMembers": "No members.",
+      "notCreated": "Not created",
+      "permGranted": "{perm} permission granted",
+      "permRevoked": "{perm} permission revoked",
+      "remove": "Remove",
       "role": {
         "admin": "Super Admin",
-        "master": "Master",
         "manager": "Manager",
         "sub_admin": "Sub Manager",
         "user": "User"
       },
-      "moveRole": {
-        "admin": "Super Admin (admin)",
-        "master": "Master (master)",
-        "manager": "Manager (manager)",
-        "sub_admin": "Sub Manager (sub_admin)",
-        "user": "User (user)"
-      },
-      "groups": {
-        "G_SUPER": { "name": "Super Admin", "desc": "Top-level Admin" },
-        "G_MASTER": { "name": "Master", "desc": "Sub Admin (DA Only)" },
-        "G_MNGR":  { "name": "Manager", "desc": "Highest Privilege User" },
-        "G_SMNGR": { "name": "Sub Manager", "desc": "Sub Manager assigned by Manager" },
-        "G_USER":  { "name": "User", "desc": "Regular User" }
-      }
-    },
-    "userRole": {
-      "admin": {
-        "label": "Super Admin",
-        "desc": "Top-level Admin",
-        "limit": "(Max 1)"
-      },
-      "master": {
-        "label": "Master",
-        "desc": "Sub Admin",
-        "limit": "(Max 2)"
-      },
-      "manager": {
-        "label": "Manager",
-        "desc": "Highest Privilege User"
-      },
-      "sub_admin": {
-        "label": "Sub Manager",
-        "desc": "Sub Manager assigned by Manager"
-      },
-      "user": {
-        "label": "User",
-        "desc": "Regular User"
-      },
-      "countBadge": "{n}",
-      "searchPlaceholder": "Search by name / username",
-      "colName": "Name",
-      "colUsername": "Username",
-      "colCurrentRole": "Current Role",
-      "colRoleChange": "Change Role",
-      "colUserId": "User ID",
-      "emptyGroup": "No users in this group",
-      "totalCount": "Total {n} users",
-      "searchCount": "Search results: {n} users",
+      "roleChangeToast": "✅ Role changed",
       "saving": "Saving…",
-      "noUserId": "No user_id",
-      "roleChanged": "Role changed successfully",
-      "changeFailed": "Change failed",
-      "roleOption": {
-        "admin": "Super Admin (admin)",
-        "master": "Master (master)",
-        "manager": "Manager (manager)",
-        "sub_admin": "Sub Manager (sub_admin)",
-        "user": "User (user)"
-      }
-    },
-    "roleByCode": {
-      "ADMIN": "Super Admin",
-      "MASTER": "Master",
-      "MANAGER": "Manager",
-      "SUBMANAGER": "Sub Manager",
-      "USER": "User"
+      "seedDone": "✓ Done",
+      "seedDoneToast": "✅ System groups initialized",
+      "seedInit": "+ Initialize",
+      "seedInitializing": "Initializing…",
+      "selectGroup": "Select a group from the left",
+      "selectUser": "— Select User —",
+      "subPermOnly": "Only Write/Delete permissions can be granted",
+      "subPermPanel": "SubManager Permission",
+      "systemGroupBadge": "System Group",
+      "systemGroupLabel": "System Groups",
+      "totalMembers": "Total {n} members"
     },
     "role": {
-      "sysAdmin": "System Admin",
       "dataAdmin": "Data Admin",
       "stdAdmin": "Standards Admin",
       "subAdmin": "Sub Admin",
+      "sysAdmin": "System Admin",
       "user": "User"
+    },
+    "state": {
+      "linked": "Linked",
+      "saveFail": "Save Failed",
+      "select": "Select an item",
+      "unused": "(Unused)"
+    },
+    "tab": {
+      "auth": "Access Control",
+      "domain": "Domain Management",
+      "term": "Term Management",
+      "word": "Word Management"
+    },
+    "term": {
+      "addMode": "Register Term",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "editMode": "Edit Term",
+      "infoSection": "Term Information",
+      "saving": "Saving…",
+      "selectBaseWord": "Please select a base word",
+      "termDesc": "Term Description"
+    },
+    "userRole": {
+      "admin": {
+        "desc": "Top-level Admin",
+        "label": "Super Admin",
+        "limit": "(Max 1)"
+      },
+      "changeFailed": "Change failed",
+      "colCurrentRole": "Current Role",
+      "colName": "Name",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "colUsername": "Username",
+      "countBadge": "{n}",
+      "emptyGroup": "No users in this group",
+      "manager": {
+        "desc": "Highest Privilege User",
+        "label": "Manager"
+      },
+      "master": {
+        "desc": "Sub Admin",
+        "label": "Master",
+        "limit": "(Max 2)"
+      },
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "manager": "Manager (manager)",
+        "master": "Master (master)",
+        "sub_admin": "Sub Manager (sub_admin)"
+      },
+      "saving": "Saving…",
+      "searchCount": "Search results: {n} users",
+      "searchPlaceholder": "Search by name / username",
+      "sub_admin": {
+        "desc": "Sub Manager assigned by Manager",
+        "label": "Sub Manager"
+      },
+      "totalCount": "Total {n} users",
+      "user": {
+        "desc": "Regular User",
+        "label": "User"
+      }
     }
+  },
+  "validation": {
+    "fileSizeExceeded": "File size exceeds the {maxMb}MB limit",
+    "invalidEmail": "Invalid email format",
+    "required": "This field is required",
+    "tooShort": "Must be at least {min} characters"
   }
 }

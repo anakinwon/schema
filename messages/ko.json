@@ -86,241 +86,260 @@
     "appName": "표준데이터 관리 프로그램",
     "back": "뒤로",
     "cancel": "취소",
-    "dashboard": "대시보드"
+    "dashboard": "대시보드",
+    "delete": "삭제",
+    "edit": "수정",
+    "loading": "불러오는 중…",
+    "save": "저장",
+    "search": "검색"
+  },
+  "languageSwitcher": {
+    "de": "독일어",
+    "en": "English",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "ja": "日本語",
+    "ko": "한국어",
+    "label": "언어",
+    "ms": "Bahasa Melayu",
+    "ps": "파슈토어",
+    "sq": "알바니아어",
+    "th": "ไทย",
+    "vi": "Tiếng Việt",
+    "zh": "中文"
+  },
+  "profile": {
+    "edit": "프로필 수정",
+    "fullName": "이름",
+    "role": "역할",
+    "title": "내 정보",
+    "username": "아이디"
   },
   "standards": {
-    "appName": "표준데이터 관리 프로그램",
-    "appSub": "DA Standard Data Management · 쇼핑몰",
-    "boardLink": "게시판",
-    "searchLabel": "검색:",
-    "placeholder": {
-      "word": "논리명 / 물리명",
-      "domain": "도메인명 / 대표도메인",
-      "term": "논리용어명 / 물리용어명"
-    },
-    "tab": {
-      "word": "표준단어 관리",
-      "domain": "표준도메인 관리",
-      "term": "표준용어 관리",
-      "auth": "권한 관리"
-    },
     "action": {
       "add": "+ 추가",
+      "cancel": "취소",
+      "close": "닫기",
+      "delete": "삭제",
       "edit": "수정",
       "editSave": "수정저장",
-      "delete": "삭제",
-      "save": "저장",
-      "cancel": "취소",
-      "search": "검색",
-      "reset": "초기화",
       "register": "등록",
-      "close": "닫기",
-      "query": "조회",
-      "history": "이력",
-      "ddlExport": "DDL Export",
-      "new": "+ 신규"
+      "reset": "초기화",
+      "save": "저장",
+      "search": "검색"
     },
-    "state": {
-      "select": "항목을 선택하세요",
-      "linked": "연결됨",
-      "unused": "(미사용)",
-      "saveFail": "저장 실패",
-      "noData": "데이터가 없습니다",
-      "noTerms": "등록된 표준용어가 없습니다",
-      "totalWords": "총 {n}개 단어",
-      "totalDomains": "총 {n}개 도메인",
-      "totalTerms": "총 {n}개 표준용어"
-    },
-    "field": {
-      "no": "번호",
-      "logicalName": "논리명",
-      "physicalName": "물리명",
-      "physicalFullName": "영문풀네임",
-      "category": "분류",
-      "physicalType": "물리타입",
-      "physicalTypeDesc": "물리타입(설명)",
-      "description": "설명",
-      "domain": "도메인",
-      "domainName": "도메인명",
-      "domainType": "도메인유형",
-      "repDomain": "대표도메인",
-      "repDomainPhysical": "대표도메인(물리)",
-      "logicalType": "논리타입",
-      "logicalNameKey": "논리명(키)",
-      "logicalDataType": "논리 데이터타입",
-      "dataLength": "데이터길이",
-      "length": "길이",
-      "scale": "소수",
-      "range": "범위",
-      "dataFormat": "데이터 포맷",
-      "domainLink": "도메인연결",
-      "classWord": "기본어",
-      "entityClass": "엔터티",
-      "attrClass": "속성(분류어)",
-      "entityAttr": "엔터티/속성",
-      "logicalTermName": "논리용어명",
-      "physicalTermName": "물리용어명",
-      "logicalPhysical": "논리명 / 물리명",
-      "logicalPhysicalTerm": "논리용어명 / 물리용어명",
-      "domainNameRep": "도메인명 / 대표도메인"
-    },
-    "domain": {
-      "detailTitle": "도메인 상세정보",
-      "physicalTypeDesc": "설명(물리타입)"
-    },
-    "term": {
-      "editMode": "용어 수정",
-      "addMode": "용어 등록",
-      "infoSection": "용어 정보",
-      "baseWordSelect": "기본어 선택 (클릭으로 추가)",
-      "compositionInfo": "구성정보 (선택된 기본어 순서)",
-      "selectBaseWord": "기본어를 선택하세요",
-      "domainSelectPlaceholder": "-- 도메인 선택 --",
-      "autoLogicalName": "논리용어명 (자동생성)",
-      "autoPhysicalName": "물리용어명 (자동생성)",
-      "termDesc": "용어설명",
-      "saving": "저장중…"
-    },
+    "appName": "표준데이터 관리 프로그램",
+    "appSub": "DA Standard Data Management · 쇼핑몰",
     "auth": {
-      "matrix": "역할-권한 매트릭스",
-      "users": "사용자 역할 관리",
-      "groups": "그룹 관리",
       "adminNote": "※ ADMIN은 모든 권한 고정 / 체크박스 클릭으로 역할-권한을 즉시 부여·회수합니다",
+      "cat": {
+        "STD_DOM": "표준도메인",
+        "STD_MGMT": "표준관리",
+        "STD_TERM": "표준용어",
+        "STD_WORD": "표준단어",
+        "SYS_MGMT": "시스템관리"
+      },
+      "groups": "그룹 관리",
+      "matrix": "역할-권한 매트릭스",
       "permHeader": "권한",
       "roleLevel": "역할 레벨:",
-      "cat": {
-        "STD_WORD": "표준단어",
-        "STD_DOM": "표준도메인",
-        "STD_TERM": "표준용어",
-        "STD_MGMT": "표준관리",
-        "SYS_MGMT": "시스템관리"
-      }
+      "users": "사용자 역할 관리"
+    },
+    "boardLink": "게시판",
+    "field": {
+      "attrClass": "속성(분류어)",
+      "category": "분류",
+      "classWord": "기본어",
+      "dataFormat": "데이터 포맷",
+      "dataLength": "데이터길이",
+      "description": "설명",
+      "domain": "도메인",
+      "domainLink": "도메인연결",
+      "domainName": "도메인명",
+      "domainNameRep": "도메인명 / 대표도메인",
+      "domainType": "도메인유형",
+      "entityAttr": "엔터티/속성",
+      "entityClass": "엔터티",
+      "length": "길이",
+      "logicalDataType": "논리 데이터타입",
+      "logicalName": "논리명",
+      "logicalPhysical": "논리명 / 물리명",
+      "logicalPhysicalTerm": "논리용어명 / 물리용어명",
+      "logicalTermName": "논리용어명",
+      "logicalType": "논리타입",
+      "no": "번호",
+      "physicalFullName": "영문풀네임",
+      "physicalName": "물리명",
+      "physicalTermName": "물리용어명",
+      "physicalType": "물리타입",
+      "range": "범위",
+      "repDomain": "대표도메인",
+      "repDomainPhysical": "대표도메인(물리)",
+      "scale": "소수"
     },
     "groupTab": {
-      "systemGroupLabel": "시스템 그룹",
-      "customGroupLabel": "커스텀 그룹 ({n})",
-      "groupAdd": "그룹 추가",
-      "seedInit": "+ 초기화",
-      "seedInitializing": "초기화 중…",
-      "seedDone": "✓ 완료",
-      "notCreated": "미생성",
-      "daOnly": "DA 전용",
-      "selectGroup": "왼쪽에서 그룹을 선택하세요",
-      "systemGroupBadge": "시스템 그룹",
-      "masterGroupTitle": "마스터 그룹 (DA 전용)",
-      "masterGroupDesc1": "Profiles의 main_role과 직접 매핑되지 않습니다.",
-      "masterGroupDesc2": "아래 구성원 관리를 통해 직접 추가해 주세요.",
-      "memberAdd": "구성원 추가",
-      "selectUser": "— 사용자 선택 —",
       "add": "추가",
-      "totalMembers": "총 {n}명",
-      "colName": "이름",
-      "colEmpNo": "사원번호",
-      "colGroupRole": "그룹 내 역할",
-      "colSubPerm": "SubManager 권한",
-      "colRemove": "제거",
-      "colProfileRole": "Profiles 역할",
-      "colGroupMove": "그룹 이동",
-      "colUserId": "User ID",
-      "clickToSetPerm": "클릭 → 권한 설정",
-      "remove": "제거",
-      "noGroupUsers": "이 그룹에 해당하는 사용자가 없습니다.",
-      "noMembers": "구성원이 없습니다.",
-      "subPermPanel": "SubManager 권한",
-      "subPermOnly": "쓰기·삭제 권한만 부여 가능",
-      "deleteGroup": "그룹 삭제",
-      "groupCodePlaceholder": "코드 (예: DA_TEAM)",
-      "groupNamePlaceholder": "그룹명",
-      "saving": "저장 중…",
-      "createGroup": "+ 그룹 생성",
-      "seedDoneToast": "✅ 시스템 그룹 초기화 완료",
-      "roleChangeToast": "✅ 역할 변경 완료",
-      "permGranted": "{perm} 권한 부여",
-      "permRevoked": "{perm} 권한 회수",
       "alertRequired": "그룹코드와 그룹명은 필수입니다.",
       "alertSystemDelete": "시스템 그룹은 삭제할 수 없습니다.",
+      "clickToSetPerm": "클릭 → 권한 설정",
+      "colEmpNo": "사원번호",
+      "colGroupMove": "그룹 이동",
+      "colGroupRole": "그룹 내 역할",
+      "colName": "이름",
+      "colProfileRole": "Profiles 역할",
+      "colRemove": "제거",
+      "colSubPerm": "SubManager 권한",
+      "colUserId": "User ID",
       "confirmDelete": "그룹 {grp}를 삭제하시겠습니까?",
       "confirmRemove": "구성원을 제거하시겠습니까?",
+      "createGroup": "+ 그룹 생성",
+      "customGroupLabel": "커스텀 그룹 ({n})",
+      "daOnly": "DA 전용",
+      "deleteGroup": "그룹 삭제",
+      "groupAdd": "그룹 추가",
+      "groupCodePlaceholder": "코드 (예: DA_TEAM)",
+      "groupNamePlaceholder": "그룹명",
+      "groups": {
+        "G_MASTER": {
+          "desc": "부관리자 (DA 전용)",
+          "name": "마스터"
+        },
+        "G_MNGR": {
+          "desc": "사용자 중 최고권한자",
+          "name": "매니저"
+        },
+        "G_SMNGR": {
+          "desc": "매니저가 지정하는 서브매니저",
+          "name": "부매니저"
+        },
+        "G_SUPER": {
+          "desc": "최상위 관리자",
+          "name": "수퍼관리자"
+        },
+        "G_USER": {
+          "desc": "일반 사용자",
+          "name": "사용자"
+        }
+      },
+      "masterGroupDesc1": "Profiles의 main_role과 직접 매핑되지 않습니다.",
+      "masterGroupDesc2": "아래 구성원 관리를 통해 직접 추가해 주세요.",
+      "masterGroupTitle": "마스터 그룹 (DA 전용)",
+      "memberAdd": "구성원 추가",
+      "moveRole": {
+        "admin": "수퍼관리자 (admin)",
+        "manager": "매니저 (manager)",
+        "sub_admin": "부매니저 (sub_admin)",
+        "user": "사용자 (user)"
+      },
+      "noGroupUsers": "이 그룹에 해당하는 사용자가 없습니다.",
+      "noMembers": "구성원이 없습니다.",
+      "notCreated": "미생성",
+      "permGranted": "{perm} 권한 부여",
+      "permRevoked": "{perm} 권한 회수",
+      "remove": "제거",
       "role": {
         "admin": "수퍼관리자",
-        "master": "마스터",
         "manager": "매니저",
         "sub_admin": "부매니저",
         "user": "사용자"
       },
-      "moveRole": {
-        "admin": "수퍼관리자 (admin)",
-        "master": "마스터 (master)",
-        "manager": "매니저 (manager)",
-        "sub_admin": "부매니저 (sub_admin)",
-        "user": "사용자 (user)"
-      },
-      "groups": {
-        "G_SUPER": { "name": "수퍼관리자", "desc": "최상위 관리자" },
-        "G_MASTER": { "name": "마스터", "desc": "부관리자 (DA 전용)" },
-        "G_MNGR":  { "name": "매니저", "desc": "사용자 중 최고권한자" },
-        "G_SMNGR": { "name": "부매니저", "desc": "매니저가 지정하는 서브매니저" },
-        "G_USER":  { "name": "사용자", "desc": "일반 사용자" }
-      }
-    },
-    "userRole": {
-      "admin": {
-        "label": "수퍼관리자",
-        "desc": "최상위 관리자",
-        "limit": "(최대 1명)"
-      },
-      "master": {
-        "label": "마스터",
-        "desc": "부관리자",
-        "limit": "(최대 2명)"
-      },
-      "manager": {
-        "label": "매니저",
-        "desc": "사용자 중 최고권한자"
-      },
-      "sub_admin": {
-        "label": "부매니저",
-        "desc": "매니저가 지정하는 서브매니저"
-      },
-      "user": {
-        "label": "사용자",
-        "desc": "일반 사용자"
-      },
-      "countBadge": "{n}명",
-      "searchPlaceholder": "이름 / 사용자명 검색",
-      "colName": "이름",
-      "colUsername": "사용자명",
-      "colCurrentRole": "현재 역할",
-      "colRoleChange": "역할 변경",
-      "colUserId": "User ID",
-      "emptyGroup": "이 그룹에 사용자가 없습니다",
-      "totalCount": "전체 {n}명",
-      "searchCount": "검색 결과 {n}명",
+      "roleChangeToast": "✅ 역할 변경 완료",
       "saving": "저장 중…",
-      "noUserId": "user_id 없음",
-      "roleChanged": "역할이 변경되었습니다",
-      "changeFailed": "변경 실패",
-      "roleOption": {
-        "admin": "수퍼관리자 (admin)",
-        "master": "마스터 (master)",
-        "manager": "매니저 (manager)",
-        "sub_admin": "부매니저 (sub_admin)",
-        "user": "사용자 (user)"
-      }
-    },
-    "roleByCode": {
-      "ADMIN": "수퍼관리자",
-      "MASTER": "마스터",
-      "MANAGER": "매니저",
-      "SUBMANAGER": "부매니저",
-      "USER": "일반사용자"
+      "seedDone": "✓ 완료",
+      "seedDoneToast": "✅ 시스템 그룹 초기화 완료",
+      "seedInit": "+ 초기화",
+      "seedInitializing": "초기화 중…",
+      "selectGroup": "왼쪽에서 그룹을 선택하세요",
+      "selectUser": "— 사용자 선택 —",
+      "subPermOnly": "쓰기·삭제 권한만 부여 가능",
+      "subPermPanel": "SubManager 권한",
+      "systemGroupBadge": "시스템 그룹",
+      "systemGroupLabel": "시스템 그룹",
+      "totalMembers": "총 {n}명"
     },
     "role": {
-      "sysAdmin": "시스템관리자",
       "dataAdmin": "데이터관리자",
       "stdAdmin": "표준관리자",
       "subAdmin": "부표준관리자",
+      "sysAdmin": "시스템관리자",
       "user": "일반사용자"
+    },
+    "state": {
+      "linked": "연결됨",
+      "saveFail": "저장 실패",
+      "select": "항목을 선택하세요",
+      "unused": "(미사용)"
+    },
+    "tab": {
+      "auth": "권한 관리",
+      "domain": "표준도메인 관리",
+      "term": "표준용어 관리",
+      "word": "표준단어 관리"
+    },
+    "term": {
+      "addMode": "용어 등록",
+      "autoLogicalName": "논리용어명 (자동생성)",
+      "autoPhysicalName": "물리용어명 (자동생성)",
+      "baseWordSelect": "기본어 선택 (클릭으로 추가)",
+      "compositionInfo": "구성정보 (선택된 기본어 순서)",
+      "domainSelectPlaceholder": "-- 도메인 선택 --",
+      "editMode": "용어 수정",
+      "infoSection": "용어 정보",
+      "saving": "저장중…",
+      "selectBaseWord": "기본어를 선택하세요",
+      "termDesc": "용어설명"
+    },
+    "userRole": {
+      "admin": {
+        "desc": "최상위 관리자",
+        "label": "수퍼관리자",
+        "limit": "(최대 1명)"
+      },
+      "changeFailed": "변경 실패",
+      "colCurrentRole": "현재 역할",
+      "colName": "이름",
+      "colRoleChange": "역할 변경",
+      "colUserId": "User ID",
+      "colUsername": "사용자명",
+      "countBadge": "{n}명",
+      "emptyGroup": "이 그룹에 사용자가 없습니다",
+      "manager": {
+        "desc": "사용자 중 최고권한자",
+        "label": "매니저"
+      },
+      "master": {
+        "desc": "부관리자",
+        "label": "마스터",
+        "limit": "(최대 2명)"
+      },
+      "noUserId": "user_id 없음",
+      "roleChanged": "역할이 변경되었습니다",
+      "roleOption": {
+        "admin": "수퍼관리자 (admin)",
+        "manager": "매니저 (manager)",
+        "master": "마스터 (master)",
+        "sub_admin": "부매니저 (sub_admin)"
+      },
+      "saving": "저장 중…",
+      "searchCount": "검색 결과 {n}명",
+      "searchPlaceholder": "이름 / 사용자명 검색",
+      "sub_admin": {
+        "desc": "매니저가 지정하는 서브매니저",
+        "label": "부매니저"
+      },
+      "totalCount": "전체 {n}명",
+      "user": {
+        "desc": "일반 사용자",
+        "label": "사용자"
+      }
     }
+  },
+  "validation": {
+    "fileSizeExceeded": "업로드 파일크기제한 {maxMb}MB를 초과했습니다",
+    "invalidEmail": "올바른 이메일 형식이 아닙니다",
+    "required": "필수 입력 항목입니다",
+    "tooShort": "{min}자 이상 입력하세요"
   }
 }

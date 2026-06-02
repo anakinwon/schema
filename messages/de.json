@@ -88,207 +88,261 @@
     "cancel": "Abbrechen",
     "dashboard": "Dashboard",
     "delete": "Löschen",
-    "save": "Speichern",
     "edit": "Bearbeiten",
     "loading": "Wird geladen...",
+    "save": "Speichern",
     "search": "Suchen"
   },
+  "languageSwitcher": {
+    "de": "Deutsch",
+    "en": "Englisch",
+    "en-ZA": "Englisch (Südafrika)",
+    "fil": "Filipino",
+    "hi": "Hindi",
+    "id": "Indonesisch",
+    "ja": "Japanisch",
+    "ko": "Koreanisch",
+    "label": "Sprache",
+    "ms": "Malaiisch",
+    "ps": "Paschtu",
+    "sq": "Albanisch",
+    "th": "Thailändisch",
+    "vi": "Vietnamesisch",
+    "zh": "Chinesisch"
+  },
+  "profile": {
+    "edit": "Profil bearbeiten",
+    "fullName": "Vollständiger Name",
+    "role": "Rolle",
+    "title": "Mein Profil",
+    "username": "Benutzername"
+  },
   "standards": {
-    "appName": "Standard-Datenverwaltungsprogramm",
-    "appSub": "DA-Standarddatenmanagement · Einkaufszentrum",
-    "boardLink": "Schwarzes Brett",
-    "searchLabel": "Search:",
-    "placeholder": {
-      "word": "Logical / Physical Name",
-      "domain": "Domain / Rep. Domain",
-      "term": "Logical / Physical Term"
-    },
-    "tab": {
-      "word": "Standardwortverwaltung",
-      "domain": "Standarddomänenverwaltung",
-      "term": "Verwaltung der Standardterminologie",
-      "auth": "Berechtigungsverwaltung"
-    },
     "action": {
       "add": "+ hinzufügen",
+      "cancel": "Abbrechen",
+      "close": "schließen",
+      "delete": "Löschen",
       "edit": "Bearbeiten",
       "editSave": "Bearbeiten Speichern",
-      "delete": "Löschen",
-      "save": "speichern",
-      "cancel": "Abbrechen",
-      "search": "suchen",
-      "reset": "zurückgesetzt",
       "register": "Registrierung",
-      "close": "schließen",
-      "query": "Search",
-      "history": "History",
-      "ddlExport": "DDL Export",
-      "new": "+ New"
+      "reset": "zurückgesetzt",
+      "save": "speichern",
+      "search": "suchen"
     },
-    "state": {
-      "select": "Bitte wählen Sie einen Artikel aus",
-      "linked": "verbunden",
-      "unused": "(unbenutzt)",
-      "saveFail": "Speichern fehlgeschlagen",
-      "noData": "No data",
-      "noTerms": "No terms registered",
-      "totalWords": "Total {n} words",
-      "totalDomains": "Total {n} domains",
-      "totalTerms": "Total {n} terms"
-    },
-    "field": {
-      "no": "Nummer",
-      "logicalName": "logischer Name",
-      "physicalName": "physischer Name",
-      "physicalFullName": "Englischer vollständiger Name",
-      "category": "Klassifizierung",
-      "physicalType": "Körperlicher Typ",
-      "physicalTypeDesc": "Physical Type (Desc.)",
-      "description": "Beschreibung",
-      "domain": "Domäne",
-      "domainName": "Domainname",
-      "domainType": "Domänentyp",
-      "repDomain": "Repräsentative Domäne",
-      "repDomainPhysical": "Repräsentativer Bereich (Physik)",
-      "logicalType": "Logischer Typ",
-      "logicalNameKey": "Logical Name (Key)",
-      "logicalDataType": "logischer Datentyp",
-      "dataLength": "Datenlänge",
-      "length": "Länge",
-      "scale": "dezimal",
-      "range": "Bereich",
-      "dataFormat": "Datenformat",
-      "domainLink": "Domänenverbindung",
-      "classWord": "Grundsprache",
-      "entityClass": "Entität",
-      "attrClass": "Attribut (Klassifikator)",
-      "entityAttr": "Entität/Eigentum",
-      "logicalTermName": "Logischer Begriffsname",
-      "physicalTermName": "Name des Fachbegriffs Physik",
-      "logicalPhysical": "Logischer Name/Physischer Name",
-      "logicalPhysicalTerm": "Logischer Begriffsname/Physischer Begriffsname",
-      "domainNameRep": "Domänenname/repräsentative Domäne"
-    },
-    "domain": {
-      "detailTitle": "Domain Details",
-      "physicalTypeDesc": "Description (Physical Type)"
-    },
-    "term": {
-      "editMode": "Edit Term",
-      "addMode": "Register Term",
-      "infoSection": "Term Information",
-      "baseWordSelect": "Base Word Selection (Click to Add)",
-      "compositionInfo": "Composition (Selected Base Word Order)",
-      "selectBaseWord": "Please select a base word",
-      "domainSelectPlaceholder": "-- Select Domain --",
-      "autoLogicalName": "Logical Term Name (Auto-generated)",
-      "autoPhysicalName": "Physical Term Name (Auto-generated)",
-      "termDesc": "Term Description",
-      "saving": "Saving…"
-    },
+    "appName": "Standard-Datenverwaltungsprogramm",
+    "appSub": "DA-Standarddatenmanagement · Einkaufszentrum",
     "auth": {
-      "matrix": "Role-Permission Matrix",
-      "users": "User Role Management",
-      "groups": "Group Management",
       "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "cat": {
+        "STD_DOM": "Standard Domains",
+        "STD_MGMT": "Standard Management",
+        "STD_TERM": "Standard Terms",
+        "STD_WORD": "Standard Words",
+        "SYS_MGMT": "System Management"
+      },
+      "groups": "Group Management",
+      "matrix": "Role-Permission Matrix",
       "permHeader": "Permission",
       "roleLevel": "Role Level:",
-      "cat": {
-        "STD_WORD": "Standard Words",
-        "STD_DOM": "Standard Domains",
-        "STD_TERM": "Standard Terms",
-        "STD_MGMT": "Standard Management",
-        "SYS_MGMT": "System Management"
-      }
+      "users": "User Role Management"
     },
-    "userRole": {
-      "admin": {
-        "label": "Super Admin",
-        "desc": "Top-level Admin",
-        "limit": "(Max 1)"
-      },
-      "master": {
-        "label": "Master",
-        "desc": "Sub Admin",
-        "limit": "(Max 2)"
-      },
-      "manager": {
-        "label": "Manager",
-        "desc": "Highest Privilege User"
-      },
-      "sub_admin": {
-        "label": "Sub Manager",
-        "desc": "Sub Manager assigned by Manager"
-      },
-      "user": {
-        "label": "User",
-        "desc": "Regular User"
-      },
-      "countBadge": "{n}",
-      "searchPlaceholder": "Search by name / username",
-      "colName": "Name",
-      "colUsername": "Username",
-      "colCurrentRole": "Current Role",
-      "colRoleChange": "Change Role",
+    "boardLink": "Schwarzes Brett",
+    "domain": {
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "field": {
+      "attrClass": "Attribut (Klassifikator)",
+      "category": "Klassifizierung",
+      "classWord": "Grundsprache",
+      "dataFormat": "Datenformat",
+      "dataLength": "Datenlänge",
+      "description": "Beschreibung",
+      "domain": "Domäne",
+      "domainLink": "Domänenverbindung",
+      "domainName": "Domainname",
+      "domainNameRep": "Domänenname/repräsentative Domäne",
+      "domainType": "Domänentyp",
+      "entityAttr": "Entität/Eigentum",
+      "entityClass": "Entität",
+      "length": "Länge",
+      "logicalDataType": "logischer Datentyp",
+      "logicalName": "logischer Name",
+      "logicalPhysical": "Logischer Name/Physischer Name",
+      "logicalPhysicalTerm": "Logischer Begriffsname/Physischer Begriffsname",
+      "logicalTermName": "Logischer Begriffsname",
+      "logicalType": "Logischer Typ",
+      "no": "Nummer",
+      "physicalFullName": "Englischer vollständiger Name",
+      "physicalName": "physischer Name",
+      "physicalTermName": "Name des Fachbegriffs Physik",
+      "physicalType": "Körperlicher Typ",
+      "range": "Bereich",
+      "repDomain": "Repräsentative Domäne",
+      "repDomainPhysical": "Repräsentativer Bereich (Physik)",
+      "scale": "dezimal"
+    },
+    "groupTab": {
+      "add": "추가",
+      "alertRequired": "그룹코드와 그룹명은 필수입니다.",
+      "alertSystemDelete": "시스템 그룹은 삭제할 수 없습니다.",
+      "clickToSetPerm": "클릭 → 권한 설정",
+      "colEmpNo": "사원번호",
+      "colGroupMove": "그룹 이동",
+      "colGroupRole": "그룹 내 역할",
+      "colName": "이름",
+      "colProfileRole": "Profiles 역할",
+      "colRemove": "제거",
+      "colSubPerm": "SubManager 권한",
       "colUserId": "User ID",
-      "emptyGroup": "No users in this group",
-      "totalCount": "Total {n} users",
-      "searchCount": "Search results: {n} users",
-      "saving": "Saving…",
-      "noUserId": "No user_id",
-      "roleChanged": "Role changed successfully",
-      "changeFailed": "Change failed",
-      "roleOption": {
-        "admin": "Super Admin (admin)",
-        "master": "Master (master)",
-        "manager": "Manager (manager)",
-        "sub_admin": "Sub Manager (sub_admin)",
-        "user": "User (user)"
-      }
-    },
-    "roleByCode": {
-      "ADMIN": "Super Admin",
-      "MASTER": "Master",
-      "MANAGER": "Manager",
-      "SUBMANAGER": "Sub Manager",
-      "USER": "User"
+      "confirmDelete": "그룹 {grp}를 삭제하시겠습니까?",
+      "confirmRemove": "구성원을 제거하시겠습니까?",
+      "createGroup": "+ 그룹 생성",
+      "customGroupLabel": "커스텀 그룹 ({n})",
+      "daOnly": "DA 전용",
+      "deleteGroup": "그룹 삭제",
+      "groupAdd": "그룹 추가",
+      "groupCodePlaceholder": "코드 (예: DA_TEAM)",
+      "groupNamePlaceholder": "그룹명",
+      "groups": {
+        "G_MASTER": {
+          "desc": "부관리자 (DA 전용)",
+          "name": "마스터"
+        },
+        "G_MNGR": {
+          "desc": "사용자 중 최고권한자",
+          "name": "매니저"
+        },
+        "G_SMNGR": {
+          "desc": "매니저가 지정하는 서브매니저",
+          "name": "부매니저"
+        },
+        "G_SUPER": {
+          "desc": "최상위 관리자",
+          "name": "수퍼관리자"
+        },
+        "G_USER": {
+          "desc": "일반 사용자",
+          "name": "사용자"
+        }
+      },
+      "masterGroupDesc1": "Profiles의 main_role과 직접 매핑되지 않습니다.",
+      "masterGroupDesc2": "아래 구성원 관리를 통해 직접 추가해 주세요.",
+      "masterGroupTitle": "마스터 그룹 (DA 전용)",
+      "memberAdd": "구성원 추가",
+      "moveRole": {
+        "admin": "수퍼관리자 (admin)",
+        "manager": "매니저 (manager)",
+        "sub_admin": "부매니저 (sub_admin)",
+        "user": "사용자 (user)"
+      },
+      "noGroupUsers": "이 그룹에 해당하는 사용자가 없습니다.",
+      "noMembers": "구성원이 없습니다.",
+      "notCreated": "미생성",
+      "permGranted": "{perm} 권한 부여",
+      "permRevoked": "{perm} 권한 회수",
+      "remove": "제거",
+      "role": {
+        "admin": "수퍼관리자",
+        "manager": "매니저",
+        "sub_admin": "부매니저",
+        "user": "사용자"
+      },
+      "roleChangeToast": "✅ 역할 변경 완료",
+      "saving": "저장 중…",
+      "seedDone": "✓ 완료",
+      "seedDoneToast": "✅ 시스템 그룹 초기화 완료",
+      "seedInit": "+ 초기화",
+      "seedInitializing": "초기화 중…",
+      "selectGroup": "왼쪽에서 그룹을 선택하세요",
+      "selectUser": "— 사용자 선택 —",
+      "subPermOnly": "쓰기·삭제 권한만 부여 가능",
+      "subPermPanel": "SubManager 권한",
+      "systemGroupBadge": "시스템 그룹",
+      "systemGroupLabel": "시스템 그룹",
+      "totalMembers": "총 {n}명"
     },
     "role": {
-      "sysAdmin": "Systemadministrator",
       "dataAdmin": "Datenmanager",
       "stdAdmin": "Standardmanager",
       "subAdmin": "Stellvertretender Standardmanager",
+      "sysAdmin": "Systemadministrator",
       "user": "Allgemeiner Benutzer"
+    },
+    "state": {
+      "linked": "verbunden",
+      "saveFail": "Speichern fehlgeschlagen",
+      "select": "Bitte wählen Sie einen Artikel aus",
+      "unused": "(unbenutzt)"
+    },
+    "tab": {
+      "auth": "Berechtigungsverwaltung",
+      "domain": "Standarddomänenverwaltung",
+      "term": "Verwaltung der Standardterminologie",
+      "word": "Standardwortverwaltung"
+    },
+    "term": {
+      "addMode": "Register Term",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "editMode": "Edit Term",
+      "infoSection": "Term Information",
+      "saving": "Saving…",
+      "selectBaseWord": "Please select a base word",
+      "termDesc": "Term Description"
+    },
+    "userRole": {
+      "admin": {
+        "desc": "Top-level Admin",
+        "label": "Super Admin",
+        "limit": "(Max 1)"
+      },
+      "changeFailed": "Change failed",
+      "colCurrentRole": "Current Role",
+      "colName": "Name",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "colUsername": "Username",
+      "countBadge": "{n}",
+      "emptyGroup": "No users in this group",
+      "manager": {
+        "desc": "Highest Privilege User",
+        "label": "Manager"
+      },
+      "master": {
+        "desc": "Sub Admin",
+        "label": "Master",
+        "limit": "(Max 2)"
+      },
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "manager": "Manager (manager)",
+        "master": "Master (master)",
+        "sub_admin": "Sub Manager (sub_admin)"
+      },
+      "saving": "Saving…",
+      "searchCount": "Search results: {n} users",
+      "searchPlaceholder": "Search by name / username",
+      "sub_admin": {
+        "desc": "Sub Manager assigned by Manager",
+        "label": "Sub Manager"
+      },
+      "totalCount": "Total {n} users",
+      "user": {
+        "desc": "Regular User",
+        "label": "User"
+      }
     }
   },
-  "languageSwitcher": {
-    "ps": "Paschtu",
-    "sq": "Albanisch",
-    "label": "Sprache",
-    "ko": "Koreanisch",
-    "en": "Englisch",
-    "zh": "Chinesisch",
-    "ja": "Japanisch",
-    "hi": "Hindi",
-    "vi": "Vietnamesisch",
-    "id": "Indonesisch",
-    "ms": "Malaiisch",
-    "en-ZA": "Englisch (Südafrika)",
-    "fil": "Filipino",
-    "th": "Thailändisch",
-    "de": "Deutsch"
-  },
-  "profile": {
-    "title": "Mein Profil",
-    "fullName": "Vollständiger Name",
-    "username": "Benutzername",
-    "role": "Rolle",
-    "edit": "Profil bearbeiten"
-  },
   "validation": {
-    "required": "Dieses Feld ist erforderlich",
+    "fileSizeExceeded": "Dateigröße überschreitet das Limit von {maxMb}MB",
     "invalidEmail": "Ungültiges E-Mail-Format",
-    "tooShort": "Mindestens {min} Zeichen erforderlich",
-    "fileSizeExceeded": "Dateigröße überschreitet das Limit von {maxMb}MB"
+    "required": "Dieses Feld ist erforderlich",
+    "tooShort": "Mindestens {min} Zeichen erforderlich"
   }
 }
