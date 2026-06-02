@@ -1,23 +1,24 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { CATEGORY_NAME, VALID_CATEGORIES } from '@/lib/board'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import type { Locale } from '@/i18n/routing'
+import { VALID_CATEGORIES } from '@/lib/board'
 import PostForm from '@/components/board/PostForm'
 
-type Props = { params: Promise<{ category: string }> }
+type Props = { params: Promise<{ locale: Locale; category: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { category } = await params
-  const name = CATEGORY_NAME[category.toUpperCase()]
-  return { title: `글쓰기 — ${name ?? '게시판'}` }
+  const { locale, category } = await params
+  const t = await getTranslations({ locale, namespace: 'board' })
+  const key = category.toUpperCase()
+  const catName = VALID_CATEGORIES.includes(key) ? t(`categories.${key}` as any) : '게시판'
+  return { title: `${t('write')} — ${catName}` }
 }
 
 export default async function NewPostPage({ params }: Props) {
-  const { category } = await params
-
-  if (!VALID_CATEGORIES.includes(category.toUpperCase())) {
-    notFound()
-  }
-
+  const { locale, category } = await params
+  setRequestLocale(locale)
+  if (!VALID_CATEGORIES.includes(category.toUpperCase())) notFound()
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-800 mb-4">글쓰기</h2>

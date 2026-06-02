@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
+import { Link } from '@/i18n/navigation'
 import Pagination from './Pagination'
 
 export interface Post {

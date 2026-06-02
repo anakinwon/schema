@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createBrowserClient } from '@supabase/ssr'
 import AttachmentUploader, { UploadedFile } from './AttachmentUploader'
-import { CATEGORY_NAME } from '@/lib/board'
 
 interface Props {
   category: string
@@ -13,8 +13,9 @@ interface Props {
 
 export default function PostForm({ category, postId }: Props) {
   const router  = useRouter()
+  const t       = useTranslations('board')
   const isEdit  = !!postId
-  const categoryName = CATEGORY_NAME[category.toUpperCase()] ?? category
+  const categoryName = t(`categories.${category.toUpperCase()}` as any)
 
   const [title, setTitle]     = useState('')
   const [content, setContent] = useState('')

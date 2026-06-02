@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
+import { Link } from '@/i18n/navigation'
 import CommentSection from './CommentSection'
-import { CATEGORY_NAME } from '@/lib/board'
 
 export interface Attachment {
   attch_id: string
