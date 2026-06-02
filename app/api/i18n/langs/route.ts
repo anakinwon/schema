@@ -71,7 +71,18 @@ export async function POST(req: NextRequest) {
   if (!lang_cd?.trim() || !lang_nm?.trim()) {
     return NextResponse.json({ error: '언어코드·언어명은 필수입니다' }, { status: 400 })
   }
-  const code = lang_cd.trim()
+
+  // en-AU·de-AT 같은 국가 변형 코드는 부모 언어(en·de)로 정규화
+  // 단, en-ZA·zh-TW 등 이미 등록된 공식 변형은 그대로 허용
+  let code = lang_cd.trim()
+  const { data: exists } = await supabaseAdmin
+    .from('i18n_lang_mst').select('lang_cd').eq('lang_cd', code).maybeSingle()
+  if (!exists) {
+    const parent = code.split('-')[0]   // 'en-AU' → 'en'
+    const { data: parentExists } = await supabaseAdmin
+      .from('i18n_lang_mst').select('lang_cd').eq('lang_cd', parent).maybeSingle()
+    if (parentExists) code = parent     // 부모 언어가 이미 있으면 부모로 폴백
+  }
 
   // 1) 기존 등록 여부 확인
   const { data: existing } = await supabaseAdmin
