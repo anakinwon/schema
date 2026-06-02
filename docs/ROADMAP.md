@@ -411,19 +411,19 @@
 > **목표**: 187개국 데이터 DB화 · 국가 선택 콤보박스 · 번역 관리 화면  
 > **DA 표준**: `i18n_*` 4개 테이블 모두 v2 시스템 컬럼 (`regr_id→reg_dts→modr_id→mod_dts`)
 
-- **TASK-036: Supabase i18n DB 마이그레이션** ⏳ - 대기
-  - **DA 표준 v2** 시스템 컬럼 준수 (2026-05-30 총괄DA 승인 기준)
-  - 마이그레이션 8개 순서:
-    1. `create_i18n_lang_mst` — 언어 마스터 (11개) + 트리거
-    2. `create_i18n_ns_mst` — 네임스페이스 마스터 (7개) + 트리거
-    3. `create_i18n_msg` — 번역 메시지 + UNIQUE(ns_cd,msg_key,lang_cd) + 인덱스 + 트리거
-    4. `create_i18n_cntry_mst` — 국가·통화 마스터 + FK(locale_cd→i18n_lang_mst) + 트리거
-    5. `seed_i18n_lang_mst` — 11개 언어 초기 데이터
-    6. `seed_i18n_ns_mst` — 7개 네임스페이스 초기 데이터
-    7. `seed_i18n_cntry_mst` — CSV 187개국 (이모지 오염 행 전처리 필터 포함)
-    8. `seed_i18n_msg_ko` — `messages/ko.json` → DB 초기 로드 (~50건)
-  - DA 감리: 시스템 컬럼 순서·NOT NULL·DEFAULT·트리거 동작 확인
-  - RLS: SELECT(USER+) / INSERT·UPDATE·DELETE(ADMIN·MASTER만)
+- **TASK-036: Supabase i18n DB 마이그레이션** ✅ - 완료 (2026-06-02)
+  - ✅ **DA 표준 v2** 시스템 컬럼 `regr_id→reg_dts→modr_id→mod_dts` 4개 테이블 전부 적용
+  - ✅ `create_i18n_tables` — 4개 테이블 + 트리거 6개 + 인덱스 4개 (단일 마이그레이션)
+    - `i18n_lang_mst`: PK(lang_cd), CHECK(use_yn·dir_cd)
+    - `i18n_ns_mst`: PK(ns_cd)
+    - `i18n_msg`: PK(uuid), UNIQUE(ns_cd,msg_key,lang_cd), FK×2
+    - `i18n_cntry_mst`: PK(country_cd), FK(locale_cd→i18n_lang_mst ON DELETE SET NULL)
+  - ✅ `seed_i18n_lang_mst` — 11개 언어 (ko·en·zh·ja·hi·vi·id·ms·en-ZA·fil·th)
+  - ✅ `seed_i18n_ns_mst` — 7개 네임스페이스 (common·auth·board·admin·profile·validation·languageSwitcher)
+  - ✅ `seed_i18n_cntry_mst` — CSV 187개국 (Node.js 전처리: Regional Indicator 이모지 제거, locale_cd 매핑)
+  - ✅ `seed_i18n_msg_ko` — `messages/ko.json` → DB 75건 로드 (점 표기 평탄화)
+  - ✅ `rls_i18n_tables` — RLS 활성화: SELECT(authenticated), ALL(service_role)
+  - ✅ DA 감리: 4개 테이블 시스템 컬럼 순서·NOT NULL·DEFAULT 전수 확인
 
 - **TASK-037: 번역 파일 & 한글 키 치환** ⏳ - 대기
   - `messages/ko.json` 작성 (기존 751건 한글에서 7개 섹션으로 추출)
@@ -482,7 +482,7 @@
 | M8: 통합게시판 | Phase 2 (v3) | 2026-06-01 | 게시판 8종 CRUD·댓글·첨부·관리자·E2E | ✅ 완료 |
 | M8.5: 게시판 UX 개선 | Phase 3 (v3) | 2026-06-02 | 라우팅 재구성·반응형 페이지네이션·첨부파일·권한 제어 | ✅ 완료 |
 | M9: i18n 기반 구축 | Phase 1 (v4) | 2026-06-02 | next-intl·라우팅·레이아웃·proxy 체이닝·버그 수정 4건 (TASK-032~035) | ✅ 완료 |
-| M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-07 예상 | 187개국 DB화·콤보박스·번역 관리 화면 (TASK-036~039) | ⏳ 대기 |
+| M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-07 예상 | 187개국 DB화·콤보박스·번역 관리 화면 (TASK-036~039) | 🔄 진행중 (036완료) |
 
 ---
 
@@ -523,3 +523,4 @@
 | v3.0 | 2026-06-01 | v3 Phase 2 완료 반영 — 통합게시판 TASK-024~031 전체 완료, M7·M8 추가, 성공 지표 업데이트 | anakin |
 | v4.0 | 2026-06-02 | v4 다국어 시스템 계획 수립 — PRD_MUL_LAN.md 작성, TASK-032~039 추가, M9·M10 마일스톤 등록, i18n 스킬파일(TASK-032) 완료 | anakin |
 | v4.1 | 2026-06-02 | v3 Phase 3 완료 반영 — 게시판 UX·라우팅·권한제어, v4 Phase 1 완료 반영 — TASK-033~035·버그 4건 수정, M8.5·M9 완료 표시 | anakin |
+| v4.2 | 2026-06-02 | TASK-036 완료 반영 — i18n 4테이블·RLS·시드(11언어·7NS·187개국·75번역키), DA 표준 v2 감리 통과 | anakin |
