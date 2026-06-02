@@ -36,10 +36,10 @@
 
 | 테이블 | 미이행 컬럼 | 시정 내용 |
 |--------|-----------|---------|
-| tb_product_category | `reg_usr_id`, `mod_usr_id`, `mod_dts` | ALTER TABLE ADD COLUMN 3건 |
-| tb_product | `reg_usr_id`, `mod_usr_id` | ALTER TABLE ADD COLUMN 2건 |
-| tb_customer | `reg_usr_id`, `mod_usr_id` | ALTER TABLE ADD COLUMN 2건 |
-| tb_order | `reg_usr_id`, `mod_usr_id` | ALTER TABLE ADD COLUMN 2건 |
+| tb_product_category | `regr_id`, `modr_id`, `mod_dts` | ALTER TABLE ADD COLUMN 3건 |
+| tb_product | `regr_id`, `modr_id` | ALTER TABLE ADD COLUMN 2건 |
+| tb_customer | `regr_id`, `mod_usr_id` | ALTER TABLE ADD COLUMN 2건 |
+| tb_order | `regr_id`, `mod_usr_id` | ALTER TABLE ADD COLUMN 2건 |
 | tb_order_item | `reg_dts`, `mod_dts`, `reg_usr_id`, `mod_usr_id` | ALTER TABLE ADD COLUMN 4건 |
 
 **시정 DDL 마이그레이션**: `add_system_columns_compliance_fix` (2026-05-30 적용)
@@ -63,22 +63,22 @@ DEFAULT `'Y'`(취소됨) 적용 시 신규 주문상품이 취소됨 상태로 �
 
 ```sql
 -- ✅ 아래 순서와 속성을 반드시 준수 (총괄DA 승인 2026-05-30)
-reg_usr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',             -- ① 등록자ID
-reg_dts     timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ② 등록일시
-mod_usr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',             -- ③ 수정자ID
-mod_dts     timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ④ 수정일시
+regr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',             -- ① 등록자ID
+reg_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ② 등록일시
+modr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',             -- ③ 변경자ID
+mod_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ④ 변경일시
 ```
 
 **상세 규칙 (v2 추가)**
 
 | 항목 | 규칙 |
 |------|------|
-| 순서 | reg_usr_id → reg_dts → mod_usr_id → mod_dts (이 순서 고정) |
+| 순서 | regr_id → reg_dts → modr_id → mod_dts (이 순서 고정) |
 | NOT NULL | 4종 모두 NOT NULL 필수 |
 | 최초 등록 시 | reg_dts = mod_dts = CURRENT_TIMESTAMP (동일값) |
-| 최초 등록 시 | reg_usr_id = mod_usr_id = 'ADMIN' (동일값, 앱에서 실제 사용자 ID로 덮어씀) |
+| 최초 등록 시 | regr_id = modr_id = 'ADMIN' (동일값, 앱에서 실제 사용자 ID로 덮어씀) |
 | 수정 시 | mod_dts: 트리거(`fn_update_mod_dts`) 자동 갱신 |
-| 수정 시 | mod_usr_id: 애플리케이션 레이어에서 UPDATE 시 갱신 의무 |
+| 수정 시 | modr_id: 애플리케이션 레이어에서 UPDATE 시 갱신 의무 |
 
 > ⚠️ 4개 컬럼 모두 필수. 불변(Immutable) 레코드라도 예외 없이 추가.  
 > ⚠️ 반드시 비즈니스 컬럼 뒤 **맨 마지막**에 위치. 순서 변경 불가.  
@@ -114,16 +114,21 @@ od_dt  timestamp              -- ❌ 위반 (일시가 아닌 날짜라면)
 ### ✅ 체크리스트 D — 소문자
 
 ```sql
--- 테이블명, 컬럼명, 인덱스명, 제약명 모두 소문자
+-- PostgreSQL로 물리설계 시 테이블명, 컬럼명, 인덱스명, 제약명 모두 소문자
 CREATE TABLE tb_order ( ... )  -- ✅
 CREATE TABLE TB_ORDER ( ... )  -- ❌ 위반
 ```
 
+```sql
+-- ORACLE로 물리설계 시 테이블명, 컬럼명, 인덱스명, 제약명 모두 대문자
+CREATE TABLE TB_ORDER ( ... )  -- ✅
+CREATE TABLE tb_order ( ... )  -- ❌ 위반
+```
 ---
 
 ## 5. 표준단어 추가 요청 사항
 
-시스템 컬럼 `reg_usr_id` / `mod_usr_id` 에 사용된 `사용자(USR)` 단어가  
+시스템 컬럼 `regr_id` / `modr_id` 에 사용된 `사용자(USR)` 단어가  
 현재 STD_DIC(표준단어사전)에 미등록 상태입니다.
 
 **10-표준담당자에게 아래 표준단어 등록을 요청합니다.**
@@ -167,12 +172,12 @@ CREATE TABLE TB_ORDER ( ... )  -- ❌ 위반
 
 | # | 신규 추가 규칙 | 비고 |
 |---|------------|------|
-| 1 | 시스템 컬럼 순서 고정: `reg_usr_id → reg_dts → mod_usr_id → mod_dts` | v1 대비 순서 변경 |
-| 2 | 4종 모두 NOT NULL 의무 | v1: mod_usr_id / mod_dts는 NULL 허용이었으나 **폐기** |
-| 3 | `reg_usr_id`, `mod_usr_id` DEFAULT `'ADMIN'` | v1: DEFAULT 'SYSTEM' **폐기** |
+| 1 | 시스템 컬럼 순서 고정: `regr_id → reg_dts → modr_id → mod_dts` | v1 대비 순서 변경 |
+| 2 | 4종 모두 NOT NULL 의무 | v1: modr_id / mod_dts는 NULL 허용이었으나 **폐기** |
+| 3 | `regr_id`, `modr_id` DEFAULT `'ADMIN'` | v1: DEFAULT 'SYSTEM' **폐기** |
 | 4 | `reg_dts`, `mod_dts` DEFAULT `CURRENT_TIMESTAMP` (최초 등록 시 동일값) | v1과 동일 |
 | 5 | 수정 시 `mod_dts` 트리거 자동 갱신 (`fn_update_mod_dts`) | **신규** |
-| 6 | 수정 시 `mod_usr_id` 애플리케이션 레이어 갱신 의무 | **신규** |
+| 6 | 수정 시 `modr_id` 애플리케이션 레이어 갱신 의무 | **신규** |
 
 ### 시정 내역
 
@@ -193,10 +198,10 @@ CREATE TABLE tb_xxx (
     col2  ...,
 
     -- 시스템 컬럼 (맨 마지막, 순서 고정)
-    reg_usr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',
-    reg_dts     timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    mod_usr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',
-    mod_dts     timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP
+    regr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',
+    reg_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',
+    mod_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- mod_dts 자동 갱신 트리거 (테이블마다 생성)
@@ -206,7 +211,7 @@ CREATE TRIGGER trg_xxx_mod_dts
 ```
 
 > ⚠️ `fn_update_mod_dts()` 함수는 스키마 공통 함수로 1회만 생성, 모든 테이블에서 재사용.  
-> ⚠️ `mod_usr_id`는 트리거로 처리 불가 (세션 사용자 정보 필요). **애플리케이션 UPDATE 시 반드시 SET mod_usr_id = :currentUserId** 포함 의무.
+> ⚠️ `mod_usr_id`는 트리거로 처리 불가 (세션 사용자 정보 필요). **애플리케이션 UPDATE 시 반드시 SET modr_id = :currentUserId** 포함 의무.
 
 ```
 이상 추가 규칙 전파를 완료합니다.

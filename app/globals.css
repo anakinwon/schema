@@ -128,3 +128,11 @@
     @apply font-sans;
   }
 }
+
+/* locale별 폰트 패밀리 유틸리티 (lib/fonts.ts 와 연동) */
+.font-latin { font-family: var(--font-latin), var(--font-geist-sans), sans-serif; }
+.font-kr    { font-family: var(--font-kr),    var(--font-latin), sans-serif; }
+.font-sc    { font-family: var(--font-sc),    var(--font-latin), sans-serif; }
+.font-jp    { font-family: var(--font-jp),    var(--font-latin), sans-serif; }
+.font-thai  { font-family: var(--font-thai),  var(--font-latin), sans-serif; }
+.font-deva  { font-family: var(--font-deva),  var(--font-latin), sans-serif; }
