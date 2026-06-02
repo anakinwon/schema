@@ -13,7 +13,35 @@
       "sync": "同步",
       "users": "用户管理"
     },
-    "noPermission": "拒绝访问"
+    "noPermission": "拒绝访问",
+    "dashboard": {
+      "pageTitle": "管理员仪表板",
+      "pageSubtitle": "标准数据管理系统状态",
+      "quickMenu": "快速导航",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": {
+        "words": "标准词汇",
+        "domains": "标准域",
+        "terms": "标准术语",
+        "users": "活跃用户"
+      },
+      "quick": {
+        "words": "词汇管理",
+        "wordsDesc": "STD_DIC 注册/编辑/删除",
+        "domains": "域管理",
+        "domainsDesc": "STD_DOM 注册/编辑/删除",
+        "terms": "术语管理",
+        "termsDesc": "DA_TERM 注册/编辑/删除",
+        "codes": "通用代码管理",
+        "codesDesc": "DA §40 STD_CODE 管理",
+        "audit": "变更历史",
+        "auditDesc": "STD_DIC·STD_DOM 审计跟踪",
+        "users": "用户列表",
+        "usersDesc": "角色分配及权限管理",
+        "userScreen": "用户界面",
+        "userScreenDesc": "标准数据查看/编辑"
+      }
+    }
   },
   "auth": {
     "email": "邮箱",

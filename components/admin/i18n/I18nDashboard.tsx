@@ -46,7 +46,7 @@ export default function I18nDashboard() {
 
   // 한국어 → 대상 언어 AI 번역 + DB 저장 + JSON 동기화 (원스톱)
   const translateAndSync = async (lang_cd: string, native_nm: string) => {
-    if (!confirm(`${native_nm}(${lang_cd})으로 AI 번역 후 JSON 동기화를 실행합니다.\n한국어 기준 75개 키를 번역합니다. 계속하시겠습니까?`)) return
+    if (!confirm(`${native_nm}(${lang_cd})으로 AI 번역 후 JSON 동기화를 실행합니다.\n한국어 기준 ${totalKeys}개 키를 번역합니다. 계속하시겠습니까?`)) return
     setWorking(lang_cd)
     setWorkResult(null)
     const headers = { ...await authHeader(), 'Content-Type': 'application/json' }

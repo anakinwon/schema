@@ -33,41 +33,61 @@ function toNestedByNs(rows: { ns_cd: string; msg_key: string; msg_val: string }[
   return result
 }
 
+// {placeholder} 토큰화 → 번역 → 복원
+function tokenize(value: string, tokenMap: string[]): string {
+  return value.replace(/\{[^}]+\}/g, m => {
+    const i = tokenMap.indexOf(m)
+    if (i >= 0) return `PLHDR${i}X`
+    tokenMap.push(m)
+    return `PLHDR${tokenMap.length - 1}X`
+  })
+}
+function restoreTokens(text: string, tokenMap: string[]): string {
+  return text.replace(/PLHDR(\d+)X/g, (_, n) => tokenMap[+n] ?? `{${n}}`)
+}
+
+// 단일 값 번역 (fallback용)
+async function translateOne(value: string, to: string): Promise<string> {
+  const tokenMap: string[] = []
+  const san = tokenize(value, tokenMap)
+  const { text } = await translate(san, { from: 'ko', to })
+  return restoreTokens(text.trim(), tokenMap)
+}
+
 // 섹션 하나를 Google Translate로 번역
-// - 값들을 구분자로 합쳐 한 번에 전송 (API 호출 최소화)
-// - {placeholder} 토큰 보존
+// - 줄바꿈(\n) 구분자로 배치 전송 → 구분자 번역 방지
+// - 분리 실패 시 각 키 개별 번역으로 fallback
 async function translateSection(
   koSection: Record<string, string>,
   targetLang: string,
 ): Promise<Record<string, string>> {
-  const to = GOOGLE_LANG_MAP[targetLang] ?? targetLang
-  const keys   = Object.keys(koSection)
+  const to    = GOOGLE_LANG_MAP[targetLang] ?? targetLang
+  const keys  = Object.keys(koSection)
   const values = Object.values(koSection)
 
-  // {placeholder} → PLHDR_N 으로 임시 치환
   const tokenMap: string[] = []
-  const sanitized = values.map(v =>
-    v.replace(/\{[^}]+\}/g, m => {
-      const i = tokenMap.indexOf(m)
-      if (i >= 0) return `PLHDR${i}X`
-      tokenMap.push(m)
-      return `PLHDR${tokenMap.length - 1}X`
-    })
-  )
+  const sanitized = values.map(v => tokenize(v, tokenMap))
 
-  // 구분자로 이어 붙여 한 번에 번역 (Google는 \n 경계를 유지)
-  const SEP = ' ||| '
-  const combined = sanitized.join(SEP)
+  // 줄바꿈으로 결합 — Google Translate는 \n 경계를 비교적 잘 보존
+  const combined = sanitized.join('\n')
+  const { text: translated } = await translate(combined, { from: 'ko', to })
+  const parts = translated.split('\n')
 
-  const { text } = await translate(combined, { from: 'ko', to })
-
-  // 구분자로 분리 후 placeholder 복원
-  const parts = text.split(SEP)
   const result: Record<string, string> = {}
-  keys.forEach((key, i) => {
-    const raw = (parts[i] ?? values[i]).trim()
-    result[key] = raw.replace(/PLHDR(\d+)X/g, (_, n) => tokenMap[+n] ?? `{${n}}`)
-  })
+
+  if (parts.length === keys.length) {
+    // 배치 성공 — 그대로 사용
+    keys.forEach((key, i) => {
+      result[key] = restoreTokens(parts[i].trim(), tokenMap)
+    })
+  } else {
+    // 줄 수 불일치 → 키별 개별 번역으로 fallback
+    console.warn(`[translate] 줄 수 불일치 (기대 ${keys.length}, 수신 ${parts.length}) → 개별 번역`)
+    for (let i = 0; i < keys.length; i++) {
+      result[keys[i]] = await translateOne(values[i], to)
+    }
+  }
+
   return result
 }
 
