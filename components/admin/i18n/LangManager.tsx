@@ -23,6 +23,7 @@ export default function LangManager() {
   const [rows, setRows]         = useState<CountryRow[]>([])
   const [loading, setLoading]   = useState(true)
   const [working, setWorking]   = useState<string | null>(null)
+  const [notice, setNotice]     = useState<string | null>(null)
   const [q, setQ]               = useState('')
   const [filter, setFilter]     = useState<'all' | 'active' | 'inactive'>('all')
 
@@ -57,7 +58,7 @@ export default function LangManager() {
     setWorking(null)
   }
 
-  // 미등록 언어 → i18n_lang_mst에 추가 후 활성화
+  // 미등록 언어 → i18n_lang_mst에 추가(없으면 생성) 후 활성화
   const activateLang = async (row: CountryRow) => {
     if (!row.locale_cd) return
     setWorking(row.country_cd)
@@ -65,15 +66,20 @@ export default function LangManager() {
     const res = await fetch('/api/i18n/langs', {
       method: 'POST', headers,
       body: JSON.stringify({
-        lang_cd:   row.locale_cd,
-        lang_nm:   row.country_eng_nm,
-        native_nm: row.native_nm ?? row.country_mot_nm,
+        lang_cd:    row.locale_cd,
+        lang_nm:    row.country_eng_nm,
+        native_nm:  row.native_nm ?? row.country_mot_nm,
         country_cd: row.country_cd,
       }),
     })
-    if (!res.ok) {
-      const d = await res.json()
-      alert(`추가 실패: ${d.error}`)
+    const d = await res.json().catch(() => ({}))
+    if (res.ok) {
+      const msg = d.created
+        ? `'${row.locale_cd}' 언어를 새로 등록했습니다`
+        : `'${row.locale_cd}' 언어를 활성화했습니다 (이미 등록됨)`
+      setNotice(msg)
+    } else {
+      alert(`추가 실패: ${d.error ?? '알 수 없는 오류'}`)
     }
     await load()
     setWorking(null)
@@ -100,6 +106,14 @@ export default function LangManager() {
 
   return (
     <div className="space-y-3">
+      {/* 알림 토스트 */}
+      {notice && (
+        <div className="flex items-center gap-2 px-4 py-2.5 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
+          ✅ {notice}
+          <button onClick={() => setNotice(null)} className="ml-auto text-green-400 hover:text-green-600">✕</button>
+        </div>
+      )}
+
       {/* 요약 + 컨트롤 */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-1">
