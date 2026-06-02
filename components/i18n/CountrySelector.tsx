@@ -29,16 +29,22 @@ export default function CountrySelector({ triggerClass }: Props) {
   const pathname = usePathname()
 
   const [countries, setCountries] = useState<Country[]>([])
+  const [rates,     setRates]     = useState<Record<string, number>>({})
   const [isOpen,    setIsOpen]    = useState(false)
   const [query,     setQuery]     = useState('')
   const [loading,   setLoading]   = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // 국가 목록 + 환율 동시 로드
   useEffect(() => {
-    fetch('/api/i18n/countries')
-      .then(r => r.json())
-      .then((data: Country[]) => { setCountries(data); setLoading(false) })
-      .catch(() => setLoading(false))
+    Promise.all([
+      fetch('/api/i18n/countries').then(r => r.json()),
+      fetch('/api/i18n/rates').then(r => r.json()).catch(() => ({ rates: {} })),
+    ]).then(([cntryData, rateData]) => {
+      setCountries(cntryData)
+      setRates(rateData.rates ?? {})
+      setLoading(false)
+    }).catch(() => setLoading(false))
   }, [])
 
   useEffect(() => {
@@ -55,6 +61,17 @@ export default function CountrySelector({ triggerClass }: Props) {
     router.replace(pathname, { locale: (c.locale_cd ?? 'en') as Locale })
     setIsOpen(false); setQuery('')
   }, [router, pathname])
+
+  // 1 외화 = X원 포맷 (rates: 1 KRW = rates[code] 외화)
+  const fmtRate = (currencyCd: string): string => {
+    const r = rates[currencyCd]
+    if (!r) return ''
+    const krwPerUnit = 1 / r
+    if (krwPerUnit >= 1000) return `₩${Math.round(krwPerUnit).toLocaleString()}`
+    if (krwPerUnit >= 10)   return `₩${krwPerUnit.toFixed(1)}`
+    if (krwPerUnit >= 0.1)  return `₩${krwPerUnit.toFixed(2)}`
+    return `₩${krwPerUnit.toFixed(3)}`
+  }
 
   if (loading) return null
 
@@ -109,7 +126,12 @@ export default function CountrySelector({ triggerClass }: Props) {
               <CountryFlag countryCd={current.country_cd} size="xl" />
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold text-gray-900 truncate">{current.country_mot_nm}</div>
-                <div className="text-xs text-gray-500 truncate">{current.country_eng_nm} · {current.currency_cd}</div>
+                <div className="text-xs text-gray-500 truncate">
+                  {current.country_eng_nm} · {current.currency_cd}
+                  {fmtRate(current.currency_cd) && (
+                    <span className="ml-1.5 text-blue-600 font-medium">= {fmtRate(current.currency_cd)}</span>
+                  )}
+                </div>
               </div>
               <span className="text-xs text-blue-600 font-medium bg-blue-100 px-2 py-0.5 rounded-full">{locale}</span>
             </div>
@@ -143,7 +165,7 @@ export default function CountrySelector({ triggerClass }: Props) {
                   </div>
                 )}
                 {fp.map(c => (
-                  <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} large />
+                  <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} rateStr={fmtRate(c.currency_cd)} large />
                 ))}
               </>
             )}
@@ -157,7 +179,7 @@ export default function CountrySelector({ triggerClass }: Props) {
 
             {/* 나머지 176개국 */}
             {fr.map(c => (
-              <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} />
+              <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} rateStr={fmtRate(c.currency_cd)} />
             ))}
 
             {fp.length === 0 && fr.length === 0 && (
@@ -179,12 +201,13 @@ export default function CountrySelector({ triggerClass }: Props) {
 }
 
 function FlagRow({
-  country, selected, onSelect, large = false,
+  country, selected, onSelect, large = false, rateStr = '',
 }: {
   country: Country
   selected: boolean
   onSelect: (c: Country) => void
   large?: boolean
+  rateStr?: string
 }) {
   const inactive = !country.is_active
 
@@ -222,10 +245,17 @@ function FlagRow({
         )}
       </div>
 
-      {/* 통화코드 */}
-      <span className={`text-[11px] shrink-0 font-mono tabular-nums ${inactive ? 'text-gray-200' : 'text-gray-400'}`}>
-        {country.currency_cd}
-      </span>
+      {/* 통화코드 + 환율 */}
+      <div className="shrink-0 text-right">
+        <div className={`text-[11px] font-mono tabular-nums ${inactive ? 'text-gray-200' : 'text-gray-400'}`}>
+          {country.currency_cd}
+        </div>
+        {rateStr && !inactive && (
+          <div className="text-[10px] text-blue-500 tabular-nums leading-tight whitespace-nowrap">
+            {rateStr}
+          </div>
+        )}
+      </div>
 
       {/* 선택 체크 or 번역 없음 뱃지 */}
       {selected ? (
