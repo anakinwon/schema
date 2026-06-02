@@ -3,7 +3,7 @@
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
 > **기준일**: 2026-06-02 (최종 업데이트: 2026-06-02)
-> **현재 버전**: v3 Phase 3 완료 · v4 Phase 1 완료 — v4 Phase 2(국가DB·번역관리) 구현 대기
+> **현재 버전**: v4 Phase 1·2 완료 (다국어 시스템 가동) — 번역 100% 완성·환율·E2E만 잔여(M11)
 > **기술 스택**: Next.js 16.2.6 (App Router) · React 19.2 · TypeScript · Tailwind CSS v4 · SQLite(better-sqlite3) · Supabase PostgreSQL
 
 ---
@@ -425,37 +425,71 @@
   - ✅ `rls_i18n_tables` — RLS 활성화: SELECT(authenticated), ALL(service_role)
   - ✅ DA 감리: 4개 테이블 시스템 컬럼 순서·NOT NULL·DEFAULT 전수 확인
 
-- **TASK-037: 번역 파일 & 한글 키 치환** ⏳ - 대기
-  - `messages/ko.json` 작성 (기존 751건 한글에서 7개 섹션으로 추출)
-    - `common · auth · board · admin · profile · validation · languageSwitcher`
-  - 나머지 10개 `messages/{locale}.json` 생성 (초기엔 ko 값 복사, 이후 번역)
-  - `next/link` → `@/i18n/navigation` Link 치환 (14곳)
-  - `lib/board.ts` `CATEGORY_NAME` → `t('board.categories.NOTICE')` 전환
-  - 핵심 화면 우선 치환: board layout → auth → admin
-  - 빌드 타입 검증 (키 누락 컴파일 에러 확인)
+- **TASK-037: 번역 파일 & 한글 키 치환** ✅ - 완료 (2026-06-02)
+  - ✅ `next/link` → `@/i18n/navigation` Link 치환 (8개 파일)
+  - ✅ `lib/board.ts` `CATEGORY_NAME` 제거 → `t('board.categories.*')` 전환
+  - ✅ 서버 컴포넌트 `getTranslations` + `setRequestLocale`, 클라이언트 `useTranslations`
+  - ✅ `VALID_CATEGORIES` `as const` → `string[]` (API 타입 호환)
 
-- **TASK-038: 국가 선택 콤보박스** ⏳ - 대기
-  - `components/i18n/CountrySelector.tsx` — 공통 클라이언트 컴포넌트
-  - `lib/i18n/countryToFlag.ts` — `countryToFlag('KR')` → `🇰🇷` 유틸
-  - 표시: `🇰🇷 대한민국 KRW ▼` / 드롭다운: 국기+자국어명+통화코드
-  - 정렬: dis_ord_seq 1~11 우선 + 구분선 + 나머지 176개국
-  - 국가 선택 → locale 전환 (`NEXT_LOCALE` 쿠키 갱신) / 11개 외 → en fallback
-  - 삽입: Board 헤더 `BoardUserMenu` 앞 + Admin 헤더 `AdminLogoutButton` 앞
-  - `GET /api/i18n/countries` API — `i18n_cntry_mst` 조회, 5분 캐싱
+- **TASK-038: 국가 선택 콤보박스** ✅ - 완료 (2026-06-02)
+  - ✅ `components/i18n/CountrySelector.tsx` — Board·Admin 헤더 공통
+  - ✅ `GET /api/i18n/countries` — 187개국 조회, `is_active` 필드, 5분 캐싱
+  - ✅ 우선 11개국 + 구분선 + 나머지 176개국, 실시간 검색
+  - ✅ 비활성 국가 회색 처리 (grayscale + 미지원 뱃지)
+  - 🔧 **국기 SVG화**: `flag-icons` 도입 (Windows 이모지 미표시 문제 해결)
+    - `components/i18n/CountryFlag.tsx` — SVG 국기 컴포넌트 (size·grayscale)
 
-- **TASK-039: 다국어 관리 화면** ⏳ - 대기
-  - Admin 네비게이션에 `🌐 다국어관리` 메뉴 추가
-  - `app/[locale]/admin/(protected)/i18n/` 라우트 5개:
-    - `page.tsx` — 대시보드 (언어별 번역 완료율 % 프로그레스바, 미번역 키 목록)
-    - `languages/page.tsx` — `i18n_lang_mst` CRUD + use_yn 토글
-    - `countries/page.tsx` — `i18n_cntry_mst` 조회 187개국 + use_yn 토글
-    - `messages/page.tsx` — 번역 매트릭스 뷰 (키×언어 인라인 편집, 미번역 ❌ 하이라이트)
-    - `sync/page.tsx` — DB→JSON 동기화 실행 + 결과 로그
-  - API 8개: `langs` · `countries` · `namespaces` · `messages` · `messages/bulk` · `stats` · `sync`
-  - 메시지 수정 → `revalidateTag('i18n')` 자동 캐시 무효화
-  - `LanguageSwitcher` 컴포넌트 헤더 연동
-  - `generateMetadata` locale화 (login 등 static metadata 전환)
-  - Phase 2 환율: `exchangerate-api.com` 연동 (통화코드 → 실시간 환율)
+- **TASK-039: 다국어 관리 화면** ✅ - 완료 (2026-06-02)
+  - ✅ Admin `🌐 다국어관리` 메뉴 + 라우트 4개 (대시보드·언어·매트릭스·동기화)
+  - ✅ API: `stats`·`langs`·`langs/[cd]`·`messages`·`messages/[id]`·`sync`·`translate`
+  - ✅ 번역 매트릭스 인라인 편집 + 미번역 ❌ 하이라이트
+  - ✅ `revalidateTag('i18n','max')` 캐시 무효화
+  - 🔒 **보안**: sync route Path Traversal 수정 (BCP-47 정규식 + 경로 경계 검사)
+
+- **TASK-040: AI 자동 번역 시스템** ✅ - 완료 (2026-06-02)
+  - ✅ `POST /api/i18n/translate` — 🔄 버튼 1클릭 = AI번역 + DB저장 + JSON동기화
+  - ✅ 번역 엔진: Google Translate (`@vitalets/google-translate-api`, 무료·키 불필요)
+    - Anthropic Claude → 크레딧 부족으로 교체
+  - ✅ `{placeholder}` 토큰 보존 (PLHDR 치환 후 복원)
+  - ✅ 429 Too Many Requests 대응: 지수 백오프(2→4→8→16초) + 섹션 간 쿨다운
+  - ✅ **미번역 키만 선택적 번역** (이미 완료 키 Set 제외 → 76% 시간 절감)
+  - ✅ en fallback deep merge (`i18n/request.ts`) — 미번역 시 영어 표시
+
+- **TASK-041: 언어 관리 화면 확장** ✅ - 완료 (2026-06-02)
+  - ✅ `i18n_cntry_mst` 187개국 전체 표시 (전체/활성/추가가능 탭 필터)
+  - ✅ `COUNTRY_TO_LANG` 매핑 — locale_cd NULL 국가도 언어 추론 (es·ar·fr·de 등)
+  - ✅ 미등록 언어 "+ 언어 추가" → `i18n_lang_mst` insert + 즉시 활성화
+  - ✅ 등록 언어 use_yn 토글 (활성/비활성)
+
+### 번역 진행 현황 (2026-06-02 기준)
+| 완료율 | 언어 |
+|---|---|
+| ✅ 100% | ko · en · zh · ja |
+| 🔶 77% | hi · vi · id · en-ZA · fil · th (admin.dashboard 22건 미번역) |
+| 🔶 64% | ms |
+| ⬜ 0% | de (독일어 — 언어 추가 테스트) |
+
+---
+
+## 📋 v4 잔여 일정 (M11 — 마무리)
+
+> **목표**: 번역 100% 달성 · 환율 연동 · 다국어 E2E 검증
+
+- **TASK-042: 전체 언어 번역 100% 완성** ⏳ - 대기
+  - 다국어 관리 대시보드에서 7개 언어 🔄 버튼 클릭 (미번역 22~35건 자동 채움)
+    - hi·vi·id·en-ZA·fil·th (각 22건) · ms (35건) · de (97건)
+  - 또는 번역 매트릭스에서 핵심 키만 수동 검수
+  - **소요**: 언어당 약 20~30초 (버튼 클릭 + Google Translate)
+
+- **TASK-043: 환율 실시간 표시 (선택)** ⏳ - 대기
+  - `exchangerate-api.com` 또는 `open.er-api.com` 무료 API 연동
+  - 콤보박스 통화코드 옆 실시간 환율 표시 (KRW 기준)
+  - `.env.local`에 `EXCHANGE_RATE_API_KEY` 등록 필요
+
+- **TASK-044: 다국어 E2E 테스트** ⏳ - 대기
+  - `tests/e2e/i18n.spec.ts` — locale 전환·URL prefix·번역 표시 검증
+  - 미인증 `/en/admin` → `/en/login` 리다이렉트 확인
+  - 콤보박스 국가 선택 → locale 전환 확인
 
 ---
 
@@ -482,7 +516,8 @@
 | M8: 통합게시판 | Phase 2 (v3) | 2026-06-01 | 게시판 8종 CRUD·댓글·첨부·관리자·E2E | ✅ 완료 |
 | M8.5: 게시판 UX 개선 | Phase 3 (v3) | 2026-06-02 | 라우팅 재구성·반응형 페이지네이션·첨부파일·권한 제어 | ✅ 완료 |
 | M9: i18n 기반 구축 | Phase 1 (v4) | 2026-06-02 | next-intl·라우팅·레이아웃·proxy 체이닝·버그 수정 4건 (TASK-032~035) | ✅ 완료 |
-| M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-07 예상 | 187개국 DB화·콤보박스·번역 관리 화면 (TASK-036~039) | 🔄 진행중 (036완료) |
+| M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-06-02 | 187개국 DB·콤보박스·번역관리·AI번역·국기SVG (TASK-036~041) | ✅ 완료 |
+| M11: 다국어 마무리 | Phase 3 (v4) | 미정 | 번역 100% 완성·환율 연동·E2E (TASK-042~044) | ⏳ 대기 |
 
 ---
 
@@ -496,9 +531,10 @@
 | 보안 취약점 | 0건 | 0건 유지 | 코드 리뷰 (PostgREST 인젝션 패치 포함) |
 | Playwright 테스트 | 15건 (4 passed · 11 skip) | 환경변수 설정 후 15 passed | `npx playwright test` |
 | 게시판 API 라우트 | 11개 | — | app/api/board 라우트 수 |
-| 지원 언어 수 | 0개 (미구현) | 11개 (ko·en·zh·ja·hi·vi·id·ms·en-ZA·fil·th) | i18n_lang_mst use_yn='Y' 수 |
-| 번역 키 수 | 0건 (미구현) | ~50건 (ko 기준) | i18n_msg DISTINCT(ns_cd,msg_key) 수 |
-| 국가·통화 DB | 0건 (CSV) | 187개국 | i18n_cntry_mst 레코드 수 |
+| 지원 언어 수 | **12개** (11+de 추가) | 11개 | i18n_lang_mst use_yn='Y' 수 ✅ |
+| 번역 키 수 | **97건** (ko 기준 100%) | ~50건 | i18n_msg DISTINCT(ns_cd,msg_key) 수 ✅ |
+| 국가·통화 DB | **187개국** | 187개국 | i18n_cntry_mst 레코드 수 ✅ |
+| 번역 100% 완성 언어 | **4개** (ko·en·zh·ja) | 11개 | i18n_msg 언어별 완료율 |
 
 ---
 
@@ -524,3 +560,4 @@
 | v4.0 | 2026-06-02 | v4 다국어 시스템 계획 수립 — PRD_MUL_LAN.md 작성, TASK-032~039 추가, M9·M10 마일스톤 등록, i18n 스킬파일(TASK-032) 완료 | anakin |
 | v4.1 | 2026-06-02 | v3 Phase 3 완료 반영 — 게시판 UX·라우팅·권한제어, v4 Phase 1 완료 반영 — TASK-033~035·버그 4건 수정, M8.5·M9 완료 표시 | anakin |
 | v4.2 | 2026-06-02 | TASK-036 완료 반영 — i18n 4테이블·RLS·시드(11언어·7NS·187개국·75번역키), DA 표준 v2 감리 통과 | anakin |
+| v4.3 | 2026-06-02 | M10 완료 반영 — TASK-037~041 (키치환·콤보박스·관리화면·AI번역·언어관리), 국기 SVG화(flag-icons), 보안패치, M11 잔여일정(번역100%·환율·E2E) 수립 | anakin |
