@@ -13,7 +13,23 @@
       "sync": "Sinkronisasi",
       "users": "Manajemen Pengguna"
     },
-    "noPermission": "Akses ditolak"
+    "noPermission": "Akses ditolak",
+    "dashboard": {
+      "pageTitle": "Dasbor Admin",
+      "pageSubtitle": "Status Sistem Manajemen Data Standar",
+      "quickMenu": "Navigasi Cepat",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": { "words": "Kata Standar", "domains": "Domain Standar", "terms": "Istilah Standar", "users": "Pengguna Aktif" },
+      "quick": {
+        "words": "Manajemen Kata", "wordsDesc": "STD_DIC Daftar/Edit/Hapus",
+        "domains": "Manajemen Domain", "domainsDesc": "STD_DOM Daftar/Edit/Hapus",
+        "terms": "Manajemen Istilah", "termsDesc": "DA_TERM Daftar/Edit/Hapus",
+        "codes": "Manajemen Kode Umum", "codesDesc": "Manajemen DA §40 STD_CODE",
+        "audit": "Riwayat Perubahan", "auditDesc": "Audit Trail STD_DIC·STD_DOM",
+        "users": "Daftar Pengguna", "usersDesc": "Penugasan Peran & Kontrol Akses",
+        "userScreen": "Layar Pengguna", "userScreenDesc": "Lihat/Edit Data Standar"
+      }
+    }
   },
   "auth": {
     "email": "Email",

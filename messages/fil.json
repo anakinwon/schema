@@ -13,7 +13,13 @@
       "sync": "I-sync",
       "users": "Pamamahala ng User"
     },
-    "noPermission": "Wala kang pahintulot sa pag-access"
+    "noPermission": "Wala kang pahintulot sa pag-access",
+    "dashboard": {
+      "pageTitle": "Admin Dashboard", "pageSubtitle": "Katayuan ng Sistema ng Pamamahala ng Pamantayang Data",
+      "quickMenu": "Mabilis na Nabigasyon", "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": { "words": "Pamantayang Salita", "domains": "Pamantayang Domain", "terms": "Pamantayang Termino", "users": "Aktibong Gumagamit" },
+      "quick": { "words": "Pamamahala ng Salita", "wordsDesc": "STD_DIC Irehistro/I-edit/Tanggalin", "domains": "Pamamahala ng Domain", "domainsDesc": "STD_DOM Irehistro/I-edit/Tanggalin", "terms": "Pamamahala ng Termino", "termsDesc": "DA_TERM Irehistro/I-edit/Tanggalin", "codes": "Pamamahala ng Karaniwang Code", "codesDesc": "Pamamahala ng DA §40 STD_CODE", "audit": "Kasaysayan ng Pagbabago", "auditDesc": "Audit Trail STD_DIC·STD_DOM", "users": "Listahan ng Gumagamit", "usersDesc": "Pagtatalaga ng Papel at Kontrol sa Access", "userScreen": "Screen ng Gumagamit", "userScreenDesc": "Tingnan/I-edit ang Pamantayang Data" }
+    }
   },
   "auth": {
     "email": "Email",

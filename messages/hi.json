@@ -13,7 +13,23 @@
       "sync": "सिंक",
       "users": "उपयोगकर्ता प्रबंधन"
     },
-    "noPermission": "पहुंच अस्वीकृत"
+    "noPermission": "पहुंच अस्वीकृत",
+    "dashboard": {
+      "pageTitle": "व्यवस्थापक डैशबोर्ड",
+      "pageSubtitle": "मानक डेटा प्रबंधन प्रणाली की स्थिति",
+      "quickMenu": "त्वरित नेविगेशन",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": { "words": "मानक शब्द", "domains": "मानक डोमेन", "terms": "मानक शर्तें", "users": "सक्रिय उपयोगकर्ता" },
+      "quick": {
+        "words": "शब्द प्रबंधन", "wordsDesc": "STD_DIC पंजीकरण/संपादन/हटाना",
+        "domains": "डोमेन प्रबंधन", "domainsDesc": "STD_DOM पंजीकरण/संपादन/हटाना",
+        "terms": "शर्त प्रबंधन", "termsDesc": "DA_TERM पंजीकरण/संपादन/हटाना",
+        "codes": "सामान्य कोड प्रबंधन", "codesDesc": "DA §40 STD_CODE प्रबंधन",
+        "audit": "परिवर्तन इतिहास", "auditDesc": "STD_DIC·STD_DOM ऑडिट ट्रेल",
+        "users": "उपयोगकर्ता सूची", "usersDesc": "भूमिका असाइनमेंट और एक्सेस नियंत्रण",
+        "userScreen": "उपयोगकर्ता स्क्रीन", "userScreenDesc": "मानक डेटा देखें/संपादित करें"
+      }
+    }
   },
   "auth": {
     "email": "ईमेल",

@@ -1,0 +1,104 @@
+{
+  "admin": {
+    "adminLabel": "Administrator",
+    "backOffice": "Backoffice (Admin)",
+    "menu": {
+      "approval": "Genehmigungsverwaltung",
+      "audit": "Änderungsprotokoll",
+      "board": "Forum-Verwaltung",
+      "codes": "Allgemeine Codes",
+      "dashboard": "Dashboard",
+      "i18n": "Mehrsprachenverwaltung",
+      "standards": "Standardverwaltung",
+      "sync": "Synchronisierung",
+      "users": "Benutzerverwaltung"
+    },
+    "noPermission": "Zugriff verweigert",
+    "dashboard": {
+      "pageTitle": "Administrator-Dashboard",
+      "pageSubtitle": "Status des Standarddaten-Verwaltungssystems",
+      "quickMenu": "Schnellnavigation",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": { "words": "Standardwörter", "domains": "Standarddomänen", "terms": "Standardbegriffe", "users": "Aktive Benutzer" },
+      "quick": { "words": "Wörterveraltung", "wordsDesc": "STD_DIC Registrieren/Bearbeiten/Löschen", "domains": "Domänenverwaltung", "domainsDesc": "STD_DOM Registrieren/Bearbeiten/Löschen", "terms": "Begriffsverwaltung", "termsDesc": "DA_TERM Registrieren/Bearbeiten/Löschen", "codes": "Allgemeine Code-Verwaltung", "codesDesc": "DA §40 STD_CODE Verwaltung", "audit": "Änderungsverlauf", "auditDesc": "STD_DIC·STD_DOM Audit-Trail", "users": "Benutzerliste", "usersDesc": "Rollenzuweisung & Zugriffskontrolle", "userScreen": "Benutzeroberfläche", "userScreenDesc": "Standarddaten anzeigen/bearbeiten" }
+    }
+  },
+  "auth": {
+    "email": "E-Mail",
+    "login": "Anmelden",
+    "loginButton": "Anmelden",
+    "loginError": "E-Mail oder Passwort ist falsch",
+    "loginTitle": "{appName} — Anmelden",
+    "logout": "Abmelden",
+    "password": "Passwort",
+    "signup": "Registrieren"
+  },
+  "board": {
+    "answered": "Beantwortet",
+    "author": "Autor",
+    "backToList": "← Zurück",
+    "categories": {
+      "ARCHIVE": "Archiv",
+      "FREE": "Freie Diskussion",
+      "NOTICE": "Bekanntmachung",
+      "QNA": "Fragen & Antworten"
+    },
+    "comments": "Kommentare",
+    "content": "Inhalt",
+    "createdAt": "Datum",
+    "deleteConfirm": "Möchten Sie diesen Beitrag wirklich löschen?",
+    "editPost": "Beitrag bearbeiten",
+    "empty": "Keine Beiträge vorhanden",
+    "goToNotice": "Zu Bekanntmachungen",
+    "newPost": "Schreiben",
+    "noSearchResult": "Keine Ergebnisse für '{query}'",
+    "notFound": "Forum nicht gefunden",
+    "perPage": "{size} pro Seite",
+    "pinned": "Angeheftet",
+    "searchPlaceholder": "Titel oder Autor suchen",
+    "title": "Titel",
+    "totalCount": "Gesamt {count}",
+    "unanswered": "Unbeantwortet",
+    "views": "Aufrufe",
+    "write": "Schreiben"
+  },
+  "common": {
+    "appName": "Standarddaten-Verwaltungssystem",
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "dashboard": "Dashboard",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "loading": "Wird geladen...",
+    "save": "Speichern",
+    "search": "Suchen"
+  },
+  "languageSwitcher": {
+    "de": "Deutsch",
+    "en": "Englisch",
+    "en-ZA": "Englisch (Südafrika)",
+    "fil": "Filipino",
+    "hi": "Hindi",
+    "id": "Indonesisch",
+    "ja": "Japanisch",
+    "ko": "Koreanisch",
+    "label": "Sprache",
+    "ms": "Malaiisch",
+    "th": "Thailändisch",
+    "vi": "Vietnamesisch",
+    "zh": "Chinesisch"
+  },
+  "profile": {
+    "edit": "Profil bearbeiten",
+    "fullName": "Vollständiger Name",
+    "role": "Rolle",
+    "title": "Mein Profil",
+    "username": "Benutzername"
+  },
+  "validation": {
+    "fileSizeExceeded": "Dateigröße überschreitet das Limit von {maxMb}MB",
+    "invalidEmail": "Ungültiges E-Mail-Format",
+    "required": "Dieses Feld ist erforderlich",
+    "tooShort": "Mindestens {min} Zeichen erforderlich"
+  }
+}

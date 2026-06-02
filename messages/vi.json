@@ -13,7 +13,23 @@
       "sync": "Đồng bộ",
       "users": "Quản lý người dùng"
     },
-    "noPermission": "Từ chối truy cập"
+    "noPermission": "Từ chối truy cập",
+    "dashboard": {
+      "pageTitle": "Bảng điều khiển quản trị",
+      "pageSubtitle": "Trạng thái hệ thống quản lý dữ liệu tiêu chuẩn",
+      "quickMenu": "Điều hướng nhanh",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": { "words": "Từ tiêu chuẩn", "domains": "Miền tiêu chuẩn", "terms": "Thuật ngữ tiêu chuẩn", "users": "Người dùng hoạt động" },
+      "quick": {
+        "words": "Quản lý từ", "wordsDesc": "STD_DIC Đăng ký/Chỉnh sửa/Xóa",
+        "domains": "Quản lý miền", "domainsDesc": "STD_DOM Đăng ký/Chỉnh sửa/Xóa",
+        "terms": "Quản lý thuật ngữ", "termsDesc": "DA_TERM Đăng ký/Chỉnh sửa/Xóa",
+        "codes": "Quản lý mã chung", "codesDesc": "Quản lý DA §40 STD_CODE",
+        "audit": "Lịch sử thay đổi", "auditDesc": "Kiểm tra STD_DIC·STD_DOM",
+        "users": "Danh sách người dùng", "usersDesc": "Phân công vai trò & Kiểm soát truy cập",
+        "userScreen": "Màn hình người dùng", "userScreenDesc": "Xem/Chỉnh sửa dữ liệu tiêu chuẩn"
+      }
+    }
   },
   "auth": {
     "email": "Email",

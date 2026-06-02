@@ -13,7 +13,13 @@
       "sync": "Segerakkan",
       "users": "Pengurusan Pengguna"
     },
-    "noPermission": "Anda tiada kebenaran akses"
+    "noPermission": "Anda tiada kebenaran akses",
+    "dashboard": {
+      "pageTitle": "Papan Pemuka Pentadbir", "pageSubtitle": "Status Sistem Pengurusan Data Standard",
+      "quickMenu": "Navigasi Pantas", "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": { "words": "Perkataan Standard", "domains": "Domain Standard", "terms": "Istilah Standard", "users": "Pengguna Aktif" },
+      "quick": { "words": "Pengurusan Perkataan", "wordsDesc": "STD_DIC Daftar/Edit/Padam", "domains": "Pengurusan Domain", "domainsDesc": "STD_DOM Daftar/Edit/Padam", "terms": "Pengurusan Istilah", "termsDesc": "DA_TERM Daftar/Edit/Padam", "codes": "Pengurusan Kod Umum", "codesDesc": "Pengurusan DA §40 STD_CODE", "audit": "Sejarah Perubahan", "auditDesc": "Jejak Audit STD_DIC·STD_DOM", "users": "Senarai Pengguna", "usersDesc": "Penugasan Peranan & Kawalan Akses", "userScreen": "Skrin Pengguna", "userScreenDesc": "Lihat/Edit Data Standard" }
+    }
   },
   "auth": {
     "email": "E-mel",
@@ -55,15 +61,15 @@
     "write": "Menulis"
   },
   "common": {
-    "appName": "Standard Data Management",
-    "back": "Back",
-    "cancel": "Cancel",
-    "dashboard": "Dashboard",
-    "delete": "Delete",
+    "appName": "Sistem Pengurusan Data Standard",
+    "back": "Kembali",
+    "cancel": "Batal",
+    "dashboard": "Papan Pemuka",
+    "delete": "Padam",
     "edit": "Edit",
-    "loading": "Loading...",
-    "save": "Save",
-    "search": "Search"
+    "loading": "Memuatkan...",
+    "save": "Simpan",
+    "search": "Cari"
   },
   "languageSwitcher": {
     "en": "Inggeris",
@@ -87,9 +93,9 @@
     "username": "ID"
   },
   "validation": {
-    "fileSizeExceeded": "File size exceeds the {maxMb}MB limit",
-    "invalidEmail": "Invalid email format",
-    "required": "This field is required",
-    "tooShort": "Must be at least {min} characters"
+    "fileSizeExceeded": "Saiz fail melebihi had {maxMb}MB",
+    "invalidEmail": "Format e-mel tidak sah",
+    "required": "Medan ini diperlukan",
+    "tooShort": "Mestilah sekurang-kurangnya {min} aksara"
   }
 }
