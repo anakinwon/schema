@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { ALL_FONT_VARS } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import './globals.css'
+import 'flag-icons/css/flag-icons.min.css'
 
 export const metadata: Metadata = {
   title: '표준데이터 관리 프로그램',

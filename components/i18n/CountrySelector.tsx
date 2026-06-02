@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useLocale } from 'next-intl'
 import { useRouter, usePathname } from '@/i18n/navigation'
-import { countryToFlag } from '@/lib/i18n/countryToFlag'
+import { CountryFlag } from './CountryFlag'
 import type { Locale } from '@/i18n/routing'
 
 interface Country {
@@ -79,18 +79,16 @@ export default function CountrySelector({ triggerClass }: Props) {
       {/* ── 트리거 버튼 ── */}
       <button
         onClick={() => setIsOpen(o => !o)}
-        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm transition-all ${triggerClass ?? defaultTrigger}`}
+        className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-sm transition-all ${triggerClass ?? defaultTrigger}`}
         title="국가·언어 선택"
       >
-        {/* 국기 크게 */}
-        <span className="text-2xl leading-none drop-shadow-sm">
-          {current ? countryToFlag(current.country_cd) : '🌐'}
-        </span>
+        {/* 국기 (SVG) */}
+        {current
+          ? <CountryFlag countryCd={current.country_cd} size="lg" />
+          : <span className="text-xl leading-none">🌐</span>}
         {/* 통화코드 */}
-        <span className="hidden sm:flex flex-col items-start leading-tight">
-          <span className="text-[11px] font-bold tracking-wide opacity-90">
-            {current?.currency_cd ?? '—'}
-          </span>
+        <span className="hidden sm:inline text-[11px] font-bold tracking-wide opacity-90">
+          {current?.currency_cd ?? '—'}
         </span>
         {/* 화살표 */}
         <svg
@@ -108,7 +106,7 @@ export default function CountrySelector({ triggerClass }: Props) {
           {/* 헤더 — 현재 선택 */}
           {current && (
             <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
-              <span className="text-4xl leading-none drop-shadow">{countryToFlag(current.country_cd)}</span>
+              <CountryFlag countryCd={current.country_cd} size="xl" />
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold text-gray-900 truncate">{current.country_mot_nm}</div>
                 <div className="text-xs text-gray-500 truncate">{current.country_eng_nm} · {current.currency_cd}</div>
@@ -188,7 +186,6 @@ function FlagRow({
   onSelect: (c: Country) => void
   large?: boolean
 }) {
-  const flag     = countryToFlag(country.country_cd)
   const inactive = !country.is_active
 
   return (
@@ -202,13 +199,12 @@ function FlagRow({
             : 'hover:bg-gray-50 border-l-2 border-transparent'
         }`}
     >
-      {/* 국기 — 비활성: grayscale + opacity */}
-      <span
-        className={`shrink-0 leading-none ${large ? 'text-2xl' : 'text-xl'}`}
-        style={inactive ? { filter: 'grayscale(100%)', opacity: 0.35 } : { filter: 'drop-shadow(0 1px 1px rgba(0,0,0,.15))' }}
-      >
-        {flag}
-      </span>
+      {/* 국기 (SVG) — 비활성: 회색 처리 */}
+      <CountryFlag
+        countryCd={country.country_cd}
+        size={large ? 'lg' : 'md'}
+        grayscale={inactive}
+      />
 
       {/* 국가명 */}
       <div className="flex-1 min-w-0">

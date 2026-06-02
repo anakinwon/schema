@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
-import { countryToFlag } from '@/lib/i18n/countryToFlag'
+import { CountryFlag } from '@/components/i18n/CountryFlag'
 
 interface CountryRow {
   country_cd: string
@@ -80,7 +80,6 @@ export default function LangManager() {
   }
 
   // 필터 + 검색
-  const flag = (cd: string) => countryToFlag(cd)
   const filtered = rows.filter(r => {
     if (filter === 'active'   && !(r.registered && r.use_yn === 'Y')) return false
     if (filter === 'inactive' && r.registered)  return false
@@ -146,8 +145,14 @@ export default function LangManager() {
               return (
                 <tr key={row.country_cd} className={`transition-colors ${row.registered && row.use_yn === 'Y' ? '' : 'opacity-70'}`}>
                   <td className="px-3 py-2 text-center text-xs text-gray-400">{row.dis_ord_seq}</td>
-                  <td className="px-2 py-2 text-center text-lg leading-none">
-                    {flag(row.country_cd)}
+                  <td className="px-2 py-2">
+                    <div className="flex justify-center">
+                      <CountryFlag
+                        countryCd={row.country_cd}
+                        size="md"
+                        grayscale={!(row.registered && row.use_yn === 'Y')}
+                      />
+                    </div>
                   </td>
                   <td className="px-3 py-2">
                     <div className="text-sm font-medium text-gray-800 truncate">{row.country_eng_nm}</div>
