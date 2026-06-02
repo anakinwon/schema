@@ -86,6 +86,209 @@
     "appName": "標準データ管理プログラム",
     "back": "戻る",
     "cancel": "キャンセル",
-    "dashboard": "ダッシュボード"
+    "dashboard": "ダッシュボード",
+    "delete": "削除",
+    "save": "保存",
+    "edit": "修正",
+    "loading": "読み込み中…",
+    "search": "検索"
+  },
+  "standards": {
+    "appName": "標準データ管理プログラム",
+    "appSub": "DA Standard Data Management・ショッピングモール",
+    "boardLink": "掲示板",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "標準単語管理",
+      "domain": "標準ドメイン管理",
+      "term": "標準用語管理",
+      "auth": "権限管理"
+    },
+    "action": {
+      "add": "+追加",
+      "edit": "修正",
+      "editSave": "修正保存",
+      "delete": "削除",
+      "save": "保存",
+      "cancel": "キャンセル",
+      "search": "検索",
+      "reset": "初期化",
+      "register": "登録",
+      "close": "閉じる",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "アイテムを選択してください",
+      "linked": "接続済み",
+      "unused": "(未使用)",
+      "saveFail": "保存失敗",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "番号",
+      "logicalName": "論理名",
+      "physicalName": "物理名",
+      "physicalFullName": "英語のフルネーム",
+      "category": "分類",
+      "physicalType": "物理タイプ",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "説明",
+      "domain": "ドメイン",
+      "domainName": "ドメイン名",
+      "domainType": "ドメインタイプ",
+      "repDomain": "代表ドメイン",
+      "repDomainPhysical": "代表ドメイン（物理）",
+      "logicalType": "論理タイプ",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "論理データタイプ",
+      "dataLength": "データ長",
+      "length": "長さ",
+      "scale": "少数",
+      "range": "範囲",
+      "dataFormat": "データフォーマット",
+      "domainLink": "ドメイン接続",
+      "classWord": "基本語",
+      "entityClass": "エンティティ",
+      "attrClass": "属性（分類語）",
+      "entityAttr": "エンティティ/プロパティ",
+      "logicalTermName": "論理用語名",
+      "physicalTermName": "物理用語名",
+      "logicalPhysical": "論理名/物理名",
+      "logicalPhysicalTerm": "論理用語名/物理用語名",
+      "domainNameRep": "ドメイン名/代表ドメイン"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "システム管理者",
+      "dataAdmin": "データ管理者",
+      "stdAdmin": "標準管理者",
+      "subAdmin": "副標準管理者",
+      "user": "一般ユーザー"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "パシュトー語",
+    "sq": "アルバニア語",
+    "label": "言語",
+    "ko": "韓国語",
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語",
+    "hi": "銭िन्दी",
+    "vi": "Tiếng Việt",
+    "id": "Bahasa Indonesia",
+    "ms": "Bahasa Melayu",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "th": "ไทย",
+    "de": "ドイツ語"
+  },
+  "profile": {
+    "title": "私の情報",
+    "fullName": "名前",
+    "username": "ID",
+    "role": "役割",
+    "edit": "プロフィールを編集"
+  },
+  "validation": {
+    "required": "必須入力項目です",
+    "invalidEmail": "正しいメール形式ではありません",
+    "tooShort": "{min}文字以上入力してください",
+    "fileSizeExceeded": "アップロードファイルサイズ制限{maxMb}MBを超えました"
   }
 }

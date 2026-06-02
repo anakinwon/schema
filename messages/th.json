@@ -86,6 +86,209 @@
     "appName": "โปรแกรมจัดการข้อมูลมาตรฐาน",
     "back": "กลับ",
     "cancel": "ยกเลิก",
-    "dashboard": "แดชบอร์ด"
+    "dashboard": "แดชบอร์ด",
+    "delete": "ลบ",
+    "save": "บันทึก",
+    "edit": "แก้ไข",
+    "loading": "กำลังโหลด...",
+    "search": "ค้นหา"
+  },
+  "standards": {
+    "appName": "โปรแกรมจัดการข้อมูลมาตรฐาน",
+    "appSub": "การจัดการข้อมูลมาตรฐาน DA · ห้างสรรพสินค้า",
+    "boardLink": "กระดานข่าว",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "การจัดการคำมาตรฐาน",
+      "domain": "การจัดการโดเมนมาตรฐาน",
+      "term": "การจัดการคำศัพท์มาตรฐาน",
+      "auth": "การจัดการสิทธิ์"
+    },
+    "action": {
+      "add": "+ เพิ่ม",
+      "edit": "แก้ไข",
+      "editSave": "แก้ไขบันทึก",
+      "delete": "ลบ",
+      "save": "บันทึก",
+      "cancel": "ยกเลิก",
+      "search": "ค้นหา",
+      "reset": "รีเซ็ต",
+      "register": "การลงทะเบียน",
+      "close": "ปิด",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "กรุณาเลือกรายการ",
+      "linked": "เชื่อมต่อแล้ว",
+      "unused": "(ไม่ได้ใช้)",
+      "saveFail": "บันทึกล้มเหลว",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "หมายเลข",
+      "logicalName": "ชื่อตรรกะ",
+      "physicalName": "ชื่อทางกายภาพ",
+      "physicalFullName": "ชื่อเต็มภาษาอังกฤษ",
+      "category": "การจำแนกประเภท",
+      "physicalType": "ประเภททางกายภาพ",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "คำอธิบาย",
+      "domain": "โดเมน",
+      "domainName": "ชื่อโดเมน",
+      "domainType": "ประเภทโดเมน",
+      "repDomain": "โดเมนตัวแทน",
+      "repDomainPhysical": "โดเมนตัวแทน (ฟิสิกส์)",
+      "logicalType": "ประเภทลอจิคัล",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "ชนิดข้อมูลเชิงตรรกะ",
+      "dataLength": "ความยาวข้อมูล",
+      "length": "ความยาว",
+      "scale": "ทศนิยม",
+      "range": "ช่วง",
+      "dataFormat": "รูปแบบข้อมูล",
+      "domainLink": "การเชื่อมต่อโดเมน",
+      "classWord": "ภาษาพื้นฐาน",
+      "entityClass": "เอนทิตี",
+      "attrClass": "คุณสมบัติ (ลักษณนาม)",
+      "entityAttr": "นิติบุคคล/ทรัพย์สิน",
+      "logicalTermName": "ชื่อคำศัพท์เชิงตรรกะ",
+      "physicalTermName": "ชื่อศัพท์ฟิสิกส์",
+      "logicalPhysical": "ชื่อตรรกะ / ชื่อทางกายภาพ",
+      "logicalPhysicalTerm": "ชื่อคำเชิงตรรกะ / ชื่อคำเชิงกายภาพ",
+      "domainNameRep": "ชื่อโดเมน / โดเมนตัวแทน"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "ผู้ดูแลระบบ",
+      "dataAdmin": "ผู้จัดการข้อมูล",
+      "stdAdmin": "ผู้จัดการมาตรฐาน",
+      "subAdmin": "รองผู้จัดการมาตรฐาน",
+      "user": "ผู้ใช้ทั่วไป"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "ภาษาปาชโต",
+    "sq": "ภาษาแอลเบเนีย",
+    "label": "ภาษา",
+    "ko": "เกาหลี",
+    "en": "อังกฤษ",
+    "zh": "ภาษาจีน",
+    "ja": "ภาษาญี่ปุ่น",
+    "hi": "สวัสดี",
+    "vi": "เตียงเวียต",
+    "id": "บาฮาซาอินโดนีเซีย",
+    "ms": "บาฮาซามลายู",
+    "en-ZA": "อังกฤษ (SA)",
+    "fil": "ฟิลิปปินส์",
+    "th": "ไทย",
+    "de": "เยอรมัน"
+  },
+  "profile": {
+    "title": "ข้อมูลของฉัน",
+    "fullName": "ชื่อ",
+    "username": "บัตรประจำตัว",
+    "role": "บทบาท",
+    "edit": "แก้ไขโปรไฟล์"
+  },
+  "validation": {
+    "required": "ต้องระบุข้อมูลในช่องนี้",
+    "invalidEmail": "อีเมลอยู่ในรูปแบบไม่ถูกต้อง",
+    "tooShort": "โปรดป้อนอักขระ {min} ขึ้นไป",
+    "fileSizeExceeded": "เกินขีดจำกัดขนาดไฟล์อัพโหลดของ PHDR1XMB"
   }
 }

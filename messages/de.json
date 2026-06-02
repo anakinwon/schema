@@ -87,6 +87,208 @@
     "back": "Zurück",
     "cancel": "Abbrechen",
     "dashboard": "Dashboard",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "loading": "Wird geladen...",
+    "search": "Suchen"
+  },
+  "standards": {
+    "appName": "Standard-Datenverwaltungsprogramm",
+    "appSub": "DA-Standarddatenmanagement · Einkaufszentrum",
+    "boardLink": "Schwarzes Brett",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "Standardwortverwaltung",
+      "domain": "Standarddomänenverwaltung",
+      "term": "Verwaltung der Standardterminologie",
+      "auth": "Berechtigungsverwaltung"
+    },
+    "action": {
+      "add": "+ hinzufügen",
+      "edit": "Bearbeiten",
+      "editSave": "Bearbeiten Speichern",
+      "delete": "Löschen",
+      "save": "speichern",
+      "cancel": "Abbrechen",
+      "search": "suchen",
+      "reset": "zurückgesetzt",
+      "register": "Registrierung",
+      "close": "schließen",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "Bitte wählen Sie einen Artikel aus",
+      "linked": "verbunden",
+      "unused": "(unbenutzt)",
+      "saveFail": "Speichern fehlgeschlagen",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "Nummer",
+      "logicalName": "logischer Name",
+      "physicalName": "physischer Name",
+      "physicalFullName": "Englischer vollständiger Name",
+      "category": "Klassifizierung",
+      "physicalType": "Körperlicher Typ",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "Beschreibung",
+      "domain": "Domäne",
+      "domainName": "Domainname",
+      "domainType": "Domänentyp",
+      "repDomain": "Repräsentative Domäne",
+      "repDomainPhysical": "Repräsentativer Bereich (Physik)",
+      "logicalType": "Logischer Typ",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "logischer Datentyp",
+      "dataLength": "Datenlänge",
+      "length": "Länge",
+      "scale": "dezimal",
+      "range": "Bereich",
+      "dataFormat": "Datenformat",
+      "domainLink": "Domänenverbindung",
+      "classWord": "Grundsprache",
+      "entityClass": "Entität",
+      "attrClass": "Attribut (Klassifikator)",
+      "entityAttr": "Entität/Eigentum",
+      "logicalTermName": "Logischer Begriffsname",
+      "physicalTermName": "Name des Fachbegriffs Physik",
+      "logicalPhysical": "Logischer Name/Physischer Name",
+      "logicalPhysicalTerm": "Logischer Begriffsname/Physischer Begriffsname",
+      "domainNameRep": "Domänenname/repräsentative Domäne"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "Systemadministrator",
+      "dataAdmin": "Datenmanager",
+      "stdAdmin": "Standardmanager",
+      "subAdmin": "Stellvertretender Standardmanager",
+      "user": "Allgemeiner Benutzer"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "Paschtu",
+    "sq": "Albanisch",
+    "label": "Sprache",
+    "ko": "Koreanisch",
+    "en": "Englisch",
+    "zh": "Chinesisch",
+    "ja": "Japanisch",
+    "hi": "Hindi",
+    "vi": "Vietnamesisch",
+    "id": "Indonesisch",
+    "ms": "Malaiisch",
+    "en-ZA": "Englisch (Südafrika)",
+    "fil": "Filipino",
+    "th": "Thailändisch",
+    "de": "Deutsch"
+  },
+  "profile": {
+    "title": "Mein Profil",
+    "fullName": "Vollständiger Name",
+    "username": "Benutzername",
+    "role": "Rolle",
+    "edit": "Profil bearbeiten"
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich",
+    "invalidEmail": "Ungültiges E-Mail-Format",
+    "tooShort": "Mindestens {min} Zeichen erforderlich",
+    "fileSizeExceeded": "Dateigröße überschreitet das Limit von {maxMb}MB"
   }
 }

@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import { createBrowserClient } from '@supabase/ssr'
 import WordTab from './WordTab'
 import DomainTab from './DomainTab'
@@ -9,21 +10,23 @@ import GlobalSearch from './GlobalSearch'
 
 type Tab = 'word' | 'domain' | 'term' | 'auth'
 
-const TABS: { key: Tab; label: string; icon: string; badge?: string }[] = [
-  { key: 'word',   label: '표준단어 관리',  icon: '📝' },
-  { key: 'domain', label: '표준도메인 관리', icon: '🗂️' },
-  { key: 'term',   label: '표준용어 관리',  icon: '📋' },
-  { key: 'auth',   label: '권한 관리',      icon: '🔐', badge: 'RBAC' },
+const TAB_KEYS: { key: Tab; tKey: string; icon: string; badge?: string }[] = [
+  { key: 'word',   tKey: 'tab.word',   icon: '📝' },
+  { key: 'domain', tKey: 'tab.domain', icon: '🗂️' },
+  { key: 'term',   tKey: 'tab.term',   icon: '📋' },
+  { key: 'auth',   tKey: 'tab.auth',   icon: '🔐', badge: 'RBAC' },
 ]
 
-const ROLE_LABEL: Record<string, string> = {
-  admin: '시스템관리자', master: '데이터관리자', manager: '표준관리자',
-  sub_admin: '부표준관리자', user: '일반사용자',
+const ROLE_TKEY: Record<string, string> = {
+  admin: 'role.sysAdmin', master: 'role.dataAdmin', manager: 'role.stdAdmin',
+  sub_admin: 'role.subAdmin', user: 'role.user',
 }
 
 interface UserInfo { displayName: string; role: string; email: string }
 
 export default function StandardsPage() {
+  const t    = useTranslations('standards')
+  const tAuth = useTranslations('auth')
   const [tab, setTab] = useState<Tab>('word')
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const [loggingOut, setLoggingOut] = useState(false)
@@ -65,13 +68,13 @@ export default function StandardsPage() {
         <div className="flex items-center gap-2">
           <span className="text-xl">🗃️</span>
           <div>
-            <div className="text-base font-bold leading-tight">표준데이터 관리 프로그램</div>
-            <div className="text-[11px] text-blue-200 leading-tight">DA Standard Data Management · 쇼핑몰</div>
+            <div className="text-base font-bold leading-tight">{t('appName')}</div>
+            <div className="text-[11px] text-blue-200 leading-tight">{t('appSub')}</div>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-3 text-xs text-blue-300">
           <a href="/notice" className="hidden sm:flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 transition-colors text-blue-200 hover:text-white text-xs">
-            📢 게시판
+            📢 {t('boardLink')}
           </a>
           <span className="hidden lg:block">DA#5 SQLiteDB_for_META_v5 · Supabase PostgreSQL</span>
           {userInfo && (
@@ -87,7 +90,7 @@ export default function StandardsPage() {
                     {userInfo.displayName}
                   </div>
                   <div className="text-blue-300 text-[10px] leading-tight">
-                    {ROLE_LABEL[userInfo.role] ?? userInfo.role}
+                    {ROLE_TKEY[userInfo.role] ? t(ROLE_TKEY[userInfo.role] as any) : userInfo.role}
                   </div>
                 </div>
               </a>
@@ -96,7 +99,7 @@ export default function StandardsPage() {
                 disabled={loggingOut}
                 className="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-xs transition-colors disabled:opacity-60"
               >
-                {loggingOut ? '...' : '로그아웃'}
+                {loggingOut ? '...' : tAuth('logout')}
               </button>
             </>
           )}
@@ -104,17 +107,17 @@ export default function StandardsPage() {
       </header>
 
       <div className="flex gap-0 border-b border-gray-300 bg-white shrink-0">
-        {TABS.map(t => (
-          <button key={t.key} onClick={() => setTab(t.key)}
+        {TAB_KEYS.map(tk => (
+          <button key={tk.key} onClick={() => setTab(tk.key)}
             className={`flex items-center gap-1.5 px-3 sm:px-6 py-2.5 text-xs sm:text-sm font-medium border-b-2 transition-colors
-              ${tab === t.key
+              ${tab === tk.key
                 ? 'border-[#1e3a5f] text-[#1e3a5f] bg-white'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}>
-            <span>{t.icon}</span>
-            {t.label}
-            {t.badge && (
+            <span>{tk.icon}</span>
+            {t(tk.tKey as any)}
+            {tk.badge && (
               <span className="px-1.5 py-0.5 text-[9px] bg-orange-100 text-orange-600 rounded font-bold">
-                {t.badge}
+                {tk.badge}
               </span>
             )}
           </button>

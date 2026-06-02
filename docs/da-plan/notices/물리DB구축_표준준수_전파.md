@@ -64,9 +64,9 @@ DEFAULT `'Y'`(취소됨) 적용 시 신규 주문상품이 취소됨 상태로 �
 ```sql
 -- ✅ 아래 순서와 속성을 반드시 준수 (총괄DA 승인 2026-05-30)
 regr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',             -- ① 등록자ID
-reg_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ② 등록일시
+reg_dts  timestamptz              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ② 등록일시
 modr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',             -- ③ 변경자ID
-mod_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ④ 변경일시
+mod_dts  timestamptz              NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- ④ 변경일시
 ```
 
 **상세 규칙 (v2 추가)**
@@ -104,11 +104,11 @@ od_dt  date  NOT NULL  -- ✅ 정상
 
 -- 아래는 위반 (VARCHAR로 날짜 저장 금지)
 od_dt  character varying(8)  -- ❌ 위반
-od_dt  timestamp              -- ❌ 위반 (일시가 아닌 날짜라면)
+od_dt  timestamptz              -- ❌ 위반 (일시가 아닌 날짜라면)
 ```
 
 > ⚠️ 일자(DT): DATE 타입 전용  
-> ⚠️ 일시(DTS): TIMESTAMP 타입 전용  
+> ⚠️ 일시(DTS): timestamptz 타입 전용  
 > ⚠️ 혼용 금지
 
 ### ✅ 체크리스트 D — 소문자
@@ -199,9 +199,9 @@ CREATE TABLE tb_xxx (
 
     -- 시스템 컬럼 (맨 마지막, 순서 고정)
     regr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',
-    reg_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dts  timestamptz              NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id  character varying(20)  NOT NULL DEFAULT 'ADMIN',
-    mod_dts  timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP
+    mod_dts  timestamptz              NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- mod_dts 자동 갱신 트리거 (테이블마다 생성)

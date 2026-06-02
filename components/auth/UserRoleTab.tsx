@@ -1,5 +1,6 @@
 'use client'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface Profile {
   id: string
@@ -10,72 +11,63 @@ interface Profile {
   avatar_url: string | null
 }
 
-// profiles.main_role 기준 5개 그룹 정의
+// label/desc/limit 텍스트 제거 → 번역 키로 처리
 const ROLE_GROUPS = [
   {
     role: 'admin'     as const,
-    label: '수퍼관리자',
-    desc: '최상위 관리자',
+    hasLimit: true,
     badge: 'bg-rose-100 text-rose-700 border-rose-200',
     bar:   'bg-rose-500',
     dot:   'bg-rose-500',
-    limit: '(최대 1명)',
   },
   {
     role: 'master'    as const,
-    label: '마스터',
-    desc: '부관리자',
+    hasLimit: true,
     badge: 'bg-purple-100 text-purple-700 border-purple-200',
     bar:   'bg-purple-500',
     dot:   'bg-purple-500',
-    limit: '(최대 2명)',
   },
   {
     role: 'manager'   as const,
-    label: '매니저',
-    desc: '사용자 중 최고권한자',
+    hasLimit: false,
     badge: 'bg-blue-100 text-blue-700 border-blue-200',
     bar:   'bg-blue-500',
     dot:   'bg-blue-500',
-    limit: '',
   },
   {
     role: 'sub_admin' as const,
-    label: '부매니저',
-    desc: '매니저가 지정하는 서브매니저',
+    hasLimit: false,
     badge: 'bg-teal-100 text-teal-700 border-teal-200',
     bar:   'bg-teal-500',
     dot:   'bg-teal-500',
-    limit: '',
   },
   {
     role: 'user'      as const,
-    label: '사용자',
-    desc: '일반 사용자',
+    hasLimit: false,
     badge: 'bg-gray-100 text-gray-600 border-gray-200',
     bar:   'bg-gray-400',
     dot:   'bg-gray-400',
-    limit: '',
   },
-] as const
+]
 
 type ProfileRole = 'admin' | 'master' | 'manager' | 'sub_admin' | 'user'
 
-const ROLE_OPTIONS: { value: ProfileRole; label: string }[] = [
-  { value: 'admin',     label: '수퍼관리자 (admin)'   },
-  { value: 'master',    label: '마스터 (master)'      },
-  { value: 'manager',   label: '매니저 (manager)'     },
-  { value: 'sub_admin', label: '부매니저 (sub_admin)' },
-  { value: 'user',      label: '사용자 (user)'        },
-]
-
 export default function UserRoleTab() {
+  const t = useTranslations('standards')
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [saving, setSaving]     = useState<string | null>(null)
   const [toast, setToast]       = useState<{ text: string; ok: boolean } | null>(null)
   const [q, setQ]               = useState('')
   // 그룹별 접기/펼치기 상태 (사용자 그룹은 기본 접힘)
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set(['user']))
+
+  const roleOptions = useMemo(() => [
+    { value: 'admin'     as ProfileRole, label: t('userRole.roleOption.admin' as any) },
+    { value: 'master'    as ProfileRole, label: t('userRole.roleOption.master' as any) },
+    { value: 'manager'   as ProfileRole, label: t('userRole.roleOption.manager' as any) },
+    { value: 'sub_admin' as ProfileRole, label: t('userRole.roleOption.sub_admin' as any) },
+    { value: 'user'      as ProfileRole, label: t('userRole.roleOption.user' as any) },
+  ], [t])
 
   const showToast = (text: string, ok: boolean) => {
     setToast({ text, ok }); setTimeout(() => setToast(null), 3000)
@@ -90,7 +82,6 @@ export default function UserRoleTab() {
   useEffect(() => { load() }, [load])
 
   const changeRole = async (user_id: string, main_role: string) => {
-    // id(PK)로 saving 상태 추적
     const profile = profiles.find(p => p.user_id === user_id)
     if (!profile) return
     setSaving(profile.id)
@@ -103,10 +94,10 @@ export default function UserRoleTab() {
       setProfiles(prev =>
         prev.map(p => p.user_id === user_id ? { ...p, main_role: main_role as ProfileRole } : p)
       )
-      showToast('역할이 변경되었습니다', true)
+      showToast(t('userRole.roleChanged' as any), true)
     } else {
       const e = await r.json()
-      showToast(e.error ?? '변경 실패', false)
+      showToast(e.error ?? t('userRole.changeFailed' as any), false)
     }
     setSaving(null)
   }
@@ -140,7 +131,6 @@ export default function UserRoleTab() {
         {ROLE_GROUPS.map(rg => (
           <button key={rg.role} type="button"
             onClick={() => {
-              // 카드 클릭 시 해당 그룹 펼치기
               setCollapsed(prev => {
                 const next = new Set(prev); next.delete(rg.role); return next
               })
@@ -148,15 +138,15 @@ export default function UserRoleTab() {
             }}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs transition-colors hover:opacity-80 ${rg.badge}`}>
             <span className={`w-2 h-2 rounded-full shrink-0 ${rg.dot}`} />
-            <span className="font-semibold">{rg.label}</span>
-            <span className="font-bold text-sm">{countByRole(rg.role)}</span>명
-            {rg.limit && <span className="text-[10px] opacity-60">{rg.limit}</span>}
+            <span className="font-semibold">{t(`userRole.${rg.role}.label` as any)}</span>
+            <span className="font-bold text-sm">{t('userRole.countBadge' as any, { n: countByRole(rg.role) })}</span>
+            {rg.hasLimit && <span className="text-[10px] opacity-60">{t(`userRole.${rg.role}.limit` as any)}</span>}
           </button>
         ))}
 
         <div className="ml-auto flex items-center gap-2">
           <input value={q} onChange={e => setQ(e.target.value)}
-            placeholder="이름 / 사용자명 검색"
+            placeholder={t('userRole.searchPlaceholder' as any)}
             className="border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400 w-44" />
           {q && (
             <button onClick={() => setQ('')}
@@ -191,12 +181,12 @@ export default function UserRoleTab() {
                 className="w-full flex items-center gap-3 px-4 py-2.5 bg-gray-50 hover:bg-gray-100 transition-colors text-left">
                 <div className={`w-1 h-6 rounded-full shrink-0 ${rg.bar}`} />
                 <div className="flex items-center gap-2 flex-1">
-                  <span className="text-xs font-bold text-gray-700">{rg.label}</span>
+                  <span className="text-xs font-bold text-gray-700">{t(`userRole.${rg.role}.label` as any)}</span>
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${rg.badge}`}>
-                    {totalInGroup}명
+                    {t('userRole.countBadge' as any, { n: totalInGroup })}
                   </span>
-                  <span className="text-[10px] text-gray-400">{rg.desc}</span>
-                  {rg.limit && <span className="text-[10px] text-gray-400">{rg.limit}</span>}
+                  <span className="text-[10px] text-gray-400">{t(`userRole.${rg.role}.desc` as any)}</span>
+                  {rg.hasLimit && <span className="text-[10px] text-gray-400">{t(`userRole.${rg.role}.limit` as any)}</span>}
                 </div>
                 <span className="text-gray-400 text-xs">
                   {isCollapsed ? '▶' : '▼'}
@@ -209,8 +199,8 @@ export default function UserRoleTab() {
                   {groupUsers.length > 0 && (
                     <thead className="bg-[#f1f5f9] text-gray-500">
                       <tr>
-                        {['이름', '사용자명', '현재 역할', '역할 변경', 'User ID'].map(h => (
-                          <th key={h} className="px-4 py-2 text-left font-medium border-r border-gray-200 last:border-r-0">{h}</th>
+                        {(['userRole.colName','userRole.colUsername','userRole.colCurrentRole','userRole.colRoleChange','userRole.colUserId'] as const).map(k => (
+                          <th key={k} className="px-4 py-2 text-left font-medium border-r border-gray-200 last:border-r-0">{t(k as any)}</th>
                         ))}
                       </tr>
                     </thead>
@@ -227,28 +217,28 @@ export default function UserRoleTab() {
                         </td>
                         <td className="px-4 py-2.5">
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${rg.badge}`}>
-                            {rg.label}
+                            {t(`userRole.${rg.role}.label` as any)}
                           </span>
                         </td>
                         <td className="px-4 py-2.5">
                           {p.user_id ? (
                             <div className="flex items-center gap-2">
                               <select
-                                aria-label="역할 변경"
+                                aria-label={t('userRole.colRoleChange' as any)}
                                 value={p.main_role}
                                 onChange={e => changeRole(p.user_id!, e.target.value)}
                                 disabled={saving === p.id}
                                 className="border border-gray-200 rounded px-2 py-1 text-[11px] focus:outline-none focus:ring-1 focus:ring-blue-400 disabled:opacity-50 bg-white">
-                                {ROLE_OPTIONS.map(ro => (
+                                {roleOptions.map(ro => (
                                   <option key={ro.value} value={ro.value}>{ro.label}</option>
                                 ))}
                               </select>
                               {saving === p.id && (
-                                <span className="text-blue-400 text-[10px] animate-pulse">저장 중…</span>
+                                <span className="text-blue-400 text-[10px] animate-pulse">{t('userRole.saving' as any)}</span>
                               )}
                             </div>
                           ) : (
-                            <span className="text-[10px] text-gray-300">user_id 없음</span>
+                            <span className="text-[10px] text-gray-300">{t('userRole.noUserId' as any)}</span>
                           )}
                         </td>
                         <td className="px-4 py-2.5 font-mono text-[10px] text-gray-300 max-w-[160px] truncate">
@@ -259,7 +249,7 @@ export default function UserRoleTab() {
                     {groupUsers.length === 0 && (
                       <tr>
                         <td colSpan={5} className="px-4 py-4 text-center text-gray-400 text-[11px]">
-                          이 그룹에 사용자가 없습니다
+                          {t('userRole.emptyGroup' as any)}
                         </td>
                       </tr>
                     )}
@@ -273,8 +263,8 @@ export default function UserRoleTab() {
 
       {/* ── 하단 요약 ── */}
       <div className="px-4 py-2 bg-gray-100 border-t text-xs text-gray-500 flex items-center gap-3 shrink-0">
-        <span>전체 <strong>{profiles.length}</strong>명</span>
-        {q && <span>검색 결과 <strong>{filtered.length}</strong>명</span>}
+        <span>{t('userRole.totalCount' as any, { n: profiles.length })}</span>
+        {q && <span>{t('userRole.searchCount' as any, { n: filtered.length })}</span>}
         <span className="ml-auto text-[10px] text-gray-400">Supabase · profiles 테이블</span>
       </div>
     </div>

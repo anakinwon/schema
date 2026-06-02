@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS role_mst (
     role_cont            text                   NULL,
     use_yn               character varying(1)   NOT NULL DEFAULT 'Y',
     regr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    reg_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    mod_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_role_mst PRIMARY KEY (role_cd)
 );
 
@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS perm_mst (
     perm_cont            text                   NULL,
     use_yn               character varying(1)   NOT NULL DEFAULT 'Y',
     regr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    reg_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    mod_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_perm_mst PRIMARY KEY (perm_cd)
 );
 
@@ -37,9 +37,9 @@ CREATE TABLE IF NOT EXISTS role_perm (
     perm_cd              character varying(50)  NOT NULL,
     grnt_yn              character varying(1)   NOT NULL DEFAULT 'Y',
     regr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    reg_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    mod_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_role_perm PRIMARY KEY (role_cd, perm_cd)
 );
 
@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS grp_mst (
     grp_cont             text                   NULL,
     use_yn               character varying(1)   NOT NULL DEFAULT 'Y',
     regr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    reg_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    mod_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_grp_mst PRIMARY KEY (grp_cd)
 );
 
@@ -63,9 +63,9 @@ CREATE TABLE IF NOT EXISTS grp_mbr (
     mbr_role_cd          character varying(20)  NOT NULL DEFAULT 'USER',
     use_yn               character varying(1)   NOT NULL DEFAULT 'Y',
     regr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    reg_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    mod_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_grp_mbr PRIMARY KEY (grp_cd, usr_no)
 );
 
@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS grp_mbr_perm (
     perm_cd              character varying(50)  NOT NULL,
     grnt_yn              character varying(1)   NOT NULL DEFAULT 'Y',
     regr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    reg_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id              character varying(50)  NOT NULL DEFAULT 'ADMIN',
-    mod_dtm              timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm              timestamptz            NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_grp_mbr_perm PRIMARY KEY (grp_cd, usr_no, perm_cd)
 );
 

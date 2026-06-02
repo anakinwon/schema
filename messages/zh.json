@@ -1,7 +1,7 @@
 {
   "admin": {
-    "adminLabel": "STD_DIC 注册/修改/删除 |||标准域名管理|||注册/修改/删除 STD_DOM |||标准术语管理",
-    "backOffice": "管理员页面（后台）|||管理员|||您没有访问权限 |||仪表板|||规范管理|||通用代码|||更改历史|||审批管理|||同步|||用户管理|||公告板管理|||多语言管理|||管理员仪表板 |||标准数据管理系统状态|||快速旅行||| DA#5 SQLiteDB_for_META · Supabase PostgreSQL |||标准字|||标准域|||标准术语 |||活跃用户|||标准文字管理",
+    "adminLabel": "管理员",
+    "backOffice": "后台管理（Back Office）",
     "dashboard": {
       "card": {
         "domains": "标准域",
@@ -31,36 +31,36 @@
       "quickMenu": "快速导航"
     },
     "menu": {
-      "approval": "승인관리",
-      "audit": "변경이력",
-      "board": "게시판관리",
-      "codes": "공통코드",
-      "dashboard": "대시보드",
-      "i18n": "다국어관리",
-      "standards": "표준관리",
-      "sync": "동기화",
-      "users": "사용자관리"
+      "approval": "审批管理",
+      "audit": "变更历史",
+      "board": "公告板管理",
+      "codes": "通用代码",
+      "dashboard": "仪表板",
+      "i18n": "多语言管理",
+      "standards": "规范管理",
+      "sync": "同步",
+      "users": "用户管理"
     },
-    "noPermission": "DA_TERM 注册/修改/删除 |||常用代码管理||| DA §40 STD_CODE 管理 |||更改历史||| STD_DIC·STD_DOM 审计跟踪 |||用户列表 |||角色授予和权限管理 |||一般用户屏幕 |||标准数据查询/编辑"
+    "noPermission": "您没有访问权限"
   },
   "auth": {
-    "email": "이메일",
-    "login": "登录 |||退出 |||注册",
-    "loginButton": "로그인",
-    "loginError": "이메일 또는 비밀번호가 올바르지 않습니다",
-    "loginTitle": "{appName} — 로그인",
-    "logout": "{appName} — 登录 |||电子邮件 |||密码|||登录 |||电子邮件或密码不正确",
-    "password": "비밀번호",
-    "signup": "회원가입"
+    "email": "电子邮件",
+    "login": "登录",
+    "loginButton": "登录",
+    "loginError": "电子邮件或密码不正确",
+    "loginTitle": "{appName} — 登录",
+    "logout": "退出",
+    "password": "密码",
+    "signup": "注册"
   },
   "board": {
     "answered": "채택완료",
     "author": "작성자",
     "backToList": "← 목록",
     "categories": {
-      "ARCHIVE": "{size} 每个|||书名/作者搜索 |||没有搜索结果“{query}”|||通知|||领养完毕 |||未答复||| ← 列表 |||该公告板不存在 |||前往公告",
+      "ARCHIVE": "资料室",
       "FREE": "자유게시판",
-      "NOTICE": "通知|||资料室 |||免费公告板|||问答 |||写作 |||标题|||内容|||作者 |||写者 |||查看|||评论|||没有帖子|||您确定要删除您的帖子吗？ |||写作 |||编辑帖子||| {count} 病例总数",
+      "NOTICE": "通知",
       "QNA": "Q&A"
     },
     "comments": "댓글",
@@ -83,9 +83,212 @@
     "write": "글쓰기"
   },
   "common": {
-    "appName": "标准数据管理程序|||仪表板|||保存|||取消|||删除|||编辑|||返回|||正在加载... |||搜索",
+    "appName": "标准数据管理程序",
     "back": "뒤로",
     "cancel": "취소",
-    "dashboard": "대시보드"
+    "dashboard": "대시보드",
+    "delete": "삭제",
+    "save": "저장",
+    "edit": "수정",
+    "loading": "불러오는 중…",
+    "search": "검색"
+  },
+  "standards": {
+    "appName": "标准数据管理程序",
+    "appSub": "DA标准数据管理·商城",
+    "boardLink": "布告栏",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "标准文字管理",
+      "domain": "标准域管理",
+      "term": "标准术语管理",
+      "auth": "权限管理"
+    },
+    "action": {
+      "add": "+ 添加",
+      "edit": "编辑",
+      "editSave": "编辑保存",
+      "delete": "删除",
+      "save": "保存",
+      "cancel": "取消",
+      "search": "搜索",
+      "reset": "重置",
+      "register": "登记",
+      "close": "关闭",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "请选择一个项目",
+      "linked": "已连接",
+      "unused": "（未使用）",
+      "saveFail": "保存失败",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "数量",
+      "logicalName": "逻辑名称",
+      "physicalName": "物理名称",
+      "physicalFullName": "英文全名",
+      "category": "分类",
+      "physicalType": "物理型",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "描述",
+      "domain": "域",
+      "domainName": "域名",
+      "domainType": "域名类型",
+      "repDomain": "代表域",
+      "repDomainPhysical": "代表领域（物理）",
+      "logicalType": "逻辑类型",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "逻辑数据类型",
+      "dataLength": "数据长度",
+      "length": "长度",
+      "scale": "小数",
+      "range": "范围",
+      "dataFormat": "数据格式",
+      "domainLink": "域连接",
+      "classWord": "基本语言",
+      "entityClass": "实体",
+      "attrClass": "属性（分类器）",
+      "entityAttr": "实体/财产",
+      "logicalTermName": "逻辑术语名称",
+      "physicalTermName": "物理术语名称",
+      "logicalPhysical": "逻辑名称/物理名称",
+      "logicalPhysicalTerm": "逻辑术语名称/物理术语名称",
+      "domainNameRep": "域名/代表域"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "系统管理员",
+      "dataAdmin": "数据管理器",
+      "stdAdmin": "标准经理",
+      "subAdmin": "标准副经理",
+      "user": "普通用户"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "普什图语",
+    "sq": "阿尔巴尼亚语",
+    "label": "语言",
+    "ko": "韩语",
+    "en": "英语",
+    "zh": "ไทย",
+    "ja": "日本語",
+    "hi": "हिन्दी",
+    "vi": "Tiếng Việt",
+    "id": "Bahasa Indonesia",
+    "ms": "Bahasa Melayu",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "th": "ไทย",
+    "de": "德语"
+  },
+  "profile": {
+    "title": "我的信息",
+    "username": "Username",
+    "edit": "Edit Profile",
+    "role": "Role",
+    "fullName": "Full Name"
+  },
+  "validation": {
+    "required": "此字段为必填项",
+    "invalidEmail": "올바른 이메일 형식이 아닙니다",
+    "tooShort": "{min}자 이상 입력하세요",
+    "fileSizeExceeded": "업로드 파일크기제한 {maxMb}MB를 초과했습니다"
   }
 }

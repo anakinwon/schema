@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import type { StdWord, StdDomain } from '@/lib/da-types'
 import DdlExportDialog from './DdlExportDialog'
 import AuditPanel from './AuditPanel'
@@ -23,6 +24,7 @@ const emptyForm = () => ({
 })
 
 export default function TermTab() {
+  const t = useTranslations('standards')
   const [terms, setTerms] = useState<TermRow[]>([])
   const [words, setWords] = useState<StdWord[]>([])
   const [domains, setDomains] = useState<StdDomain[]>([])
@@ -139,23 +141,23 @@ export default function TermTab() {
     <div className="flex flex-col h-full">
       {/* 검색 바 */}
       <div className="flex items-center gap-2 p-3 border-b bg-gray-50">
-        <span className="text-sm text-gray-600">검색:</span>
+        <span className="text-sm text-gray-600">{t('searchLabel' as any)}</span>
         <input value={q} onChange={e => setQ(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && loadTerms()}
-          placeholder="논리용어명 / 물리용어명"
+          placeholder={t('placeholder.term' as any)}
           className="border border-gray-300 rounded px-2 py-1 text-sm w-52 focus:outline-none focus:ring-1 focus:ring-blue-400"
         />
-        <button onClick={loadTerms} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">조회</button>
+        <button onClick={loadTerms} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">{t('action.query' as any)}</button>
         <div className="ml-auto flex gap-2">
           <button onClick={() => setAuditOpen(true)} disabled={!selected}
-            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 이력</button>
+            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 {t('action.history' as any)}</button>
           <button onClick={() => setDdlOpen(true)} disabled={terms.length === 0}
             className="px-3 py-1 bg-emerald-600 text-white rounded text-sm hover:bg-emerald-700 disabled:opacity-40">
-            ⬇ DDL Export
+            ⬇ {t('action.ddlExport' as any)}
           </button>
-          <button onClick={resetForm} className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">+ 신규</button>
+          <button onClick={resetForm} className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">{t('action.new' as any)}</button>
           <button onClick={del} disabled={!selected}
-            className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:opacity-40">삭제</button>
+            className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:opacity-40">{t('action.delete' as any)}</button>
         </div>
       </div>
 
@@ -178,8 +180,8 @@ export default function TermTab() {
         <table className="w-full min-w-[600px] text-xs border-collapse">
           <thead className="sticky top-0 bg-[#2c4a6e] text-white">
             <tr>
-              {['번호','논리용어명','물리용어명','도메인','설명'].map(h => (
-                <th key={h} className="px-3 py-2 text-left font-medium border-r border-[#3a5a80] last:border-r-0">{h}</th>
+              {(['field.no','field.logicalTermName','field.physicalTermName','field.domain','field.description'] as const).map(k => (
+                <th key={k} className="px-3 py-2 text-left font-medium border-r border-[#3a5a80] last:border-r-0">{t(k as any)}</th>
               ))}
             </tr>
           </thead>
@@ -198,7 +200,7 @@ export default function TermTab() {
               </tr>
             ))}
             {terms.length === 0 && (
-              <tr><td colSpan={5} className="text-center py-6 text-gray-400">등록된 표준용어가 없습니다</td></tr>
+              <tr><td colSpan={5} className="text-center py-6 text-gray-400">{t('state.noTerms' as any)}</td></tr>
             )}
           </tbody>
         </table>
@@ -208,14 +210,14 @@ export default function TermTab() {
       {/* 하단: 용어 등록 폼 */}
       <div className="p-4 bg-gray-50 border-t text-sm overflow-auto" style={{ minHeight: '55%' }}>
         <h3 className="font-semibold text-gray-700 mb-3 text-xs border-b pb-1">
-          {isEdit ? '✏️ 용어 수정' : '➕ 용어 등록'} — 용어 정보
+          {isEdit ? `✏️ ${t('term.editMode' as any)}` : `➕ ${t('term.addMode' as any)}`} — {t('term.infoSection' as any)}
         </h3>
 
         <div className="grid grid-cols-2 gap-4">
           {/* 좌측: 구성 */}
           <div className="space-y-3">
             <div>
-              <div className="text-xs text-gray-500 mb-1 font-medium">기본어 선택 (클릭으로 추가)</div>
+              <div className="text-xs text-gray-500 mb-1 font-medium">{t('term.baseWordSelect' as any)}</div>
               <div className="flex flex-wrap gap-1 border rounded p-2 bg-white min-h-[60px] max-h-[80px] overflow-y-auto">
                 {baseWords.map(w => (
                   <button key={w.DIC_ID} onClick={() => addWord(w)}
@@ -228,9 +230,9 @@ export default function TermTab() {
             </div>
 
             <div>
-              <div className="text-xs text-gray-500 mb-1 font-medium">구성정보 (선택된 기본어 순서)</div>
+              <div className="text-xs text-gray-500 mb-1 font-medium">{t('term.compositionInfo' as any)}</div>
               <div className="flex flex-wrap gap-1 border rounded p-2 bg-white min-h-[40px]">
-                {composed.length === 0 && <span className="text-gray-300 text-xs">기본어를 선택하세요</span>}
+                {composed.length === 0 && <span className="text-gray-300 text-xs">{t('term.selectBaseWord' as any)}</span>}
                 {composed.map((w, i) => (
                   <span key={w.DIC_ID}
                     className="flex items-center gap-1 px-2 py-0.5 text-[11px] bg-blue-50 border border-blue-300 rounded font-mono">
@@ -249,10 +251,10 @@ export default function TermTab() {
             </div>
 
             <div className="flex items-center gap-2">
-              <label className="text-xs text-gray-500 w-20 shrink-0">도메인 :</label>
+              <label className="text-xs text-gray-500 w-20 shrink-0">{t('field.domain' as any)} :</label>
               <select value={domainId} onChange={e => setDomainId(e.target.value)}
                 className="flex-1 border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-400">
-                <option value="">-- 도메인 선택 --</option>
+                <option value="">{t('term.domainSelectPlaceholder' as any)}</option>
                 {domains.map(d => (
                   <option key={d.DOM_ID} value={d.DOM_ID}>{d.DOM_NM} ({d.KEY_DOM_PHY_NM})</option>
                 ))}
@@ -263,26 +265,26 @@ export default function TermTab() {
           {/* 우측: 자동생성 결과 + 설명 */}
           <div className="space-y-3">
             <div>
-              <div className="text-xs text-gray-500 mb-1 font-medium">논리용어명 (자동생성)</div>
+              <div className="text-xs text-gray-500 mb-1 font-medium">{t('term.autoLogicalName' as any)}</div>
               <input value={autoLogNm} readOnly
                 className="w-full border border-gray-300 rounded px-2 py-1 text-xs bg-gray-100 text-gray-700 font-medium" />
             </div>
             <div>
-              <div className="text-xs text-gray-500 mb-1 font-medium">물리용어명 (자동생성)</div>
+              <div className="text-xs text-gray-500 mb-1 font-medium">{t('term.autoPhysicalName' as any)}</div>
               <input value={autoPhyNm} readOnly
                 className="w-full border border-gray-300 rounded px-2 py-1 text-xs bg-gray-100 font-mono text-blue-700" />
             </div>
             <div>
-              <div className="text-xs text-gray-500 mb-1 font-medium">용어설명</div>
+              <div className="text-xs text-gray-500 mb-1 font-medium">{t('term.termDesc' as any)}</div>
               <textarea value={termDesc} onChange={e => setTermDesc(e.target.value)} rows={4}
                 className="w-full border border-gray-300 rounded px-2 py-1 text-xs resize-none focus:outline-none focus:ring-1 focus:ring-blue-400" />
             </div>
             <div className="flex justify-end gap-2 pt-1">
               <button onClick={resetForm}
-                className="px-4 py-1.5 bg-gray-200 border border-gray-300 rounded text-xs hover:bg-gray-300">초기화</button>
+                className="px-4 py-1.5 bg-gray-200 border border-gray-300 rounded text-xs hover:bg-gray-300">{t('action.reset' as any)}</button>
               <button onClick={save} disabled={saving}
                 className="px-5 py-1.5 bg-[#1e3a5f] text-white rounded text-xs hover:bg-[#2a4f7f] disabled:opacity-50">
-                {saving ? '저장중…' : (isEdit ? '수정저장' : '저장')}
+                {saving ? t('term.saving' as any) : (isEdit ? t('action.editSave' as any) : t('action.save' as any))}
               </button>
             </div>
           </div>
@@ -290,7 +292,7 @@ export default function TermTab() {
       </div>
 
       <div className="px-3 py-1.5 bg-gray-100 border-t text-xs text-gray-500">
-        총 {terms.length}개 표준용어
+        {t('state.totalTerms' as any, { n: terms.length })}
       </div>
     </div>
   )

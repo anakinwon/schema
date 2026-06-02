@@ -1,10 +1,12 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import type { StdWord } from '@/lib/da-types'
 import WordDialog from './WordDialog'
 import AuditPanel from './AuditPanel'
 
 export default function WordTab() {
+  const t = useTranslations('standards')
   const [rows, setRows] = useState<StdWord[]>([])
   const [q, setQ] = useState('')
   const [selected, setSelected] = useState<StdWord | null>(null)
@@ -49,23 +51,23 @@ export default function WordTab() {
     <div className="flex flex-col h-full">
       {/* 검색 바 */}
       <div className="flex items-center gap-2 p-3 border-b bg-gray-50">
-        <span className="text-sm text-gray-600">검색:</span>
+        <span className="text-sm text-gray-600">{t('searchLabel' as any)}</span>
         <input
           value={q} onChange={e => setQ(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && load()}
-          placeholder="논리명 / 물리명"
+          placeholder={t('placeholder.word' as any)}
           className="border border-gray-300 rounded px-2 py-1 text-sm w-52 focus:outline-none focus:ring-1 focus:ring-blue-400"
         />
-        <button onClick={load} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">조회</button>
+        <button onClick={load} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">{t('action.query' as any)}</button>
         <div className="ml-auto flex gap-2">
           <button onClick={() => setAuditOpen(true)} disabled={!selected}
-            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 이력</button>
+            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 {t('action.history' as any)}</button>
           <button onClick={openAdd}
-            className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">+ 추가</button>
+            className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">{t('action.add' as any)}</button>
           <button onClick={openEdit} disabled={!selected}
-            className="px-3 py-1 bg-amber-500 text-white rounded text-sm hover:bg-amber-600 disabled:opacity-40">수정</button>
+            className="px-3 py-1 bg-amber-500 text-white rounded text-sm hover:bg-amber-600 disabled:opacity-40">{t('action.edit' as any)}</button>
           <button onClick={del} disabled={!selected}
-            className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:opacity-40">삭제</button>
+            className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:opacity-40">{t('action.delete' as any)}</button>
         </div>
       </div>
 
@@ -77,8 +79,8 @@ export default function WordTab() {
           <table className="w-full min-w-[680px] text-xs border-collapse">
             <thead className="sticky top-0 bg-[#2c4a6e] text-white">
               <tr>
-                {['번호','논리명','물리명','영문풀네임','분류','물리타입','설명'].map(h => (
-                  <th key={h} className="px-3 py-2 text-left font-medium border-r border-[#3a5a80] last:border-r-0">{h}</th>
+                {(['field.no','field.logicalName','field.physicalName','field.physicalFullName','field.category','field.physicalType','field.description'] as const).map(k => (
+                  <th key={k} className="px-3 py-2 text-left font-medium border-r border-[#3a5a80] last:border-r-0">{t(k as any)}</th>
                 ))}
               </tr>
             </thead>
@@ -116,15 +118,15 @@ export default function WordTab() {
         <div className="w-64 p-4 bg-gray-50 text-xs overflow-auto">
           {selected ? (
             <div className="space-y-3">
-              <h3 className="font-semibold text-gray-700 border-b pb-1">단어 상세정보</h3>
+              <h3 className="font-semibold text-gray-700 border-b pb-1">{t('tab.word')}</h3>
               {[
-                ['논리명', selected.DIC_LOG_NM],
-                ['물리명', selected.DIC_PHY_NM],
-                ['영문풀네임', selected.DIC_PHY_FLL_NM],
-                ['분류', typeLabel(selected)],
-                ['물리타입', selected.DATA_TYPE ?? '—'],
-                ['길이', selected.DATA_LEN != null ? `${selected.DATA_LEN}${selected.DATA_SCALE != null ? `.${selected.DATA_SCALE}` : ''}` : '—'],
-                ['도메인연결', selected.DOM_NM ?? (selected.DOM_USE_YN === 'Y' ? '연결됨' : '—')],
+                [t('field.logicalName'), selected.DIC_LOG_NM],
+                [t('field.physicalName'), selected.DIC_PHY_NM],
+                [t('field.physicalFullName'), selected.DIC_PHY_FLL_NM],
+                [t('field.category'), typeLabel(selected)],
+                [t('field.physicalType'), selected.DATA_TYPE ?? '—'],
+                [t('field.length'), selected.DATA_LEN != null ? `${selected.DATA_LEN}${selected.DATA_SCALE != null ? `.${selected.DATA_SCALE}` : ''}` : '—'],
+                [t('field.domainLink'), selected.DOM_NM ?? (selected.DOM_USE_YN === 'Y' ? t('state.linked') : '—')],
               ].map(([k, v]) => (
                 <div key={k as string}>
                   <div className="text-gray-400 text-[10px]">{k}</div>
@@ -132,18 +134,18 @@ export default function WordTab() {
                 </div>
               ))}
               <div>
-                <div className="text-gray-400 text-[10px]">설명</div>
+                <div className="text-gray-400 text-[10px]">{t('field.description' as any)}</div>
                 <div className="text-gray-600 text-[11px] leading-relaxed">{selected.DIC_DESC || '—'}</div>
               </div>
             </div>
           ) : (
-            <div className="text-gray-400 text-center mt-8">항목을 선택하세요</div>
+            <div className="text-gray-400 text-center mt-8">{t('state.select' as any)}</div>
           )}
         </div>
       </div>
 
       <div className="px-3 py-1.5 bg-gray-100 border-t text-xs text-gray-500">
-        총 {rows.length}개 단어
+        {t('state.totalWords' as any, { n: rows.length })}
       </div>
 
       <WordDialog

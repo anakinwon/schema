@@ -87,6 +87,208 @@
     "back": "वापस",
     "cancel": "रद्द करें",
     "dashboard": "डैशबोर्ड",
-    "delete": "हटाएं"
+    "delete": "हटाएं",
+    "save": "सहेजें",
+    "edit": "संपादित करें",
+    "loading": "लोड हो रहा है...",
+    "search": "खोजें"
+  },
+  "standards": {
+    "appName": "मानक डेटा प्रबंधन कार्यक्रम",
+    "appSub": "डीए मानक डेटा प्रबंधन · शॉपिंग मॉल",
+    "boardLink": "बुलेटिन बोर्ड",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "मानक शब्द प्रबंधन",
+      "domain": "मानक डोमेन प्रबंधन",
+      "term": "मानक शब्दावली प्रबंधन",
+      "auth": "अनुमति प्रबंधन"
+    },
+    "action": {
+      "add": "+ जोड़ें",
+      "edit": "संपादित करें",
+      "editSave": "संपादित करें सहेजें",
+      "delete": "हटाएँ",
+      "save": "सहेजें",
+      "cancel": "रद्द करें",
+      "search": "खोज",
+      "reset": "रीसेट करें",
+      "register": "पंजीकरण",
+      "close": "बंद करें",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "कृपया एक आइटम चुनें",
+      "linked": "जुड़ा हुआ",
+      "unused": "(अप्रयुक्त)",
+      "saveFail": "सहेजना विफल",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "संख्या",
+      "logicalName": "तार्किक नाम",
+      "physicalName": "भौतिक नाम",
+      "physicalFullName": "अंग्रेजी पूरा नाम",
+      "category": "वर्गीकरण",
+      "physicalType": "भौतिक प्रकार",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "विवरण",
+      "domain": "डोमेन",
+      "domainName": "डोमेन नाम",
+      "domainType": "डोमेन प्रकार",
+      "repDomain": "प्रतिनिधि डोमेन",
+      "repDomainPhysical": "प्रतिनिधि डोमेन (भौतिकी)",
+      "logicalType": "तार्किक प्रकार",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "तार्किक डेटा प्रकार",
+      "dataLength": "डेटा की लंबाई",
+      "length": "लंबाई",
+      "scale": "दशमलव",
+      "range": "रेंज",
+      "dataFormat": "डेटा प्रारूप",
+      "domainLink": "डोमेन कनेक्शन",
+      "classWord": "बुनियादी भाषा",
+      "entityClass": "इकाई",
+      "attrClass": "विशेषता (वर्गीकरणकर्ता)",
+      "entityAttr": "इकाई/संपत्ति",
+      "logicalTermName": "तार्किक शब्द का नाम",
+      "physicalTermName": "भौतिकी शब्द का नाम",
+      "logicalPhysical": "तार्किक नाम/भौतिक नाम",
+      "logicalPhysicalTerm": "तार्किक शब्द का नाम / भौतिक शब्द का नाम",
+      "domainNameRep": "डोमेन नाम/प्रतिनिधि डोमेन"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "सिस्टम प्रशासक",
+      "dataAdmin": "डेटा मैनेजर",
+      "stdAdmin": "मानक प्रबंधक",
+      "subAdmin": "उप मानक प्रबंधक",
+      "user": "सामान्य उपयोगकर्ता"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "पश्तो",
+    "sq": "अल्बानियाई",
+    "label": "भाषा",
+    "ko": "कोरियाई",
+    "en": "अंग्रेज़ी",
+    "zh": "चीनी",
+    "ja": "जापानी",
+    "hi": "हिंदी",
+    "vi": "वियतनामी",
+    "id": "इंडोनेशियाई",
+    "ms": "मलय",
+    "en-ZA": "अंग्रेज़ी (दक्षिण अफ्रीका)",
+    "fil": "फिलिपिनो",
+    "th": "थाई",
+    "de": "जर्मन"
+  },
+  "profile": {
+    "title": "मेरी प्रोफ़ाइल",
+    "fullName": "पूरा नाम",
+    "username": "उपयोगकर्ता नाम",
+    "role": "भूमिका",
+    "edit": "प्रोफ़ाइल संपादित करें"
+  },
+  "validation": {
+    "required": "यह फ़ील्ड आवश्यक है",
+    "invalidEmail": "अमान्य ईमेल प्रारूप",
+    "tooShort": "{min} अक्षर से अधिक होना चाहिए",
+    "fileSizeExceeded": "फ़ाइल का आकार {maxMb}MB से अधिक है"
   }
 }

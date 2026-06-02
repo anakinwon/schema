@@ -3,9 +3,9 @@ CREATE TABLE dept_info (
     dept_nm                text                           NOT NULL,
     use_yn                 character varying(1)           NULL,
     regr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    reg_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    mod_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_dept_info PRIMARY KEY (dept_no)
 );
 
@@ -21,9 +21,9 @@ CREATE TABLE user_info (
     quit_dt                date                           NULL,
     use_yn                 character varying(1)           NULL,
     regr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    reg_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    mod_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_user_info PRIMARY KEY (usr_no)
 );
 
@@ -34,9 +34,9 @@ CREATE TABLE prod_info (
     prd_price              numeric(15,2)                  NULL,
     use_yn                 character varying(1)           NULL,
     regr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    reg_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    mod_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_prod_info PRIMARY KEY (prd_no)
 );
 
@@ -46,9 +46,9 @@ CREATE TABLE prod_catal_info (
     up_prd_typ_cd          text                           NULL,
     use_yn                 character varying(1)           NULL,
     regr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    reg_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    mod_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_prod_catal_info PRIMARY KEY (prd_typ_cd)
 );
 
@@ -63,8 +63,8 @@ CREATE TABLE order_info (
     ccl_sts_yn             character varying(1)           NULL,
     use_yn                 character varying(1)           NULL,
     regr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    reg_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id                character varying(50)          NOT NULL DEFAULT 'ADMIN',
-    mod_dtm                timestamp                      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm                timestamptz                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_order_info PRIMARY KEY (od_no)
 );

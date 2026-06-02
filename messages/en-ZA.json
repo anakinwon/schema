@@ -87,6 +87,208 @@
     "back": "back",
     "cancel": "Cancel",
     "dashboard": "Dashboard",
-    "delete": "Delete"
+    "delete": "Delete",
+    "save": "Save",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "search": "search"
+  },
+  "standards": {
+    "appName": "Standard data management program",
+    "appSub": "DA Standard Data Management · Shopping Mall",
+    "boardLink": "bulletin board",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "Standard word management",
+      "domain": "Standard domain management",
+      "term": "Standard terminology management",
+      "auth": "Permission Management"
+    },
+    "action": {
+      "add": "+ add",
+      "edit": "Edit",
+      "editSave": "edit save",
+      "delete": "Delete",
+      "save": "save",
+      "cancel": "Cancel",
+      "search": "search",
+      "reset": "reset",
+      "register": "registration",
+      "close": "close",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "Please select an item",
+      "linked": "connected",
+      "unused": "(unused)",
+      "saveFail": "save failed",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "number",
+      "logicalName": "logical name",
+      "physicalName": "physical name",
+      "physicalFullName": "English full name",
+      "category": "Classification",
+      "physicalType": "Physical type",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "Description",
+      "domain": "domain",
+      "domainName": "domain name",
+      "domainType": "Domain type",
+      "repDomain": "Representative domain",
+      "repDomainPhysical": "Representative domain (physics)",
+      "logicalType": "Logical type",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "logical data type",
+      "dataLength": "data length",
+      "length": "length",
+      "scale": "decimal",
+      "range": "range",
+      "dataFormat": "data format",
+      "domainLink": "Domain connection",
+      "classWord": "basic language",
+      "entityClass": "entity",
+      "attrClass": "Attribute (classifier)",
+      "entityAttr": "Entity/Property",
+      "logicalTermName": "Logical term name",
+      "physicalTermName": "Physics term name",
+      "logicalPhysical": "Logical name / Physical name",
+      "logicalPhysicalTerm": "Logical term name / Physical term name",
+      "domainNameRep": "Domain name / representative domain"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "system administrator",
+      "dataAdmin": "data manager",
+      "stdAdmin": "standard manager",
+      "subAdmin": "Deputy Standard Manager",
+      "user": "General user"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "Pashto",
+    "sq": "Albanian",
+    "label": "language",
+    "ko": "Korean",
+    "en": "English",
+    "zh": "中文",
+    "ja": "Japanese language",
+    "hi": "हिन्दी",
+    "vi": "Tiếng Việt",
+    "id": "Bahasa Indonesia",
+    "ms": "Bahasa Melayu",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "th": "ไทย",
+    "de": "German"
+  },
+  "profile": {
+    "title": "My Information",
+    "fullName": "Name",
+    "username": "ID",
+    "role": "Role",
+    "edit": "Edit profile"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Email is not in correct format",
+    "tooShort": "Please enter {min} characters or more",
+    "fileSizeExceeded": "The upload file size limit of {maxMb}MB has been exceeded."
   }
 }

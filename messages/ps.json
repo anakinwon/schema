@@ -86,6 +86,209 @@
     "appName": "د معياري معلوماتو د مدیریت سیستم",
     "back": "شاته",
     "cancel": "لغوه کول",
-    "dashboard": "ډیشبورډ"
+    "dashboard": "ډیشبورډ",
+    "delete": "ړنګول",
+    "save": "خوندي کول",
+    "edit": "سمول",
+    "loading": "بارول کیږي...",
+    "search": "لټول"
+  },
+  "standards": {
+    "appName": "د معیاري معلوماتو مدیریت پروګرام",
+    "appSub": "د معیاري معلوماتو مدیریت · د شاپینګ مال",
+    "boardLink": "د خبرتیا بورډ",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "د معیاري کلمو مدیریت",
+      "domain": "د معیاري ډومین مدیریت",
+      "term": "د معیاري اصطلاحاتو مدیریت",
+      "auth": "د اجازې مدیریت"
+    },
+    "action": {
+      "add": "+ اضافه کړئ",
+      "edit": "سمون",
+      "editSave": "خوندي کول",
+      "delete": "ړنګول",
+      "save": "خوندي کول",
+      "cancel": "لغوه کړئ",
+      "search": "لټون",
+      "reset": "بیا تنظیمول",
+      "register": "ثبت",
+      "close": "تړل",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "مهرباني وکړئ یو توکي وټاکئ",
+      "linked": "تړلی",
+      "unused": "(نه کارول شوی)",
+      "saveFail": "خوندي کول ناکام شول",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "شمیره",
+      "logicalName": "منطقي نوم",
+      "physicalName": "فزیکي نوم",
+      "physicalFullName": "انګلیسي بشپړ نوم",
+      "category": "طبقه بندي",
+      "physicalType": "فزیکي ډول",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "تفصیل",
+      "domain": "ډومین",
+      "domainName": "د ډومین نوم",
+      "domainType": "د ډومین ډول",
+      "repDomain": "د نمایندګۍ ډومین",
+      "repDomainPhysical": "استازی ډومین (فزیک)",
+      "logicalType": "منطقي ډول",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "د منطقي معلوماتو ډول",
+      "dataLength": "د معلوماتو اوږدوالی",
+      "length": "اوږدوالی",
+      "scale": "لسیزه",
+      "range": "حد",
+      "dataFormat": "د معلوماتو بڼه",
+      "domainLink": "د ډومین پیوستون",
+      "classWord": "بنسټیزه ژبه",
+      "entityClass": "وجود",
+      "attrClass": "صفت (طبقه کونکی)",
+      "entityAttr": "اداره/ملکیت",
+      "logicalTermName": "منطقي اصطلاح نوم",
+      "physicalTermName": "د فزیک اصطلاح نوم",
+      "logicalPhysical": "منطقي نوم / فزیکي نوم",
+      "logicalPhysicalTerm": "منطقي اصطلاح نوم / فزیکي اصطلاح نوم",
+      "domainNameRep": "د ډومین نوم / استازی ډومین"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "د سیسټم مدیر",
+      "dataAdmin": "د معلوماتو مدیر",
+      "stdAdmin": "معیاري مدیر",
+      "subAdmin": "مرستیال معیاري مدیر",
+      "user": "عمومي کارونکي"
+    }
+  },
+  "languageSwitcher": {
+    "sq": "البانوي",
+    "label": "ژبه",
+    "ko": "کوریایي",
+    "en": "انګلیسي",
+    "zh": "چیني",
+    "ja": "جاپاني",
+    "hi": "هندي",
+    "vi": "ویتنامي",
+    "id": "اندونیزیایي",
+    "ms": "مالیایي",
+    "en-ZA": "انګلیسي (سویلي افریقا)",
+    "fil": "فیلیپیني",
+    "th": "تایلنډي",
+    "de": "جرمني",
+    "ps": "پښتو"
+  },
+  "profile": {
+    "title": "زما پروفایل",
+    "fullName": "بشپړ نوم",
+    "username": "د کارونکي نوم",
+    "role": "رول",
+    "edit": "پروفایل سمول"
+  },
+  "validation": {
+    "required": "دا ساحه اړینه ده",
+    "invalidEmail": "د بریښنالیک بڼه سمه نه ده",
+    "tooShort": "لږ تر لږه {min} توري باید وي",
+    "fileSizeExceeded": "د فایل اندازه د {maxMb}MB حد ته رسیدلی"
   }
 }

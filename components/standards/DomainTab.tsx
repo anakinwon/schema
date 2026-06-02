@@ -1,11 +1,13 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import type { StdDomain } from '@/lib/da-types'
 import { DOM_TYPE_OPTIONS, DATA_TYPE_LABEL } from '@/lib/da-types'
 import DomainDialog from './DomainDialog'
 import AuditPanel from './AuditPanel'
 
 export default function DomainTab() {
+  const t = useTranslations('standards')
   const [rows, setRows] = useState<StdDomain[]>([])
   const [q, setQ] = useState('')
   const [selected, setSelected] = useState<StdDomain | null>(null)
@@ -34,23 +36,23 @@ export default function DomainTab() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-2 p-3 border-b bg-gray-50">
-        <span className="text-sm text-gray-600">검색:</span>
+        <span className="text-sm text-gray-600">{t('searchLabel' as any)}</span>
         <input
           value={q} onChange={e => setQ(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && load()}
-          placeholder="도메인명 / 대표도메인"
+          placeholder={t('placeholder.domain' as any)}
           className="border border-gray-300 rounded px-2 py-1 text-sm w-52 focus:outline-none focus:ring-1 focus:ring-blue-400"
         />
-        <button onClick={load} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">조회</button>
+        <button onClick={load} className="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">{t('action.query' as any)}</button>
         <div className="ml-auto flex gap-2">
           <button onClick={() => setAuditOpen(true)} disabled={!selected}
-            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 이력</button>
+            className="px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-40">📋 {t('action.history' as any)}</button>
           <button onClick={() => { setEditTarget(null); setDialogOpen(true) }}
-            className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">+ 추가</button>
+            className="px-3 py-1 bg-[#1e3a5f] text-white rounded text-sm hover:bg-[#2a4f7f]">{t('action.add' as any)}</button>
           <button onClick={() => { if (selected) { setEditTarget(selected); setDialogOpen(true) } }} disabled={!selected}
-            className="px-3 py-1 bg-amber-500 text-white rounded text-sm hover:bg-amber-600 disabled:opacity-40">수정</button>
+            className="px-3 py-1 bg-amber-500 text-white rounded text-sm hover:bg-amber-600 disabled:opacity-40">{t('action.edit' as any)}</button>
           <button onClick={del} disabled={!selected}
-            className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:opacity-40">삭제</button>
+            className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:opacity-40">{t('action.delete' as any)}</button>
         </div>
       </div>
 
@@ -60,8 +62,8 @@ export default function DomainTab() {
           <table className="w-full min-w-[680px] text-xs border-collapse">
             <thead className="sticky top-0 bg-[#2c4a6e] text-white">
               <tr>
-                {['번호','대표도메인','논리명','도메인명','도메인유형','논리타입','길이','물리타입(설명)'].map(h => (
-                  <th key={h} className="px-3 py-2 text-left font-medium border-r border-[#3a5a80] last:border-r-0">{h}</th>
+                {(['field.no','field.repDomain','field.logicalName','field.domainName','field.domainType','field.logicalType','field.length','field.physicalTypeDesc'] as const).map(k => (
+                  <th key={k} className="px-3 py-2 text-left font-medium border-r border-[#3a5a80] last:border-r-0">{t(k as any)}</th>
                 ))}
               </tr>
             </thead>
@@ -101,16 +103,16 @@ export default function DomainTab() {
         <div className="w-64 p-4 bg-gray-50 text-xs overflow-auto">
           {selected ? (
             <div className="space-y-3">
-              <h3 className="font-semibold text-gray-700 border-b pb-1">도메인 상세정보</h3>
+              <h3 className="font-semibold text-gray-700 border-b pb-1">{t('domain.detailTitle' as any)}</h3>
               {[
-                ['대표도메인(물리)', selected.KEY_DOM_PHY_NM],
-                ['논리명(키)', selected.KEY_DOM_NM],
-                ['도메인명', selected.DOM_NM],
-                ['도메인유형', typeLabel(selected.DOM_TYPE_CD)],
-                ['논리 데이터타입', DATA_TYPE_LABEL[selected.DATA_TYPE_CD ?? ''] ?? selected.DATA_TYPE_CD ?? '—'],
-                ['데이터길이', selected.DATA_LEN != null ? `${selected.DATA_LEN}${selected.DATA_SCALE != null ? `.${selected.DATA_SCALE}` : ''}` : '—'],
-                ['데이터 포맷', selected.DATA_FORMAT ?? '—'],
-                ['범위', selected.DATA_MIN || selected.DATA_MAX ? `${selected.DATA_MIN ?? ''} ~ ${selected.DATA_MAX ?? ''}` : '—'],
+                [t('field.repDomainPhysical' as any), selected.KEY_DOM_PHY_NM],
+                [t('field.logicalNameKey' as any), selected.KEY_DOM_NM],
+                [t('field.domainName' as any), selected.DOM_NM],
+                [t('field.domainType' as any), typeLabel(selected.DOM_TYPE_CD)],
+                [t('field.logicalDataType' as any), DATA_TYPE_LABEL[selected.DATA_TYPE_CD ?? ''] ?? selected.DATA_TYPE_CD ?? '—'],
+                [t('field.dataLength' as any), selected.DATA_LEN != null ? `${selected.DATA_LEN}${selected.DATA_SCALE != null ? `.${selected.DATA_SCALE}` : ''}` : '—'],
+                [t('field.dataFormat' as any), selected.DATA_FORMAT ?? '—'],
+                [t('field.range' as any), selected.DATA_MIN || selected.DATA_MAX ? `${selected.DATA_MIN ?? ''} ~ ${selected.DATA_MAX ?? ''}` : '—'],
               ].map(([k, v]) => (
                 <div key={k as string}>
                   <div className="text-gray-400 text-[10px]">{k}</div>
@@ -118,20 +120,20 @@ export default function DomainTab() {
                 </div>
               ))}
               <div>
-                <div className="text-gray-400 text-[10px]">설명(물리타입)</div>
+                <div className="text-gray-400 text-[10px]">{t('domain.physicalTypeDesc' as any)}</div>
                 <div className="text-gray-600 text-[11px] leading-relaxed">
                   {selected.DOM_DESC?.replace('[물리타입] ', '') ?? '—'}
                 </div>
               </div>
             </div>
           ) : (
-            <div className="text-gray-400 text-center mt-8">항목을 선택하세요</div>
+            <div className="text-gray-400 text-center mt-8">{t('state.select' as any)}</div>
           )}
         </div>
       </div>
 
       <div className="px-3 py-1.5 bg-gray-100 border-t text-xs text-gray-500">
-        총 {rows.length}개 도메인
+        {t('state.totalDomains' as any, { n: rows.length })}
       </div>
 
       <DomainDialog

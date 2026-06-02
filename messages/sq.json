@@ -86,6 +86,209 @@
     "appName": "Sistemi i Menaxhimit të të Dhënave Standarde",
     "back": "Kthehu",
     "cancel": "Anulo",
-    "dashboard": "Paneli"
+    "dashboard": "Paneli",
+    "delete": "Fshi",
+    "save": "Ruaj",
+    "edit": "Redakto",
+    "loading": "Po ngarkohet...",
+    "search": "Kërko"
+  },
+  "standards": {
+    "appName": "Program standard i menaxhimit të të dhënave",
+    "appSub": "DA Standard Menaxhimi i të Dhënave · Shopping Mall",
+    "boardLink": "tabela e buletinit",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "Menaxhimi standard i fjalëve",
+      "domain": "Menaxhimi standard i domenit",
+      "term": "Menaxhimi standard i terminologjisë",
+      "auth": "Menaxhimi i lejeve"
+    },
+    "action": {
+      "add": "+ shtoni",
+      "edit": "Redakto",
+      "editSave": "redakto ruaj",
+      "delete": "Fshije",
+      "save": "kurseni",
+      "cancel": "Anulo",
+      "search": "kërkimi",
+      "reset": "rivendosur",
+      "register": "regjistrimin",
+      "close": "mbyll",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "Ju lutemi zgjidhni një artikull",
+      "linked": "lidhur",
+      "unused": "(i papërdorur)",
+      "saveFail": "ruajtja dështoi",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "numri",
+      "logicalName": "emër logjik",
+      "physicalName": "emër fizik",
+      "physicalFullName": "Emri i plotë në anglisht",
+      "category": "Klasifikimi",
+      "physicalType": "Lloji fizik",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "Përshkrimi",
+      "domain": "domain",
+      "domainName": "emri i domenit",
+      "domainType": "Lloji i domenit",
+      "repDomain": "Domeni përfaqësues",
+      "repDomainPhysical": "Domeni përfaqësues (fizikë)",
+      "logicalType": "Lloji logjik",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "Lloji logjik i të dhënave",
+      "dataLength": "gjatësia e të dhënave",
+      "length": "gjatësia",
+      "scale": "dhjetore",
+      "range": "varg",
+      "dataFormat": "formati i të dhënave",
+      "domainLink": "Lidhja me domenin",
+      "classWord": "gjuha bazë",
+      "entityClass": "entitet",
+      "attrClass": "Atribut (klasifikues)",
+      "entityAttr": "Subjekt/Pronë",
+      "logicalTermName": "Emri i termit logjik",
+      "physicalTermName": "Emri i termit fizik",
+      "logicalPhysical": "Emri logjik / Emri fizik",
+      "logicalPhysicalTerm": "Emri i termit logjik / Emri i termit fizik",
+      "domainNameRep": "Emri i domenit / domeni përfaqësues"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "administratori i sistemit",
+      "dataAdmin": "menaxher i të dhënave",
+      "stdAdmin": "menaxher standard",
+      "subAdmin": "Zëvendës Menaxher i Standardeve",
+      "user": "Përdorues i përgjithshëm"
+    }
+  },
+  "languageSwitcher": {
+    "label": "Gjuha",
+    "ko": "Koreane",
+    "en": "Anglisht",
+    "zh": "Kineze",
+    "ja": "Japoneze",
+    "hi": "Hindisht",
+    "vi": "Vietnameze",
+    "id": "Indoneziane",
+    "ms": "Malajziane",
+    "en-ZA": "Anglisht (Afrika e Jugut)",
+    "fil": "Filipinase",
+    "th": "Tailandeze",
+    "de": "Gjermanisht",
+    "ps": "Pashto",
+    "sq": "Shqip"
+  },
+  "profile": {
+    "title": "Profili Im",
+    "fullName": "Emri i Plotë",
+    "username": "Emri i Përdoruesit",
+    "role": "Roli",
+    "edit": "Redakto Profilin"
+  },
+  "validation": {
+    "required": "Ky fushë është e detyrueshme",
+    "invalidEmail": "Formati i emailit është i pavlefshëm",
+    "tooShort": "Duhet të ketë të paktën {min} karaktere",
+    "fileSizeExceeded": "Madhësia e skedarit tejkalon limitin {maxMb}MB"
   }
 }

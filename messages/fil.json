@@ -87,6 +87,208 @@
     "back": "pabalik",
     "cancel": "Kanselahin",
     "dashboard": "Dashboard",
-    "delete": "Tanggalin"
+    "delete": "Tanggalin",
+    "save": "I-save",
+    "edit": "I-edit",
+    "loading": "Naglo-load...",
+    "search": "paghahanap"
+  },
+  "standards": {
+    "appName": "Standard na programa sa pamamahala ng data",
+    "appSub": "DA Standard Data Management · Shopping Mall",
+    "boardLink": "bulletin board",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "Karaniwang pamamahala ng salita",
+      "domain": "Karaniwang pamamahala ng domain",
+      "term": "Pamamahala ng pamantayang terminolohiya",
+      "auth": "Pamamahala ng Pahintulot"
+    },
+    "action": {
+      "add": "+ idagdag",
+      "edit": "I-edit",
+      "editSave": "edit save",
+      "delete": "Tanggalin",
+      "save": "iligtas",
+      "cancel": "Kanselahin",
+      "search": "paghahanap",
+      "reset": "i-reset",
+      "register": "pagpaparehistro",
+      "close": "malapit na",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "Mangyaring pumili ng isang item",
+      "linked": "konektado",
+      "unused": "(hindi nagamit)",
+      "saveFail": "nabigo ang pag-save",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "numero",
+      "logicalName": "lohikal na pangalan",
+      "physicalName": "pisikal na pangalan",
+      "physicalFullName": "English buong pangalan",
+      "category": "Pag-uuri",
+      "physicalType": "Pisikal na uri",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "Paglalarawan",
+      "domain": "domain",
+      "domainName": "domain name",
+      "domainType": "Uri ng domain",
+      "repDomain": "Representative na domain",
+      "repDomainPhysical": "Representative domain (physics)",
+      "logicalType": "Lohikal na uri",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "lohikal na uri ng data",
+      "dataLength": "haba ng data",
+      "length": "haba",
+      "scale": "decimal",
+      "range": "saklaw",
+      "dataFormat": "format ng data",
+      "domainLink": "Koneksyon ng domain",
+      "classWord": "pangunahing wika",
+      "entityClass": "nilalang",
+      "attrClass": "Katangian (classifier)",
+      "entityAttr": "Entity/Property",
+      "logicalTermName": "Lohikal na pangalan ng termino",
+      "physicalTermName": "Pangalan ng termino sa pisika",
+      "logicalPhysical": "Lohikal na pangalan / Pisikal na pangalan",
+      "logicalPhysicalTerm": "Logical term name / Physical term name",
+      "domainNameRep": "Pangalan ng domain / kinatawan ng domain"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "tagapangasiwa ng system",
+      "dataAdmin": "tagapamahala ng data",
+      "stdAdmin": "karaniwang tagapamahala",
+      "subAdmin": "Deputy Standard Manager",
+      "user": "Pangkalahatang gumagamit"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "Pashto",
+    "sq": "Albaniyan",
+    "label": "wika",
+    "ko": "Korean",
+    "en": "English",
+    "zh": "中文",
+    "ja": "wikang Hapon",
+    "hi": "हिन्दी",
+    "vi": "Tiếng Việt",
+    "id": "Bahasa Indonesia",
+    "ms": "Bahasa Melayu",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "th": "ไทย",
+    "de": "Aleman"
+  },
+  "profile": {
+    "title": "Aking Impormasyon",
+    "fullName": "Pangalan",
+    "username": "ID",
+    "role": "Tungkulin",
+    "edit": "I-edit ang profile"
+  },
+  "validation": {
+    "required": "Kinakailangan ang field na ito",
+    "invalidEmail": "Ang email ay wala sa tamang format",
+    "tooShort": "Mangyaring maglagay ng {min} na mga character o higit pa",
+    "fileSizeExceeded": "Lumampas na ang limitasyon sa laki ng pag-upload ng file na {maxMb}MB."
   }
 }

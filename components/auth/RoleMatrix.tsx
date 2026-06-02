@@ -1,14 +1,15 @@
 'use client'
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import { createBrowserClient } from '@supabase/ssr'
 
 interface Role  { role_cd: string; role_nm: string; role_lvl: number; role_cont: string }
 interface Perm  { perm_cd: string; perm_nm: string; perm_cat_cd: string }
 interface RolePermRow { role_cd: string; perm_cd: string; grnt_yn: string }
 
-const CAT_LABEL: Record<string, string> = {
-  STD_WORD: '표준단어', STD_DOM: '표준도메인', STD_TERM: '표준용어',
-  STD_MGMT: '표준관리', SYS_MGMT: '시스템관리',
+const CAT_KEYS: Record<string, string> = {
+  STD_WORD: 'auth.cat.STD_WORD', STD_DOM: 'auth.cat.STD_DOM', STD_TERM: 'auth.cat.STD_TERM',
+  STD_MGMT: 'auth.cat.STD_MGMT', SYS_MGMT: 'auth.cat.SYS_MGMT',
 }
 const CAT_COLOR: Record<string, string> = {
   STD_WORD: 'bg-blue-50',  STD_DOM: 'bg-indigo-50', STD_TERM: 'bg-purple-50',
@@ -20,6 +21,7 @@ const ROLE_COLOR: Record<string, string> = {
 }
 
 export default function RoleMatrix() {
+  const t = useTranslations('standards')
   const [roles, setRoles] = useState<Role[]>([])
   const [perms, setPerms] = useState<Perm[]>([])
   const [matrix, setMatrix] = useState<Set<string>>(new Set())
@@ -94,7 +96,7 @@ export default function RoleMatrix() {
         </div>
       )}
       <div className="p-3 border-b bg-gray-50 text-xs text-gray-500">
-        ※ ADMIN은 모든 권한 고정 / 체크박스 클릭으로 역할-권한을 즉시 부여·회수합니다
+        {t('auth.adminNote' as any)}
       </div>
 
       <div className="flex-1 overflow-auto">
@@ -102,7 +104,7 @@ export default function RoleMatrix() {
           <thead className="sticky top-0 z-10">
             <tr>
               <th className="bg-[#2c4a6e] text-white px-4 py-2.5 text-left border-r border-[#3a5a80] min-w-[200px]">
-                권한
+                {t('auth.permHeader' as any)}
               </th>
               {roles.map(role => (
                 <th key={role.role_cd}
@@ -111,7 +113,9 @@ export default function RoleMatrix() {
                     <span className={`px-2 py-0.5 rounded text-white text-[10px] font-bold ${ROLE_COLOR[role.role_cd] ?? 'bg-gray-500'}`}>
                       {role.role_cd}
                     </span>
-                    <span className="text-[11px] font-normal text-blue-200">{role.role_nm}</span>
+                    <span className="text-[11px] font-normal text-blue-200">
+                      {t(`roleByCode.${role.role_cd}` as any) || role.role_nm}
+                    </span>
                     <span className="text-[10px] text-blue-300">Lv.{role.role_lvl}</span>
                   </div>
                 </th>
@@ -125,7 +129,7 @@ export default function RoleMatrix() {
                 <tr>
                   <td colSpan={roles.length + 1}
                     className={`px-4 py-1.5 font-semibold text-[11px] text-gray-600 border-b ${CAT_COLOR[cat] ?? 'bg-gray-50'}`}>
-                    ▸ {CAT_LABEL[cat] ?? cat}
+                    ▸ {CAT_KEYS[cat] ? t(CAT_KEYS[cat] as any) : cat}
                   </td>
                 </tr>
                 {/* 권한 행 */}
@@ -171,13 +175,13 @@ export default function RoleMatrix() {
 
       {/* 범례 */}
       <div className="flex items-center gap-4 px-4 py-2 bg-gray-50 border-t text-xs text-gray-500">
-        <span className="font-medium">역할 레벨:</span>
+        <span className="font-medium">{t('auth.roleLevel' as any)}</span>
         {roles.map(r => (
           <span key={r.role_cd} className="flex items-center gap-1">
             <span className={`px-1.5 py-0.5 rounded text-white text-[10px] ${ROLE_COLOR[r.role_cd] ?? 'bg-gray-500'}`}>
               {r.role_cd}
             </span>
-            <span>{r.role_nm}</span>
+            <span>{t(`roleByCode.${r.role_cd}` as any) || r.role_nm}</span>
           </span>
         ))}
       </div>

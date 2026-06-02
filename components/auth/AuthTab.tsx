@@ -1,17 +1,19 @@
 'use client'
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import RoleMatrix from './RoleMatrix'
 import UserRoleTab from './UserRoleTab'
 import GroupTab from './GroupTab'
 
 type Sub = 'matrix' | 'users' | 'groups'
-const SUBS: { key: Sub; label: string; icon: string; desc: string }[] = [
-  { key: 'matrix', label: '역할-권한 매트릭스', icon: '🗝️', desc: '역할별 권한 설정' },
-  { key: 'users',  label: '사용자 역할 관리',  icon: '👥', desc: '역할 부여/변경' },
-  { key: 'groups', label: '그룹 관리',          icon: '🏢', desc: '그룹·구성원·SubManager 권한' },
+const SUBS: { key: Sub; tKey: string; icon: string }[] = [
+  { key: 'matrix', tKey: 'auth.matrix', icon: '🗝️' },
+  { key: 'users',  tKey: 'auth.users',  icon: '👥' },
+  { key: 'groups', tKey: 'auth.groups', icon: '🏢' },
 ]
 
 export default function AuthTab() {
+  const t = useTranslations('standards')
   const [sub, setSub] = useState<Sub>('matrix')
 
   return (
@@ -24,7 +26,7 @@ export default function AuthTab() {
               ${sub === s.key
                 ? 'border-blue-600 text-blue-700 bg-white'
                 : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
-            <span>{s.icon}</span>{s.label}
+            <span>{s.icon}</span>{t(s.tKey as any)}
           </button>
         ))}
 

@@ -86,6 +86,209 @@
     "appName": "Sistem Pengurusan Data Standard",
     "back": "Kembali",
     "cancel": "Batal",
-    "dashboard": "Papan Pemuka"
+    "dashboard": "Papan Pemuka",
+    "delete": "Padam",
+    "edit": "Edit",
+    "loading": "Memuatkan...",
+    "save": "Simpan",
+    "search": "Cari"
+  },
+  "standards": {
+    "appName": "Program pengurusan data standard",
+    "appSub": "Pengurusan Data Standard DA · Pusat Beli-belah",
+    "boardLink": "papan kenyataan",
+    "searchLabel": "Search:",
+    "placeholder": {
+      "word": "Logical / Physical Name",
+      "domain": "Domain / Rep. Domain",
+      "term": "Logical / Physical Term"
+    },
+    "tab": {
+      "word": "Pengurusan perkataan standard",
+      "domain": "Pengurusan domain standard",
+      "term": "Pengurusan istilah standard",
+      "auth": "Pengurusan Kebenaran"
+    },
+    "action": {
+      "add": "+ tambah",
+      "edit": "Sunting",
+      "editSave": "edit simpan",
+      "delete": "Padam",
+      "save": "jimat",
+      "cancel": "Batal",
+      "search": "cari",
+      "reset": "set semula",
+      "register": "pendaftaran",
+      "close": "dekat",
+      "query": "Search",
+      "history": "History",
+      "ddlExport": "DDL Export",
+      "new": "+ New"
+    },
+    "state": {
+      "select": "Sila pilih item",
+      "linked": "bersambung",
+      "unused": "(tidak digunakan)",
+      "saveFail": "menyelamatkan gagal",
+      "noData": "No data",
+      "noTerms": "No terms registered",
+      "totalWords": "Total {n} words",
+      "totalDomains": "Total {n} domains",
+      "totalTerms": "Total {n} terms"
+    },
+    "field": {
+      "no": "nombor",
+      "logicalName": "nama logik",
+      "physicalName": "nama fizikal",
+      "physicalFullName": "nama penuh Inggeris",
+      "category": "Pengelasan",
+      "physicalType": "Jenis fizikal",
+      "physicalTypeDesc": "Physical Type (Desc.)",
+      "description": "Penerangan",
+      "domain": "domain",
+      "domainName": "nama domain",
+      "domainType": "Jenis domain",
+      "repDomain": "Domain perwakilan",
+      "repDomainPhysical": "Domain perwakilan (fizik)",
+      "logicalType": "Jenis logik",
+      "logicalNameKey": "Logical Name (Key)",
+      "logicalDataType": "jenis data logik",
+      "dataLength": "panjang data",
+      "length": "panjang",
+      "scale": "perpuluhan",
+      "range": "julat",
+      "dataFormat": "format data",
+      "domainLink": "Sambungan domain",
+      "classWord": "bahasa asas",
+      "entityClass": "entiti",
+      "attrClass": "Atribut (pengelas)",
+      "entityAttr": "Entiti/Harta",
+      "logicalTermName": "Nama istilah logik",
+      "physicalTermName": "Nama istilah fizik",
+      "logicalPhysical": "Nama logik / nama fizikal",
+      "logicalPhysicalTerm": "Nama istilah logik / Nama istilah fizikal",
+      "domainNameRep": "Nama domain / domain perwakilan"
+    },
+    "domain": {
+      "detailTitle": "Domain Details",
+      "physicalTypeDesc": "Description (Physical Type)"
+    },
+    "term": {
+      "editMode": "Edit Term",
+      "addMode": "Register Term",
+      "infoSection": "Term Information",
+      "baseWordSelect": "Base Word Selection (Click to Add)",
+      "compositionInfo": "Composition (Selected Base Word Order)",
+      "selectBaseWord": "Please select a base word",
+      "domainSelectPlaceholder": "-- Select Domain --",
+      "autoLogicalName": "Logical Term Name (Auto-generated)",
+      "autoPhysicalName": "Physical Term Name (Auto-generated)",
+      "termDesc": "Term Description",
+      "saving": "Saving…"
+    },
+    "auth": {
+      "matrix": "Role-Permission Matrix",
+      "users": "User Role Management",
+      "groups": "Group Management",
+      "adminNote": "※ ADMIN permissions are fixed / Click checkboxes to immediately grant or revoke role permissions",
+      "permHeader": "Permission",
+      "roleLevel": "Role Level:",
+      "cat": {
+        "STD_WORD": "Standard Words",
+        "STD_DOM": "Standard Domains",
+        "STD_TERM": "Standard Terms",
+        "STD_MGMT": "Standard Management",
+        "SYS_MGMT": "System Management"
+      }
+    },
+    "userRole": {
+      "admin": {
+        "label": "Super Admin",
+        "desc": "Top-level Admin",
+        "limit": "(Max 1)"
+      },
+      "master": {
+        "label": "Master",
+        "desc": "Sub Admin",
+        "limit": "(Max 2)"
+      },
+      "manager": {
+        "label": "Manager",
+        "desc": "Highest Privilege User"
+      },
+      "sub_admin": {
+        "label": "Sub Manager",
+        "desc": "Sub Manager assigned by Manager"
+      },
+      "user": {
+        "label": "User",
+        "desc": "Regular User"
+      },
+      "countBadge": "{n}",
+      "searchPlaceholder": "Search by name / username",
+      "colName": "Name",
+      "colUsername": "Username",
+      "colCurrentRole": "Current Role",
+      "colRoleChange": "Change Role",
+      "colUserId": "User ID",
+      "emptyGroup": "No users in this group",
+      "totalCount": "Total {n} users",
+      "searchCount": "Search results: {n} users",
+      "saving": "Saving…",
+      "noUserId": "No user_id",
+      "roleChanged": "Role changed successfully",
+      "changeFailed": "Change failed",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "master": "Master (master)",
+        "manager": "Manager (manager)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      }
+    },
+    "roleByCode": {
+      "ADMIN": "Super Admin",
+      "MASTER": "Master",
+      "MANAGER": "Manager",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "role": {
+      "sysAdmin": "pentadbir sistem",
+      "dataAdmin": "pengurus data",
+      "stdAdmin": "pengurus standard",
+      "subAdmin": "Timbalan Pengurus Standard",
+      "user": "Pengguna am"
+    }
+  },
+  "languageSwitcher": {
+    "ps": "Pashto",
+    "sq": "Albania",
+    "label": "bahasa",
+    "ko": "Korea",
+    "en": "Inggeris",
+    "zh": "中文",
+    "ja": "Bahasa Jepun",
+    "hi": "हिन्दी",
+    "vi": "Tiếng Việt",
+    "id": "Bahasa Indonesia",
+    "ms": "Bahasa Melayu",
+    "en-ZA": "Inggeris (SA)",
+    "fil": "Filipina",
+    "th": "ไทย",
+    "de": "Jerman"
+  },
+  "profile": {
+    "title": "Maklumat Saya",
+    "fullName": "Nama",
+    "username": "ID",
+    "role": "Peranan",
+    "edit": "Edit profil"
+  },
+  "validation": {
+    "fileSizeExceeded": "Saiz fail melebihi had {maxMb}MB",
+    "invalidEmail": "Format e-mel tidak sah",
+    "required": "Medan ini diperlukan",
+    "tooShort": "Mestilah sekurang-kurangnya {min} aksara"
   }
 }
