@@ -17,15 +17,22 @@ export async function GET(req: NextRequest) {
     .select('msg_id', { count: 'exact', head: true })
     .eq('lang_cd', 'ko')
 
-  // 언어별 번역 수
-  const { data: langStats } = await supabaseAdmin
-    .from('i18n_msg')
-    .select('lang_cd')
-    .then(async ({ data }) => {
-      const counts: Record<string, number> = {}
-      ;(data ?? []).forEach(r => { counts[r.lang_cd] = (counts[r.lang_cd] ?? 0) + 1 })
-      return { data: counts }
-    })
+  // 언어별 번역 수 — DB GROUP BY 집계 (Supabase 1000건 limit 우회)
+  const { data: langCountRows } = await supabaseAdmin
+    .rpc('get_i18n_msg_counts') as { data: { lang_cd: string; cnt: number }[] | null }
+
+  // RPC 없으면 직접 SQL 집계
+  const langStats: Record<string, number> = {}
+  if (langCountRows?.length) {
+    langCountRows.forEach(r => { langStats[r.lang_cd] = r.cnt })
+  } else {
+    // fallback: limit 충분히 크게 설정
+    const { data: allRows } = await supabaseAdmin
+      .from('i18n_msg')
+      .select('lang_cd')
+      .limit(10000)
+    ;(allRows ?? []).forEach(r => { langStats[r.lang_cd] = (langStats[r.lang_cd] ?? 0) + 1 })
+  }
 
   // 활성 언어 목록 + 전체 국가 목록 동시 조회
   const [{ data: langs }, { data: cntryRows }] = await Promise.all([
@@ -55,15 +62,18 @@ export async function GET(req: NextRequest) {
   const activeCountries = Object.values(countriesByLang).reduce((sum, arr) => sum + arr.length, 0)
 
   const total = totalKeys ?? 0
-  const stats = (langs ?? []).map(l => ({
-    lang_cd:      l.lang_cd,
-    lang_nm:      l.lang_nm,
-    native_nm:    l.native_nm,
-    translated:   (langStats as Record<string, number>)?.[l.lang_cd] ?? 0,
-    total,
-    pct: total > 0 ? Math.round(((langStats as Record<string, number>)?.[l.lang_cd] ?? 0) / total * 100) : 0,
-    countries:    countriesByLang[l.lang_cd] ?? [],   // 이 언어를 쓰는 국가 목록
-  }))
+  const stats = (langs ?? []).map(l => {
+    const translated = langStats[l.lang_cd] ?? 0
+    return {
+      lang_cd:   l.lang_cd,
+      lang_nm:   l.lang_nm,
+      native_nm: l.native_nm,
+      translated,
+      total,
+      pct: total > 0 ? Math.round(translated / total * 100) : 0,
+      countries: countriesByLang[l.lang_cd] ?? [],
+    }
+  })
 
   return NextResponse.json({
     stats,
