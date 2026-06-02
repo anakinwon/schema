@@ -1,7 +1,7 @@
 {
   "admin": {
-    "adminLabel": "管理者",
-    "backOffice": "バックオフィス (管理者)",
+    "adminLabel": "マネージャー",
+    "backOffice": "管理ページ（Back Office）",
     "menu": {
       "approval": "承認管理",
       "audit": "変更履歴",
@@ -13,82 +13,110 @@
       "sync": "同期",
       "users": "ユーザー管理"
     },
-    "noPermission": "アクセス権限がありません"
+    "noPermission": "アクセス権がありません",
+    "dashboard": {
+      "pageTitle": "管理者ダッシュボード",
+      "pageSubtitle": "標準データ管理システムの現状",
+      "quickMenu": "クイック移動",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": {
+        "words": "標準単語",
+        "domains": "標準ドメイン",
+        "terms": "標準用語",
+        "users": "アクティブユーザー"
+      },
+      "quick": {
+        "words": "標準単語管理",
+        "wordsDesc": "STD_DIC登録/修正/削除",
+        "domains": "標準ドメイン管理",
+        "domainsDesc": "STD_DOM登録/修正/削除",
+        "terms": "標準用語管理",
+        "termsDesc": "DA_TERM登録/修正/削除",
+        "codes": "共通コード管理",
+        "codesDesc": "DA§40 STD_CODE管理",
+        "audit": "変更履歴",
+        "auditDesc": "STD_DIC・STD_DOM Audit Trail",
+        "users": "ユーザーリスト",
+        "usersDesc": "役割の付与と権限の管理",
+        "userScreen": "一般ユーザー画面",
+        "userScreenDesc": "標準データ照会/編集"
+      }
+    }
   },
   "auth": {
-    "email": "メールアドレス",
+    "email": "Eメール",
     "login": "ログイン",
     "loginButton": "ログイン",
-    "loginError": "メールアドレスまたはパスワードが正しくありません",
+    "loginError": "電子メールまたはパスワードが正しくありません",
     "loginTitle": "{appName} — ログイン",
     "logout": "ログアウト",
     "password": "パスワード",
-    "signup": "新規登録"
+    "signup": "会員登録"
   },
   "board": {
-    "answered": "採用済み",
-    "author": "投稿者",
-    "backToList": "← 一覧へ",
+    "answered": "採用完了",
+    "author": "作者",
+    "backToList": "←リスト",
     "categories": {
-      "ARCHIVE": "アーカイブ",
-      "FREE": "自由掲示板",
+      "ARCHIVE": "資料室",
+      "FREE": "フリーボード",
       "NOTICE": "お知らせ",
       "QNA": "Q&A"
     },
     "comments": "コメント",
     "content": "内容",
-    "createdAt": "投稿日",
-    "deleteConfirm": "この投稿を削除しますか？",
+    "createdAt": "作成日",
+    "deleteConfirm": "投稿を削除してもよろしいですか？",
     "editPost": "投稿を編集",
-    "empty": "投稿がありません",
-    "goToNotice": "お知らせへ",
-    "newPost": "投稿する",
-    "noSearchResult": "「{query}」の検索結果はありません",
-    "notFound": "掲示板が見つかりません",
-    "perPage": "{size} 件/ページ",
-    "pinned": "固定",
-    "searchPlaceholder": "タイトル・投稿者で検索",
+    "empty": "投稿はありません",
+    "goToNotice": "お知らせに移動",
+    "newPost": "書く",
+    "noSearchResult": "「{query}」の検索結果がありません",
+    "notFound": "存在しない掲示板です",
+    "perPage": "{size}個ずつ",
+    "pinned": "お知らせ",
+    "searchPlaceholder": "タイトル・作成者検索",
     "title": "タイトル",
-    "totalCount": "全 {count} 件",
+    "totalCount": "総{count}ガン",
     "unanswered": "未回答",
-    "views": "閲覧",
-    "write": "投稿する"
+    "views": "照会",
+    "write": "書く"
   },
   "common": {
-    "appName": "標準データ管理システム",
+    "appName": "標準データ管理プログラム",
     "back": "戻る",
     "cancel": "キャンセル",
     "dashboard": "ダッシュボード",
     "delete": "削除",
-    "edit": "編集",
-    "loading": "読み込み中...",
+    "edit": "修正",
+    "loading": "読み込み中…",
     "save": "保存",
     "search": "検索"
   },
   "languageSwitcher": {
-    "en": "英語",
-    "en-ZA": "英語(南アフリカ)",
-    "fil": "フィリピン語",
-    "hi": "ヒンディー語",
-    "id": "インドネシア語",
+    "en": "English",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "hi": "銭िन्दी",
+    "id": "Bahasa Indonesia",
     "ja": "日本語",
     "ko": "韓国語",
     "label": "言語",
-    "ms": "マレー語",
-    "th": "タイ語",
-    "vi": "ベトナム語",
-    "zh": "中国語"
+    "ms": "Bahasa Melayu",
+    "th": "ไทย",
+    "vi": "Tiếng Việt",
+    "zh": "中文"
   },
   "profile": {
-    "edit": "プロフィール編集",
-    "fullName": "氏名",
+    "edit": "プロフィールを編集",
+    "fullName": "名前",
     "role": "役割",
-    "title": "マイプロフィール",
-    "username": "ユーザー名"
+    "title": "私の情報",
+    "username": "ID"
   },
   "validation": {
-    "fileSizeExceeded": "ファイルサイズが{maxMb}MBを超えています",
-    "invalidEmail": "メールアドレスの形式が正しくありません",
+    "fileSizeExceeded": "アップロードファイルサイズ制限{maxMb}MBを超えました",
+    "invalidEmail": "正しいメール形式ではありません",
     "required": "必須入力項目です",
     "tooShort": "{min}文字以上入力してください"
   }

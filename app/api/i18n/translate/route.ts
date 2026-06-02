@@ -131,17 +131,31 @@ export async function POST(req: NextRequest) {
   if (lang_cd === 'ko')
     return NextResponse.json({ error: '한국어는 번역 대상이 아닙니다' }, { status: 400 })
 
-  // ko 번역 키 전체 조회
-  const { data: koRows, error } = await supabaseAdmin
-    .from('i18n_msg').select('ns_cd, msg_key, msg_val').eq('lang_cd', 'ko')
+  // ko 전체 키 + 대상 언어 기존 번역 키 동시 조회
+  const [{ data: koRows, error }, { data: existingRows }] = await Promise.all([
+    supabaseAdmin.from('i18n_msg').select('ns_cd, msg_key, msg_val').eq('lang_cd', 'ko'),
+    supabaseAdmin.from('i18n_msg').select('ns_cd, msg_key').eq('lang_cd', lang_cd),
+  ])
   if (error || !koRows?.length)
     return NextResponse.json({ error: '한국어 번역 키를 찾을 수 없습니다' }, { status: 500 })
 
-  const koByNs = toNestedByNs(koRows)
+  // 이미 번역된 키 Set 생성
+  const alreadyDone = new Set(
+    (existingRows ?? []).map(r => `${r.ns_cd}:${r.msg_key}`)
+  )
+
+  // 미번역 키만 필터 (ko 전체 - 기존 번역)
+  const untranslated = koRows.filter(r => !alreadyDone.has(`${r.ns_cd}:${r.msg_key}`))
+
+  if (!untranslated.length) {
+    return NextResponse.json({ ok: true, translated: 0, skipped: koRows.length, message: '이미 모두 번역되었습니다' })
+  }
+
+  const koByNs = toNestedByNs(untranslated)
   const translated: { ns_cd: string; msg_key: string; lang_cd: string; msg_val: string }[] = []
   const sectionErrors: string[] = []
 
-  // 섹션별 번역 — 섹션 사이 쿨다운으로 Too Many Requests 방지
+  // 미번역 섹션별 번역 — 섹션 사이 쿨다운으로 Too Many Requests 방지
   const sections = Object.entries(koByNs)
   for (let si = 0; si < sections.length; si++) {
     const [ns_cd, koSection] = sections[si]
@@ -202,6 +216,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     translated: translated.length,
+    skipped: alreadyDone.size,
     lang_cd,
     partial: sectionErrors.length > 0 ? sectionErrors : undefined,
   })

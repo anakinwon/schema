@@ -12,7 +12,7 @@ interface LangStat {
   pct: number
 }
 
-type WorkResult = { lang: string; cnt: number; type: 'translate' | 'sync' }
+type WorkResult = { lang: string; cnt: number; skipped?: number; type: 'translate' | 'sync' }
 
 export default function I18nDashboard() {
   const [stats, setStats] = useState<LangStat[]>([])
@@ -46,7 +46,12 @@ export default function I18nDashboard() {
 
   // 한국어 → 대상 언어 AI 번역 + DB 저장 + JSON 동기화 (원스톱)
   const translateAndSync = async (lang_cd: string, native_nm: string) => {
-    if (!confirm(`${native_nm}(${lang_cd})으로 AI 번역 후 JSON 동기화를 실행합니다.\n한국어 기준 ${totalKeys}개 키를 번역합니다. 계속하시겠습니까?`)) return
+    const missing = totalKeys - (stats.find(s => s.lang_cd === lang_cd)?.translated ?? 0)
+    if (missing === 0) {
+      alert(`${native_nm}(${lang_cd}) 번역이 이미 완료되었습니다 (${totalKeys}/${totalKeys}건)`)
+      return
+    }
+    if (!confirm(`${native_nm}(${lang_cd})으로 AI 번역 후 JSON 동기화를 실행합니다.\n미번역 ${missing}건만 번역합니다 (이미 완료된 ${totalKeys - missing}건 제외). 계속하시겠습니까?`)) return
     setWorking(lang_cd)
     setWorkResult(null)
     const headers = { ...await authHeader(), 'Content-Type': 'application/json' }
@@ -56,7 +61,7 @@ export default function I18nDashboard() {
     })
     const d = await res.json()
     if (res.ok) {
-      setWorkResult({ lang: lang_cd, cnt: d.translated ?? 0, type: 'translate' })
+      setWorkResult({ lang: lang_cd, cnt: d.translated ?? 0, skipped: d.skipped ?? 0, type: 'translate' })
       await loadStats()   // 완료율 새로고침
     } else {
       alert(`번역 실패: ${d.error ?? '알 수 없는 오류'}`)
@@ -87,7 +92,10 @@ export default function I18nDashboard() {
       {/* 결과 토스트 */}
       {workResult && (
         <div className="flex items-center gap-2 px-4 py-2.5 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
-          ✅ <strong>{workResult.lang}</strong> AI 번역 + JSON 동기화 완료 — {workResult.cnt}건 번역됨
+          ✅ <strong>{workResult.lang}</strong> 번역 + 동기화 완료 —{' '}
+          {workResult.cnt > 0
+            ? `${workResult.cnt}건 신규 번역${workResult.skipped ? ` (${workResult.skipped}건 기존 유지)` : ''}`
+            : '이미 모두 번역됨'}
           <button onClick={() => setWorkResult(null)} className="ml-auto text-green-400 hover:text-green-600">✕</button>
         </div>
       )}
