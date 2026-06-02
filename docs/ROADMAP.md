@@ -3,7 +3,7 @@
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
 > **기준일**: 2026-06-02 (최종 업데이트: 2026-06-02)
-> **현재 버전**: v4 Phase 1·2 완료 (다국어 시스템 가동) — 번역 100% 완성·환율·E2E만 잔여(M11)
+> **현재 버전**: v4 Phase 4 완료 (UI표준화·Audit고도화·승인워크플로우 완성) — 다국어 E2E만 잔여(M11)
 > **기술 스택**: Next.js 16.2.6 (App Router) · React 19.2 · TypeScript · Tailwind CSS v4 · SQLite(better-sqlite3) · Supabase PostgreSQL
 
 ---
@@ -471,25 +471,72 @@
 
 ---
 
-## 📋 v4 잔여 일정 (M11 — 마무리)
+## 📋 v4 마무리 일정 (M11) 🔄 (진행 중 — TASK-042·043 완료, TASK-044 잔여)
 
 > **목표**: 번역 100% 달성 · 환율 연동 · 다국어 E2E 검증
 
-- **TASK-042: 전체 언어 번역 100% 완성** ⏳ - 대기
-  - 다국어 관리 대시보드에서 7개 언어 🔄 버튼 클릭 (미번역 22~35건 자동 채움)
-    - hi·vi·id·en-ZA·fil·th (각 22건) · ms (35건) · de (97건)
-  - 또는 번역 매트릭스에서 핵심 키만 수동 검수
-  - **소요**: 언어당 약 20~30초 (버튼 클릭 + Google Translate)
+- **TASK-042: 전체 언어 번역 100% 완성** ✅ - 완료 (2026-06-02)
+  - ✅ de(독일어)·sq(알바니아어)·ps(파슈토어) 추가 등록 및 번역 완료
+  - ✅ `messages/de.json` DB 기준 98건 동기화 완료 (독일어 번역)
+  - ✅ auth·표준 컴포넌트 다국어 키 전 언어 확장
+  - ✅ 다국어 관리 대시보드 🔄 버튼(Google Translate) 기반 미번역 키 자동 채움 완료
 
-- **TASK-043: 환율 실시간 표시 (선택)** ⏳ - 대기
-  - `exchangerate-api.com` 또는 `open.er-api.com` 무료 API 연동
-  - 콤보박스 통화코드 옆 실시간 환율 표시 (KRW 기준)
-  - `.env.local`에 `EXCHANGE_RATE_API_KEY` 등록 필요
+- **TASK-043: 환율 실시간 표시** ✅ - 완료 (2026-06-02)
+  - ✅ `open.er-api.com` 무료 API 연동
+  - ✅ 콤보박스 통화코드 옆 실시간 환율 표시
+  - ✅ 환율 기준 통화를 현재 선택 locale로 동적 변경
 
 - **TASK-044: 다국어 E2E 테스트** ⏳ - 대기
   - `tests/e2e/i18n.spec.ts` — locale 전환·URL prefix·번역 표시 검증
   - 미인증 `/en/admin` → `/en/login` 리다이렉트 확인
   - 콤보박스 국가 선택 → locale 전환 확인
+
+---
+
+## 🚀 v4 Phase 4 — UI/UX 표준화 · Audit 고도화 · 승인 워크플로우 완성
+
+### Phase 4 (v4): UI/UX 표준화 · Audit 고도화 · 승인 워크플로우 완성 ✅ (완료: 2026-06-02, M12)
+
+> **목표**: shadcn/ui Alert 표준화 · DB 타입 표준화(TIMESTAMPTZ) · 사용자 관리 개선 · Audit Trail 고도화 · 승인 후 원본 자동 반영 완성
+
+- **TASK-045: UI Alert 컴포넌트 표준화** ✅ - 완료 (2026-06-02)
+  - ✅ `components/ui/alert.tsx` — shadcn/ui New York 프리셋 기반 Alert 기본 컴포넌트
+  - ✅ `components/custom-alert.tsx` — 5가지 variant(default·info·success·warning·destructive) + dismissible + 확인/취소 버튼 지원
+  - ✅ `PostDetail.tsx` — 게시글 삭제 `confirm()` → destructive CustomAlert 레이어 팝업 전환
+  - ✅ `BoardAdmin.tsx` — 삭제 confirm() → destructive, 삭제 완료 toast → success CustomAlert 레이어 팝업 전환
+  - ✅ `app/[locale]/alert-demo/page.tsx` — 5가지 variant 데모 페이지 (next-intl 라우팅 내부)
+  - ✅ `.gitignore` — Claude Code 자동 생성 agent-memory/agents 경로 제외 추가
+
+- **TASK-046: DB 데이터 타입 표준화 (TIMESTAMP → TIMESTAMPTZ)** ✅ - 완료 (2026-06-02)
+  - ✅ `lib/ddl-generator.ts` — `PG_TYPE['0020']` TIMESTAMP → TIMESTAMPTZ
+  - ✅ `lib/da-types.ts` — DATA_TYPE_OPTIONS·DATA_TYPE_LABEL '0020' 레이블 변경
+  - ✅ `lib/db.ts` — DATA_TYPE_CD 코드 시드 TIMESTAMP형 → TIMESTAMPTZ형
+  - ✅ `components/standards/WordDialog.tsx` — 물리타입 select 옵션 변경
+  - ✅ `docs/da-plan/ddl/01_meta_standard_insert.sql` — 주석 0020=TIMESTAMPTZ
+
+- **TASK-047: 사용자 관리 개선 (GroupTab 마스터 역할 수정)** ✅ - 완료 (2026-06-02)
+  - ✅ `GroupTab.tsx` — G_MASTER `profile_role: null` → `'master' as const` (MASTER 그룹 클릭 시 사용자 목록 표시)
+  - ✅ 미생성 시스템 그룹도 클릭 가능하도록 가상 Group 객체 패턴 적용
+  - ✅ `PROFILE_ROLE_BADGE` master 배지 추가 (보라색 텍스트, 배경 없음)
+  - ✅ `movableRoles`에 master 역할 추가
+  - ✅ `messages/ko.json·en.json` — `groupTab.role.master`, `groupTab.moveRole.master` 번역 추가
+
+- **TASK-048: Audit Trail 고도화** ✅ - 완료 (2026-06-02)
+  - ✅ **Phase 1-1 승인 이력**: `lib/audit.ts` EntityType에 `APPROVAL` 추가, `approval/[id]/route.ts` APPROVE·REJECT 결정 시 before 스냅샷 포함 writeAudit 호출
+  - ✅ **Phase 1-2 공통코드 이력**: EntityType에 `SYS_CODE_GRP·SYS_CODE_VAL` 추가, `codes/route.ts` POST·PUT, `codes/[grpId]/route.ts` POST·PUT·DELETE writeAudit 연결
+  - ✅ **Phase 2-1 날짜 범위 필터**: `/api/audit` `from·to` 파라미터 추가, 서버 사이드 WHERE CHANGED_AT 범위 필터
+  - ✅ **Phase 2-2 페이지네이션**: `/api/audit` `action·q·offset` 파라미터 추가, `X-Total-Count` 헤더 반환, `PAGE_SIZE=50` 클라이언트 페이지네이션, 모든 필터 서버 사이드 전환
+  - ✅ **Phase 3-1 CSV 내보내기**: `app/api/audit/export/route.ts` 신규 — 현재 필터 조건 그대로 CSV 다운로드 (BOM 포함, 최대 10,000건), fetch+Blob 다운로드 패턴
+  - ✅ **Phase 3-2 이력 보존 정책**: `app/api/audit/cleanup/route.ts` 신규 — ADMIN 전용, N일 이전 이력 물리 삭제, 삭제 건수 반환
+  - ✅ `AuditLogViewer.tsx` 전면 개선 — 날짜 범위 입력, 필터 초기화 버튼, 페이지네이션 UI, CSV/정리 버튼
+
+- **TASK-049: 승인 워크플로우 완성** ✅ - 완료 (2026-06-02)
+  - ✅ **Phase A-1 표준단어 수정 승인 연동**: `WordDialog.tsx` `isEdit` 분기 — 수정 모드에서 `PUT /api/std-dic` 대신 `POST /api/approval` 호출, amber 안내 배너·버튼 추가
+  - ✅ **Phase A-2 표준도메인 수정 승인 연동**: `DomainDialog.tsx` 동일 패턴 적용 (entity_type: STD_DOM)
+  - ✅ **Phase B-1 승인 후 원본 반영**: `lib/apply-approval.ts` 신규 — `applyApprovalToDb()` 헬퍼, STD_DIC better-sqlite3 트랜잭션 UPDATE + STD_WORD_COMBI 갱신, STD_DOM UPDATE 적용, before 스냅샷 반환
+  - ✅ **Phase B-2 롤백 처리**: `approval/[id]/route.ts` — SQLite 반영 먼저 실행 → 실패 시 500 반환·approval_queue PENDING 유지(재시도 가능) → 성공 시 approval_queue APPROVED 업데이트
+  - ✅ 승인 후 STD_DIC/STD_DOM Audit + APPROVAL Audit 이중 기록 (`changedBy: "승인반영(ADMIN)"`)
+  - ✅ `approval/page.tsx` — `applied` 플래그 응답 기반 "✅ 승인 완료 — DB 반영됨" 토스트 구분
 
 ---
 
@@ -517,7 +564,8 @@
 | M8.5: 게시판 UX 개선 | Phase 3 (v3) | 2026-06-02 | 라우팅 재구성·반응형 페이지네이션·첨부파일·권한 제어 | ✅ 완료 |
 | M9: i18n 기반 구축 | Phase 1 (v4) | 2026-06-02 | next-intl·라우팅·레이아웃·proxy 체이닝·버그 수정 4건 (TASK-032~035) | ✅ 완료 |
 | M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-06-02 | 187개국 DB·콤보박스·번역관리·AI번역·국기SVG (TASK-036~041) | ✅ 완료 |
-| M11: 다국어 마무리 | Phase 3 (v4) | 미정 | 번역 100% 완성·환율 연동·E2E (TASK-042~044) | ⏳ 대기 |
+| M11: 다국어 마무리 | Phase 3 (v4) | 2026-06-02 | 번역 100% 완성·환율 연동·E2E (TASK-042~044) | 🔄 진행 중 (042·043 완료, 044 잔여) |
+| M12: UI표준화·Audit고도화·승인완성 | Phase 4 (v4) | 2026-06-02 | UI Alert 표준화·TIMESTAMPTZ·GroupTab·Audit 고도화·승인 워크플로우 완성 (TASK-045~049) | ✅ 완료 |
 
 ---
 
@@ -531,10 +579,12 @@
 | 보안 취약점 | 0건 | 0건 유지 | 코드 리뷰 (PostgREST 인젝션 패치 포함) |
 | Playwright 테스트 | 15건 (4 passed · 11 skip) | 환경변수 설정 후 15 passed | `npx playwright test` |
 | 게시판 API 라우트 | 11개 | — | app/api/board 라우트 수 |
-| 지원 언어 수 | **12개** (11+de 추가) | 11개 | i18n_lang_mst use_yn='Y' 수 ✅ |
-| 번역 키 수 | **97건** (ko 기준 100%) | ~50건 | i18n_msg DISTINCT(ns_cd,msg_key) 수 ✅ |
+| 지원 언어 수 | **14개** (11+de·sq·ps 추가) | 11개 | i18n_lang_mst use_yn='Y' 수 ✅ |
+| 번역 키 수 | **98건** (ko 기준 100%) | ~50건 | i18n_msg DISTINCT(ns_cd,msg_key) 수 ✅ |
 | 국가·통화 DB | **187개국** | 187개국 | i18n_cntry_mst 레코드 수 ✅ |
-| 번역 100% 완성 언어 | **4개** (ko·en·zh·ja) | 11개 | i18n_msg 언어별 완료율 |
+| 번역 100% 완성 언어 | **전체 등록 언어** (ko·en·zh·ja·de·sq·ps 외) | 전 언어 | i18n_msg 언어별 완료율 ✅ |
+| Audit Trail 커버리지 | **STD_DIC·STD_DOM·APPROVAL·SYS_CODE_GRP·SYS_CODE_VAL** | 전 엔터티 | lib/audit.ts EntityType 수 ✅ |
+| 승인 후 원본 반영 | **자동 반영 + 롤백** | 자동화 | lib/apply-approval.ts 적용 ✅ |
 
 ---
 
@@ -561,3 +611,5 @@
 | v4.1 | 2026-06-02 | v3 Phase 3 완료 반영 — 게시판 UX·라우팅·권한제어, v4 Phase 1 완료 반영 — TASK-033~035·버그 4건 수정, M8.5·M9 완료 표시 | anakin |
 | v4.2 | 2026-06-02 | TASK-036 완료 반영 — i18n 4테이블·RLS·시드(11언어·7NS·187개국·75번역키), DA 표준 v2 감리 통과 | anakin |
 | v4.3 | 2026-06-02 | M10 완료 반영 — TASK-037~041 (키치환·콤보박스·관리화면·AI번역·언어관리), 국기 SVG화(flag-icons), 보안패치, M11 잔여일정(번역100%·환율·E2E) 수립 | anakin |
+| v4.4 | 2026-06-02 | TASK-042·043 완료 반영 — 전 언어 번역 100%(de·sq·ps 추가), 환율 실시간 표시(open.er-api.com), M11 🔄 진행 중 전환 (TASK-044 잔여) | anakin |
+| v4.5 | 2026-06-02 | Phase 4 신규 — TASK-045~049 (UI Alert 표준화·TIMESTAMPTZ·GroupTab 마스터역할·Audit 고도화·승인 워크플로우 완성), M12 마일스톤 등록, 성공 지표 현행화 | anakin |
