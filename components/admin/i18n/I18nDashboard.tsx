@@ -17,6 +17,7 @@ type WorkResult = { lang: string; cnt: number; skipped?: number; type: 'translat
 export default function I18nDashboard() {
   const [stats, setStats] = useState<LangStat[]>([])
   const [totalKeys, setTotalKeys] = useState(0)
+  const [activeCountries, setActiveCountries] = useState(0)
   const [loading, setLoading] = useState(true)
   const [working, setWorking] = useState<string | null>(null)   // 작업 중인 lang_cd
   const [workResult, setWorkResult] = useState<WorkResult | null>(null)
@@ -38,6 +39,7 @@ export default function I18nDashboard() {
       const d = await res.json()
       setStats(d.stats ?? [])
       setTotalKeys(d.totalKeys ?? 0)
+      setActiveCountries(d.activeCountries ?? 0)
     }
     setLoading(false)
   }, [authHeader])
@@ -76,8 +78,9 @@ export default function I18nDashboard() {
       {/* 요약 카드 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <p className="text-xs text-gray-500 mb-1">지원 언어</p>
-          <p className="text-2xl font-bold text-[#1e3a5f]">{stats.length}</p>
+          <p className="text-xs text-gray-500 mb-1">활성 국가</p>
+          <p className="text-2xl font-bold text-[#1e3a5f]">{activeCountries}</p>
+          <p className="text-[11px] text-gray-400 mt-0.5">{stats.length}개 언어 사용</p>
         </div>
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           <p className="text-xs text-gray-500 mb-1">전체 번역 키</p>
@@ -103,7 +106,10 @@ export default function I18nDashboard() {
       {/* 언어별 번역 현황 + 버튼 */}
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
         <div className="px-4 py-3 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-700">언어별 번역 현황</h2>
+          <h2 className="text-sm font-semibold text-gray-700">
+            언어별 번역 현황
+            <span className="ml-2 text-xs font-normal text-gray-400">{stats.length}개 언어 · 활성 {activeCountries}개국</span>
+          </h2>
           <p className="text-xs text-gray-400">🔄 클릭 → 한국어 기준 AI 번역 + JSON 동기화 자동 실행</p>
         </div>
         <div className="divide-y divide-gray-50">
