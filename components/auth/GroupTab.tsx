@@ -18,7 +18,7 @@ interface Profile {
 // grp_nm/desc 제거 → 번역 키로 처리
 const SYSTEM_GROUPS = [
   { grp_cd: 'G_SUPER',  profile_role: 'admin'     as const, badge: { text: 'ADMIN',      cls: 'bg-rose-100 text-rose-700 border-rose-200'     }, bar: 'bg-rose-500'   },
-  { grp_cd: 'G_MASTER', profile_role: null,                  badge: { text: 'MASTER',     cls: 'bg-purple-100 text-purple-700 border-purple-200' }, bar: 'bg-purple-500' },
+  { grp_cd: 'G_MASTER', profile_role: 'master'    as const, badge: { text: 'MASTER',     cls: 'bg-purple-100 text-purple-700 border-purple-200' }, bar: 'bg-purple-500' },
   { grp_cd: 'G_MNGR',   profile_role: 'manager'   as const, badge: { text: 'MANAGER',    cls: 'bg-blue-100 text-blue-700 border-blue-200'     }, bar: 'bg-blue-500'   },
   { grp_cd: 'G_SMNGR',  profile_role: 'sub_admin' as const, badge: { text: 'SUBMANAGER', cls: 'bg-teal-100 text-teal-700 border-teal-200'     }, bar: 'bg-teal-500'   },
   { grp_cd: 'G_USER',   profile_role: 'user'      as const, badge: { text: 'USER',       cls: 'bg-gray-100 text-gray-600 border-gray-200'     }, bar: 'bg-gray-400'   },
@@ -28,6 +28,7 @@ const SYSTEM_GRP_CODES = new Set<string>(SYSTEM_GROUPS.map(g => g.grp_cd))
 
 const PROFILE_ROLE_BADGE: Record<string, string> = {
   admin:     'bg-rose-100 text-rose-700',
+  master:    'text-purple-700 font-bold',
   manager:   'bg-blue-100 text-blue-700',
   sub_admin: 'bg-teal-100 text-teal-700',
   user:      'bg-gray-100 text-gray-600',
@@ -55,6 +56,7 @@ export default function GroupTab() {
 
   const movableRoles = useMemo(() => [
     { value: 'admin',     label: t('groupTab.moveRole.admin' as any) },
+    { value: 'master',    label: t('groupTab.moveRole.master' as any) },
     { value: 'manager',   label: t('groupTab.moveRole.manager' as any) },
     { value: 'sub_admin', label: t('groupTab.moveRole.sub_admin' as any) },
     { value: 'user',      label: t('groupTab.moveRole.user' as any) },
@@ -221,16 +223,21 @@ export default function GroupTab() {
             const profileCnt = sg.profile_role
               ? profiles.filter(p => p.main_role === sg.profile_role).length
               : 0
+            // DB 그룹 없을 때도 클릭 가능하도록 가상 그룹 객체 사용
+            const clickTarget: Group = dbGrp ?? {
+              grp_cd: sg.grp_cd,
+              grp_nm: t(`groupTab.groups.${sg.grp_cd}.name` as any),
+              grp_cont: t(`groupTab.groups.${sg.grp_cd}.desc` as any),
+              use_yn: 'Y',
+              grp_mbr: [],
+            }
             return (
               <button key={sg.grp_cd} type="button"
-                disabled={!dbGrp}
-                onClick={() => dbGrp && selectGroup(dbGrp)}
+                onClick={() => selectGroup(clickTarget)}
                 className={`w-full text-left flex items-center gap-2 px-2.5 py-2 rounded-lg border transition-all
                   ${isActive
                     ? 'bg-white border-blue-300 shadow-sm ring-1 ring-blue-200'
-                    : dbGrp
-                      ? 'bg-white border-gray-200 hover:border-gray-300 hover:bg-blue-50'
-                      : 'bg-gray-100 border-gray-200 opacity-40 cursor-not-allowed'}`}>
+                    : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-blue-50'}`}>
                 <div className={`w-1 h-8 rounded-full shrink-0 ${sg.bar}`} />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
@@ -241,13 +248,11 @@ export default function GroupTab() {
                   </div>
                   <div className="flex items-center gap-1 mt-0.5">
                     <span className={`text-[9px] font-bold px-1 rounded border ${sg.badge.cls}`}>{sg.badge.text}</span>
-                    {dbGrp && (
-                      <span className="text-[10px] text-gray-400">
-                        {sg.profile_role
-                          ? t('userRole.countBadge' as any, { n: profileCnt })
-                          : t('groupTab.daOnly' as any)}
-                      </span>
-                    )}
+                    <span className="text-[10px] text-gray-400">
+                      {sg.profile_role
+                        ? t('userRole.countBadge' as any, { n: profileCnt })
+                        : t('groupTab.daOnly' as any)}
+                    </span>
                   </div>
                 </div>
                 {isActive && <span className="text-blue-400 text-xs shrink-0">›</span>}

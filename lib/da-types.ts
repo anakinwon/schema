@@ -54,10 +54,10 @@ export const DATA_TYPE_OPTIONS = [
   { value: '0013', label: 'INTEGER' },
   { value: '0015', label: 'NUMERIC' },
   { value: '0018', label: 'DATE' },
-  { value: '0020', label: 'TIMESTAMP' },
+  { value: '0020', label: 'TIMESTAMPTZ' },
 ]
 
 export const DATA_TYPE_LABEL: Record<string, string> = {
   '0003': 'VARCHAR', '0013': 'INTEGER',
-  '0015': 'NUMERIC', '0018': 'DATE', '0020': 'TIMESTAMP',
+  '0015': 'NUMERIC', '0018': 'DATE', '0020': 'TIMESTAMPTZ',
 }

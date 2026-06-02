@@ -243,12 +243,14 @@
       "confirmRemove": "구성원을 제거하시겠습니까?",
       "role": {
         "admin": "수퍼관리자",
+        "master": "마스터",
         "manager": "매니저",
         "sub_admin": "부매니저",
         "user": "사용자"
       },
       "moveRole": {
         "admin": "수퍼관리자 (admin)",
+        "master": "마스터 (master)",
         "manager": "매니저 (manager)",
         "sub_admin": "부매니저 (sub_admin)",
         "user": "사용자 (user)"

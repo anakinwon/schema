@@ -99,7 +99,7 @@ const INIT_CODES: Array<[string, string, string, string, number]> = [
   ['DATA_TYPE_CD',  '0013',       'INTEGER형',       'INTEGER',              30],
   ['DATA_TYPE_CD',  '0015',       'NUMERIC형',       'NUMERIC',              40],
   ['DATA_TYPE_CD',  '0018',       'DATE형',          'DATE',                 50],
-  ['DATA_TYPE_CD',  '0020',       'TIMESTAMP형',     'TIMESTAMP',            60],
+  ['DATA_TYPE_CD',  '0020',       'TIMESTAMPTZ형',   'TIMESTAMPTZ',          60],
   // DOM_TYPE_CD — 도메인 유형 (DA §40: 코드형·번호형·일반형)
   ['DOM_TYPE_CD',   '0001',       '코드형',          'Code',                 10],
   ['DOM_TYPE_CD',   '0002',       '번호형',          'Number',               20],

@@ -183,9 +183,9 @@ def pg_type(abbr, dtype, dlen):
 
 SYS = [
     ('regr_id','character varying(50)','NOT NULL DEFAULT \'ADMIN\''),
-    ('reg_dtm', 'timestamp',           'NOT NULL DEFAULT CURRENT_TIMESTAMP'),
+    ('reg_dtm', 'timestamptz',           'NOT NULL DEFAULT CURRENT_TIMESTAMP'),
     ('modr_id','character varying(50)','NOT NULL DEFAULT \'ADMIN\''),
-    ('mod_dtm', 'timestamp',           'NOT NULL DEFAULT CURRENT_TIMESTAMP'),
+    ('mod_dtm', 'timestamptz',           'NOT NULL DEFAULT CURRENT_TIMESTAMP'),
 ]
 
 ddl_all = []

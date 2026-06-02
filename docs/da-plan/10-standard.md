@@ -93,7 +93,7 @@
 | VC | Varchar |
 | NB | Number |
 | DT | Date |
-| TS | Timestamp |
+| TS | Timestamptz |
 | CL | Clob |
 | BL | Blob |
 

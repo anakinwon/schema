@@ -115,7 +115,7 @@ export default function WordDialog({ open, initial, onClose, onSaved }: Props) {
               <option value="INTEGER">INTEGER</option>
               <option value="NUMERIC">NUMERIC</option>
               <option value="DATE">DATE</option>
-              <option value="TIMESTAMP">TIMESTAMP</option>
+              <option value="TIMESTAMPTZ">TIMESTAMPTZ</option>
             </select>
             {(form.DATA_TYPE === 'VARCHAR' || form.DATA_TYPE === 'NUMERIC') && (
               <>

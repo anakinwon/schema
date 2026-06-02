@@ -18,7 +18,7 @@ const PG_TYPE: Record<string, (len: number | null, scale: number | null) => stri
   '0013':  ()       => 'INTEGER',
   '0015':  (l, s)   => `NUMERIC(${l ?? 18},${s ?? 0})`,
   '0018':  ()       => 'DATE',
-  '0020':  ()       => 'TIMESTAMP',
+  '0020':  ()       => 'TIMESTAMPTZ',
 }
 
 const MYSQL_TYPE: Record<string, (len: number | null, scale: number | null) => string> = {

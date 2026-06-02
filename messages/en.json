@@ -244,12 +244,14 @@
       "confirmRemove": "Remove this member?",
       "role": {
         "admin": "Super Admin",
+        "master": "Master",
         "manager": "Manager",
         "sub_admin": "Sub Manager",
         "user": "User"
       },
       "moveRole": {
         "admin": "Super Admin (admin)",
+        "master": "Master (master)",
         "manager": "Manager (manager)",
         "sub_admin": "Sub Manager (sub_admin)",
         "user": "User (user)"
