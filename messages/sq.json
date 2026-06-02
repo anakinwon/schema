@@ -1,1 +1,126 @@
-{}
+{
+  "admin": {
+    "adminLabel": "Admin",
+    "backOffice": "Backoffice (Admin)",
+    "dashboard": {
+      "card": {
+        "domains": "Domaine Standarde",
+        "terms": "Terma Standarde",
+        "users": "Përdorues Aktivë",
+        "words": "Fjalë Standarde"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Gjendja e Sistemit të Menaxhimit të të Dhënave Standarde",
+      "pageTitle": "Paneli i Administratorit",
+      "quick": {
+        "audit": "Historia e Ndryshimeve",
+        "auditDesc": "Gjurma e Auditimit STD_DIC·STD_DOM",
+        "codes": "Menaxhimi i Kodeve të Zakonshme",
+        "codesDesc": "Menaxhimi DA §40 STD_CODE",
+        "domains": "Menaxhimi i Domaineve",
+        "domainsDesc": "STD_DOM Regjistro/Redakto/Fshi",
+        "terms": "Menaxhimi i Termave",
+        "termsDesc": "DA_TERM Regjistro/Redakto/Fshi",
+        "userScreen": "Ekrani i Përdoruesit",
+        "userScreenDesc": "Shiko/Redakto të Dhënat Standarde",
+        "users": "Lista e Përdoruesve",
+        "usersDesc": "Caktimi i Roleve & Kontrolli i Aksesit",
+        "words": "Menaxhimi i Fjalëve",
+        "wordsDesc": "STD_DIC Regjistro/Redakto/Fshi"
+      },
+      "quickMenu": "Navigim i Shpejtë"
+    },
+    "menu": {
+      "approval": "Menaxhimi i Miratimeve",
+      "audit": "Historia e Ndryshimeve",
+      "board": "Menaxhimi i Bordit",
+      "codes": "Kodet e Zakonshme",
+      "dashboard": "Paneli",
+      "i18n": "Menaxhimi Shumëgjuhësh",
+      "standards": "Menaxhimi i Standardeve",
+      "sync": "Sinkronizim",
+      "users": "Menaxhimi i Përdoruesve"
+    },
+    "noPermission": "Aksesi u refuzua"
+  },
+  "auth": {
+    "email": "Email",
+    "login": "Hyrja",
+    "loginButton": "Hyrja",
+    "loginError": "Email ose fjalëkalimi është i gabuar",
+    "loginTitle": "{appName} — Hyrja",
+    "logout": "Dilni",
+    "password": "Fjalëkalimi",
+    "signup": "Regjistrohu"
+  },
+  "board": {
+    "answered": "Përgjigjet",
+    "author": "Autori",
+    "backToList": "← Kthehu",
+    "categories": {
+      "ARCHIVE": "Arkiv",
+      "FREE": "Diskutim i Lirë",
+      "NOTICE": "Njoftim",
+      "QNA": "Pyetje & Përgjigje"
+    },
+    "comments": "Komente",
+    "content": "Përmbajtja",
+    "createdAt": "Data",
+    "deleteConfirm": "Dëshironi të fshini këtë postim?",
+    "editPost": "Redakto Postimin",
+    "empty": "Nuk ka postime",
+    "goToNotice": "Shko te Njoftimi",
+    "newPost": "Shkruaj",
+    "noSearchResult": "Nuk ka rezultate për '{query}'",
+    "notFound": "Bordi nuk u gjet",
+    "perPage": "{size} për faqe",
+    "pinned": "Fiksuar",
+    "searchPlaceholder": "Kërko titull ose autor",
+    "title": "Titulli",
+    "totalCount": "Gjithsej {count}",
+    "unanswered": "Pa Përgjigje",
+    "views": "Shikime",
+    "write": "Shkruaj"
+  },
+  "common": {
+    "appName": "Sistemi i Menaxhimit të të Dhënave Standarde",
+    "back": "Kthehu",
+    "cancel": "Anulo",
+    "dashboard": "Paneli",
+    "delete": "Fshi",
+    "edit": "Redakto",
+    "loading": "Po ngarkohet...",
+    "save": "Ruaj",
+    "search": "Kërko"
+  },
+  "languageSwitcher": {
+    "de": "Gjermanisht",
+    "en": "Anglisht",
+    "en-ZA": "Anglisht (Afrika e Jugut)",
+    "fil": "Filipinase",
+    "hi": "Hindisht",
+    "id": "Indoneziane",
+    "ja": "Japoneze",
+    "ko": "Koreane",
+    "label": "Gjuha",
+    "ms": "Malajziane",
+    "ps": "Pashto",
+    "sq": "Shqip",
+    "th": "Tailandeze",
+    "vi": "Vietnameze",
+    "zh": "Kineze"
+  },
+  "profile": {
+    "edit": "Redakto Profilin",
+    "fullName": "Emri i Plotë",
+    "role": "Roli",
+    "title": "Profili Im",
+    "username": "Emri i Përdoruesit"
+  },
+  "validation": {
+    "fileSizeExceeded": "Madhësia e skedarit tejkalon limitin {maxMb}MB",
+    "invalidEmail": "Formati i emailit është i pavlefshëm",
+    "required": "Ky fushë është e detyrueshme",
+    "tooShort": "Duhet të ketë të paktën {min} karaktere"
+  }
+}
