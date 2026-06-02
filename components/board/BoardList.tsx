@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
@@ -30,6 +30,8 @@ function formatDate(iso: string) {
   return iso.slice(0, 10)
 }
 
+const ROW_HEIGHT = 44  // td py-2.5(10*2) + line-height(24) = 44px
+
 interface Props {
   category: string
   canWrite?: boolean
@@ -38,12 +40,40 @@ interface Props {
 export default function BoardList({ category, canWrite = false }: Props) {
   const router = useRouter()
 
-  const [data, setData]       = useState<PagedResult | null>(null)
-  const [page, setPage]       = useState(1)
-  const [q, setQ]             = useState('')
-  const [inputQ, setInputQ]   = useState('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError]     = useState<string | null>(null)
+  const [pageSize, setPageSize]   = useState<number>(0)
+  const [data, setData]           = useState<PagedResult | null>(null)
+  const [page, setPage]           = useState(1)
+  const [q, setQ]                 = useState('')
+  const [inputQ, setInputQ]       = useState('')
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState<string | null>(null)
+
+  const pageSizeRef  = useRef(pageSize)
+  const tableBodyRef = useRef<HTMLDivElement>(null)
+  const theadRef     = useRef<HTMLTableSectionElement>(null)
+
+  pageSizeRef.current = pageSize
+
+  // ResizeObserver: 테이블 영역 실제 높이 → pageSize 계산
+  useEffect(() => {
+    const wrapper = tableBodyRef.current
+    if (!wrapper) return
+
+    const measure = () => {
+      const theadH  = theadRef.current?.offsetHeight ?? 42
+      const available = wrapper.clientHeight - theadH
+      const rows = Math.max(3, Math.min(50, Math.floor(available / ROW_HEIGHT)))
+      if (rows !== pageSizeRef.current) {
+        setPageSize(rows)
+        setPage(1)
+      }
+    }
+
+    measure()
+    const obs = new ResizeObserver(measure)
+    obs.observe(wrapper)
+    return () => obs.disconnect()
+  }, [])
 
   const supabase = useMemo(() => createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -56,12 +86,12 @@ export default function BoardList({ category, canWrite = false }: Props) {
     return { Authorization: `Bearer ${session.access_token}` }
   }, [supabase])
 
-  const load = useCallback(async (p: number, search: string) => {
+  const load = useCallback(async (p: number, search: string, ps: number) => {
     setLoading(true)
     setError(null)
     try {
       const headers = await authHeader()
-      const params = new URLSearchParams({ page: String(p) })
+      const params = new URLSearchParams({ page: String(p), pageSize: String(ps) })
       if (search) params.set('q', search)
       const res = await fetch(`/api/board/${category}/posts?${params}`, { headers })
       if (!res.ok) {
@@ -77,7 +107,11 @@ export default function BoardList({ category, canWrite = false }: Props) {
     }
   }, [authHeader, category])
 
-  useEffect(() => { load(page, q) }, [load, page, q])
+  // pageSize가 결정된 이후에만 로드
+  useEffect(() => {
+    if (pageSize === 0) return
+    load(page, q, pageSize)
+  }, [load, page, q, pageSize])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -85,23 +119,25 @@ export default function BoardList({ category, canWrite = false }: Props) {
     setQ(inputQ.trim())
   }
 
-  const handlePage = (p: number) => {
-    setPage(p)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  const handlePage = (p: number) => setPage(p)
 
   const categoryKey = category.toUpperCase()
   const posts = data?.items ?? []
+  // 스켈레톤 행 수: pageSize 확정 전엔 wrapper 높이를 채울 수 없으므로 0
+  const skeletonCount = pageSize > 0 ? pageSize : 0
 
   return (
-    <div>
-      {/* 헤더 */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+    <div className="flex-1 flex flex-col gap-3">
+
+      {/* 검색/글쓰기 */}
+      <div className="shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <p className="text-sm text-gray-500">
             총 <span className="font-semibold text-gray-800">{data?.total ?? 0}</span>건
+            {data && (
+              <span className="ml-1 text-xs text-gray-400">({pageSize}개씩)</span>
+            )}
           </p>
-          {/* 검색 */}
           <form onSubmit={handleSearch} className="flex gap-1">
             <input
               value={inputQ}
@@ -128,7 +164,7 @@ export default function BoardList({ category, canWrite = false }: Props) {
         </div>
         {canWrite && (
           <Link
-            href={`/board/${category}/new`}
+            href={`/${category}/new`}
             className="px-3 py-1.5 bg-[#1e3a5f] text-white text-sm rounded hover:bg-[#16304f] transition-colors self-end sm:self-auto"
           >
             글쓰기
@@ -136,22 +172,22 @@ export default function BoardList({ category, canWrite = false }: Props) {
         )}
       </div>
 
-      {/* 테이블 */}
-      <div className="overflow-x-auto rounded border border-gray-200 bg-white">
-        <table className="min-w-[640px] w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
+      {/* 테이블 — flex-1 로 남은 공간 모두 차지 */}
+      <div ref={tableBodyRef} className="flex-1 min-h-0 overflow-x-auto rounded border border-gray-200 bg-white">
+        <table className="min-w-[640px] w-full text-sm table-fixed">
+          <thead ref={theadRef} className="bg-gray-50 border-b border-gray-200">
             <tr>
-              <th className="px-4 py-2.5 text-left font-medium text-gray-600 w-12">번호</th>
-              <th className="px-4 py-2.5 text-left font-medium text-gray-600">제목</th>
-              <th className="px-4 py-2.5 text-left font-medium text-gray-600 w-24">작성자</th>
-              <th className="px-4 py-2.5 text-left font-medium text-gray-600 w-24">작성일</th>
-              <th className="px-4 py-2.5 text-right font-medium text-gray-600 w-16">조회</th>
-              <th className="px-4 py-2.5 text-right font-medium text-gray-600 w-16">댓글</th>
+              <th className="w-[6%]  px-4 py-2.5 text-left font-medium text-gray-600 whitespace-nowrap">번호</th>
+              <th className="w-[50%] px-4 py-2.5 text-left font-medium text-gray-600">제목</th>
+              <th className="w-[17%] px-4 py-2.5 text-left font-medium text-gray-600 whitespace-nowrap">작성자</th>
+              <th className="w-[17%] px-4 py-2.5 text-left font-medium text-gray-600 whitespace-nowrap">작성일</th>
+              <th className="w-[5%]  px-4 py-2.5 text-right font-medium text-gray-600 whitespace-nowrap">조회</th>
+              <th className="w-[5%]  px-4 py-2.5 text-right font-medium text-gray-600 whitespace-nowrap">댓글</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {loading && (
-              Array.from({ length: 5 }).map((_, i) => (
+            {loading && skeletonCount > 0 && (
+              Array.from({ length: skeletonCount }).map((_, i) => (
                 <tr key={i} className="animate-pulse">
                   <td className="px-4 py-3"><div className="h-4 w-6 bg-gray-100 rounded mx-auto" /></td>
                   <td className="px-4 py-3"><div className="h-4 bg-gray-100 rounded w-3/4" /></td>
@@ -178,10 +214,10 @@ export default function BoardList({ category, canWrite = false }: Props) {
               <tr
                 key={post.post_id}
                 className="hover:bg-blue-50/40 cursor-pointer transition-colors"
-                onClick={() => router.push(`/board/${category}/${post.post_id}`)}
+                onClick={() => router.push(`/${category}/${post.post_id}`)}
               >
                 <td className="px-4 py-2.5 text-gray-400 text-center">
-                  {post.pin_yn === 'Y' ? '📌' : (data ? data.total - ((page - 1) * data.pageSize + idx) : '')}
+                  {post.pin_yn === 'Y' ? '📌' : (data ? data.total - ((page - 1) * pageSize + idx) : '')}
                 </td>
                 <td className="px-4 py-2.5">
                   <span className={`font-medium ${post.pin_yn === 'Y' ? 'text-[#1e3a5f]' : 'text-gray-800'}`}>
@@ -198,8 +234,8 @@ export default function BoardList({ category, canWrite = false }: Props) {
                     </span>
                   )}
                 </td>
-                <td className="px-4 py-2.5 text-gray-500">{post.rgst_usr_nm}</td>
-                <td className="px-4 py-2.5 text-gray-400">{formatDate(post.reg_dts)}</td>
+                <td className="px-4 py-2.5 text-gray-500 truncate">{post.rgst_usr_nm}</td>
+                <td className="px-4 py-2.5 text-gray-400 whitespace-nowrap">{formatDate(post.reg_dts)}</td>
                 <td className="px-4 py-2.5 text-gray-400 text-right">{post.vw_cnt.toLocaleString()}</td>
                 <td className="px-4 py-2.5 text-right">
                   {post.cmnt_cnt > 0
@@ -213,7 +249,11 @@ export default function BoardList({ category, canWrite = false }: Props) {
         </table>
       </div>
 
-      <Pagination page={page} totalPages={data?.totalPages ?? 1} onPage={handlePage} />
+      {/* 페이지네이션 — 항상 하단 */}
+      <div className="shrink-0">
+        <Pagination page={page} totalPages={data?.totalPages ?? 1} onPage={handlePage} />
+      </div>
+
     </div>
   )
 }

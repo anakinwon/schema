@@ -55,3 +55,10 @@ next-env.d.ts
 xls_strings.txt
 docs/**/tmp_*.txt
 *tmp_word*.txt
+
+# Playwright MCP 캡처 (세션 임시 파일)
+.playwright-mcp/
+
+# SQLite 임시 파일
+*.db-shm
+*.db-wal

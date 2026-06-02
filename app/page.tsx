@@ -1,5 +1,5 @@
-import StandardsPage from '@/components/standards/StandardsPage'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
-  return <StandardsPage />
+  redirect('/notice')
 }

@@ -70,7 +70,7 @@ export default function StandardsPage() {
           </div>
         </div>
         <div className="ml-auto flex items-center gap-3 text-xs text-blue-300">
-          <a href="/board/notice" className="hidden sm:flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 transition-colors text-blue-200 hover:text-white text-xs">
+          <a href="/notice" className="hidden sm:flex items-center gap-1 px-2 py-1 rounded hover:bg-white/10 transition-colors text-blue-200 hover:text-white text-xs">
             📢 게시판
           </a>
           <span className="hidden lg:block">DA#5 SQLiteDB_for_META_v5 · Supabase PostgreSQL</span>

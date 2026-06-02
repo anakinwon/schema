@@ -24,7 +24,7 @@ export default function PostDetailError({
           다시 시도
         </button>
         <Link
-          href={`/board/${params.category}`}
+          href={`/${params.category}`}
           className="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded hover:bg-gray-200 transition-colors"
         >
           목록으로

@@ -3,7 +3,9 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { requireAuth } from '@/lib/auth-guard'
 import { canWrite, VALID_CATEGORIES } from '@/lib/board'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE     = 20
+const PAGE_SIZE_MIN = 5
+const PAGE_SIZE_MAX = 50
 
 type Params = { params: Promise<{ category: string }> }
 
@@ -30,10 +32,12 @@ export async function GET(req: NextRequest, { params }: Params) {
   }
 
   const sp = req.nextUrl.searchParams
-  const page    = Math.max(1, parseInt(sp.get('page') ?? '1', 10))
-  const q       = sanitizeSearch((sp.get('q') ?? '').trim())
-  const from    = (page - 1) * PAGE_SIZE
-  const to      = from + PAGE_SIZE - 1
+  const page     = Math.max(1, parseInt(sp.get('page') ?? '1', 10))
+  const q        = sanitizeSearch((sp.get('q') ?? '').trim())
+  const psRaw    = parseInt(sp.get('pageSize') ?? String(PAGE_SIZE), 10)
+  const pageSize = Math.min(PAGE_SIZE_MAX, Math.max(PAGE_SIZE_MIN, isNaN(psRaw) ? PAGE_SIZE : psRaw))
+  const from     = (page - 1) * pageSize
+  const to       = from + pageSize - 1
 
   let query = supabaseAdmin
     .from('brd_post')
@@ -63,10 +67,10 @@ export async function GET(req: NextRequest, { params }: Params) {
 
   return NextResponse.json({
     items,
-    total:    count ?? 0,
+    total:      count ?? 0,
     page,
-    pageSize: PAGE_SIZE,
-    totalPages: Math.ceil((count ?? 0) / PAGE_SIZE),
+    pageSize,
+    totalPages: Math.ceil((count ?? 0) / pageSize),
   })
 }
 

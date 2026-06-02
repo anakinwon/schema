@@ -18,10 +18,11 @@ export default function PostForm({ category, postId }: Props) {
 
   const [title, setTitle]     = useState('')
   const [content, setContent] = useState('')
-  const [files, setFiles]     = useState<UploadedFile[]>([])
-  const [submitting, setSubmitting] = useState(false)
+  const [files, setFiles]         = useState<UploadedFile[]>([])
+  const [attachError, setAttachError] = useState(false)
+  const [submitting, setSubmitting]   = useState(false)
   const [loadingInit, setLoadingInit] = useState(isEdit)
-  const [error, setError]     = useState<string | null>(null)
+  const [error, setError]             = useState<string | null>(null)
 
   const supabase = useMemo(() => createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -57,6 +58,7 @@ export default function PostForm({ category, postId }: Props) {
     e.preventDefault()
     if (!title.trim()) { setError('제목을 입력해주세요.'); return }
     if (!content.trim()) { setError('내용을 입력해주세요.'); return }
+    if (attachError) { setError('첨부파일 크기를 확인해주세요.'); return }
 
     setSubmitting(true)
     setError(null)
@@ -97,17 +99,26 @@ export default function PostForm({ category, postId }: Props) {
       }
 
       // 첨부파일 업로드 (등록·수정 모두)
+      const failedFiles: string[] = []
       for (const f of files) {
         const fd = new FormData()
         fd.append('file', f.file)
-        await fetch(`/api/board/${category}/posts/${newPostId}/attachments`, {
+        const uploadRes = await fetch(`/api/board/${category}/posts/${newPostId}/attachments`, {
           method: 'POST',
           headers: headers as Record<string, string>,
           body: fd,
         })
+        if (!uploadRes.ok) {
+          const body = await uploadRes.json().catch(() => ({}))
+          failedFiles.push(`${f.file.name}(${body.error ?? uploadRes.status})`)
+        }
       }
 
-      router.push(`/board/${category}/${newPostId}`)
+      if (failedFiles.length > 0) {
+        alert(`게시글은 저장됐으나 일부 첨부파일 업로드에 실패했습니다:\n${failedFiles.join('\n')}`)
+      }
+
+      router.push(`/${category}/${newPostId}`)
     } catch {
       setError('저장 중 오류가 발생했습니다')
     } finally {
@@ -167,7 +178,7 @@ export default function PostForm({ category, postId }: Props) {
         {/* 첨부파일 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">첨부파일</label>
-          <AttachmentUploader files={files} onChange={setFiles} />
+          <AttachmentUploader files={files} onChange={setFiles} onError={setAttachError} />
         </div>
       </div>
 
@@ -183,7 +194,7 @@ export default function PostForm({ category, postId }: Props) {
         </button>
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || attachError}
           className="px-5 py-2 bg-[#1e3a5f] text-white text-sm rounded hover:bg-[#16304f] disabled:opacity-50 transition-colors"
         >
           {submitting ? '저장 중...' : isEdit ? '수정 완료' : '등록'}

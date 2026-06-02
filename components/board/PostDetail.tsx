@@ -91,7 +91,7 @@ export default function PostDetail({ category, postId }: Props) {
     const headers = await authHeader()
     const res = await fetch(`/api/board/${category}/posts/${postId}`, { method: 'DELETE', headers })
     if (res.ok) {
-      router.push(`/board/${category}`)
+      router.push(`/${category}`)
     } else {
       const body = await res.json()
       alert(body.error ?? '삭제에 실패했습니다')
@@ -121,7 +121,7 @@ export default function PostDetail({ category, postId }: Props) {
     return (
       <div className="bg-white rounded border border-red-200 p-8 text-center">
         <p className="text-sm text-red-500 mb-3">{error ?? '게시글을 찾을 수 없습니다'}</p>
-        <Link href={`/board/${category}`} className="text-sm text-blue-500 hover:underline">← 목록으로</Link>
+        <Link href={`/${category}`} className="text-sm text-blue-500 hover:underline">← 목록으로</Link>
       </div>
     )
   }
@@ -143,7 +143,7 @@ export default function PostDetail({ category, postId }: Props) {
           {post.is_owner && (
             <div className="flex gap-2 shrink-0">
               <Link
-                href={`/board/${category}/${postId}/edit`}
+                href={`/${category}/${postId}/edit`}
                 className="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50 transition-colors"
               >
                 수정
@@ -201,7 +201,7 @@ export default function PostDetail({ category, postId }: Props) {
 
       {/* 목록으로 */}
       <div className="mb-2">
-        <Link href={`/board/${category}`} className="text-sm text-gray-500 hover:text-gray-700">
+        <Link href={`/${category}`} className="text-sm text-gray-500 hover:text-gray-700">
           ← 목록
         </Link>
       </div>

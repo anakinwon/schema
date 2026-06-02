@@ -179,7 +179,7 @@ export default function BoardAdmin() {
         )}
         <div className="p-3 border-t border-gray-100">
           <Link
-            href="/board/notice"
+            href="/notice"
             target="_blank"
             className="block text-center text-xs text-blue-500 hover:underline"
           >
@@ -258,7 +258,7 @@ export default function BoardAdmin() {
                       </td>
                       <td className="px-4 py-2.5">
                         <a
-                          href={`/board/${post.ctgr_cd.toLowerCase()}/${post.post_id}`}
+                          href={`/${post.ctgr_cd.toLowerCase()}/${post.post_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className={`hover:underline ${post.pin_yn === 'Y' ? 'text-[#1e3a5f] font-medium' : 'text-gray-800'}`}

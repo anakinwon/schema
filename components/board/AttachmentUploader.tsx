@@ -10,6 +10,7 @@ export interface UploadedFile {
 interface Props {
   files: UploadedFile[]
   onChange: (files: UploadedFile[]) => void
+  onError?: (hasError: boolean) => void
   maxFiles?: number
   maxMb?: number
 }
@@ -23,27 +24,49 @@ function formatBytes(bytes: number) {
 export default function AttachmentUploader({
   files,
   onChange,
+  onError,
   maxFiles = 5,
   maxMb = 20,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [dragOver, setDragOver] = useState(false)
+  const [sizeError, setSizeError] = useState<string | null>(null)
 
   const addFiles = (newFiles: FileList | null) => {
     if (!newFiles) return
     const remaining = maxFiles - files.length
+    const oversized: string[] = []
+
     const toAdd = Array.from(newFiles).slice(0, remaining).filter(f => {
       if (f.size > maxMb * 1024 * 1024) {
-        alert(`${f.name}: ${maxMb}MB 초과 파일은 첨부할 수 없습니다.`)
+        oversized.push(f.name)
         return false
       }
       return true
     })
-    onChange([...files, ...toAdd.map(f => ({ file: f, preview: f.name }))])
+
+    if (oversized.length > 0) {
+      const msg = `업로드 파일크기제한 ${maxMb}MB를 초과했습니다. (${oversized.join(', ')})`
+      setSizeError(msg)
+      onError?.(true)
+    } else {
+      setSizeError(null)
+      onError?.(false)
+    }
+
+    if (toAdd.length > 0) {
+      onChange([...files, ...toAdd.map(f => ({ file: f, preview: f.name }))])
+    }
   }
 
   const remove = (idx: number) => {
-    onChange(files.filter((_, i) => i !== idx))
+    const next = files.filter((_, i) => i !== idx)
+    onChange(next)
+    // 파일을 모두 제거하면 에러도 초기화
+    if (next.length === 0) {
+      setSizeError(null)
+      onError?.(false)
+    }
   }
 
   return (
@@ -57,6 +80,8 @@ export default function AttachmentUploader({
         className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
           dragOver
             ? 'border-blue-400 bg-blue-50'
+            : sizeError
+            ? 'border-red-300 bg-red-50/30'
             : files.length >= maxFiles
             ? 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-60'
             : 'border-gray-300 hover:border-blue-300 hover:bg-blue-50/30'
@@ -70,6 +95,14 @@ export default function AttachmentUploader({
           {files.length > 0 && ` (${files.length}/${maxFiles})`}
         </p>
       </div>
+
+      {/* 크기 초과 에러 메시지 */}
+      {sizeError && (
+        <p className="text-xs text-red-500 flex items-center gap-1">
+          <span>⚠</span>
+          {sizeError}
+        </p>
+      )}
 
       <input
         ref={inputRef}

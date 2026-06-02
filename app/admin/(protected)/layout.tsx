@@ -1,5 +1,9 @@
 import type { Metadata } from 'next'
+import { cookies } from 'next/headers'
 import AdminLogoutButton from './AdminLogoutButton'
+import { createSupabaseServer } from '@/lib/supabase-server'
+import { supabaseAdmin } from '@/lib/supabase'
+import { verifyAdminToken } from '@/lib/admin-auth'
 
 export const metadata: Metadata = {
   title: '관리자 — 표준데이터 관리 프로그램',
@@ -16,7 +20,34 @@ const NAV_LINKS = [
   { href: '/admin/board',      label: '게시판관리', icon: '📢' },
 ]
 
-export default function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
+async function getAdminUserInfo(): Promise<{ userName: string; isAdminSession: boolean }> {
+  const cookieStore = await cookies()
+
+  // admin 쿠키 세션 확인
+  const adminToken = cookieStore.get('admin-session')?.value
+  const isAdminSession = !!(adminToken && verifyAdminToken(adminToken))
+
+  // Supabase 세션에서 사용자명 조회
+  const supabase = await createSupabaseServer()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (user) {
+    const { data: profile } = await supabaseAdmin
+      .from('profiles')
+      .select('full_name, username')
+      .eq('user_id', user.id)
+      .maybeSingle()
+    const userName =
+      profile?.full_name ?? profile?.username ?? user.email?.split('@')[0] ?? '관리자'
+    return { userName, isAdminSession }
+  }
+
+  return { userName: '관리자', isAdminSession }
+}
+
+export default async function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
+  const { userName, isAdminSession } = await getAdminUserInfo()
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <header className="bg-gray-900 text-white px-6 py-3 flex items-center gap-4 shadow shrink-0">
@@ -39,7 +70,7 @@ export default function AdminProtectedLayout({ children }: { children: React.Rea
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
-          <AdminLogoutButton />
+          <AdminLogoutButton userName={userName} isAdminSession={isAdminSession} />
         </div>
       </header>
 

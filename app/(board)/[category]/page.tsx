@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params
   const name = CATEGORY_NAME[category.toUpperCase()]
   if (!name) return { title: '게시판' }
-  return { title: `${name} — 표준데이터 관리` }
+  return { title: `${name} — 통합게시판` }
 }
 
 export default async function CategoryPage({ params }: Props) {
@@ -19,8 +19,5 @@ export default async function CategoryPage({ params }: Props) {
     notFound()
   }
 
-  const categoryName = CATEGORY_NAME[category.toUpperCase()]
-
   return <BoardList category={category} canWrite />
-
 }
