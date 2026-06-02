@@ -11,28 +11,20 @@ export async function GET(req: NextRequest) {
   const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
   if (!auth.ok) return auth.response
 
-  // ko 기준 전체 키 수
-  const { count: totalKeys } = await supabaseAdmin
-    .from('i18n_msg')
-    .select('msg_id', { count: 'exact', head: true })
-    .eq('lang_cd', 'ko')
-
-  // 언어별 번역 수 — DB GROUP BY 집계 (Supabase 1000건 limit 우회)
-  const { data: langCountRows } = await supabaseAdmin
-    .rpc('get_i18n_msg_counts') as { data: { lang_cd: string; cnt: number }[] | null }
-
-  // RPC 없으면 직접 SQL 집계
-  const langStats: Record<string, number> = {}
-  if (langCountRows?.length) {
-    langCountRows.forEach(r => { langStats[r.lang_cd] = r.cnt })
-  } else {
-    // fallback: limit 충분히 크게 설정
-    const { data: allRows } = await supabaseAdmin
+  // DB RPC로 언어별 번역 수 집계 + ko 기준 totalKeys 동시 조회
+  // RPC get_i18n_msg_counts(): GROUP BY lang_cd → limit 문제 원천 차단
+  const [{ data: langCountRows }, { count: totalKeys }] = await Promise.all([
+    supabaseAdmin.rpc('get_i18n_msg_counts') as unknown as
+      Promise<{ data: { lang_cd: string; cnt: number }[] | null }>,
+    supabaseAdmin
       .from('i18n_msg')
-      .select('lang_cd')
-      .limit(10000)
-    ;(allRows ?? []).forEach(r => { langStats[r.lang_cd] = (langStats[r.lang_cd] ?? 0) + 1 })
-  }
+      .select('msg_id', { count: 'exact', head: true })
+      .eq('lang_cd', 'ko'),
+  ])
+
+  // RPC 결과 → 언어별 번역 수 맵
+  const langStats: Record<string, number> = {}
+  ;(langCountRows ?? []).forEach(r => { langStats[r.lang_cd] = Number(r.cnt) })
 
   // 활성 언어 목록 + 전체 국가 목록 동시 조회
   const [{ data: langs }, { data: cntryRows }] = await Promise.all([

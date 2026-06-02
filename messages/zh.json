@@ -86,22 +86,6 @@
     "appName": "标准数据管理程序|||仪表板|||保存|||取消|||删除|||编辑|||返回|||正在加载... |||搜索",
     "back": "뒤로",
     "cancel": "취소",
-    "dashboard": "대시보드",
-    "delete": "삭제",
-    "edit": "수정",
-    "loading": "불러오는 중…",
-    "save": "저장",
-    "search": "검색"
-  },
-  "languageSwitcher": {
-    "de": "德语",
-    "en": "हिन्दी |||越南 |||印度尼西亚语 |||马来语 |||英语（南澳）|||菲律宾语",
-    "en-ZA": "English (SA)",
-    "fil": "Filipino",
-    "hi": "हिन्दी",
-    "id": "Bahasa Indonesia",
-    "ja": "日本語",
-    "ps": "普什图语",
-    "sq": "阿尔巴尼亚语"
+    "dashboard": "대시보드"
   }
 }

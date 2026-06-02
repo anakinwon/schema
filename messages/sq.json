@@ -21,9 +21,9 @@
         "domainsDesc": "STD_DOM Regjistro/Redakto/Fshi",
         "terms": "Menaxhimi i Termave",
         "termsDesc": "DA_TERM Regjistro/Redakto/Fshi",
+        "users": "Lista e Përdoruesve",
         "userScreen": "Ekrani i Përdoruesit",
         "userScreenDesc": "Shiko/Redakto të Dhënat Standarde",
-        "users": "Lista e Përdoruesve",
         "usersDesc": "Caktimi i Roleve & Kontrolli i Aksesit",
         "words": "Menaxhimi i Fjalëve",
         "wordsDesc": "STD_DIC Regjistro/Redakto/Fshi"
@@ -86,41 +86,6 @@
     "appName": "Sistemi i Menaxhimit të të Dhënave Standarde",
     "back": "Kthehu",
     "cancel": "Anulo",
-    "dashboard": "Paneli",
-    "delete": "Fshi",
-    "edit": "Redakto",
-    "loading": "Po ngarkohet...",
-    "save": "Ruaj",
-    "search": "Kërko"
-  },
-  "languageSwitcher": {
-    "de": "Gjermanisht",
-    "en": "Anglisht",
-    "en-ZA": "Anglisht (Afrika e Jugut)",
-    "fil": "Filipinase",
-    "hi": "Hindisht",
-    "id": "Indoneziane",
-    "ja": "Japoneze",
-    "ko": "Koreane",
-    "label": "Gjuha",
-    "ms": "Malajziane",
-    "ps": "Pashto",
-    "sq": "Shqip",
-    "th": "Tailandeze",
-    "vi": "Vietnameze",
-    "zh": "Kineze"
-  },
-  "profile": {
-    "edit": "Redakto Profilin",
-    "fullName": "Emri i Plotë",
-    "role": "Roli",
-    "title": "Profili Im",
-    "username": "Emri i Përdoruesit"
-  },
-  "validation": {
-    "fileSizeExceeded": "Madhësia e skedarit tejkalon limitin {maxMb}MB",
-    "invalidEmail": "Formati i emailit është i pavlefshëm",
-    "required": "Ky fushë është e detyrueshme",
-    "tooShort": "Duhet të ketë të paktën {min} karaktere"
+    "dashboard": "Paneli"
   }
 }

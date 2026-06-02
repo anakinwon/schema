@@ -86,22 +86,6 @@
     "appName": "Hệ thống Quản lý Dữ liệu Tiêu chuẩn",
     "back": "Quay lại",
     "cancel": "Hủy",
-    "dashboard": "Bảng điều khiển",
-    "delete": "Xóa",
-    "edit": "Chỉnh sửa",
-    "loading": "Đang tải...",
-    "save": "Lưu",
-    "search": "Tìm kiếm"
-  },
-  "languageSwitcher": {
-    "de": "Tiếng Đức",
-    "en": "Tiếng Anh",
-    "en-ZA": "Tiếng Anh (Nam Phi)",
-    "fil": "Tiếng Philippines",
-    "hi": "Tiếng Hindi",
-    "id": "Tiếng Indonesia",
-    "ja": "Tiếng Nhật",
-    "ps": "Tiếng Pashto",
-    "sq": "Tiếng Albania"
+    "dashboard": "Bảng điều khiển"
   }
 }

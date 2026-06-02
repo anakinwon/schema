@@ -21,11 +21,11 @@
         "domainsDesc": "STD_DOM Registrieren/Bearbeiten/Löschen",
         "terms": "Begriffsverwaltung",
         "termsDesc": "DA_TERM Registrieren/Bearbeiten/Löschen",
+        "users": "Benutzerliste",
         "userScreen": "Benutzeroberfläche",
         "userScreenDesc": "Standarddaten anzeigen/bearbeiten",
-        "users": "Benutzerliste",
         "usersDesc": "Rollenzuweisung & Zugriffskontrolle",
-        "words": "Wörterverwaltung",
+        "words": "Wörterveraltung",
         "wordsDesc": "STD_DIC Registrieren/Bearbeiten/Löschen"
       },
       "quickMenu": "Schnellnavigation"
@@ -87,40 +87,6 @@
     "back": "Zurück",
     "cancel": "Abbrechen",
     "dashboard": "Dashboard",
-    "delete": "Löschen",
-    "edit": "Bearbeiten",
-    "loading": "Wird geladen...",
-    "save": "Speichern",
-    "search": "Suchen"
-  },
-  "languageSwitcher": {
-    "de": "Deutsch",
-    "en": "Englisch",
-    "en-ZA": "Englisch (Südafrika)",
-    "fil": "Filipino",
-    "hi": "Hindi",
-    "id": "Indonesisch",
-    "ja": "Japanisch",
-    "ko": "Koreanisch",
-    "label": "Sprache",
-    "ms": "Malaiisch",
-    "th": "Thailändisch",
-    "vi": "Vietnamesisch",
-    "zh": "Chinesisch",
-    "ps": "Paschtu",
-    "sq": "Albanisch"
-  },
-  "profile": {
-    "edit": "Profil bearbeiten",
-    "fullName": "Vollständiger Name",
-    "role": "Rolle",
-    "title": "Mein Profil",
-    "username": "Benutzername"
-  },
-  "validation": {
-    "fileSizeExceeded": "Dateigröße überschreitet das Limit von {maxMb}MB",
-    "invalidEmail": "Ungültiges E-Mail-Format",
-    "required": "Dieses Feld ist erforderlich",
-    "tooShort": "Mindestens {min} Zeichen erforderlich"
+    "delete": "Löschen"
   }
 }

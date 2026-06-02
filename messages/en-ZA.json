@@ -87,22 +87,6 @@
     "back": "back",
     "cancel": "Cancel",
     "dashboard": "Dashboard",
-    "delete": "Delete",
-    "edit": "Edit",
-    "loading": "Loading...",
-    "save": "Save",
-    "search": "search"
-  },
-  "languageSwitcher": {
-    "de": "German",
-    "en": "English",
-    "en-ZA": "English (SA)",
-    "fil": "Filipino",
-    "hi": "हिन्दी",
-    "id": "Bahasa Indonesia",
-    "ja": "Japanese language",
-    "ko": "Korean",
-    "ps": "Pashto",
-    "sq": "Albanian"
+    "delete": "Delete"
   }
 }

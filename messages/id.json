@@ -87,21 +87,6 @@
     "back": "Kembali",
     "cancel": "Batal",
     "dashboard": "Dasbor",
-    "delete": "Hapus",
-    "edit": "Edit",
-    "loading": "Memuat...",
-    "save": "Simpan",
-    "search": "Cari"
-  },
-  "languageSwitcher": {
-    "de": "Jerman",
-    "en": "Inggris",
-    "en-ZA": "Inggris (Afrika Selatan)",
-    "fil": "Filipina",
-    "hi": "Hindi",
-    "id": "Indonesia",
-    "ja": "Jepang",
-    "ps": "Pashto",
-    "sq": "Albania"
+    "delete": "Hapus"
   }
 }

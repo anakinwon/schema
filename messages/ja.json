@@ -86,22 +86,6 @@
     "appName": "標準データ管理プログラム",
     "back": "戻る",
     "cancel": "キャンセル",
-    "dashboard": "ダッシュボード",
-    "delete": "削除",
-    "edit": "修正",
-    "loading": "読み込み中…",
-    "save": "保存",
-    "search": "検索"
-  },
-  "languageSwitcher": {
-    "de": "ドイツ語",
-    "en": "English",
-    "en-ZA": "English (SA)",
-    "fil": "Filipino",
-    "hi": "銭िन्दी",
-    "id": "Bahasa Indonesia",
-    "ja": "日本語",
-    "ps": "パシュトー語",
-    "sq": "アルバニア語"
+    "dashboard": "ダッシュボード"
   }
 }

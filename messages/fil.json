@@ -87,22 +87,6 @@
     "back": "pabalik",
     "cancel": "Kanselahin",
     "dashboard": "Dashboard",
-    "delete": "Tanggalin",
-    "edit": "I-edit",
-    "loading": "Naglo-load...",
-    "save": "I-save",
-    "search": "paghahanap"
-  },
-  "languageSwitcher": {
-    "de": "Aleman",
-    "en": "English",
-    "en-ZA": "English (SA)",
-    "fil": "Filipino",
-    "hi": "हिन्दी",
-    "id": "Bahasa Indonesia",
-    "ja": "wikang Hapon",
-    "ko": "Korean",
-    "ps": "Pashto",
-    "sq": "Albaniyan"
+    "delete": "Tanggalin"
   }
 }

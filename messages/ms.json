@@ -86,22 +86,6 @@
     "appName": "Sistem Pengurusan Data Standard",
     "back": "Kembali",
     "cancel": "Batal",
-    "dashboard": "Papan Pemuka",
-    "delete": "Padam",
-    "edit": "Edit",
-    "loading": "Memuatkan...",
-    "save": "Simpan",
-    "search": "Cari"
-  },
-  "languageSwitcher": {
-    "de": "Jerman",
-    "en": "Inggeris",
-    "en-ZA": "Inggeris (SA)",
-    "fil": "Filipina",
-    "hi": "हिन्दी",
-    "id": "Bahasa Indonesia",
-    "ja": "Bahasa Jepun",
-    "ps": "Pashto",
-    "sq": "Albania"
+    "dashboard": "Papan Pemuka"
   }
 }
