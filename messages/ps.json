@@ -1,1 +1,125 @@
-{}
+{
+  "admin": {
+    "adminLabel": "ادمین",
+    "backOffice": "شا آفیس (ادمین)",
+    "dashboard": {
+      "card": {
+        "domains": "معياري ډومینونه",
+        "terms": "معياري اصطلاحات",
+        "users": "فعال کارونکي",
+        "words": "معياري کلمات"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "د معياري معلوماتو د مدیریت سیستم حالت",
+      "pageTitle": "د ادمین ډیشبورډ",
+      "quick": {
+        "audit": "د بدلون تاریخ",
+        "auditDesc": "STD_DIC·STD_DOM د پلټنې لار",
+        "codes": "د عمومي کوډونو مدیریت",
+        "codesDesc": "DA §40 STD_CODE مدیریت",
+        "domains": "د ډومین مدیریت",
+        "domainsDesc": "STD_DOM ثبت/سمون/ړنګول",
+        "terms": "د اصطلاحاتو مدیریت",
+        "termsDesc": "DA_TERM ثبت/سمون/ړنګول",
+        "userScreen": "د کارونکي سکرین",
+        "userScreenDesc": "معياري معلومات وګورئ/سم کړئ",
+        "users": "د کارونکو لیست",
+        "usersDesc": "د رول ټاکنه او لاسرسي کنترول",
+        "words": "د کلماتو مدیریت",
+        "wordsDesc": "STD_DIC ثبت/سمون/ړنګول"
+      },
+      "quickMenu": "ګړندی لارښود"
+    },
+    "menu": {
+      "approval": "د تایید مدیریت",
+      "audit": "د بدلون تاریخ",
+      "board": "د بورډ مدیریت",
+      "codes": "عمومي کوډونه",
+      "dashboard": "ډیشبورډ",
+      "i18n": "د ژبو مدیریت",
+      "standards": "د معیار مدیریت",
+      "sync": "همغږي",
+      "users": "د کارونکي مدیریت"
+    },
+    "noPermission": "لاسرسی رد شو"
+  },
+  "auth": {
+    "email": "بریښنالیک",
+    "login": "ننوتل",
+    "loginButton": "ننوتل",
+    "loginError": "بریښنالیک یا پاسورډ سم نه دی",
+    "loginTitle": "{appName} — ننوتل",
+    "logout": "وتل",
+    "password": "پاسورډ",
+    "signup": "نوم لیکنه"
+  },
+  "board": {
+    "answered": "ځواب شوی",
+    "author": "لیکوال",
+    "backToList": "← شاته",
+    "categories": {
+      "ARCHIVE": "آرشیف",
+      "FREE": "آزاده بحث",
+      "NOTICE": "اعلان",
+      "QNA": "پوښتنې او ځوابونه"
+    },
+    "comments": "تبصرې",
+    "content": "منځپانګه",
+    "createdAt": "نیټه",
+    "deleteConfirm": "ایا غواړئ دا پوسټ ړنګ کړئ؟",
+    "editPost": "پوسټ سمول",
+    "empty": "هیڅ پوسټ نشته",
+    "goToNotice": "اعلان ته لاړ شئ",
+    "newPost": "لیکل",
+    "noSearchResult": "د '{query}' لپاره پایله نشته",
+    "notFound": "بورډ ونه موندل شو",
+    "perPage": "هره پاڼه {size}",
+    "pinned": "پاتي شوی",
+    "searchPlaceholder": "د سرلیک یا لیکوال لټون",
+    "title": "سرلیک",
+    "totalCount": "ټول {count}",
+    "unanswered": "بې ځوابه",
+    "views": "کتنې",
+    "write": "لیکل"
+  },
+  "common": {
+    "appName": "د معياري معلوماتو د مدیریت سیستم",
+    "back": "شاته",
+    "cancel": "لغوه کول",
+    "dashboard": "ډیشبورډ",
+    "delete": "ړنګول",
+    "edit": "سمول",
+    "loading": "بارول کیږي...",
+    "save": "خوندي کول",
+    "search": "لټول"
+  },
+  "languageSwitcher": {
+    "de": "جرمني",
+    "en": "انګلیسي",
+    "en-ZA": "انګلیسي (سویلي افریقا)",
+    "fil": "فیلیپیني",
+    "hi": "هندي",
+    "id": "اندونیزیایي",
+    "ja": "جاپاني",
+    "ko": "کوریایي",
+    "label": "ژبه",
+    "ms": "مالیایي",
+    "ps": "پښتو",
+    "th": "تایلنډي",
+    "vi": "ویتنامي",
+    "zh": "چیني"
+  },
+  "profile": {
+    "edit": "پروفایل سمول",
+    "fullName": "بشپړ نوم",
+    "role": "رول",
+    "title": "زما پروفایل",
+    "username": "د کارونکي نوم"
+  },
+  "validation": {
+    "fileSizeExceeded": "د فایل اندازه د {maxMb}MB حد ته رسیدلی",
+    "invalidEmail": "د بریښنالیک بڼه سمه نه ده",
+    "required": "دا ساحه اړینه ده",
+    "tooShort": "لږ تر لږه {min} توري باید وي"
+  }
+}
