@@ -6,6 +6,7 @@ import { createSupabaseServer } from '@/lib/supabase-server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { verifyAdminToken } from '@/lib/admin-auth'
 import BoardUserMenu from './BoardUserMenu'
+import CountrySelector from '@/components/i18n/CountrySelector'
 
 const ADMIN_ROLES = ['admin', 'master']
 
@@ -45,12 +46,13 @@ export default async function BoardLayout({ children }: { children: React.ReactN
       <header className="bg-[#1e3a5f] text-white shrink-0">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-lg font-semibold tracking-wide">대시보드</h1>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {isAdmin && (
               <Link href="/admin" className="text-sm text-blue-200 hover:text-white transition-colors">
                 ← 관리자페이지(Back Office)
               </Link>
             )}
+            <CountrySelector />
             {userName && (
               <BoardUserMenu userName={userName} isAdminSession={isAdminSession} />
             )}

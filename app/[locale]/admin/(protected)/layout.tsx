@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import AdminLogoutButton from './AdminLogoutButton'
+import CountrySelector from '@/components/i18n/CountrySelector'
 import { createSupabaseServer } from '@/lib/supabase-server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { verifyAdminToken } from '@/lib/admin-auth'
@@ -70,6 +71,9 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
+          <CountrySelector
+            triggerClass="text-gray-300 border-gray-600 hover:text-white hover:bg-white/10 hover:border-gray-400"
+          />
           <AdminLogoutButton userName={userName} isAdminSession={isAdminSession} />
         </div>
       </header>
