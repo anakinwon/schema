@@ -52,24 +52,32 @@ async function translateSection(
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 2048,
+    system: 'You are a professional translator. Always respond with ONLY valid JSON. No markdown, no explanation, no code blocks. Just raw JSON.',
     messages: [{
       role: 'user',
-      content: `Translate the following JSON key-value pairs from Korean to ${langName}.
+      content: `Translate these Korean UI strings to ${langName}.
 
-Rules:
-- Keep ALL {placeholder} variables exactly as-is (e.g. {count}, {min}, {maxMb}, {query}, {appName})
-- Keep Q&A, Back Office, Admin, DA, STD_DIC, STD_DOM as-is
-- Return ONLY valid JSON, no explanation, no markdown code block
-- Preserve the exact same keys
+STRICT RULES:
+1. Output ONLY the translated JSON object — no markdown, no triple backticks, no explanation
+2. Keep {placeholder} variables EXACTLY as-is: {count} {min} {maxMb} {query} {appName} {size}
+3. Keep these terms unchanged: Q&A, Back Office, Admin, DA, STD_DIC, STD_DOM, Email
+4. Use the same JSON keys
 
-Input JSON:
+Korean input:
 ${JSON.stringify(koSection, null, 2)}`,
     }],
   })
 
-  const text = (message.content[0] as { type: string; text: string }).text.trim()
-  // JSON 코드 블록 제거 (Claude가 가끔 붙임)
-  const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+  const raw = (message.content[0] as { type: string; text: string }).text.trim()
+
+  // 1차: 코드 블록 제거
+  let cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim()
+
+  // 2차: 중괄호로 감싸인 JSON 추출 (설명 텍스트가 붙은 경우 대비)
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
+  if (!jsonMatch) throw new Error(`JSON 파싱 불가 (응답: ${raw.slice(0, 200)})`)
+  cleaned = jsonMatch[0]
+
   return JSON.parse(cleaned)
 }
 
@@ -104,6 +112,7 @@ export async function POST(req: NextRequest) {
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   const koByNs = toNestedByNs(koRows)
   const translated: { ns_cd: string; msg_key: string; lang_cd: string; msg_val: string }[] = []
+  const sectionErrors: string[] = []
 
   // 섹션별 번역 (토큰 분산)
   for (const [ns_cd, koSection] of Object.entries(koByNs)) {
@@ -113,12 +122,17 @@ export async function POST(req: NextRequest) {
         translated.push({ ...row, lang_cd })
       }
     } catch (e) {
-      console.error(`[translate] ${ns_cd} 섹션 실패:`, e)
+      const msg = e instanceof Error ? e.message : String(e)
+      sectionErrors.push(`[${ns_cd}] ${msg}`)
+      console.error(`[translate] ${ns_cd} 섹션 실패:`, msg)
     }
   }
 
   if (!translated.length) {
-    return NextResponse.json({ error: '번역 결과가 없습니다' }, { status: 500 })
+    const detail = sectionErrors.length
+      ? sectionErrors.join(' | ')
+      : 'Claude API 응답 없음'
+    return NextResponse.json({ error: `번역 결과가 없습니다: ${detail}` }, { status: 500 })
   }
 
   // DB upsert
