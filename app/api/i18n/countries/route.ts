@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { inferLocale } from '@/lib/i18n/countryLangMap'
 
-// 5분 캐싱
-export const revalidate = 300
+// 캐시 비활성화 — 언어 활성/비활성 변경이 즉시 반영되어야 함
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const [{ data: countries, error }, { data: langs }] = await Promise.all([
@@ -19,14 +20,19 @@ export async function GET() {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // i18n_lang_mst에 use_yn='Y'로 등록된 locale 목록
+  // i18n_lang_mst에 use_yn='Y'로 등록된 활성 언어 Set
   const activeLangs = new Set((langs ?? []).map(l => l.lang_cd))
 
-  const result = (countries ?? []).map(c => ({
-    ...c,
-    // locale_cd가 있고 i18n_lang_mst에 활성 등록된 국가만 true
-    is_active: c.locale_cd ? activeLangs.has(c.locale_cd) : false,
-  }))
+  const result = (countries ?? []).map(c => {
+    // locale_cd: DB값 우선, NULL이면 매핑 추론 (방어적)
+    const locale_cd = c.locale_cd ?? inferLocale(c.country_cd)
+    return {
+      ...c,
+      locale_cd,
+      // 추론된 locale이 활성 등록된 언어일 때만 활성
+      is_active: locale_cd ? activeLangs.has(locale_cd) : false,
+    }
+  })
 
   return NextResponse.json(result)
 }
