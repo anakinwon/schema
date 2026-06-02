@@ -3,7 +3,7 @@
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
 > **기준일**: 2026-06-02 (최종 업데이트: 2026-06-02)
-> **현재 버전**: v3 Phase 2 완료 / v4 다국어 시스템 설계 완료 — 구현 대기
+> **현재 버전**: v3 Phase 3 완료 · v4 Phase 1 완료 — v4 Phase 2(국가DB·번역관리) 구현 대기
 > **기술 스택**: Next.js 16.2.6 (App Router) · React 19.2 · TypeScript · Tailwind CSS v4 · SQLite(better-sqlite3) · Supabase PostgreSQL
 
 ---
@@ -318,11 +318,46 @@
 
 ---
 
+### Phase 3 (v3): 게시판 UX 전면 개선 ✅ (완료: 2026-06-02, M8.5)
+
+> **목표**: 통합게시판 라우팅 재구성 · UX 개선 · 권한 제어 강화
+
+- **게시판 라우팅 재구성** ✅ - 완료
+  - ✅ `app/board/` → `app/(board)/` Route Group 이동 (URL: `/board/notice` → `/notice`)
+  - ✅ 표준데이터 관리 프로그램 → `/admin` Back Office 전용 전환
+  - ✅ 루트 `/` → `/notice` redirect (`app/page.tsx`)
+  - ✅ 기존 `/notice`, `/login`, `/admin` URL 무중단 유지
+
+- **헤더 & 사용자 UX** ✅ - 완료
+  - ✅ 게시판 타이틀 "통합게시판" → "대시보드"
+  - ✅ 모든 화면 우측 상단: 👤 사용자명(프로필 링크) + 로그아웃 버튼
+  - ✅ Board 헤더: 관리자 링크 권한 제어 (admin/master만 표시)
+  - ✅ Admin 헤더: 사용자명 + `/profile` 링크 + 로그아웃 동적 적용
+  - ✅ 로그아웃: `window.location.href` full reload (세션 쿠키 즉시 반영)
+
+- **반응형 페이지네이션** ✅ - 완료
+  - ✅ API `pageSize` query param 지원 (5~50 동적)
+  - ✅ `ResizeObserver` — 테이블 실제 높이 측정으로 정확한 pageSize 계산
+  - ✅ Pagination `…` 축약 처리 (페이지 수 많을 때)
+  - ✅ 페이지네이션 항상 최하단 고정 (flex shrink-0)
+  - ✅ 컬럼 비율 `table-fixed` 60:20:20 적용, 헤더 `whitespace-nowrap`
+  - ✅ 글쓰기·수정 페이지 `overflow-y-auto` 스크롤 허용
+
+- **첨부파일 개선** ✅ - 완료
+  - ✅ 업로드 `fetch()` 응답 체크 — 실패 시 `alert()` 알림 (기존 오류 무시 버그 수정)
+  - ✅ 파일 크기 초과 시 인라인 에러 표시 + 등록 버튼 비활성화
+  - ✅ Supabase Storage `board-attachments` MIME 타입 확장 (`application/sql` 등)
+
+- **게시판 권한 제어** ✅ - 완료
+  - ✅ `canWrite` 동적 판단 — `profiles.main_role` → 카테고리별 권한 매핑
+  - ✅ NOTICE: MASTER·ADMIN만 글쓰기 버튼 표시 / FREE·QNA: USER 이상 전원
+  - ✅ 수정·삭제: `post.is_owner` 기반 (본인 글만 표시) — 기존 유지
+
 ---
 
 ## 🚀 v4 개발 계획
 
-### Phase 1 (v4): i18n 기반 구축 ⏳ (구현 대기, M9)
+### Phase 1 (v4): i18n 기반 구축 ✅ (완료: 2026-06-02, M9)
 
 > **목표**: next-intl 설치 · 라우팅 재구성 · proxy.ts 인증+i18n 체이닝  
 > **PRD**: `docs/PRD_MUL_LAN.md`  
@@ -347,21 +382,27 @@
   - ✅ `messages/{en,zh,ja,hi,vi,id,ms,en-ZA,fil,th}.json` — 10개 파일 생성 (ko 값 초기화)
   - ✅ `npm run build` 통과 — 오류·경고 없음
 
-- **TASK-034: 디렉터리 이동 & 레이아웃 동적화** ⏳ - 대기
-  - `app/*` → `app/[locale]/*` 이동 (`app/api/` 제외)
-  - `app/[locale]/layout.tsx` 신규 — `<html lang={locale}>`, `generateStaticParams()` 11개
-  - `lib/fonts.ts` 신규 — locale별 Noto Sans 서브셋 CSS 변수 스왑
+- **TASK-034: 디렉터리 이동 & 레이아웃 동적화** ✅ - 완료 (2026-06-02)
+  - ✅ `app/*` → `app/[locale]/*` 이동 29개 파일 (git rename, 히스토리 보존)
+  - ✅ `app/[locale]/layout.tsx` 신규 — `generateStaticParams()` 11개, `hasLocale()` 검증
+  - ✅ `app/[locale]/LocaleHtmlUpdater.tsx` — useEffect로 html.lang + fontClass 동적 갱신
+  - ✅ `lib/fonts.ts` 신규 — 9개 Noto 서브셋, `getActiveFontClass(locale)`
     - ko→Noto_Sans_KR / zh→SC / ja→JP / th→Thai / hi→Devanagari / 나머지→latin
-  - `globals.css` — `.font-kr`, `.font-jp`, `.font-sc` 등 유틸 추가
-  - 루트 `app/layout.tsx` → 최소 passthrough (html 미포함)
+  - ✅ `globals.css` — `.font-kr` 등 font utility 6종 추가
+  - ✅ 루트 `app/layout.tsx` → `suppressHydrationWarning` html/body 포함 (Next 16 요구)
+  - 🔧 **버그 수정**: Next.js 16 root layout `<html>/<body>` 필수 오류 (`return children` 패턴 불가)
 
-- **TASK-035: proxy.ts 인증 + i18n 미들웨어 체이닝** ⏳ - 대기
-  - `createMiddleware(routing)` — next-intl 미들웨어 인스턴스 생성
-  - **`export async function proxy` named export 형태 유지** (Next 16 필수)
-  - `stripLocale(pathname)` 헬퍼 — `/en/admin` → `/admin` 정규화
-  - Supabase `setAll`이 intlMiddleware 응답 위에 쿠키 합성
-  - 인증 리다이렉트 locale prefix 보존 (`/en/admin` → `/en/login`)
-  - matcher: `api` 정규식 레벨 제외 병행
+- **TASK-035: proxy.ts 인증 + i18n 미들웨어 체이닝** ✅ - 완료 (2026-06-02)
+  - ✅ `createMiddleware(routing)` 선언, `export async function proxy` named export 유지
+  - ✅ `extractLocale()` 헬퍼 — `{cleanPath, localePrefix}` 분리, 9케이스 단위 검증
+  - ✅ Supabase `setAll`에서 response 재생성 제거 → intl locale 쿠키 유실 방지
+  - ✅ 인증 리다이렉트 localePrefix 보존 (`/en/admin` 미인증 → `/en/login`)
+  - ✅ matcher: `api·_next·favicon` 포함 정규식 통합
+  - 🔧 **버그 수정 3건**:
+    - `/admin/login` PUBLIC_PATHS 추가 → 로그아웃 무한 리다이렉트 해소
+    - `/api/admin/logout` redirect → JSON 반환 (fetch redirect 부작용 제거)
+    - `app/page.tsx` 추가 → 루트 `/` 404 해소 (`as-needed` localePrefix 대응)
+    - `LoginForm` `router.refresh()+push()` → `window.location.href` 전환 (무한 렌더링 해소)
 
 ---
 
@@ -439,7 +480,8 @@
 | M6: 동기화·승인·반응형 | Phase 2 (v2) | 2026-05-31 | Supabase 동기화·승인 워크플로우·E2E | ✅ 완료 |
 | M7: v3 기반 강화 | Phase 1 (v3) | 2026-06-01 | 공통코드·프로필·Audit Trail 통합 | ✅ 완료 |
 | M8: 통합게시판 | Phase 2 (v3) | 2026-06-01 | 게시판 8종 CRUD·댓글·첨부·관리자·E2E | ✅ 완료 |
-| M9: i18n 기반 구축 | Phase 1 (v4) | 2026-07 예상 | next-intl·라우팅·레이아웃·proxy 체이닝 (TASK-032~035) | ⏳ 대기 |
+| M8.5: 게시판 UX 개선 | Phase 3 (v3) | 2026-06-02 | 라우팅 재구성·반응형 페이지네이션·첨부파일·권한 제어 | ✅ 완료 |
+| M9: i18n 기반 구축 | Phase 1 (v4) | 2026-06-02 | next-intl·라우팅·레이아웃·proxy 체이닝·버그 수정 4건 (TASK-032~035) | ✅ 완료 |
 | M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-07 예상 | 187개국 DB화·콤보박스·번역 관리 화면 (TASK-036~039) | ⏳ 대기 |
 
 ---
@@ -480,3 +522,4 @@
 | v2.0 | 2026-05-31 | v2 Phase 0 완료 반영 — TASK-017~020 완료, TASK-010~012 완료, M4 완료 표시 | anakin |
 | v3.0 | 2026-06-01 | v3 Phase 2 완료 반영 — 통합게시판 TASK-024~031 전체 완료, M7·M8 추가, 성공 지표 업데이트 | anakin |
 | v4.0 | 2026-06-02 | v4 다국어 시스템 계획 수립 — PRD_MUL_LAN.md 작성, TASK-032~039 추가, M9·M10 마일스톤 등록, i18n 스킬파일(TASK-032) 완료 | anakin |
+| v4.1 | 2026-06-02 | v3 Phase 3 완료 반영 — 게시판 UX·라우팅·권한제어, v4 Phase 1 완료 반영 — TASK-033~035·버그 4건 수정, M8.5·M9 완료 표시 | anakin |
