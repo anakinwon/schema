@@ -1,17 +1,10 @@
-import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
-import { cn } from '@/lib/utils'
 import { routing } from '@/i18n/routing'
-import { ALL_FONT_VARS, getActiveFontClass } from '@/lib/fonts'
-import '../globals.css'
-
-export const metadata: Metadata = {
-  title: '표준데이터 관리 프로그램',
-  description: 'DA Standard Data Management',
-}
+import { getActiveFontClass } from '@/lib/fonts'
+import { LocaleHtmlUpdater } from './LocaleHtmlUpdater'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -31,15 +24,10 @@ export default async function LocaleLayout({
   setRequestLocale(locale)
 
   return (
-    <html
-      lang={locale}
-      className={cn('h-full antialiased', ...ALL_FONT_VARS, getActiveFontClass(locale))}
-    >
-      <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider>
+      {/* 하이드레이션 후 html[lang] 과 폰트 클래스를 locale에 맞게 갱신 */}
+      <LocaleHtmlUpdater locale={locale} fontClass={getActiveFontClass(locale)} />
+      {children}
+    </NextIntlClientProvider>
   )
 }
