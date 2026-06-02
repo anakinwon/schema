@@ -62,20 +62,40 @@ export default function CountrySelector({ triggerClass }: Props) {
     setIsOpen(false); setQuery('')
   }, [router, pathname])
 
-  // 1 외화 = X원 포맷 (rates: 1 KRW = rates[code] 외화)
-  const fmtRate = (currencyCd: string): string => {
-    const r = rates[currencyCd]
-    if (!r) return ''
-    const krwPerUnit = 1 / r
-    if (krwPerUnit >= 1000) return `₩${Math.round(krwPerUnit).toLocaleString()}`
-    if (krwPerUnit >= 10)   return `₩${krwPerUnit.toFixed(1)}`
-    if (krwPerUnit >= 0.1)  return `₩${krwPerUnit.toFixed(2)}`
-    return `₩${krwPerUnit.toFixed(3)}`
-  }
-
   if (loading) return null
 
-  const current  = countries.find(c => c.locale_cd === locale)
+  const current     = countries.find(c => c.locale_cd === locale)
+  const baseCurrCd  = current?.currency_cd ?? 'KRW'   // 현재 선택된 통화 기준
+
+  // 통화 기호 간략 매핑
+  const CURR_SYM: Record<string, string> = {
+    KRW:'₩', USD:'$', EUR:'€', GBP:'£', JPY:'¥', CNY:'¥',
+    AUD:'A$', CAD:'C$', CHF:'Fr', HKD:'HK$', SGD:'S$', NZD:'NZ$',
+    SEK:'kr', NOK:'kr', DKK:'kr', INR:'₹', THB:'฿', MYR:'RM',
+    IDR:'Rp', PHP:'₱', VND:'₫', ZAR:'R', BRL:'R$', MXN:'MX$',
+    TRY:'₺', AED:'د.إ', SAR:'﷼', EGP:'£', NGN:'₦', TWD:'NT$',
+  }
+  const sym = (code: string) => CURR_SYM[code] ?? `${code} `
+
+  // "1 [현재통화] = X [대상통화]" 포맷
+  // rates: 1 KRW = rates[code] 외화 (KRW 기준)
+  // 1 baseCurr = rates[targetCurr] / rates[baseCurr] targetCurr
+  const fmtRate = (targetCurrCd: string): string => {
+    if (targetCurrCd === baseCurrCd) return ''
+    const baseRate   = rates[baseCurrCd]   // 1 KRW = baseRate baseCurr
+    const targetRate = rates[targetCurrCd] // 1 KRW = targetRate targetCurr
+    if (!baseRate || !targetRate) return ''
+
+    const rate = targetRate / baseRate  // 1 baseCurr = rate targetCurr
+    const s    = sym(targetCurrCd)
+
+    if (rate >= 10000) return `${s}${Math.round(rate).toLocaleString()}`
+    if (rate >= 100)   return `${s}${Math.round(rate)}`
+    if (rate >= 1)     return `${s}${rate.toFixed(2)}`
+    if (rate >= 0.01)  return `${s}${rate.toFixed(3)}`
+    // 매우 작은 경우 (예: KRW→USD): 1,000 단위로 표시
+    return `1,000${sym(baseCurrCd).trim()}=${s}${(rate * 1000).toFixed(2)}`
+  }
   const priority = countries.filter(c => c.dis_ord_seq <= PRIORITY_LIMIT)
   const rest     = countries.filter(c => c.dis_ord_seq >  PRIORITY_LIMIT)
 
@@ -127,10 +147,7 @@ export default function CountrySelector({ triggerClass }: Props) {
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold text-gray-900 truncate">{current.country_mot_nm}</div>
                 <div className="text-xs text-gray-500 truncate">
-                  {current.country_eng_nm} · {current.currency_cd}
-                  {fmtRate(current.currency_cd) && (
-                    <span className="ml-1.5 text-blue-600 font-medium">= {fmtRate(current.currency_cd)}</span>
-                  )}
+                  {current.country_eng_nm} · <span className="font-medium text-blue-700">{current.currency_cd} (기준통화)</span>
                 </div>
               </div>
               <span className="text-xs text-blue-600 font-medium bg-blue-100 px-2 py-0.5 rounded-full">{locale}</span>
