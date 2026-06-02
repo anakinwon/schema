@@ -6,7 +6,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { routing } from '@/i18n/routing'
 
 // ── 상수 ──────────────────────────────────────────────────────────────
-const PUBLIC_PATHS = ['/login', '/signup', '/auth/callback', '/admin/login']
+const PUBLIC_PATHS = ['/login', '/signup', '/auth/callback', '/admin/login', '/alert-demo']
 const ADMIN_ROLES  = new Set(['admin', 'master'])
 
 // ── next-intl 미들웨어 인스턴스 ───────────────────────────────────────

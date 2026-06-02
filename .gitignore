@@ -43,6 +43,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Claude Code 자동 생성 에이전트 메모리 (세션 임시)
+.claude/agent-memory/
+.claude/agents/alert/
+
 # DA 스킬 레퍼런스 바이너리 (대용량, git 추적 제외)
 .claude/skills/**/*.db
 .claude/skills/**/*.docx

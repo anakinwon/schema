@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
 import { Link } from '@/i18n/navigation'
+import { CustomAlert } from '@/components/custom-alert'
 import CommentSection from './CommentSection'
 
 export interface Attachment {
@@ -50,6 +51,7 @@ export default function PostDetail({ category, postId }: Props) {
   const [loading, setLoading] = useState(true)
   const [error, setError]     = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   const supabase = useMemo(() => createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -84,8 +86,10 @@ export default function PostDetail({ category, postId }: Props) {
     load()
   }, [authHeader, category, postId])
 
-  const handleDelete = async () => {
-    if (!confirm('게시글을 삭제하시겠습니까?')) return
+  const handleDelete = () => setShowDeleteConfirm(true)
+
+  const confirmDelete = async () => {
+    setShowDeleteConfirm(false)
     setDeleting(true)
     const headers = await authHeader()
     const res = await fetch(`/api/board/${category}/posts/${postId}`, { method: 'DELETE', headers })
@@ -126,7 +130,25 @@ export default function PostDetail({ category, postId }: Props) {
   }
 
   return (
-    <article>
+    <>
+      {showDeleteConfirm && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'>
+          <div className='w-full max-w-sm px-4'>
+            <CustomAlert
+              variant='destructive'
+              title='게시글을 삭제하시겠습니까?'
+              description='삭제된 게시글은 복구할 수 없습니다.'
+              dismissible
+              onDismiss={() => setShowDeleteConfirm(false)}
+              onConfirm={confirmDelete}
+              confirmLabel='삭제'
+              onCancel={() => setShowDeleteConfirm(false)}
+              cancelLabel='취소'
+            />
+          </div>
+        </div>
+      )}
+      <article>
       {/* 헤더 */}
       <div className="bg-white rounded border border-gray-200 p-5 mb-4">
         <div className="flex items-start justify-between gap-4 mb-3">
@@ -215,5 +237,6 @@ export default function PostDetail({ category, postId }: Props) {
         />
       )}
     </article>
+    </>
   )
 }

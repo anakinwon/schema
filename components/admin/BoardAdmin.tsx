@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from '@/i18n/navigation'
+import { CustomAlert } from '@/components/custom-alert'
 
 interface Category {
   ctgr_cd: string
@@ -41,8 +42,10 @@ export default function BoardAdmin() {
   const [page, setPage]             = useState(1)
   const [loadingCat, setLoadingCat] = useState(true)
   const [loadingPost, setLoadingPost] = useState(false)
-  const [deleting, setDeleting]     = useState<string | null>(null)
-  const [toast, setToast]           = useState<{ text: string; ok: boolean } | null>(null)
+  const [deleting, setDeleting]       = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Post | null>(null)
+  const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
+  const [toast, setToast]             = useState<{ text: string; ok: boolean } | null>(null)
 
   const showToast = (text: string, ok: boolean) => {
     setToast({ text, ok })
@@ -87,8 +90,12 @@ export default function BoardAdmin() {
     if (selected) loadPosts(selected.ctgr_cd, page)
   }, [page, selected, loadPosts])
 
-  const handleDelete = async (post: Post) => {
-    if (!confirm(`"${post.post_ttl}"\n\n이 게시글을 삭제하시겠습니까?\n첨부파일도 함께 삭제됩니다.`)) return
+  const handleDelete = (post: Post) => setDeleteTarget(post)
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return
+    const post = deleteTarget
+    setDeleteTarget(null)
     setDeleting(post.post_id)
     try {
       const res = await fetch(
@@ -96,7 +103,7 @@ export default function BoardAdmin() {
         { method: 'DELETE' }
       )
       if (res.ok) {
-        showToast('삭제되었습니다', true)
+        setShowDeleteSuccess(true)
         if (selected) loadPosts(selected.ctgr_cd, page)
       } else {
         const body = await res.json()
@@ -135,6 +142,40 @@ export default function BoardAdmin() {
           toast.ok ? 'bg-green-600' : 'bg-red-500'
         }`}>
           {toast.text}
+        </div>
+      )}
+
+      {/* 삭제 확인 CustomAlert */}
+      {deleteTarget && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'>
+          <div className='w-full max-w-sm px-4'>
+            <CustomAlert
+              variant='destructive'
+              title='게시글을 삭제하시겠습니까?'
+              description={`"${deleteTarget.post_ttl}" 게시글을 삭제하면 첨부파일도 함께 삭제됩니다.`}
+              dismissible
+              onDismiss={() => setDeleteTarget(null)}
+              onConfirm={confirmDelete}
+              confirmLabel='삭제'
+              onCancel={() => setDeleteTarget(null)}
+              cancelLabel='취소'
+            />
+          </div>
+        </div>
+      )}
+
+      {/* 삭제 완료 CustomAlert */}
+      {showDeleteSuccess && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'>
+          <div className='w-full max-w-sm px-4'>
+            <CustomAlert
+              variant='success'
+              title='게시글이 삭제되었습니다.'
+              description='게시글이 성공적으로 삭제되었습니다.'
+              dismissible
+              onDismiss={() => setShowDeleteSuccess(false)}
+            />
+          </div>
         </div>
       )}
 
