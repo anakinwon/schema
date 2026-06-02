@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { href: '/admin/sync',       label: '동기화',    icon: '🔄' },
   { href: '/admin/users',      label: '사용자관리', icon: '👥' },
   { href: '/admin/board',      label: '게시판관리', icon: '📢' },
+  { href: '/admin/i18n',       label: '다국어관리', icon: '🌐' },
 ]
 
 async function getAdminUserInfo(): Promise<{ userName: string; isAdminSession: boolean }> {
