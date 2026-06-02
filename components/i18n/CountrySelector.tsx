@@ -14,6 +14,7 @@ interface Country {
   currency_cd:    string
   currency_eng_nm: string
   locale_cd:      string | null
+  is_active:      boolean
 }
 
 const PRIORITY_LIMIT = 11
@@ -187,42 +188,57 @@ function FlagRow({
   onSelect: (c: Country) => void
   large?: boolean
 }) {
-  const flag = countryToFlag(country.country_cd)
+  const flag     = countryToFlag(country.country_cd)
+  const inactive = !country.is_active
+
   return (
     <button
       onClick={() => onSelect(country)}
-      className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-all group
+      className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-all
         ${selected
           ? 'bg-blue-50 border-l-2 border-blue-500'
-          : 'hover:bg-gray-50 border-l-2 border-transparent'
+          : inactive
+            ? 'border-l-2 border-transparent cursor-default'
+            : 'hover:bg-gray-50 border-l-2 border-transparent'
         }`}
     >
-      {/* 국기 */}
-      <span className={`shrink-0 leading-none drop-shadow-sm ${large ? 'text-2xl' : 'text-xl'}`}>
+      {/* 국기 — 비활성: grayscale + opacity */}
+      <span
+        className={`shrink-0 leading-none ${large ? 'text-2xl' : 'text-xl'}`}
+        style={inactive ? { filter: 'grayscale(100%)', opacity: 0.35 } : { filter: 'drop-shadow(0 1px 1px rgba(0,0,0,.15))' }}
+      >
         {flag}
       </span>
 
       {/* 국가명 */}
       <div className="flex-1 min-w-0">
-        <div className={`text-sm truncate leading-tight ${selected ? 'font-semibold text-blue-700' : 'text-gray-800'}`}>
+        <div className={`text-sm truncate leading-tight ${
+          selected  ? 'font-semibold text-blue-700' :
+          inactive  ? 'text-gray-300' :
+                      'text-gray-800'
+        }`}>
           {country.country_mot_nm}
         </div>
         {large && (
-          <div className="text-[11px] text-gray-400 truncate leading-tight">{country.country_eng_nm}</div>
+          <div className={`text-[11px] truncate leading-tight ${inactive ? 'text-gray-200' : 'text-gray-400'}`}>
+            {country.country_eng_nm}
+          </div>
         )}
       </div>
 
       {/* 통화코드 */}
-      <span className="text-[11px] text-gray-400 shrink-0 font-mono tabular-nums">
+      <span className={`text-[11px] shrink-0 font-mono tabular-nums ${inactive ? 'text-gray-200' : 'text-gray-400'}`}>
         {country.currency_cd}
       </span>
 
-      {/* 선택 체크 */}
-      {selected && (
+      {/* 선택 체크 or 번역 없음 뱃지 */}
+      {selected ? (
         <svg className="w-4 h-4 text-blue-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
         </svg>
-      )}
+      ) : inactive ? (
+        <span className="text-[9px] text-gray-300 shrink-0 border border-gray-200 rounded px-1">미지원</span>
+      ) : null}
     </button>
   )
 }
