@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
 
 interface LangStat {
@@ -13,13 +12,14 @@ interface LangStat {
   pct: number
 }
 
+type WorkResult = { lang: string; cnt: number; type: 'translate' | 'sync' }
+
 export default function I18nDashboard() {
-  const router = useRouter()
   const [stats, setStats] = useState<LangStat[]>([])
   const [totalKeys, setTotalKeys] = useState(0)
   const [loading, setLoading] = useState(true)
-  const [syncing, setSyncing] = useState<string | null>(null)   // 동기화 중인 lang_cd
-  const [syncResult, setSyncResult] = useState<{ lang: string; cnt: number } | null>(null)
+  const [working, setWorking] = useState<string | null>(null)   // 작업 중인 lang_cd
+  const [workResult, setWorkResult] = useState<WorkResult | null>(null)
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -44,25 +44,24 @@ export default function I18nDashboard() {
 
   useEffect(() => { loadStats() }, [loadStats])
 
-  // 단일 언어 DB→JSON 동기화
-  const syncLang = async (lang_cd: string) => {
-    setSyncing(lang_cd)
-    setSyncResult(null)
+  // 한국어 → 대상 언어 AI 번역 + DB 저장 + JSON 동기화 (원스톱)
+  const translateAndSync = async (lang_cd: string, native_nm: string) => {
+    if (!confirm(`${native_nm}(${lang_cd})으로 AI 번역 후 JSON 동기화를 실행합니다.\n한국어 기준 75개 키를 번역합니다. 계속하시겠습니까?`)) return
+    setWorking(lang_cd)
+    setWorkResult(null)
     const headers = { ...await authHeader(), 'Content-Type': 'application/json' }
-    const res = await fetch('/api/i18n/sync', {
+    const res = await fetch('/api/i18n/translate', {
       method: 'POST', headers,
       body: JSON.stringify({ lang_cd }),
     })
+    const d = await res.json()
     if (res.ok) {
-      const d = await res.json()
-      setSyncResult({ lang: lang_cd, cnt: d.synced?.[lang_cd] ?? 0 })
+      setWorkResult({ lang: lang_cd, cnt: d.translated ?? 0, type: 'translate' })
+      await loadStats()   // 완료율 새로고침
+    } else {
+      alert(`번역 실패: ${d.error ?? '알 수 없는 오류'}`)
     }
-    setSyncing(null)
-  }
-
-  // 번역 편집 페이지로 이동 (해당 언어 컬럼 초점)
-  const goToTranslate = (lang_cd: string) => {
-    router.push(`/admin/i18n/messages?lang=${lang_cd}`)
+    setWorking(null)
   }
 
   if (loading) return <div className="animate-pulse h-40 bg-gray-100 rounded" />
@@ -85,11 +84,11 @@ export default function I18nDashboard() {
         </div>
       </div>
 
-      {/* 동기화 결과 토스트 */}
-      {syncResult && (
+      {/* 결과 토스트 */}
+      {workResult && (
         <div className="flex items-center gap-2 px-4 py-2.5 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
-          ✅ <strong>{syncResult.lang}.json</strong> 동기화 완료 — {syncResult.cnt}건 반영
-          <button onClick={() => setSyncResult(null)} className="ml-auto text-green-400 hover:text-green-600">✕</button>
+          ✅ <strong>{workResult.lang}</strong> AI 번역 + JSON 동기화 완료 — {workResult.cnt}건 번역됨
+          <button onClick={() => setWorkResult(null)} className="ml-auto text-green-400 hover:text-green-600">✕</button>
         </div>
       )}
 
@@ -97,7 +96,7 @@ export default function I18nDashboard() {
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
         <div className="px-4 py-3 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-700">언어별 번역 현황</h2>
-          <p className="text-xs text-gray-400">언어 선택 후 번역 편집 또는 동기화 실행</p>
+          <p className="text-xs text-gray-400">🔄 클릭 → 한국어 기준 AI 번역 + JSON 동기화 자동 실행</p>
         </div>
         <div className="divide-y divide-gray-50">
           {stats.map(s => (
@@ -128,22 +127,20 @@ export default function I18nDashboard() {
                 </div>
               </div>
 
-              {/* 액션 버튼 */}
-              <div className="shrink-0 flex gap-1.5">
-                <button
-                  onClick={() => goToTranslate(s.lang_cd)}
-                  className="px-2.5 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 transition-colors text-gray-600 whitespace-nowrap"
-                >
-                  ✏️ 번역 편집
-                </button>
-                <button
-                  onClick={() => syncLang(s.lang_cd)}
-                  disabled={syncing === s.lang_cd}
-                  className="px-2.5 py-1 text-xs bg-[#1e3a5f] text-white rounded hover:bg-[#16304f] disabled:opacity-50 transition-colors whitespace-nowrap"
-                >
-                  {syncing === s.lang_cd ? '⏳ 동기화 중...' : '🔄 JSON 동기화'}
-                </button>
-              </div>
+              {/* 단일 버튼: AI 번역 + JSON 동기화 (ko 제외) */}
+              {s.lang_cd !== 'ko' && (
+                <div className="shrink-0">
+                  <button
+                    onClick={() => translateAndSync(s.lang_cd, s.native_nm)}
+                    disabled={working === s.lang_cd}
+                    className="px-3 py-1.5 text-xs bg-[#1e3a5f] text-white rounded hover:bg-[#16304f] disabled:opacity-50 transition-colors whitespace-nowrap flex items-center gap-1"
+                  >
+                    {working === s.lang_cd
+                      ? <><span className="animate-spin">⏳</span> 번역 중...</>
+                      : '🔄 번역 + 동기화'}
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
