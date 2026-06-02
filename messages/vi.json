@@ -1,95 +1,95 @@
 {
-  "common": {
-    "appName": "표준데이터 관리 프로그램",
-    "dashboard": "대시보드",
-    "save": "저장",
-    "cancel": "취소",
-    "delete": "삭제",
-    "edit": "수정",
-    "back": "뒤로",
-    "loading": "불러오는 중…",
-    "search": "검색"
+  "admin": {
+    "adminLabel": "Quản trị viên",
+    "backOffice": "Văn phòng sau (Quản trị)",
+    "menu": {
+      "approval": "Quản lý phê duyệt",
+      "audit": "Lịch sử thay đổi",
+      "board": "Quản lý bảng tin",
+      "codes": "Mã chung",
+      "dashboard": "Bảng điều khiển",
+      "i18n": "Quản lý đa ngôn ngữ",
+      "standards": "Quản lý tiêu chuẩn",
+      "sync": "Đồng bộ",
+      "users": "Quản lý người dùng"
+    },
+    "noPermission": "Từ chối truy cập"
   },
   "auth": {
-    "login": "로그인",
-    "logout": "로그아웃",
-    "signup": "회원가입",
-    "loginTitle": "{appName} — 로그인",
-    "email": "이메일",
-    "password": "비밀번호",
-    "loginButton": "로그인",
-    "loginError": "이메일 또는 비밀번호가 올바르지 않습니다"
+    "email": "Email",
+    "login": "Đăng nhập",
+    "loginButton": "Đăng nhập",
+    "loginError": "Email hoặc mật khẩu không đúng",
+    "loginTitle": "{appName} — Đăng nhập",
+    "logout": "Đăng xuất",
+    "password": "Mật khẩu",
+    "signup": "Đăng ký"
   },
   "board": {
+    "answered": "Đã trả lời",
+    "author": "Tác giả",
+    "backToList": "← Quay lại",
     "categories": {
-      "NOTICE": "공지사항",
-      "ARCHIVE": "자료실",
-      "FREE": "자유게시판",
-      "QNA": "Q&A"
+      "ARCHIVE": "Lưu trữ",
+      "FREE": "Thảo luận tự do",
+      "NOTICE": "Thông báo",
+      "QNA": "Hỏi & Đáp"
     },
-    "newPost": "글쓰기",
-    "title": "제목",
-    "content": "내용",
-    "author": "작성자",
-    "createdAt": "작성일",
-    "views": "조회",
-    "comments": "댓글",
-    "empty": "게시글이 없습니다",
-    "deleteConfirm": "게시글을 삭제하시겠습니까?",
-    "write": "글쓰기",
-    "editPost": "게시글 수정",
-    "totalCount": "총 {count}건",
-    "perPage": "{size}개씩",
-    "searchPlaceholder": "제목·작성자 검색",
-    "noSearchResult": "'{query}' 검색 결과가 없습니다",
-    "pinned": "공지",
-    "answered": "채택완료",
-    "unanswered": "미답변",
-    "backToList": "← 목록",
-    "notFound": "존재하지 않는 게시판입니다",
-    "goToNotice": "공지사항으로 이동"
+    "comments": "Bình luận",
+    "content": "Nội dung",
+    "createdAt": "Ngày",
+    "deleteConfirm": "Bạn có chắc muốn xóa bài viết này?",
+    "editPost": "Chỉnh sửa bài viết",
+    "empty": "Không có bài viết",
+    "goToNotice": "Đến thông báo",
+    "newPost": "Viết bài",
+    "noSearchResult": "Không có kết quả cho '{query}'",
+    "notFound": "Không tìm thấy bảng",
+    "perPage": "{size} mỗi trang",
+    "pinned": "Ghim",
+    "searchPlaceholder": "Tìm theo tiêu đề hoặc tác giả",
+    "title": "Tiêu đề",
+    "totalCount": "Tổng {count}",
+    "unanswered": "Chưa trả lời",
+    "views": "Lượt xem",
+    "write": "Viết bài"
   },
-  "admin": {
-    "backOffice": "관리자페이지(Back Office)",
-    "adminLabel": "관리자",
-    "noPermission": "접근 권한이 없습니다",
-    "menu": {
-      "dashboard": "대시보드",
-      "standards": "표준관리",
-      "codes": "공통코드",
-      "audit": "변경이력",
-      "approval": "승인관리",
-      "sync": "동기화",
-      "users": "사용자관리",
-      "board": "게시판관리",
-      "i18n": "다국어관리"
-    }
-  },
-  "profile": {
-    "title": "내 정보",
-    "fullName": "이름",
-    "username": "아이디",
-    "role": "역할",
-    "edit": "프로필 수정"
-  },
-  "validation": {
-    "required": "필수 입력 항목입니다",
-    "invalidEmail": "올바른 이메일 형식이 아닙니다",
-    "tooShort": "{min}자 이상 입력하세요",
-    "fileSizeExceeded": "업로드 파일크기제한 {maxMb}MB를 초과했습니다"
+  "common": {
+    "appName": "Hệ thống Quản lý Dữ liệu Tiêu chuẩn",
+    "back": "Quay lại",
+    "cancel": "Hủy",
+    "dashboard": "Bảng điều khiển",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "loading": "Đang tải...",
+    "save": "Lưu",
+    "search": "Tìm kiếm"
   },
   "languageSwitcher": {
-    "label": "언어",
-    "ko": "한국어",
-    "en": "English",
-    "zh": "中文",
-    "ja": "日本語",
-    "hi": "हिन्दी",
+    "en": "Tiếng Anh",
+    "en-ZA": "Tiếng Anh (Nam Phi)",
+    "fil": "Tiếng Philippines",
+    "hi": "Tiếng Hindi",
+    "id": "Tiếng Indonesia",
+    "ja": "Tiếng Nhật",
+    "ko": "Tiếng Hàn",
+    "label": "Ngôn ngữ",
+    "ms": "Tiếng Mã Lai",
+    "th": "Tiếng Thái",
     "vi": "Tiếng Việt",
-    "id": "Bahasa Indonesia",
-    "ms": "Bahasa Melayu",
-    "en-ZA": "English (SA)",
-    "fil": "Filipino",
-    "th": "ไทย"
+    "zh": "Tiếng Trung"
+  },
+  "profile": {
+    "edit": "Chỉnh sửa hồ sơ",
+    "fullName": "Họ và tên",
+    "role": "Vai trò",
+    "title": "Hồ sơ của tôi",
+    "username": "Tên người dùng"
+  },
+  "validation": {
+    "fileSizeExceeded": "Kích thước tệp vượt quá giới hạn {maxMb}MB",
+    "invalidEmail": "Định dạng email không hợp lệ",
+    "required": "Trường này là bắt buộc",
+    "tooShort": "Phải có ít nhất {min} ký tự"
   }
 }
