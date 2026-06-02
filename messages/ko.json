@@ -13,7 +13,35 @@
       "sync": "동기화",
       "users": "사용자관리"
     },
-    "noPermission": "접근 권한이 없습니다"
+    "noPermission": "접근 권한이 없습니다",
+    "dashboard": {
+      "pageTitle": "관리자 대시보드",
+      "pageSubtitle": "표준데이터 관리 시스템 현황",
+      "quickMenu": "빠른 이동",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": {
+        "words": "표준단어",
+        "domains": "표준도메인",
+        "terms": "표준용어",
+        "users": "활성 사용자"
+      },
+      "quick": {
+        "words": "표준단어 관리",
+        "wordsDesc": "STD_DIC 등록/수정/삭제",
+        "domains": "표준도메인 관리",
+        "domainsDesc": "STD_DOM 등록/수정/삭제",
+        "terms": "표준용어 관리",
+        "termsDesc": "DA_TERM 등록/수정/삭제",
+        "codes": "공통코드 관리",
+        "codesDesc": "DA §40 STD_CODE 관리",
+        "audit": "변경 이력",
+        "auditDesc": "STD_DIC·STD_DOM Audit Trail",
+        "users": "사용자 목록",
+        "usersDesc": "역할 부여 및 권한 관리",
+        "userScreen": "일반 사용자 화면",
+        "userScreenDesc": "표준 데이터 조회/편집"
+      }
+    }
   },
   "auth": {
     "email": "이메일",

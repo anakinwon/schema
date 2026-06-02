@@ -1,1 +1,95 @@
-{}
+{
+  "admin": {
+    "adminLabel": "Administrator",
+    "backOffice": "Administrator Page (Back Office)",
+    "menu": {
+      "approval": "Pamamahala ng Pag-apruba",
+      "audit": "Kasaysayan ng pagbabago",
+      "board": "Pamamahala ng bulletin board",
+      "codes": "Karaniwang Code",
+      "dashboard": "Dashboard",
+      "i18n": "Pamamahala sa maraming wika",
+      "standards": "Pamantayang Pamamahala",
+      "sync": "I-sync",
+      "users": "Pamamahala ng User"
+    },
+    "noPermission": "Wala kang pahintulot sa pag-access"
+  },
+  "auth": {
+    "email": "Email",
+    "login": "Mag-login",
+    "loginButton": "Mag-login",
+    "loginError": "Mali ang email o password",
+    "loginTitle": "{appName} — Mag-login",
+    "logout": "Mag-log out",
+    "password": "Password",
+    "signup": "Mag-sign up"
+  },
+  "board": {
+    "answered": "Nakumpleto ang pag-ampon",
+    "author": "May-akda",
+    "backToList": "← Listahan",
+    "categories": {
+      "ARCHIVE": "Data Room",
+      "FREE": "Libreng bulletin board",
+      "NOTICE": "Paunawa",
+      "QNA": "Q&A"
+    },
+    "comments": "Komento",
+    "content": "Nilalaman",
+    "createdAt": "Isinulat ni",
+    "deleteConfirm": "Sigurado ka bang gusto mong tanggalin ang iyong post?",
+    "editPost": "I-edit ang post",
+    "empty": "Walang mga post",
+    "goToNotice": "Pumunta sa mga anunsyo",
+    "newPost": "Pagsusulat",
+    "noSearchResult": "Walang mga resulta ng paghahanap para sa '{query}'",
+    "notFound": "Ang bulletin board na ito ay hindi umiiral",
+    "perPage": "{size} bawat isa",
+    "pinned": "Paunawa",
+    "searchPlaceholder": "Paghahanap ng Pamagat/May-akda",
+    "title": "Pamagat",
+    "totalCount": "Kabuuang mga kaso ng {count}",
+    "unanswered": "Hindi nasagot",
+    "views": "Tingnan",
+    "write": "Pagsusulat"
+  },
+  "common": {
+    "appName": "Karaniwang programa sa pamamahala ng data",
+    "back": "pabalik",
+    "cancel": "Kanselahin",
+    "dashboard": "Dashboard",
+    "delete": "Tanggalin",
+    "edit": "I-edit",
+    "loading": "Naglo-load...",
+    "save": "I-save",
+    "search": "paghahanap"
+  },
+  "languageSwitcher": {
+    "en": "English",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "ja": "wikang Hapon",
+    "ko": "Korean",
+    "label": "wika",
+    "ms": "Bahasa Melayu",
+    "th": "ไทย",
+    "vi": "Tiếng Việt",
+    "zh": "中文"
+  },
+  "profile": {
+    "edit": "I-edit ang profile",
+    "fullName": "Pangalan",
+    "role": "Tungkulin",
+    "title": "Aking Impormasyon",
+    "username": "ID"
+  },
+  "validation": {
+    "fileSizeExceeded": "Lumampas na ang limitasyon sa laki ng pag-upload ng file na {maxMb}MB.",
+    "invalidEmail": "Ang email ay wala sa tamang format",
+    "required": "Kinakailangan ang field na ito",
+    "tooShort": "Mangyaring maglagay ng {min} na mga character o higit pa"
+  }
+}

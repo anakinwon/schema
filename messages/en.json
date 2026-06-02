@@ -13,7 +13,35 @@
       "sync": "Sync",
       "users": "User Management"
     },
-    "noPermission": "Access denied"
+    "noPermission": "Access denied",
+    "dashboard": {
+      "pageTitle": "Admin Dashboard",
+      "pageSubtitle": "Standard Data Management System Status",
+      "quickMenu": "Quick Navigation",
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "card": {
+        "words": "Standard Words",
+        "domains": "Standard Domains",
+        "terms": "Standard Terms",
+        "users": "Active Users"
+      },
+      "quick": {
+        "words": "Word Management",
+        "wordsDesc": "STD_DIC Register/Edit/Delete",
+        "domains": "Domain Management",
+        "domainsDesc": "STD_DOM Register/Edit/Delete",
+        "terms": "Term Management",
+        "termsDesc": "DA_TERM Register/Edit/Delete",
+        "codes": "Common Code Management",
+        "codesDesc": "DA §40 STD_CODE Management",
+        "audit": "Change History",
+        "auditDesc": "STD_DIC·STD_DOM Audit Trail",
+        "users": "User List",
+        "usersDesc": "Role Assignment & Access Control",
+        "userScreen": "User Screen",
+        "userScreenDesc": "Standard Data View/Edit"
+      }
+    }
   },
   "auth": {
     "email": "Email",

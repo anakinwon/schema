@@ -1,1 +1,95 @@
-{}
+{
+  "admin": {
+    "adminLabel": "Administrator",
+    "backOffice": "Administrator Page (Back Office)",
+    "menu": {
+      "approval": "Approval Management",
+      "audit": "Change history",
+      "board": "Bulletin board management",
+      "codes": "Common Code",
+      "dashboard": "Dashboard",
+      "i18n": "Multilingual management",
+      "standards": "Standard Management",
+      "sync": "Sync",
+      "users": "User Management"
+    },
+    "noPermission": "You do not have access permission"
+  },
+  "auth": {
+    "email": "Email",
+    "login": "Login",
+    "loginButton": "Login",
+    "loginError": "Email or password is incorrect",
+    "loginTitle": "{appName} — Login",
+    "logout": "Log out",
+    "password": "Password",
+    "signup": "Sign up"
+  },
+  "board": {
+    "answered": "Adoption completed",
+    "author": "Author",
+    "backToList": "← List",
+    "categories": {
+      "ARCHIVE": "Data Room",
+      "FREE": "Free bulletin board",
+      "NOTICE": "Notice",
+      "QNA": "Q&A"
+    },
+    "comments": "Comment",
+    "content": "Content",
+    "createdAt": "Written by",
+    "deleteConfirm": "Are you sure you want to delete your post?",
+    "editPost": "Edit post",
+    "empty": "There are no posts",
+    "goToNotice": "Go to announcements",
+    "newPost": "Writing",
+    "noSearchResult": "No search results for '{query}'",
+    "notFound": "This bulletin board does not exist",
+    "perPage": "{size} each",
+    "pinned": "Notice",
+    "searchPlaceholder": "Title/Author Search",
+    "title": "Title",
+    "totalCount": "Total {count} cases",
+    "unanswered": "Unanswered",
+    "views": "View",
+    "write": "Writing"
+  },
+  "common": {
+    "appName": "Standard data management program",
+    "back": "back",
+    "cancel": "Cancel",
+    "dashboard": "Dashboard",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "save": "Save",
+    "search": "search"
+  },
+  "languageSwitcher": {
+    "en": "English",
+    "en-ZA": "English (SA)",
+    "fil": "Filipino",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "ja": "Japanese language",
+    "ko": "Korean",
+    "label": "language",
+    "ms": "Bahasa Melayu",
+    "th": "ไทย",
+    "vi": "Tiếng Việt",
+    "zh": "中文"
+  },
+  "profile": {
+    "edit": "Edit profile",
+    "fullName": "Name",
+    "role": "Role",
+    "title": "My Information",
+    "username": "ID"
+  },
+  "validation": {
+    "fileSizeExceeded": "The upload file size limit of {maxMb}MB has been exceeded.",
+    "invalidEmail": "Email is not in correct format",
+    "required": "This field is required",
+    "tooShort": "Please enter {min} characters or more"
+  }
+}

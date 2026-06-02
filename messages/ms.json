@@ -1,1 +1,95 @@
-{}
+{
+  "admin": {
+    "adminLabel": "Pentadbir",
+    "backOffice": "Halaman Pentadbir (Pejabat Belakang)",
+    "menu": {
+      "approval": "Pengurusan Kelulusan",
+      "audit": "Sejarah perubahan",
+      "board": "Pengurusan papan buletin",
+      "codes": "Kod Biasa",
+      "dashboard": "Papan pemuka",
+      "i18n": "Pengurusan berbilang bahasa",
+      "standards": "Pengurusan Standard",
+      "sync": "Segerakkan",
+      "users": "Pengurusan Pengguna"
+    },
+    "noPermission": "Anda tiada kebenaran akses"
+  },
+  "auth": {
+    "email": "E-mel",
+    "login": "Log masuk",
+    "loginButton": "Log masuk",
+    "loginError": "E-mel atau kata laluan tidak betul",
+    "loginTitle": "{appName} — Log masuk",
+    "logout": "Log keluar",
+    "password": "Kata laluan",
+    "signup": "Daftar"
+  },
+  "board": {
+    "answered": "Pengangkatan selesai",
+    "author": "Pengarang",
+    "backToList": "← Senarai",
+    "categories": {
+      "ARCHIVE": "Bilik Data",
+      "FREE": "Papan kenyataan percuma",
+      "NOTICE": "Notis",
+      "QNA": "Soal Jawab"
+    },
+    "comments": "Komen",
+    "content": "Kandungan",
+    "createdAt": "Ditulis oleh",
+    "deleteConfirm": "Adakah anda pasti mahu memadamkan siaran anda?",
+    "editPost": "Edit siaran",
+    "empty": "Tiada siaran",
+    "goToNotice": "Pergi ke pengumuman",
+    "newPost": "Menulis",
+    "noSearchResult": "Tiada hasil carian untuk '{query}'",
+    "notFound": "Papan kenyataan ini tidak wujud",
+    "perPage": "{size} setiap satu",
+    "pinned": "Notis",
+    "searchPlaceholder": "Carian Tajuk/Pengarang",
+    "title": "Tajuk",
+    "totalCount": "Jumlah kes {count}",
+    "unanswered": "Tidak dijawab",
+    "views": "Lihat",
+    "write": "Menulis"
+  },
+  "common": {
+    "appName": "Standard Data Management",
+    "back": "Back",
+    "cancel": "Cancel",
+    "dashboard": "Dashboard",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "save": "Save",
+    "search": "Search"
+  },
+  "languageSwitcher": {
+    "en": "Inggeris",
+    "en-ZA": "Inggeris (SA)",
+    "fil": "Filipina",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "ja": "Bahasa Jepun",
+    "ko": "Korea",
+    "label": "bahasa",
+    "ms": "Bahasa Melayu",
+    "th": "ไทย",
+    "vi": "Tiếng Việt",
+    "zh": "中文"
+  },
+  "profile": {
+    "edit": "Edit profil",
+    "fullName": "Nama",
+    "role": "Peranan",
+    "title": "Maklumat Saya",
+    "username": "ID"
+  },
+  "validation": {
+    "fileSizeExceeded": "File size exceeds the {maxMb}MB limit",
+    "invalidEmail": "Invalid email format",
+    "required": "This field is required",
+    "tooShort": "Must be at least {min} characters"
+  }
+}
