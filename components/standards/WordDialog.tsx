@@ -39,16 +39,43 @@ export default function WordDialog({ open, initial, onClose, onSaved }: Props) {
     setDupStatus(duplicate ? 'dup' : 'ok')
   }
 
+  const isEdit = Boolean(initial?.DIC_ID)
+
   const save = async () => {
     if (!form.DIC_LOG_NM || !form.DIC_PHY_NM) return alert('논리명과 물리명은 필수입니다.')
     setSaving(true)
     const payload = { ...form, DIC_GBN_CD: '0001' }
-    const url = initial?.DIC_ID ? `/api/std-dic/${initial.DIC_ID}` : '/api/std-dic'
-    const method = initial?.DIC_ID ? 'PUT' : 'POST'
-    const r = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+
+    let r: Response
+    if (isEdit) {
+      // 수정: 직접 반영하지 않고 승인 큐에 등록
+      r = await fetch('/api/approval', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entity_type: 'STD_DIC',
+          entity_id:   initial!.DIC_ID,
+          entity_nm:   form.DIC_LOG_NM,
+          req_data:    payload,
+        }),
+      })
+    } else {
+      // 신규: 직접 등록
+      r = await fetch('/api/std-dic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+    }
+
     setSaving(false)
-    if (r.ok) { onSaved(); onClose() }
-    else alert('저장 실패')
+    if (r.ok) {
+      if (isEdit) alert('승인 요청이 등록되었습니다.\n관리자 승인 후 반영됩니다.')
+      onSaved()
+      onClose()
+    } else {
+      alert(isEdit ? '승인 요청 실패' : '저장 실패')
+    }
   }
 
   return (
@@ -56,9 +83,18 @@ export default function WordDialog({ open, initial, onClose, onSaved }: Props) {
       <div className="bg-white rounded shadow-xl w-[560px] border border-gray-300">
         {/* 헤더 */}
         <div className="flex items-center justify-between bg-[#1e3a5f] text-white px-4 py-2 rounded-t">
-          <span className="text-sm font-semibold">📋 단어등록</span>
+          <span className="text-sm font-semibold">
+            {isEdit ? '✏️ 단어 수정 — 승인 요청' : '📋 단어등록'}
+          </span>
           <button onClick={onClose} className="text-white hover:text-gray-300 text-lg leading-none">×</button>
         </div>
+        {/* 수정 모드 안내 배너 */}
+        {isEdit && (
+          <div className="px-4 py-2 bg-amber-50 border-b border-amber-200 text-xs text-amber-700 flex items-center gap-1.5">
+            <span>ℹ</span>
+            <span>수정 내용은 관리자 승인 후 반영됩니다. 승인관리 메뉴에서 확인하세요.</span>
+          </div>
+        )}
 
         <div className="p-5 space-y-3 text-sm">
           {/* 표준분류 */}
@@ -172,8 +208,12 @@ export default function WordDialog({ open, initial, onClose, onSaved }: Props) {
         {/* 푸터 */}
         <div className="flex justify-end gap-2 px-5 pb-4">
           <button onClick={save} disabled={saving}
-            className="px-5 py-1.5 bg-[#1e3a5f] text-white rounded hover:bg-[#2a4f7f] disabled:opacity-50 text-sm">
-            {saving ? '저장중…' : '등록'}
+            className={`px-5 py-1.5 text-white rounded disabled:opacity-50 text-sm transition-colors ${
+              isEdit
+                ? 'bg-amber-600 hover:bg-amber-700'
+                : 'bg-[#1e3a5f] hover:bg-[#2a4f7f]'
+            }`}>
+            {saving ? (isEdit ? '요청 중…' : '저장중…') : (isEdit ? '승인 요청' : '등록')}
           </button>
           <button onClick={onClose}
             className="px-5 py-1.5 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 text-sm">

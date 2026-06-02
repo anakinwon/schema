@@ -55,7 +55,12 @@ export default function ApprovalPage() {
       body: JSON.stringify({ action, reason }),
     })
     if (r.ok) {
-      showToast(action === 'APPROVE' ? '✅ 승인 완료' : '🚫 반려 완료')
+      const data = await r.json()
+      if (action === 'APPROVE') {
+        showToast(data.applied ? '✅ 승인 완료 — DB 반영됨' : '✅ 승인 완료')
+      } else {
+        showToast('🚫 반려 완료')
+      }
       setSelected(null); setReason(''); load()
     } else {
       const e = await r.json(); alert(e.error)

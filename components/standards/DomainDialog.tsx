@@ -50,16 +50,43 @@ export default function DomainDialog({ open, initial, onClose, onSaved }: Props)
     setDupStatus(duplicate ? 'dup' : 'ok')
   }
 
+  const isEdit = Boolean(initial?.DOM_ID)
+
   const save = async () => {
     if (!form.KEY_DOM_PHY_NM || !form.KEY_DOM_NM || !form.DOM_NM)
       return alert('대표도메인, 논리명, 도메인명은 필수입니다.')
     setSaving(true)
-    const url = initial?.DOM_ID ? `/api/std-dom/${initial.DOM_ID}` : '/api/std-dom'
-    const method = initial?.DOM_ID ? 'PUT' : 'POST'
-    const r = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
+
+    let r: Response
+    if (isEdit) {
+      // 수정: 직접 반영하지 않고 승인 큐에 등록
+      r = await fetch('/api/approval', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entity_type: 'STD_DOM',
+          entity_id:   initial!.DOM_ID,
+          entity_nm:   form.DOM_NM,
+          req_data:    form,
+        }),
+      })
+    } else {
+      // 신규: 직접 등록
+      r = await fetch('/api/std-dom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+    }
+
     setSaving(false)
-    if (r.ok) { onSaved(); onClose() }
-    else alert('저장 실패')
+    if (r.ok) {
+      if (isEdit) alert('승인 요청이 등록되었습니다.\n관리자 승인 후 반영됩니다.')
+      onSaved()
+      onClose()
+    } else {
+      alert(isEdit ? '승인 요청 실패' : '저장 실패')
+    }
   }
 
   const DataTypeCD = form.DATA_TYPE_CD
@@ -70,9 +97,18 @@ export default function DomainDialog({ open, initial, onClose, onSaved }: Props)
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white rounded shadow-xl w-[600px] border border-gray-300">
         <div className="flex items-center justify-between bg-[#1e3a5f] text-white px-4 py-2 rounded-t">
-          <span className="text-sm font-semibold">📋 도메인 등록</span>
+          <span className="text-sm font-semibold">
+            {isEdit ? '✏️ 도메인 수정 — 승인 요청' : '📋 도메인 등록'}
+          </span>
           <button onClick={onClose} className="text-white hover:text-gray-300 text-lg leading-none">×</button>
         </div>
+        {/* 수정 모드 안내 배너 */}
+        {isEdit && (
+          <div className="px-4 py-2 bg-amber-50 border-b border-amber-200 text-xs text-amber-700 flex items-center gap-1.5">
+            <span>ℹ</span>
+            <span>수정 내용은 관리자 승인 후 반영됩니다. 승인관리 메뉴에서 확인하세요.</span>
+          </div>
+        )}
 
         <div className="p-5 space-y-3 text-sm">
           {/* 자동생성 체크박스 */}
@@ -201,8 +237,12 @@ export default function DomainDialog({ open, initial, onClose, onSaved }: Props)
 
         <div className="flex justify-end gap-2 px-5 pb-4">
           <button onClick={save} disabled={saving}
-            className="px-5 py-1.5 bg-[#1e3a5f] text-white rounded hover:bg-[#2a4f7f] disabled:opacity-50 text-sm">
-            {saving ? '저장중…' : '등록'}
+            className={`px-5 py-1.5 text-white rounded disabled:opacity-50 text-sm transition-colors ${
+              isEdit
+                ? 'bg-amber-600 hover:bg-amber-700'
+                : 'bg-[#1e3a5f] hover:bg-[#2a4f7f]'
+            }`}>
+            {saving ? (isEdit ? '요청 중…' : '저장중…') : (isEdit ? '승인 요청' : '등록')}
           </button>
           <button onClick={onClose}
             className="px-5 py-1.5 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 text-sm">
