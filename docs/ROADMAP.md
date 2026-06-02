@@ -2,8 +2,8 @@
 
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
-> **기준일**: 2026-06-01 (최종 업데이트: 2026-06-01)
-> **현재 버전**: v3 Phase 2 완료 — 통합게시판 8/8 태스크 완료
+> **기준일**: 2026-06-02 (최종 업데이트: 2026-06-02)
+> **현재 버전**: v3 Phase 2 완료 / v4 다국어 시스템 설계 완료 — 구현 대기
 > **기술 스택**: Next.js 16.2.6 (App Router) · React 19.2 · TypeScript · Tailwind CSS v4 · SQLite(better-sqlite3) · Supabase PostgreSQL
 
 ---
@@ -318,10 +318,109 @@
 
 ---
 
-## 향후 계획 (Out of Scope — v4+)
+---
+
+## 🚀 v4 개발 계획
+
+### Phase 1 (v4): i18n 기반 구축 ⏳ (구현 대기, M9)
+
+> **목표**: next-intl 설치 · 라우팅 재구성 · proxy.ts 인증+i18n 체이닝  
+> **PRD**: `docs/PRD_MUL_LAN.md`  
+> **지원 언어**: 11개 `ko · en · zh · ja · hi · vi · id · ms · en-ZA · fil · th`  
+> **기본 locale**: `ko` (기존 URL `/notice`, `/admin` 무중단 유지)
+
+- **TASK-032: 스킬 파일 생성** ✅ - 완료 (2026-06-02)
+  - ✅ `.claude/skills/multi-lang/SKILL.md` — Claude 다국어 처리 가이드
+  - ✅ `lang_cd/lang_map.json` — 11개국 country_cd↔locale 매핑
+  - ✅ `lang_cd/supported_locales.json` — 지원 locale SSoT (런타임용)
+  - 참조: `lang_cd/references/currency_countries.csv` (187개국 원본)
+
+- **TASK-033: next-intl 설치 & 설정 파일** ✅ - 완료 (2026-06-02)
+  - ✅ `npm install next-intl@^4.13.0` 설치
+  - ✅ `lib/i18n/locales.ts` — LOCALES 상수, Locale 타입, DEFAULT_LOCALE
+  - ✅ `i18n/routing.ts` — `defineRouting(11 locales, ko, as-needed prefix)`
+  - ✅ `i18n/request.ts` — `getRequestConfig` (파일 기반, TASK-036 이후 DB 전환)
+  - ✅ `i18n/navigation.ts` — `createNavigation` (locale-aware Link·useRouter·redirect)
+  - ✅ `next.config.ts` — `createNextIntlPlugin('./i18n/request.ts')` 적용
+  - ✅ `global.d.ts` — `AppConfig` 타입 등록 (번역 키 누락 컴파일 에러 유도)
+  - ✅ `messages/ko.json` — 7개 섹션 초기 번역 키 (~45건)
+  - ✅ `messages/{en,zh,ja,hi,vi,id,ms,en-ZA,fil,th}.json` — 10개 파일 생성 (ko 값 초기화)
+  - ✅ `npm run build` 통과 — 오류·경고 없음
+
+- **TASK-034: 디렉터리 이동 & 레이아웃 동적화** ⏳ - 대기
+  - `app/*` → `app/[locale]/*` 이동 (`app/api/` 제외)
+  - `app/[locale]/layout.tsx` 신규 — `<html lang={locale}>`, `generateStaticParams()` 11개
+  - `lib/fonts.ts` 신규 — locale별 Noto Sans 서브셋 CSS 변수 스왑
+    - ko→Noto_Sans_KR / zh→SC / ja→JP / th→Thai / hi→Devanagari / 나머지→latin
+  - `globals.css` — `.font-kr`, `.font-jp`, `.font-sc` 등 유틸 추가
+  - 루트 `app/layout.tsx` → 최소 passthrough (html 미포함)
+
+- **TASK-035: proxy.ts 인증 + i18n 미들웨어 체이닝** ⏳ - 대기
+  - `createMiddleware(routing)` — next-intl 미들웨어 인스턴스 생성
+  - **`export async function proxy` named export 형태 유지** (Next 16 필수)
+  - `stripLocale(pathname)` 헬퍼 — `/en/admin` → `/admin` 정규화
+  - Supabase `setAll`이 intlMiddleware 응답 위에 쿠키 합성
+  - 인증 리다이렉트 locale prefix 보존 (`/en/admin` → `/en/login`)
+  - matcher: `api` 정규식 레벨 제외 병행
+
+---
+
+### Phase 2 (v4): 국가 DB + 번역 관리 ⏳ (구현 대기, M10)
+
+> **목표**: 187개국 데이터 DB화 · 국가 선택 콤보박스 · 번역 관리 화면  
+> **DA 표준**: `i18n_*` 4개 테이블 모두 v2 시스템 컬럼 (`regr_id→reg_dts→modr_id→mod_dts`)
+
+- **TASK-036: Supabase i18n DB 마이그레이션** ⏳ - 대기
+  - **DA 표준 v2** 시스템 컬럼 준수 (2026-05-30 총괄DA 승인 기준)
+  - 마이그레이션 8개 순서:
+    1. `create_i18n_lang_mst` — 언어 마스터 (11개) + 트리거
+    2. `create_i18n_ns_mst` — 네임스페이스 마스터 (7개) + 트리거
+    3. `create_i18n_msg` — 번역 메시지 + UNIQUE(ns_cd,msg_key,lang_cd) + 인덱스 + 트리거
+    4. `create_i18n_cntry_mst` — 국가·통화 마스터 + FK(locale_cd→i18n_lang_mst) + 트리거
+    5. `seed_i18n_lang_mst` — 11개 언어 초기 데이터
+    6. `seed_i18n_ns_mst` — 7개 네임스페이스 초기 데이터
+    7. `seed_i18n_cntry_mst` — CSV 187개국 (이모지 오염 행 전처리 필터 포함)
+    8. `seed_i18n_msg_ko` — `messages/ko.json` → DB 초기 로드 (~50건)
+  - DA 감리: 시스템 컬럼 순서·NOT NULL·DEFAULT·트리거 동작 확인
+  - RLS: SELECT(USER+) / INSERT·UPDATE·DELETE(ADMIN·MASTER만)
+
+- **TASK-037: 번역 파일 & 한글 키 치환** ⏳ - 대기
+  - `messages/ko.json` 작성 (기존 751건 한글에서 7개 섹션으로 추출)
+    - `common · auth · board · admin · profile · validation · languageSwitcher`
+  - 나머지 10개 `messages/{locale}.json` 생성 (초기엔 ko 값 복사, 이후 번역)
+  - `next/link` → `@/i18n/navigation` Link 치환 (14곳)
+  - `lib/board.ts` `CATEGORY_NAME` → `t('board.categories.NOTICE')` 전환
+  - 핵심 화면 우선 치환: board layout → auth → admin
+  - 빌드 타입 검증 (키 누락 컴파일 에러 확인)
+
+- **TASK-038: 국가 선택 콤보박스** ⏳ - 대기
+  - `components/i18n/CountrySelector.tsx` — 공통 클라이언트 컴포넌트
+  - `lib/i18n/countryToFlag.ts` — `countryToFlag('KR')` → `🇰🇷` 유틸
+  - 표시: `🇰🇷 대한민국 KRW ▼` / 드롭다운: 국기+자국어명+통화코드
+  - 정렬: dis_ord_seq 1~11 우선 + 구분선 + 나머지 176개국
+  - 국가 선택 → locale 전환 (`NEXT_LOCALE` 쿠키 갱신) / 11개 외 → en fallback
+  - 삽입: Board 헤더 `BoardUserMenu` 앞 + Admin 헤더 `AdminLogoutButton` 앞
+  - `GET /api/i18n/countries` API — `i18n_cntry_mst` 조회, 5분 캐싱
+
+- **TASK-039: 다국어 관리 화면** ⏳ - 대기
+  - Admin 네비게이션에 `🌐 다국어관리` 메뉴 추가
+  - `app/[locale]/admin/(protected)/i18n/` 라우트 5개:
+    - `page.tsx` — 대시보드 (언어별 번역 완료율 % 프로그레스바, 미번역 키 목록)
+    - `languages/page.tsx` — `i18n_lang_mst` CRUD + use_yn 토글
+    - `countries/page.tsx` — `i18n_cntry_mst` 조회 187개국 + use_yn 토글
+    - `messages/page.tsx` — 번역 매트릭스 뷰 (키×언어 인라인 편집, 미번역 ❌ 하이라이트)
+    - `sync/page.tsx` — DB→JSON 동기화 실행 + 결과 로그
+  - API 8개: `langs` · `countries` · `namespaces` · `messages` · `messages/bulk` · `stats` · `sync`
+  - 메시지 수정 → `revalidateTag('i18n')` 자동 캐시 무효화
+  - `LanguageSwitcher` 컴포넌트 헤더 연동
+  - `generateMetadata` locale화 (login 등 static metadata 전환)
+  - Phase 2 환율: `exchangerate-api.com` 연동 (통화코드 → 실시간 환율)
+
+---
+
+## 향후 계획 (Out of Scope — v5+)
 
 - 외부 ERD 도구 연동 (DBeaver, DataGrip)
-- 다국어 지원 (영문 UI)
 - 모바일 반응형 완전 최적화
 - 양방향 DB 동기화 (Supabase → SQLite)
 
@@ -340,6 +439,8 @@
 | M6: 동기화·승인·반응형 | Phase 2 (v2) | 2026-05-31 | Supabase 동기화·승인 워크플로우·E2E | ✅ 완료 |
 | M7: v3 기반 강화 | Phase 1 (v3) | 2026-06-01 | 공통코드·프로필·Audit Trail 통합 | ✅ 완료 |
 | M8: 통합게시판 | Phase 2 (v3) | 2026-06-01 | 게시판 8종 CRUD·댓글·첨부·관리자·E2E | ✅ 완료 |
+| M9: i18n 기반 구축 | Phase 1 (v4) | 2026-07 예상 | next-intl·라우팅·레이아웃·proxy 체이닝 (TASK-032~035) | ⏳ 대기 |
+| M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-07 예상 | 187개국 DB화·콤보박스·번역 관리 화면 (TASK-036~039) | ⏳ 대기 |
 
 ---
 
@@ -353,6 +454,9 @@
 | 보안 취약점 | 0건 | 0건 유지 | 코드 리뷰 (PostgREST 인젝션 패치 포함) |
 | Playwright 테스트 | 15건 (4 passed · 11 skip) | 환경변수 설정 후 15 passed | `npx playwright test` |
 | 게시판 API 라우트 | 11개 | — | app/api/board 라우트 수 |
+| 지원 언어 수 | 0개 (미구현) | 11개 (ko·en·zh·ja·hi·vi·id·ms·en-ZA·fil·th) | i18n_lang_mst use_yn='Y' 수 |
+| 번역 키 수 | 0건 (미구현) | ~50건 (ko 기준) | i18n_msg DISTINCT(ns_cd,msg_key) 수 |
+| 국가·통화 DB | 0건 (CSV) | 187개국 | i18n_cntry_mst 레코드 수 |
 
 ---
 
@@ -363,6 +467,7 @@
 | **Google OAuth** | Google Cloud Console → OAuth 2.0 클라이언트 등록 → Supabase Authentication → Google Provider 활성화 | 높음 |
 | **이메일 템플릿** | Supabase Dashboard → Authentication → Email Templates → 한국어 커스터마이징 | 중간 |
 | **E2E 테스트 환경변수** | `.env.test` — `TEST_MASTER_EMAIL`, `TEST_MASTER_PW`, `TEST_USER_EMAIL`, `TEST_USER_PW` 설정 → Layer 2 E2E 활성화 | 중간 |
+| **환율 API 키** (v4 Phase 2) | `exchangerate-api.com` 또는 `open.er-api.com` 무료 API 키 발급 → `.env.local`에 `EXCHANGE_RATE_API_KEY` 등록 | 낮음 |
 
 ---
 
@@ -374,3 +479,4 @@
 | v1.1 | 2026-05-31 | v2 Phase 0 추가 — 회원가입·로그인·구글 OAuth (TASK-017~019) | anakin |
 | v2.0 | 2026-05-31 | v2 Phase 0 완료 반영 — TASK-017~020 완료, TASK-010~012 완료, M4 완료 표시 | anakin |
 | v3.0 | 2026-06-01 | v3 Phase 2 완료 반영 — 통합게시판 TASK-024~031 전체 완료, M7·M8 추가, 성공 지표 업데이트 | anakin |
+| v4.0 | 2026-06-02 | v4 다국어 시스템 계획 수립 — PRD_MUL_LAN.md 작성, TASK-032~039 추가, M9·M10 마일스톤 등록, i18n 스킬파일(TASK-032) 완료 | anakin |

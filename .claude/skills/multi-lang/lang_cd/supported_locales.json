@@ -1,0 +1,97 @@
+{
+  "_description": "지원 locale 목록 — 런타임 Single Source of Truth",
+  "_usage": "lib/i18n/locales.ts 로 복제하여 앱에서 사용 (스킬 폴더 직접 import 금지)",
+  "_rtlReady": true,
+  "defaultLocale": "ko",
+  "localePrefix": "as-needed",
+  "locales": [
+    {
+      "code": "ko",
+      "dir": "ltr",
+      "fontKey": "kr",
+      "label": "한국어",
+      "countryCd": "KR",
+      "flag": "🇰🇷"
+    },
+    {
+      "code": "en",
+      "dir": "ltr",
+      "fontKey": "latin",
+      "label": "English",
+      "countryCd": "US",
+      "flag": "🇺🇸"
+    },
+    {
+      "code": "zh",
+      "dir": "ltr",
+      "fontKey": "sc",
+      "label": "中文",
+      "countryCd": "CN",
+      "flag": "🇨🇳"
+    },
+    {
+      "code": "ja",
+      "dir": "ltr",
+      "fontKey": "jp",
+      "label": "日本語",
+      "countryCd": "JP",
+      "flag": "🇯🇵"
+    },
+    {
+      "code": "hi",
+      "dir": "ltr",
+      "fontKey": "deva",
+      "label": "हिन्दी",
+      "countryCd": "IN",
+      "flag": "🇮🇳"
+    },
+    {
+      "code": "vi",
+      "dir": "ltr",
+      "fontKey": "latin",
+      "label": "Tiếng Việt",
+      "countryCd": "VN",
+      "flag": "🇻🇳"
+    },
+    {
+      "code": "id",
+      "dir": "ltr",
+      "fontKey": "latin",
+      "label": "Bahasa Indonesia",
+      "countryCd": "ID",
+      "flag": "🇮🇩"
+    },
+    {
+      "code": "ms",
+      "dir": "ltr",
+      "fontKey": "latin",
+      "label": "Bahasa Melayu",
+      "countryCd": "MY",
+      "flag": "🇲🇾"
+    },
+    {
+      "code": "en-ZA",
+      "dir": "ltr",
+      "fontKey": "latin",
+      "label": "English (SA)",
+      "countryCd": "ZA",
+      "flag": "🇿🇦"
+    },
+    {
+      "code": "fil",
+      "dir": "ltr",
+      "fontKey": "latin",
+      "label": "Filipino",
+      "countryCd": "PH",
+      "flag": "🇵🇭"
+    },
+    {
+      "code": "th",
+      "dir": "ltr",
+      "fontKey": "thai",
+      "label": "ไทย",
+      "countryCd": "TH",
+      "flag": "🇹🇭"
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+﻿dis_ord_seq,country_cd,country_eng_nm,country_mot_nm,currency_cd,currency_eng_nm
+1,KR,"Korea, South",대한민국 (Daehanminguk),KRW,Korean Won
+2,US,United States,United States of America,USD,US Dollar
+3,CN,China,中国 (Zhōngguó / 中華人民共和国),CNY,Yuan Renminbi
+4,JP,Japan,日本 (Nihon / Nippon),JPY,Yen
+5,IN,India,भारत (Bhārat),INR,Indian Rupee
+6,VN,Vietnam,Việt Nam,VND,Dong
+7,ID,Indonesia,Indonesia,IDR,Rupiah
+8,MY,Malaysia,Malaysia,MYR,Ringgit
+9,ZA,South Africa,South Africa / Afrika Borwa / iNingizimu Afrika / Suid-Afrika,ZAR,Rand
+10,PH,Philippines,Pilipinas / Philippines,PHP,Peso
+11,TH,Thailand,ประเทศไทย (Prathet Thai),THB,Baht
+12,AF,Afghanistan,افغانستان,AFN,Afghani
+13,AL,Albania,Shqipëria,ALL,Lek
+14,DZ,Algeria,الجزائر,DZD,Algerian Dinar
+15,AD,Andorra,Andorra,EUR,Euro
+16,AO,Angola,Angola,AOA,Kwanza
+17,AR,Argentina,Argentina,ARS,Peso
+18,AM,Armenia,Հայաստան,AMD,Dram
+19,AU,Australia,Australia,AUD,Australian Dollar
+20,AT,Austria,Österreich,EUR,Euro
+21,AZ,Azerbaijan,Azərbaycan,AZN,Manat
+22,BS,Bahamas,Bahamas,BSD,Bahamian Dollar
+23,BH,Bahrain,البحرين,BHD,Bahraini Dinar
+24,BD,Bangladesh,বাংলাদেশ (Bangladesh),BDT,Taka
+25,BB,Barbados,Barbados,BBD,Barbadian Dollar
+26,BY,Belarus,Беларусь,BYN,Belarusian Ruble
+27,BE,Belgium,Belgique,EUR,Euro
+28,BZ,Belize,Belize,BZD,Belize Dollar
+29,BJ,Benin,Bénin,XOF,West African CFA Franc
+30,BT,Bhutan,འབྲུག,BTN,Ngultrum
+31,BO,Bolivia,Bolivia,BOB,Boliviano
+32,BA,Bosnia and Herzegovina,Bosna i Hercegovina,BAM,Convertible Mark
+33,BW,Botswana,Botswana,BWP,Pula
+34,BR,Brazil,Brasil,BRL,Real
+35,BN,Brunei,Brunei,BND,Brunei Dollar
+36,BG,Bulgaria,България,BGN,Lev
+37,BF,Burkina Faso,Burkina Faso,XOF,West African CFA Franc
+38,BI,Burundi,Uburundi,BIF,Burundi Franc
+39,KH,Cambodia,កម្ពុជា,KHR,Riel
+40,CM,Cameroon,Cameroun,XAF,Central African CFA Franc
+41,CA,Canada,Canada,CAD,Canadian Dollar
+42,CV,Cape Verde,Cabo Verde,CVE,Escudo
+43,CF,Central African Republic,République centrafricaine,XAF,Central African CFA Franc
+44,TD,Chad,Tchad,XAF,Central African CFA Franc
+45,CL,Chile,Chile,CLP,Peso
+46,CO,Colombia,Colombia,COP,Peso
+47,KM,Comoros,Komori,KMF,Comorian Franc
+48,CD,"Congo, Democratic Republic of",République démocratique du Congo,CDF,Congolese Franc
+49,CG,"Congo, Republic of",République du Congo,XAF,Central African CFA Franc
+50,CR,Costa Rica,Costa Rica,CRC,Colón
+51,HR,Croatia,Hrvatska,EUR,Euro
+52,CU,Cuba,Cuba,CUP,Cuban Peso
+53,CY,Cyprus,Κύπρος,EUR,Euro
+54,CZ,Czech Republic,Česko,CZK,Czech Koruna
+55,DK,Denmark,Danmark,DKK,Danish Krone
+56,DJ,Djibouti,جيبوتي,DJF,Djibouti Franc
+57,DM,Dominica,Dominica,XCD,East Caribbean Dollar
+58,DO,Dominican Republic,República Dominicana,DOP,Dominican Peso
+59,EC,Ecuador,Ecuador,USD,US Dollar
+60,EG,Egypt,🇪🇬 Egypt,EGP,Egyptian Pound
+61,SV,El Salvador,El Salvador,USD,US Dollar
+62,GQ,Equatorial Guinea,Guinea Ecuatorial,XAF,Central African CFA Franc
+63,ER,Eritrea,ኤርትራ,ERN,Nakfa
+64,EE,Estonia,Eesti,EUR,Euro
+65,SZ,Eswatini,eSwatini,SZL,Lilangeni
+66,ET,Ethiopia,🇪🇹 Ethiopia,ETB,Birr
+67,FJ,Fiji,Fiji,FJD,Fiji Dollar
+68,FI,Finland,Suomi,EUR,Euro
+69,FR,France,🇫🇷 France,EUR,Euro
+70,GA,Gabon,Gabon,XAF,Central African CFA Franc
+71,GM,Gambia,Gambia,GMD,Dalasi
+72,GE,Georgia,საქართველო,GEL,Lari
+73,DE,Germany,🇩🇪 Germany,EUR,Euro
+74,GH,Ghana,Ghana,GHS,Cedi
+75,GR,Greece,Ελλάδα,EUR,Euro
+76,GT,Guatemala,Guatemala,GTQ,Quetzal
+77,GN,Guinea,Guinée,GNF,Guinean Franc
+78,GW,Guinea-Bissau,Guiné-Bissau,XOF,West African CFA Franc
+79,GY,Guyana,Guyana,GYD,Guyana Dollar
+80,HT,Haiti,Haïti,HTG,Gourde
+81,HN,Honduras,Honduras,HNL,Lempira
+82,HU,Hungary,Magyarország,HUF,Forint
+83,IS,Iceland,Ísland,ISK,Icelandic Krona
+84,IR,Iran,🇮🇷 Iran,IRR,Iranian Rial
+85,IQ,Iraq,🇮🇶 Iraq,IQD,Iraqi Dinar
+86,IE,Ireland,Éire,EUR,Euro
+87,IL,Israel,ישראל,ILS,Shekel
+88,IT,Italy,Italia,EUR,Euro
+89,JM,Jamaica,Jamaica,JMD,Jamaican Dollar
+90,JO,Jordan,الأردن,JOD,Jordanian Dinar
+91,KZ,Kazakhstan,Қазақстан (Qazaqstan),KZT,Tenge
+92,KE,Kenya,Kenya,KES,Kenyan Shilling
+93,KI,Kiribati,Kiribati,AUD,Australian Dollar
+94,KW,Kuwait,الكويت,KWD,Kuwaiti Dinar
+95,KG,Kyrgyzstan,Кыргызстан,KGS,Som
+96,LA,Laos,ລາວ,LAK,Kip
+97,LV,Latvia,Latvija,EUR,Euro
+98,LB,Lebanon,لبنان,LBP,Lebanese Pound
+99,LS,Lesotho,Lesotho,LSL,Loti
+100,LR,Liberia,Liberia,LRD,Liberian Dollar
+101,LY,Libya,ليبيا,LYD,Libyan Dinar
+102,LI,Liechtenstein,Liechtenstein,CHF,Swiss Franc
+103,LT,Lithuania,Lietuva,EUR,Euro
+104,LU,Luxembourg,Luxembourg,EUR,Euro
+105,MG,Madagascar,Madagasikara,MGA,Ariary
+106,MW,Malawi,Malawi,MWK,Kwacha
+107,MV,Maldives,Maldives,MVR,Rufiyaa
+108,ML,Mali,Mali (République du Mali),XOF,West African CFA Franc
+109,MT,Malta,Malta,EUR,Euro
+110,MR,Mauritania,موريتانيا,MRU,Ouguiya
+111,MU,Mauritius,Mauritius,MUR,Mauritian Rupee
+112,MX,Mexico,México (Estados Unidos Mexicanos),MXN,Peso
+113,MD,Moldova,Moldova,MDL,Leu
+114,MC,Monaco,Monaco,EUR,Euro
+115,MN,Mongolia,Монгол улс,MNT,Tögrög
+116,ME,Montenegro,Crna Gora,EUR,Euro
+117,MA,Morocco,🇲🇦 Morocco,MAD,Dirham
+118,MZ,Mozambique,Moçambique,MZN,Metical
+119,MM,Myanmar,🇲🇲 Myanmar,MMK,Kyat
+120,NA,Namibia,Namibië,NAD,Namibian Dollar
+121,NP,Nepal,नेपाल (Nepāl),NPR,Nepalese Rupee
+122,NL,Netherlands,Nederland,EUR,Euro
+123,NZ,New Zealand,New Zealand,NZD,New Zealand Dollar
+124,NI,Nicaragua,Nicaragua,NIO,Córdoba
+125,NE,Niger,Niger (République du Niger),XOF,West African CFA Franc
+126,NG,Nigeria,Nigeria,NGN,Naira
+127,MK,North Macedonia,Северна Македонија,MKD,Denar
+128,NO,Norway,Norge,NOK,Norwegian Krone
+129,OM,Oman,عُمان (ʿUmān / سلطنة عمان),OMR,Rial
+130,PK,Pakistan,پاکستان (Pākistān / اسلامی جمہوریہ پاکستان),PKR,Rupee
+131,PA,Panama,Panamá,PAB,Balboa
+132,PG,Papua New Guinea,Papua Niugini,PGK,Kina
+133,PY,Paraguay,Paraguay,PYG,Guarani
+134,PE,Peru,Perú,PEN,Sol
+135,PL,Poland,Polska,PLN,Złoty
+136,PT,Portugal,Portugal,EUR,Euro
+137,QA,Qatar,قطر,QAR,Riyal
+138,RO,Romania,România,RON,Leu
+139,RU,Russia,Россия (Rossiya),RUB,Ruble
+140,RW,Rwanda,Rwanda,RWF,Rwanda Franc
+141,KN,Saint Kitts and Nevis,Saint Kitts and Nevis,XCD,East Caribbean Dollar
+142,LC,Saint Lucia,Saint Lucia,XCD,East Caribbean Dollar
+143,VC,Saint Vincent and the Grenadines,Saint Vincent and the Grenadines,XCD,East Caribbean Dollar
+144,WS,Samoa,Samoa,WST,Tala
+145,SM,San Marino,San Marino,EUR,Euro
+146,ST,Sao Tome and Principe,São Tomé e Príncipe,STN,Dobra
+147,SA,Saudi Arabia,السعودية (As-Suʿūdiyyah / المملكة العربية السعودية),SAR,Riyal
+148,SN,Senegal,Sénégal,XOF,West African CFA Franc
+149,RS,Serbia,Србија (Srbija),RSD,Serbian Dinar
+150,SC,Seychelles,Seychelles,SCR,Rupee
+151,SL,Sierra Leone,Sierra Leone,SLE,Leone
+152,SG,Singapore,Singapore (Republik Singapura / 新加坡 / சிங்கப்பூர்),SGD,Singapore Dollar
+153,SK,Slovakia,Slovensko,EUR,Euro
+154,SI,Slovenia,Slovenija,EUR,Euro
+155,SB,Solomon Islands,Solomon Islands,SBD,Solomon Islands Dollar
+156,SO,Somalia,Soomaaliya,SOS,Somali Shilling
+157,SS,South Sudan,South Sudan,SSP,South Sudanese Pound
+158,ES,Spain,España,EUR,Euro
+159,LK,Sri Lanka,ශ්‍රී ලංකා (Śrī Laṁkā),LKR,Sri Lankan Rupee
+160,SD,Sudan,🇸🇩 Sudan,SDG,Sudanese Pound
+161,SR,Suriname,Suriname,SRD,Surinamese Dollar
+162,SE,Sweden,Sverige,SEK,Swedish Krona
+163,CH,Switzerland,Schweiz / Suisse / Svizzera / Svizra,CHF,Swiss Franc
+164,SY,Syria,سوريا (Sūriyā / الجمهورية العربية السورية),SYP,Syrian Pound
+165,TW,Taiwan,臺灣 / 台湾 (Táiwān),TWD,New Taiwan Dollar
+166,TJ,Tajikistan,Тоҷикистон (Tojikiston),TJS,Somoni
+167,TZ,Tanzania,Tanzania,TZS,Shilling
+168,TL,Timor-Leste,Timor-Leste / Timór Lorosa'e,USD,US Dollar
+169,TG,Togo,Togo,XOF,West African CFA Franc
+170,TO,Tonga,Tonga,TOP,Paʻanga
+171,TT,Trinidad and Tobago,Trinidad and Tobago,TTD,Trinidad and Tobago Dollar
+172,TN,Tunisia,تونس (Tūnis / الجمهورية التونسية),TND,Tunisian Dinar
+173,TR,Turkey,Türkiye,TRY,Turkish Lira
+174,TM,Turkmenistan,Türkmenistan,TMT,Manat
+175,TV,Tuvalu,Tuvalu,AUD,Australian Dollar
+176,UG,Uganda,Uganda,UGX,Shilling
+177,UA,Ukraine,Україна (Ukrayina),UAH,Hryvnia
+178,AE,United Arab Emirates,الإمارات العربية المتحدة (Al-Imārāt Al-ʿArabiyyah Al-Muttaḥidah),AED,Dirham
+179,GB,United Kingdom,United Kingdom / Britain,GBP,Pound Sterling
+180,UY,Uruguay,Uruguay,UYU,Uruguayan Peso
+181,UZ,Uzbekistan,Oʻzbekiston,UZS,Som
+182,VU,Vanuatu,Vanuatu,VUV,Vatu
+183,VA,Vatican City,Città del Vaticano,EUR,Euro
+184,VE,Venezuela,Venezuela,VES,Bolívar
+185,YE,Yemen,اليَمَن (Al-Yaman),YER,Rial
+186,ZM,Zambia,Zambia,ZMW,Kwacha
+187,ZW,Zimbabwe,Zimbabwe,ZWL,Zimbabwe Dollar
