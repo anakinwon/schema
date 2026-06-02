@@ -38,14 +38,6 @@ export async function POST(req: NextRequest) {
 
   if (!langs?.length) return NextResponse.json({ error: '활성 언어 없음' }, { status: 400 })
 
-  // 전체 번역 메시지 조회
-  const { data: rows, error } = await supabaseAdmin
-    .from('i18n_msg')
-    .select('ns_cd, msg_key, lang_cd, msg_val')
-    .order('ns_cd').order('msg_key')
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-
   const results: Record<string, number> = {}
   const messagesDir = path.join(process.cwd(), 'messages')
 
@@ -59,10 +51,22 @@ export async function POST(req: NextRequest) {
       continue
     }
 
-    const langRows = (rows ?? []).filter(r => r.lang_cd === lang_cd)
+    // 언어별 개별 조회 — PostgREST 서버 max-rows(1,000) 우회
+    // 전체 일괄 조회 시 3,700+ 행 중 1,000행만 반환되어 파일이 불완전해지는 버그 수정
+    const { data: langRows, error } = await supabaseAdmin
+      .from('i18n_msg')
+      .select('ns_cd, msg_key, msg_val')
+      .eq('lang_cd', lang_cd)
+      .order('ns_cd').order('msg_key')
+
+    if (error) {
+      console.error(`[i18n/sync] ${lang_cd} 조회 실패:`, error.message)
+      continue
+    }
+
     // flat rows → nested object (ns_cd + 점 표기 msg_key)
     const obj: Record<string, unknown> = {}
-    for (const r of langRows) {
+    for (const r of langRows ?? []) {
       if (!obj[r.ns_cd]) obj[r.ns_cd] = {}
       const keys = r.msg_key.split('.')
       let cur = obj[r.ns_cd] as Record<string, unknown>
@@ -74,7 +78,7 @@ export async function POST(req: NextRequest) {
     }
 
     await fs.writeFile(outPath, JSON.stringify(obj, null, 2), 'utf8')
-    results[lang_cd] = langRows.length
+    results[lang_cd] = (langRows ?? []).length
   }
 
   revalidateTag('i18n', 'max')
