@@ -22,16 +22,19 @@ function safeLangPath(messagesDir: string, lang_cd: string): string {
   return resolvedFile
 }
 
-// DB → messages/{locale}.json 동기화
+// DB → messages/{locale}.json 동기화 (전체 또는 단일 언어)
 export async function POST(req: NextRequest) {
   const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
   if (!auth.ok) return auth.response
 
-  // 활성 언어 목록
-  const { data: langs } = await supabaseAdmin
-    .from('i18n_lang_mst')
-    .select('lang_cd')
-    .eq('use_yn', 'Y')
+  // body의 lang_cd 가 있으면 해당 언어만, 없으면 전체
+  const body = await req.json().catch(() => ({}))
+  const targetLang = body?.lang_cd as string | undefined
+
+  const query = supabaseAdmin.from('i18n_lang_mst').select('lang_cd').eq('use_yn', 'Y')
+  const { data: langs } = targetLang
+    ? await query.eq('lang_cd', targetLang)
+    : await query
 
   if (!langs?.length) return NextResponse.json({ error: '활성 언어 없음' }, { status: 400 })
 

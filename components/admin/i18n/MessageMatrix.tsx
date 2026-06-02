@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
 
 interface Msg { msg_id: string; ns_cd: string; msg_key: string; lang_cd: string; msg_val: string }
@@ -9,6 +10,9 @@ interface Lang { lang_cd: string; native_nm: string; sort_ord: number }
 const NS_LIST = ['common','auth','board','admin','profile','validation','languageSwitcher']
 
 export default function MessageMatrix() {
+  const searchParams = useSearchParams()
+  const focusLang = searchParams.get('lang')   // 대시보드에서 넘어온 언어 코드
+
   const [langs,    setLangs]    = useState<Lang[]>([])
   const [messages, setMessages] = useState<Msg[]>([])
   const [ns,       setNs]       = useState('board')
@@ -95,6 +99,11 @@ export default function MessageMatrix() {
           className="px-3 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-400 w-48"
         />
         <span className="text-xs text-gray-400">{filteredKeys.length}개 키</span>
+        {focusLang && (
+          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded font-medium">
+            🎯 {focusLang} 언어 집중
+          </span>
+        )}
       </div>
 
       {/* 매트릭스 */}
@@ -110,8 +119,12 @@ export default function MessageMatrix() {
                   ko (기준)
                 </th>
                 {activeLangs.map(l => (
-                  <th key={l.lang_cd} className="px-3 py-2 text-left font-medium text-gray-600 w-36 whitespace-nowrap">
-                    {l.lang_cd}
+                  <th key={l.lang_cd} className={`px-3 py-2 text-left font-medium w-36 whitespace-nowrap ${
+                    focusLang === l.lang_cd
+                      ? 'text-blue-700 bg-blue-50 border-b-2 border-blue-400'
+                      : 'text-gray-600'
+                  }`}>
+                    {l.lang_cd}{focusLang === l.lang_cd && ' 🎯'}
                   </th>
                 ))}
               </tr>
