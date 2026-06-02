@@ -1,35 +1,40 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import type { Locale } from '@/i18n/routing'
+import { Link } from '@/i18n/navigation'
+
 import AdminLogoutButton from './AdminLogoutButton'
 import CountrySelector from '@/components/i18n/CountrySelector'
 import { createSupabaseServer } from '@/lib/supabase-server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { verifyAdminToken } from '@/lib/admin-auth'
 
-export const metadata: Metadata = {
-  title: '관리자 — 표준데이터 관리 프로그램',
+type Props = { children: React.ReactNode; params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale: locale as Locale, namespace: 'common' })
+  return { title: `관리자 — ${t('appName')}` }
 }
 
-const NAV_LINKS = [
-  { href: '/admin',            label: '대시보드',  icon: '📊' },
-  { href: '/admin/standards',  label: '표준관리',  icon: '📝' },
-  { href: '/admin/codes',      label: '공통코드',  icon: '🗂️' },
-  { href: '/admin/audit',      label: '변경이력',  icon: '📋' },
-  { href: '/admin/approval',   label: '승인관리',  icon: '✅' },
-  { href: '/admin/sync',       label: '동기화',    icon: '🔄' },
-  { href: '/admin/users',      label: '사용자관리', icon: '👥' },
-  { href: '/admin/board',      label: '게시판관리', icon: '📢' },
-  { href: '/admin/i18n',       label: '다국어관리', icon: '🌐' },
-]
+const NAV_KEYS = [
+  { href: '/admin',           key: 'dashboard', icon: '📊' },
+  { href: '/admin/standards', key: 'standards', icon: '📝' },
+  { href: '/admin/codes',     key: 'codes',     icon: '🗂️' },
+  { href: '/admin/audit',     key: 'audit',     icon: '📋' },
+  { href: '/admin/approval',  key: 'approval',  icon: '✅' },
+  { href: '/admin/sync',      key: 'sync',      icon: '🔄' },
+  { href: '/admin/users',     key: 'users',     icon: '👥' },
+  { href: '/admin/board',     key: 'board',     icon: '📢' },
+  { href: '/admin/i18n',      key: 'i18n',      icon: '🌐' },
+] as const
 
 async function getAdminUserInfo(): Promise<{ userName: string; isAdminSession: boolean }> {
   const cookieStore = await cookies()
-
-  // admin 쿠키 세션 확인
   const adminToken = cookieStore.get('admin-session')?.value
   const isAdminSession = !!(adminToken && verifyAdminToken(adminToken))
 
-  // Supabase 세션에서 사용자명 조회
   const supabase = await createSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -39,16 +44,22 @@ async function getAdminUserInfo(): Promise<{ userName: string; isAdminSession: b
       .select('full_name, username')
       .eq('user_id', user.id)
       .maybeSingle()
-    const userName =
-      profile?.full_name ?? profile?.username ?? user.email?.split('@')[0] ?? '관리자'
+    const userName = profile?.full_name ?? profile?.username ?? user.email?.split('@')[0] ?? '관리자'
     return { userName, isAdminSession }
   }
 
   return { userName: '관리자', isAdminSession }
 }
 
-export default async function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
-  const { userName, isAdminSession } = await getAdminUserInfo()
+export default async function AdminProtectedLayout({ children, params }: Props) {
+  const { locale: localeRaw } = await params
+  const locale = localeRaw as Locale
+  setRequestLocale(locale)
+
+  const [t, { userName, isAdminSession }] = await Promise.all([
+    getTranslations('admin'),
+    getAdminUserInfo(),
+  ])
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -62,12 +73,15 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
         </div>
 
         <nav className="ml-8 flex gap-1">
-          {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors">
+          {NAV_KEYS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+            >
               <span className="text-xs">{link.icon}</span>
-              {link.label}
-            </a>
+              {t(`menu.${link.key}` as any)}
+            </Link>
           ))}
         </nav>
 
