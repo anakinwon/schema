@@ -22,11 +22,12 @@ export async function GET(req: NextRequest, { params }: Params) {
     .select(`
       post_id, ctgr_cd, post_ttl, post_cont,
       rgst_usr_id, rgst_usr_nm, vw_cnt, pin_yn, answ_yn, acpt_cmnt_id,
-      reg_dts, mod_dts,
+      reg_dtm, mod_dtm,
       brd_attch ( attch_id, fl_nm, fl_url, fl_sz, fl_tp )
     `)
     .eq('post_id', id)
     .eq('ctgr_cd', ctgrCd)
+    .eq('del_yn', 'N')
     .single()
 
   if (error || !post) {
@@ -142,7 +143,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
   const { error } = await supabaseAdmin
     .from('brd_post')
-    .delete()
+    .update({ del_yn: 'Y', del_dtm: new Date().toISOString() })
     .eq('post_id', id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

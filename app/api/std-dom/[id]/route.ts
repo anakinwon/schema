@@ -5,7 +5,7 @@ import { writeAudit, getChangedBy } from '@/lib/audit'
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const db = getDb()
-  const row = db.prepare('SELECT * FROM STD_DOM WHERE DOM_ID=?').get(id)
+  const row = db.prepare("SELECT * FROM STD_DOM WHERE DOM_ID=? AND DEL_YN='N'").get(id)
   if (!row) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   return NextResponse.json(row)
 }
@@ -52,8 +52,12 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   // Audit: 삭제 전 데이터 캡처
   const before = db.prepare('SELECT * FROM STD_DOM WHERE DOM_ID=?').get(id) as Record<string, unknown>
 
+  // STD_DIC 연관 컬럼 초기화 (물리 연결 해제)
   db.prepare("UPDATE STD_DIC SET DOM_USE_YN='N', DOM_NM_USE_YN='N', DOM_ID=NULL WHERE DOM_ID=?").run(id)
-  db.prepare('DELETE FROM STD_DOM WHERE DOM_ID=?').run(id)
+  // STD_DOM — 논리삭제
+  db.prepare(
+    "UPDATE STD_DOM SET DEL_YN='Y', DEL_DTM=datetime('now','localtime') WHERE DOM_ID=?"
+  ).run(id)
 
   // Audit: DELETE 기록
   if (before) {

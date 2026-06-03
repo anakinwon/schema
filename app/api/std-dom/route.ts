@@ -14,7 +14,8 @@ export async function GET(req: NextRequest) {
            DATA_TYPE_CD, DATA_LEN, DATA_SCALE, DOM_DESC, DATA_FORMAT,
            DATA_MIN, DATA_MAX, DIC_ID
     FROM STD_DOM
-    WHERE (? = '' OR KEY_DOM_NM LIKE ? OR KEY_DOM_PHY_NM LIKE ? OR DOM_NM LIKE ?)
+    WHERE DEL_YN = 'N'
+      AND (? = '' OR KEY_DOM_NM LIKE ? OR KEY_DOM_PHY_NM LIKE ? OR DOM_NM LIKE ?)
     ORDER BY KEY_DOM_PHY_NM
   `).all(q, `%${q}%`, `%${q}%`, `%${q}%`)
   return NextResponse.json(rows)

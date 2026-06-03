@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isAdminSession } from '@/lib/admin-auth'
+import { requireAuth } from '@/lib/auth-guard'
 import { supabaseAdmin } from '@/lib/supabase'
 
 export async function GET(request: NextRequest) {
-  if (!isAdminSession(request)) {
-    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
-  }
+  const auth = await requireAuth(request, ['ADMIN'])
+  if (!auth.ok) return auth.response
 
   const { data, error } = await supabaseAdmin
     .from('profiles')
@@ -26,9 +25,8 @@ const PROFILE_TO_ROLE_CD: Record<string, string> = {
 }
 
 export async function PATCH(request: NextRequest) {
-  if (!isAdminSession(request)) {
-    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
-  }
+  const auth = await requireAuth(request, ['ADMIN'])
+  if (!auth.ok) return auth.response
 
   const { user_id, main_role } = await request.json()
   const ALLOWED_ROLES = ['admin', 'master', 'manager', 'sub_admin', 'user']

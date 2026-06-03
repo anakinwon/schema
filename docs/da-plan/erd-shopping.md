@@ -15,7 +15,7 @@ erDiagram
         varchar100 prd_cls_nm         "상품분류명"
         varchar10  upr_prd_cls_cd  FK "상위상품분류코드(자기참조)"
         varchar1   use_yn             "사용여부 Y/N"
-        timestamptz  reg_dts            "등록일시"
+        timestamptz  reg_dtm            "등록일시"
     }
 
     tb_product {
@@ -26,8 +26,8 @@ erDiagram
         integer     prd_inv_qty        "상품재고수량"
         varchar2    prd_sts_knd_cd     "상품상태종류코드 E3"
         text        prd_cont           "상품내용"
-        timestamptz   reg_dts            "등록일시"
-        timestamptz   mod_dts            "수정일시"
+        timestamptz   reg_dtm            "등록일시"
+        timestamptz   mod_dtm            "수정일시"
     }
 
     tb_customer {
@@ -40,8 +40,8 @@ erDiagram
         varchar2   ct_sts_knd_cd      "고객상태종류코드 E2"
         varchar200 ct_bsic_addr       "고객기본주소(200자)"
         varchar100 ct_dtl_addr        "고객상세주소(100자)"
-        timestamptz  reg_dts            "등록일시"
-        timestamptz  mod_dts            "수정일시"
+        timestamptz  reg_dtm            "등록일시"
+        timestamptz  mod_dtm            "수정일시"
     }
 
     tb_order {
@@ -52,8 +52,8 @@ erDiagram
         varchar200  dlv_bsic_addr     "배송기본주소(200자)"
         varchar100  dlv_dtl_addr      "배송상세주소(100자)"
         varchar2    od_sts_knd_cd     "주문상태종류코드 E4"
-        timestamptz   reg_dts           "등록일시"
-        timestamptz   mod_dts           "수정일시"
+        timestamptz   reg_dtm           "등록일시"
+        timestamptz   mod_dtm           "수정일시"
     }
 
     tb_order_item {
@@ -85,7 +85,7 @@ erDiagram
 | `prd_cls_nm` | varchar(100) | PRD+CLS+NM | 고객명도메인(명칭류 100자) | — |
 | `upr_prd_cls_cd` | varchar(10) | UPR+PRD+CLS+CD | 상품분류코드도메인 | FK 자기참조, NULL=최상위 |
 | `use_yn` | varchar(1) | USE+YN | 코드2자리도메인 | CHECK IN('Y','N') #3 |
-| `reg_dts` | timestamptz | REG+DTS | 일시도메인 | DEFAULT CURRENT_timestamp #8 |
+| `reg_dtm` | timestamptz | REG+DTS | 일시도메인 | DEFAULT CURRENT_timestamp #8 |
 
 ### tb_product (상품, CPRI)
 
@@ -97,7 +97,7 @@ erDiagram
 | `prd_sl_up` | numeric(21,3) | PRD+SL+UP | 단가도메인 | CHECK ≥0, 지침서 §4.2 #2 |
 | `prd_inv_qty` | integer | PRD+INV+QTY | 수량도메인 | CHECK ≥0 |
 | `prd_sts_knd_cd` | varchar(2) | PRD+STS+KND+CD | 코드2자리도메인 | E3000001 #4 |
-| `reg_dts` / `mod_dts` | timestamptz | REG+DTS / MOD+DTS | 일시도메인 | #8 |
+| `reg_dtm` / `mod_dtm` | timestamptz | REG+DTS / MOD+DTS | 일시도메인 | #8 |
 
 ### tb_customer (고객, CCSI)
 
@@ -212,10 +212,10 @@ erDiagram
 
 | 컬럼명 | 타입 | 규칙 | 의미 |
 |--------|------|------|------|
-| `reg_dts` | timestamptz | NOT NULL, DEFAULT CURRENT_timestamp | 레코드 최초 등록 일시 |
-| `mod_dts` | timestamptz | NULL 허용 | 마지막 수정 일시, 미수정 시 NULL |
+| `reg_dtm` | timestamptz | NOT NULL, DEFAULT CURRENT_timestamp | 레코드 최초 등록 일시 |
+| `mod_dtm` | timestamptz | NULL 허용 | 마지막 수정 일시, 미수정 시 NULL |
 
-> `tb_order_item`은 단가 이력을 고정 보존하는 특성상 `mod_dts`를 두지 않습니다 (주문 후 단가 변경 불허).
+> `tb_order_item`은 단가 이력을 고정 보존하는 특성상 `mod_dtm`를 두지 않습니다 (주문 후 단가 변경 불허).
 
 ---
 

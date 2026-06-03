@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { isAdminSession } from '@/lib/admin-auth'
-import { writeAudit, getChangedBy, type EntityType } from '@/lib/audit'
+import { requireAuth } from '@/lib/auth-guard'
+import { writeAudit, type EntityType } from '@/lib/audit'
 import { applyApprovalToDb } from '@/lib/apply-approval'
 
 // PUT /api/approval/[id] — 승인 또는 반려
@@ -10,9 +10,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!isAdminSession(request)) {
-    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
-  }
+  const auth = await requireAuth(request, ['ADMIN'])
+  if (!auth.ok) return auth.response
 
   const { id } = await params
   const { action, reason } = await request.json()
@@ -55,15 +54,13 @@ export async function PUT(
     .from('approval_queue')
     .update({
       apv_status:    newStatus,
-      decided_by:    'ADMIN',
+      decided_by:    auth.email,   // requireAuth에서 검증된 이메일 사용
       decided_at:    decidedAt,
       reject_reason: action === 'REJECT' ? (reason ?? null) : null,
     })
     .eq('apv_id', id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-
-  const changedBy = await getChangedBy(request)
 
   // ── Audit: 원본 엔티티 변경 이력 (APPROVE + STD_DIC / STD_DOM) ─────
   if (action === 'APPROVE' && applyBefore !== null && current?.entity_type && current?.entity_id) {
@@ -76,7 +73,7 @@ export async function PUT(
         actionType: 'UPDATE',
         before:     applyBefore,
         after:      current.req_data as Record<string, unknown>,
-        changedBy:  `승인반영(${changedBy})`,
+        changedBy:  `승인반영(${auth.email})`,
       })
     }
   }
@@ -94,29 +91,48 @@ export async function PUT(
     },
     after: {
       apv_status:    newStatus,
-      decided_by:    'ADMIN',
+      decided_by:    auth.email,
       decided_at:    decidedAt,
       reject_reason: action === 'REJECT' ? (reason ?? null) : null,
     },
-    changedBy,
+    changedBy: auth.email,
   })
 
   return NextResponse.json({ ok: true, applied: action === 'APPROVE' && applyBefore !== null })
 }
 
-// DELETE /api/approval/[id] — 승인 요청 취소
+// DELETE /api/approval/[id] — 승인 요청 취소 (논리삭제: apv_status='CANCELLED')
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!isAdminSession(request)) {
-    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
-  }
+  const auth = await requireAuth(request, ['ADMIN'])
+  if (!auth.ok) return auth.response
 
   const { id } = await params
+
+  // PENDING 상태만 취소 가능 — 이미 결정된 건 취소 불가
+  const { data: existing } = await supabaseAdmin
+    .from('approval_queue')
+    .select('apv_status')
+    .eq('apv_id', id)
+    .single()
+
+  if (!existing) return NextResponse.json({ error: '승인 요청을 찾을 수 없습니다' }, { status: 404 })
+  if (existing.apv_status !== 'PENDING') {
+    return NextResponse.json(
+      { error: `이미 처리된 요청입니다 (상태: ${existing.apv_status})` },
+      { status: 409 },
+    )
+  }
+
   const { error } = await supabaseAdmin
     .from('approval_queue')
-    .delete()
+    .update({
+      apv_status:  'CANCELLED',
+      decided_by:  auth.email,
+      decided_at:  new Date().toISOString(),
+    })
     .eq('apv_id', id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

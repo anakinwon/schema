@@ -20,7 +20,7 @@ interface Post {
   vw_cnt: number
   pin_yn: 'Y' | 'N'
   answ_yn: 'Y' | 'N'
-  reg_dts: string
+  reg_dtm: string
   cmnt_cnt: number
 }
 
@@ -314,7 +314,7 @@ export default function BoardAdmin() {
                         )}
                       </td>
                       <td className="px-4 py-2.5 text-gray-500 text-xs">{post.rgst_usr_nm}</td>
-                      <td className="px-4 py-2.5 text-gray-400 text-xs">{formatDate(post.reg_dts)}</td>
+                      <td className="px-4 py-2.5 text-gray-400 text-xs">{formatDate(post.reg_dtm)}</td>
                       <td className="px-4 py-2.5 text-gray-400 text-right text-xs">{post.vw_cnt}</td>
                       <td className="px-4 py-2.5">
                         <div className="flex items-center justify-center gap-1.5">

@@ -9,7 +9,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     SELECT d.*, dm.DOM_NM, dm.KEY_DOM_PHY_NM
     FROM STD_DIC d
     LEFT JOIN STD_DOM dm ON d.DOM_ID = dm.DOM_ID
-    WHERE d.DIC_ID = ?
+    WHERE d.DIC_ID = ? AND d.DEL_YN = 'N'
   `).get(id)
   if (!row) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   return NextResponse.json(row)
@@ -88,8 +88,12 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   // Audit: 삭제 전 데이터 캡처
   const before = db.prepare('SELECT * FROM STD_DIC WHERE DIC_ID=?').get(id) as Record<string, unknown>
 
+  // STD_WORD_COMBI — 관계 테이블, 물리삭제 유지
   db.prepare('DELETE FROM STD_WORD_COMBI WHERE TERM_ID=?').run(id)
-  db.prepare('DELETE FROM STD_DIC WHERE DIC_ID=?').run(id)
+  // STD_DIC — 논리삭제
+  db.prepare(
+    "UPDATE STD_DIC SET DEL_YN='Y', DEL_DTM=datetime('now','localtime') WHERE DIC_ID=?"
+  ).run(id)
 
   // Audit: DELETE 기록
   if (before) {

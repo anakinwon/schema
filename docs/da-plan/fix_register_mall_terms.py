@@ -29,16 +29,16 @@ if 'DTS' not in existing_dic:
          FORBID_YN,DOM_NM_USE_YN,DIC_GBN_CD,DOM_USE_YN)
         VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
         (STD_AREA, dic_id, END, NOW,
-         '일시', 'DTS', 'Datetime Stamp',
-         '날짜+시각을 나타내는 분류어. v2 시스템컬럼(reg_dts/mod_dts) 및 업무 일시(_dts) 전용.',
+         '일시', 'DTM', 'Datetime',
+         '날짜+시각을 나타내는 분류어. 시스템컬럼(reg_dtm/mod_dtm/del_dtm) 및 업무 일시(_dtm) 전용.',
          'N', 'Y', 'Y', 'N', 'N', '0001', 'N'))
-    existing_dic['DTS'] = dic_id
+    existing_dic['DTM'] = dic_id
     print('[STD_DIC] DTS 등록 완료 (일시/Datetime Stamp)')
 else:
     print('[STD_DIC] DTS 이미 존재')
 
-# ── STEP 2: DTS 도메인 추가 (TIMESTAMP 타입, 코드 0020)
-if 'DTS' not in existing_dom:
+# ── STEP 2: DTM 도메인 추가 (TIMESTAMPTZ 타입, 코드 0020)
+if 'DTM' not in existing_dom:
     dom_id = str(uuid.uuid4())
     cur.execute('''INSERT INTO STD_DOM
         (STD_AREA_ID,DOM_ID,AVAL_END_DT,AVAL_ST_DT,KEY_DOM_NM,DOM_NM,
@@ -46,12 +46,12 @@ if 'DTS' not in existing_dom:
          KEY_DOM_PHY_NM,DIC_ID)
         VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)''',
         (STD_AREA, dom_id, END, NOW,
-         '일시', '일시도메인(DTS)', '0003', '0020',
-         None, None, 'N', 'DTS', existing_dic['DTS']))
-    existing_dom['DTS'] = dom_id
-    print('[STD_DOM] DTS 등록 완료 (TIMESTAMP 타입)')
+         '일시', '일시도메인(DTM)', '0003', '0020',
+         None, None, 'N', 'DTM', existing_dic['DTM']))
+    existing_dom['DTM'] = dom_id
+    print('[STD_DOM] DTM 등록 완료 (TIMESTAMPTZ 타입)')
 else:
-    print('[STD_DOM] DTS 이미 존재')
+    print('[STD_DOM] DTM 이미 존재')
 
 con.commit()
 print()
@@ -79,7 +79,7 @@ MISSING = [
     ('ct_bsic_addr',   '고객기본주소',     'ADDR',  '도로명/지번 200자'),
     ('ct_dtl_addr',    '고객상세주소',     'ADDR',  '동호수 등 100자'),
     # tb_order
-    ('od_dts',         '주문일시',         'DTS',   '주문 접수 일시 TIMESTAMP'),
+    ('od_dtm',         '주문일시',         'DTM',   '주문 접수 일시 TIMESTAMPTZ'),
     ('od_tot_amt',     '주문합계금액',     'AMT',   '전체 상품 합계 numeric(21,3)'),
     ('dlv_bsic_addr',  '배송기본주소',     'ADDR',  '배송지 기본주소 200자'),
     ('dlv_dtl_addr',   '배송상세주소',     'ADDR',  '배송지 상세주소 100자'),
@@ -90,9 +90,9 @@ MISSING = [
     ('od_up',          '주문단가',         'UP',    '주문 시점 단가 numeric(21,3)'),
     ('od_amt',         '주문금액',         'AMT',   'od_qty × od_up'),
     ('ccl_yn',         '취소여부',         'YN',    'Y=취소 N=정상'),
-    # 시스템컬럼 (v1: _dts 접미어, 02 DDL 기준)
-    ('reg_dts',        '등록일시',         'DTS',   '시스템컬럼 — 행 생성 일시'),
-    ('mod_dts',        '수정일시',         'DTS',   '시스템컬럼 — 행 수정 일시'),
+    # 시스템컬럼 (_dtm 접미어 통일)
+    ('reg_dtm',        '등록일시',         'DTM',   '시스템컬럼 — 행 생성 일시'),
+    ('mod_dtm',        '수정일시',         'DTM',   '시스템컬럼 — 행 수정 일시'),
 ]
 
 print(f'=== DA_TERM 쇼핑몰 컬럼 등록 ({len(MISSING)}건 대상) ===')

@@ -1,21 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isAdminSession } from '@/lib/admin-auth'
+import { requireAuth } from '@/lib/auth-guard'
 import { runFullSync, getSyncHistory } from '@/lib/sync'
 
 // GET /api/sync — 최근 동기화 이력
 export async function GET(request: NextRequest) {
-  if (!isAdminSession(request)) {
-    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
-  }
+  const auth = await requireAuth(request, ['ADMIN'])
+  if (!auth.ok) return auth.response
+
   const history = await getSyncHistory(20)
   return NextResponse.json(history)
 }
 
 // POST /api/sync — 전체 동기화 실행
 export async function POST(request: NextRequest) {
-  if (!isAdminSession(request)) {
-    return NextResponse.json({ error: '관리자 인증 필요' }, { status: 401 })
-  }
+  const auth = await requireAuth(request, ['ADMIN'])
+  if (!auth.ok) return auth.response
 
   try {
     const results = await runFullSync()

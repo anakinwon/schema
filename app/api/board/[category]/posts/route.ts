@@ -44,10 +44,11 @@ export async function GET(req: NextRequest, { params }: Params) {
     .from('brd_post')
     .select(`
       post_id, ctgr_cd, post_ttl, rgst_usr_id, rgst_usr_nm,
-      vw_cnt, pin_yn, answ_yn, reg_dts, mod_dts,
+      vw_cnt, pin_yn, answ_yn, reg_dtm, mod_dtm,
       brd_cmnt(count)
     `, { count: 'exact' })
     .eq('ctgr_cd', ctgrCd)
+    .eq('del_yn', 'N')
 
   if (q) {
     query = query.or(`post_ttl.ilike.%${q}%,rgst_usr_nm.ilike.%${q}%`)
@@ -55,7 +56,7 @@ export async function GET(req: NextRequest, { params }: Params) {
 
   const { data, error, count } = await query
     .order('pin_yn',  { ascending: false })
-    .order('reg_dts', { ascending: false })
+    .order('reg_dtm', { ascending: false })
     .range(from, to)
 
   if (error) return handleDbError(error, 'board/posts GET')

@@ -8,7 +8,7 @@ export interface Comment {
   rgst_usr_nm: string
   cmnt_cont: string
   acpt_yn: 'Y' | 'N'
-  reg_dts: string
+  reg_dtm: string
   is_owner: boolean
 }
 
@@ -144,7 +144,7 @@ export default function CommentSection({ postId, category, isOwner, canComment }
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-medium text-gray-700">{c.rgst_usr_nm}</span>
-                <span className="text-gray-400 text-xs">{formatDate(c.reg_dts)}</span>
+                <span className="text-gray-400 text-xs">{formatDate(c.reg_dtm)}</span>
                 {c.acpt_yn === 'Y' && (
                   <span className="px-1.5 py-0.5 bg-green-600 text-white text-[10px] rounded font-medium">
                     ✅ 채택

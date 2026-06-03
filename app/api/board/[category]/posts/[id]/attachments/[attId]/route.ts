@@ -37,12 +37,13 @@ export async function DELETE(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: '삭제 권한이 없습니다' }, { status: 403 })
   }
 
-  // Storage 삭제 먼저 (실패해도 DB는 삭제 — orphan 파일보다 orphan 레코드가 덜 위험)
+  // Storage — 물리삭제 유지 (Storage는 논리삭제 불가, orphan 파일 방지)
   await supabaseAdmin.storage.from(BUCKET).remove([attch.fl_pth])
 
+  // brd_attch — DB 레코드 논리삭제
   const { error } = await supabaseAdmin
     .from('brd_attch')
-    .delete()
+    .update({ del_yn: 'Y', del_dtm: new Date().toISOString() })
     .eq('attch_id', attId)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

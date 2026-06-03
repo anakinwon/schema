@@ -40,9 +40,10 @@ export async function GET(req: NextRequest, { params }: Params) {
 
   const { data, error } = await supabaseAdmin
     .from('brd_attch')
-    .select('attch_id, fl_nm, fl_url, fl_sz, fl_tp, reg_dts')
+    .select('attch_id, fl_nm, fl_url, fl_sz, fl_tp, reg_dtm')
     .eq('post_id', id)
-    .order('reg_dts', { ascending: true })
+    .eq('del_yn', 'N')
+    .order('reg_dtm', { ascending: true })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data ?? [])
@@ -81,6 +82,7 @@ export async function POST(req: NextRequest, { params }: Params) {
     .from('brd_attch')
     .select('attch_id', { count: 'exact', head: true })
     .eq('post_id', id)
+    .eq('del_yn', 'N')
 
   if ((count ?? 0) >= MAX_FILES) {
     return NextResponse.json(
@@ -148,7 +150,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       reg_usr_id: auth.email,
       mod_usr_id: auth.email,
     })
-    .select('attch_id, fl_nm, fl_url, fl_sz, fl_tp, reg_dts')
+    .select('attch_id, fl_nm, fl_url, fl_sz, fl_tp, reg_dtm')
     .single()
 
   if (dbErr) {

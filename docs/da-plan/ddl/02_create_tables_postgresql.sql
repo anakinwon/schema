@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS tb_product_category (
     prd_cls_nm      character varying(100)  NOT NULL,           -- 상품분류명 (PRD+CLS+NM) #5
     upr_prd_cls_cd  character varying(10)   NULL,              -- 상위상품분류코드 (UPR+PRD+CLS+CD) 자기참조
     use_yn          character varying(1)    NOT NULL DEFAULT 'Y', -- 사용여부 (USE+YN) #3
-    reg_dts         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
+    reg_dtm         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
     CONSTRAINT pk_product_category PRIMARY KEY (prd_cls_cd),
     CONSTRAINT fk_product_category_self FOREIGN KEY (upr_prd_cls_cd)
         REFERENCES tb_product_category (prd_cls_cd),
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS tb_product (
     prd_inv_qty     integer                 NOT NULL DEFAULT 0, -- 상품재고수량 (PRD+INV+QTY)
     prd_sts_knd_cd  character varying(2)    NOT NULL DEFAULT '01', -- 상품상태종류코드 (PRD+STS+KND+CD) #4
     prd_cont        text                    NULL,               -- 상품내용 (PRD+CONT)
-    reg_dts         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
-    mod_dts         timestamptz             NULL,               -- 수정일시 #8
+    reg_dtm         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
+    mod_dtm         timestamptz             NULL,               -- 수정일시 #8
     CONSTRAINT pk_product PRIMARY KEY (prd_no),
     CONSTRAINT fk_product_category FOREIGN KEY (prd_cls_cd)
         REFERENCES tb_product_category (prd_cls_cd),
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS tb_customer (
     ct_sts_knd_cd   character varying(2)    NOT NULL DEFAULT '01', -- 고객상태종류코드 (CT+STS+KND+CD) #4
     ct_bsic_addr    character varying(200)  NULL,              -- 고객기본주소 (CT+BSIC+ADDR) #7 200자
     ct_dtl_addr     character varying(100)  NULL,              -- 고객상세주소 (CT+DTL+ADDR) #7 100자
-    reg_dts         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
-    mod_dts         timestamptz             NULL,               -- 수정일시 #8
+    reg_dtm         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
+    mod_dtm         timestamptz             NULL,               -- 수정일시 #8
     CONSTRAINT pk_customer       PRIMARY KEY (ct_no),
     CONSTRAINT uq_customer_eml   UNIQUE (ct_eml_addr),
     CONSTRAINT ck_customer_gnd_gbn_cd  CHECK (gnd_gbn_cd IS NULL OR gnd_gbn_cd IN ('01','02','09')), -- E1: 남성/여성/기타
@@ -113,8 +113,8 @@ CREATE TABLE IF NOT EXISTS tb_order (
     dlv_bsic_addr   character varying(200)  NULL,              -- 배송기본주소 (DLV+BSIC+ADDR) #7
     dlv_dtl_addr    character varying(100)  NULL,              -- 배송상세주소 (DLV+DTL+ADDR) #7
     od_sts_knd_cd   character varying(2)    NOT NULL DEFAULT '01', -- 주문상태종류코드 (OD+STS+KND+CD) #4
-    reg_dts         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
-    mod_dts         timestamptz             NULL,               -- 수정일시 #8
+    reg_dtm         timestamptz             NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 등록일시 #8
+    mod_dtm         timestamptz             NULL,               -- 수정일시 #8
     CONSTRAINT pk_order          PRIMARY KEY (od_no),
     CONSTRAINT fk_order_customer FOREIGN KEY (ct_no) REFERENCES tb_customer (ct_no),
     CONSTRAINT ck_order_tot_amt     CHECK (od_tot_amt >= 0),

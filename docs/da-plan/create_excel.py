@@ -68,9 +68,9 @@ TABLES = [
 
 SYS_COLS = [
     ('등록사용자아이디','reg_usr_id', 'VARCHAR',  20,  None, 'N', 'ADMIN',              '','','시스템컬럼'),
-    ('등록일시',        'reg_dts',   'TIMESTAMP',None,None, 'N', 'CURRENT_TIMESTAMP',  '','','시스템컬럼'),
+    ('등록일시',        'reg_dtm',   'TIMESTAMPTZ',None,None,'N', 'CURRENT_TIMESTAMP',  '','','시스템컬럼'),
     ('수정사용자아이디','mod_usr_id', 'VARCHAR',  20,  None, 'N', 'ADMIN',              '','','시스템컬럼'),
-    ('수정일시',        'mod_dts',   'TIMESTAMP',None,None, 'N', 'CURRENT_TIMESTAMP',  '','','시스템컬럼'),
+    ('수정일시',        'mod_dtm',   'TIMESTAMPTZ',None,None,'N', 'CURRENT_TIMESTAMP',  '','','시스템컬럼'),
 ]
 
 wb = openpyxl.Workbook()

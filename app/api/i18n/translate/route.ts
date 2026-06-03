@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { translate } from '@vitalets/google-translate-api'
+import { Translate } from '@google-cloud/translate/build/src/v2'
 import { supabaseAdmin } from '@/lib/supabase'
 import { requireAuth } from '@/lib/auth-guard'
 import { revalidateTag } from 'next/cache'
@@ -14,33 +14,11 @@ const GOOGLE_LANG_MAP: Record<string, string> = {
   'fil':   'tl',  // 필리핀어 = Tagalog
 }
 
-// 딜레이 헬퍼
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+// 공식 Google Cloud Translation API v2 클라이언트
+const translator = new Translate({ key: process.env.GOOGLE_TRANSLATE_API_KEY })
 
-// 지수 백오프 재시도: Too Many Requests(429) 대응
-async function translateWithRetry(
-  text: string,
-  to: string,
-  maxRetries = 4,
-): Promise<string> {
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      const { text: result } = await translate(text, { from: 'ko', to })
-      return result
-    } catch (e: unknown) {
-      const msg = String(e)
-      const is429 = msg.includes('Too Many Requests') || msg.includes('429')
-      if (is429 && attempt < maxRetries) {
-        const wait = 2000 * Math.pow(2, attempt) // 2s → 4s → 8s → 16s
-        console.warn(`[translate] 429 재시도 ${attempt + 1}/${maxRetries}, ${wait}ms 대기`)
-        await sleep(wait)
-      } else {
-        throw e
-      }
-    }
-  }
-  throw new Error('최대 재시도 초과')
-}
+// 딜레이 헬퍼 (API 쿼터 관리용)
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 // safeLangPath: path traversal 방지
 function safeLangPath(messagesDir: string, lang_cd: string): string {
@@ -74,18 +52,8 @@ function restoreTokens(text: string, tokenMap: string[]): string {
   return text.replace(/PLHDR(\d+)X/g, (_, n) => tokenMap[+n] ?? `{${n}}`)
 }
 
-// 단일 값 번역 (fallback용) — 재시도 포함
-async function translateOne(value: string, to: string): Promise<string> {
-  const tokenMap: string[] = []
-  const san = tokenize(value, tokenMap)
-  await sleep(600)   // 개별 키 호출 간 쿨다운
-  const text = await translateWithRetry(san, to)
-  return restoreTokens(text.trim(), tokenMap)
-}
-
-// 섹션 하나를 Google Translate로 번역
-// - 줄바꿈(\n) 구분자로 배치 전송 → 구분자 번역 방지
-// - 분리 실패 시 각 키 개별 번역으로 fallback
+// 섹션 하나를 Google Cloud Translation API로 번역
+// - 배열을 직접 전달 — 줄바꿈 구분자 방식 불필요, 분리 실패 위험 없음
 async function translateSection(
   koSection: Record<string, string>,
   targetLang: string,
@@ -97,25 +65,14 @@ async function translateSection(
   const tokenMap: string[] = []
   const sanitized = values.map(v => tokenize(v, tokenMap))
 
-  // 줄바꿈으로 결합 — Google Translate는 \n 경계를 비교적 잘 보존
-  const combined = sanitized.join('\n')
-  const translated = await translateWithRetry(combined, to)
-  const parts = translated.split('\n')
+  // 공식 API는 문자열 배열을 직접 전달 → 키 순서가 보장된 배열로 반환
+  const [translations] = await translator.translate(sanitized, { from: 'ko', to })
+  const parts = Array.isArray(translations) ? translations : [translations]
 
   const result: Record<string, string> = {}
-
-  if (parts.length === keys.length) {
-    // 배치 성공 — 그대로 사용
-    keys.forEach((key, i) => {
-      result[key] = restoreTokens(parts[i].trim(), tokenMap)
-    })
-  } else {
-    // 줄 수 불일치 → 키별 개별 번역으로 fallback
-    console.warn(`[translate] 줄 수 불일치 (기대 ${keys.length}, 수신 ${parts.length}) → 개별 번역`)
-    for (let i = 0; i < keys.length; i++) {
-      result[keys[i]] = await translateOne(values[i], to)
-    }
-  }
+  keys.forEach((key, i) => {
+    result[key] = restoreTokens((parts[i] ?? '').trim(), tokenMap)
+  })
 
   return result
 }

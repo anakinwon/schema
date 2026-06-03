@@ -19,9 +19,10 @@ export async function GET(req: NextRequest, { params }: Params) {
 
   const { data, error } = await supabaseAdmin
     .from('brd_cmnt')
-    .select('cmnt_id, post_id, cmnt_cont, rgst_usr_id, rgst_usr_nm, acpt_yn, reg_dts, mod_dts')
+    .select('cmnt_id, post_id, cmnt_cont, rgst_usr_id, rgst_usr_nm, acpt_yn, reg_dtm, mod_dtm')
     .eq('post_id', id)
-    .order('reg_dts', { ascending: true })
+    .eq('del_yn', 'N')
+    .order('reg_dtm', { ascending: true })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
@@ -59,12 +60,13 @@ export async function POST(req: NextRequest, { params }: Params) {
     )
   }
 
-  // 게시글 존재 확인
+  // 게시글 존재 확인 (논리삭제된 게시글에는 댓글 작성 불가)
   const { data: post } = await supabaseAdmin
     .from('brd_post')
     .select('post_id')
     .eq('post_id', id)
     .eq('ctgr_cd', ctgrCd)
+    .eq('del_yn', 'N')
     .single()
 
   if (!post) {
@@ -102,7 +104,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       reg_usr_id:  auth.email,
       mod_usr_id:  auth.email,
     })
-    .select('cmnt_id, cmnt_cont, rgst_usr_nm, acpt_yn, reg_dts')
+    .select('cmnt_id, cmnt_cont, rgst_usr_nm, acpt_yn, reg_dtm')
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

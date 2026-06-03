@@ -14,7 +14,7 @@ export interface Post {
   vw_cnt: number
   pin_yn: 'Y' | 'N'
   answ_yn: 'Y' | 'N'
-  reg_dts: string
+  reg_dtm: string
   cmnt_cnt: number
 }
 
@@ -235,7 +235,7 @@ export default function BoardList({ category, canWrite = false }: Props) {
                   )}
                 </td>
                 <td className="px-4 py-2.5 text-gray-500 truncate">{post.rgst_usr_nm}</td>
-                <td className="px-4 py-2.5 text-gray-400 whitespace-nowrap">{formatDate(post.reg_dts)}</td>
+                <td className="px-4 py-2.5 text-gray-400 whitespace-nowrap">{formatDate(post.reg_dtm)}</td>
                 <td className="px-4 py-2.5 text-gray-400 text-right">{post.vw_cnt.toLocaleString()}</td>
                 <td className="px-4 py-2.5 text-right">
                   {post.cmnt_cnt > 0

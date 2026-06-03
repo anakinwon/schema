@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
   const { error } = await supabaseAdmin
     .from('brd_cmnt')
-    .delete()
+    .update({ del_yn: 'Y', del_dtm: new Date().toISOString() })
     .eq('cmnt_id', cmntId)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

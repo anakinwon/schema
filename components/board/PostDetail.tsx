@@ -24,8 +24,8 @@ export interface PostFull {
   vw_cnt: number
   pin_yn: 'Y' | 'N'
   answ_yn: 'Y' | 'N'
-  reg_dts: string
-  mod_dts: string
+  reg_dtm: string
+  mod_dtm: string
   is_owner: boolean
   attachments: Attachment[]
 }
@@ -181,8 +181,8 @@ export default function PostDetail({ category, postId }: Props) {
         </div>
         <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400 border-t border-gray-100 pt-3">
           <span>작성자: <span className="text-gray-600 font-medium">{post.rgst_usr_nm}</span></span>
-          <span>작성일: {formatDate(post.reg_dts)}</span>
-          {post.reg_dts !== post.mod_dts && <span>수정일: {formatDate(post.mod_dts)}</span>}
+          <span>작성일: {formatDate(post.reg_dtm)}</span>
+          {post.reg_dtm !== post.mod_dtm && <span>수정일: {formatDate(post.mod_dtm)}</span>}
           <span>조회: <span className="text-gray-600">{post.vw_cnt.toLocaleString()}</span></span>
         </div>
       </div>

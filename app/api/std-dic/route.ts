@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
     FROM STD_DIC d
     LEFT JOIN STD_DOM dm ON d.DOM_ID = dm.DOM_ID
     WHERE d.DIC_GBN_CD = ?
+      AND d.DEL_YN = 'N'
       AND (? = '' OR d.DIC_LOG_NM LIKE ? OR d.DIC_PHY_NM LIKE ?)
     ORDER BY d.DIC_PHY_NM
   `

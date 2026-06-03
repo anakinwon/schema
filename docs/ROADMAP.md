@@ -3,7 +3,7 @@
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
 > **기준일**: 2026-06-03 (최종 업데이트: 2026-06-03)
-> **현재 버전**: v4 전체 완료 (M11 E2E 77개 통과 · 보안 강화 v2 전체 완료) — 신규 작업 대기 중
+> **현재 버전**: v5.0 — 보안 취약점 100% 해소 · 논리삭제 전환 · 표준용어 통일(dts→dtm) 완료
 > **기술 스택**: Next.js 16.2.6 (App Router) · React 19.2 · TypeScript · Tailwind CSS v4 · SQLite(better-sqlite3) · Supabase PostgreSQL
 
 ---
@@ -251,7 +251,7 @@
 
 - **TASK-024: DB 스키마 + 기반 구조 + 빈 페이지 스캐폴딩** ✅ - 완료 (2026-06-01)
   - ✅ STD_DOM 5종 + STD_DIC 17종 메타DB 등록 (DA 워크플로우 5단계 완료)
-  - ✅ Supabase 4테이블 마이그레이션 + mod_dts 트리거 + increment_vw_cnt RPC
+  - ✅ Supabase 4테이블 마이그레이션 + mod_dtm 트리거 + increment_vw_cnt RPC
   - ✅ 카테고리 시드 (NOTICE·ARCHIVE·FREE·QNA)
   - ✅ `lib/auth-guard.ts` — AuthResult에 user_id 추가
   - ✅ `lib/board.ts` 신규 — CATEGORY_NAME·BOARD_WRITE_ROLES·canWrite·isOwnerOrAdmin
@@ -410,10 +410,10 @@
 ### Phase 2 (v4): 국가 DB + 번역 관리 ⏳ (구현 대기, M10)
 
 > **목표**: 187개국 데이터 DB화 · 국가 선택 콤보박스 · 번역 관리 화면  
-> **DA 표준**: `i18n_*` 4개 테이블 모두 v2 시스템 컬럼 (`regr_id→reg_dts→modr_id→mod_dts`)
+> **DA 표준**: `i18n_*` 4개 테이블 모두 v2 시스템 컬럼 (`regr_id→reg_dtm→modr_id→mod_dtm`)
 
 - **TASK-036: Supabase i18n DB 마이그레이션** ✅ - 완료 (2026-06-02)
-  - ✅ **DA 표준 v2** 시스템 컬럼 `regr_id→reg_dts→modr_id→mod_dts` 4개 테이블 전부 적용
+  - ✅ **DA 표준 v2** 시스템 컬럼 `regr_id→reg_dtm→modr_id→mod_dtm` 4개 테이블 전부 적용
   - ✅ `create_i18n_tables` — 4개 테이블 + 트리거 6개 + 인덱스 4개 (단일 마이그레이션)
     - `i18n_lang_mst`: PK(lang_cd), CHECK(use_yn·dir_cd)
     - `i18n_ns_mst`: PK(ns_cd)
@@ -600,9 +600,48 @@
   - ✅ `app/api/i18n/translate/route.ts` — `isTranslating` 뮤텍스 + `try-finally` 보장
   - ✅ `revalidateTag` 빈 catch → 로깅 추가 (SEC-023 동시 해결)
 
+- **TASK-058: 보안 취약점 점검 결과 완료 + 잔여 항목 전부 해소** ✅ - 완료 (2026-06-03)
+  - ✅ **SEC-020**: `package.json` `overrides: { "postcss": ">=8.5.10" }` — `npm audit 0 vulnerabilities` 달성
+  - ✅ **SEC-021**: 번역 SDK 교체 — `@vitalets/google-translate-api`(비공식) → `@google-cloud/translate`(공식) 전환. 배열 기반 배치 번역으로 코드 단순화
+  - ✅ **SEC-024**: 관리자 인증 단일화 — `isAdminSession()` 단독 사용 4개 API(`admin/profiles`, `sync`, `approval`, `approval/[id]`) → `requireAuth(req, ['ADMIN'])` 통합. `decided_by: 'ADMIN'` 하드코딩 → `auth.email` 동적화
+  - ✅ **보안 취약점 점검 결과 보고서** 작성 완료: `docs/security_checklist_result.md` (25개 항목 조치율 100%)
+
 ---
 
-## 향후 계획 (Out of Scope — v5+)
+## 🏗️ v5 개발 계획
+
+### Phase 1 (v5): 데이터 품질 강화 ✅ (완료: 2026-06-03, M13)
+
+> **목표**: 물리삭제 → 논리삭제 전환 · 물리DB 설계 가이드 규칙 추가 · 표준용어 일시 접미사 통일
+
+- **TASK-059: 물리삭제 → 논리삭제 전환** ✅ - 완료 (2026-06-03)
+  - ✅ **Supabase 마이그레이션** — `brd_post·brd_cmnt·brd_attch` 3개 테이블에 `del_yn varchar(1) NOT NULL DEFAULT 'N'` + `del_dtm timestamptz NULL` 추가. CHECK 제약 + 부분 인덱스 (`WHERE del_yn='N'`) 등록
+  - ✅ **SQLite 마이그레이션** — `lib/db.ts` `runLogicalDeleteMigration()` 신규. `STD_DIC·STD_DOM` 2개 테이블에 `DEL_YN·DEL_DTM` 컬럼 추가 (앱 기동 시 자동 적용)
+  - ✅ **DELETE → UPDATE 교체** — 6개 API 파일: `posts/[id]`, `comments/[cmntId]`, `attachments/[attId]`(DB 논리삭제·Storage 물리삭제 유지), `std-dic/[id]`, `std-dom/[id]`, `approval/[id]`(`apv_status='CANCELLED'` 상태 전환 + PENDING 사전 검증)
+  - ✅ **SELECT 필터** — 9개 파일 전수에 `del_yn='N'` / `DEL_YN='N'` 필터 추가
+  - ✅ **DDL 문서** — `docs/da-plan/ddl/06_logical_delete_migration.sql` 마이그레이션 명세 작성
+  - ✅ `tsc --noEmit` 타입 오류 0건 확인
+
+- **TASK-060: 물리DB 설계 가이드 업데이트 (체크리스트 E 신설)** ✅ - 완료 (2026-06-03)
+  - ✅ `docs/da-plan/notices/물리DB구축_표준준수_전파.md` 4곳 수정
+    - **체크리스트 B** — `del_yn DEFAULT 'N'` 전용 예외 명시 및 근거 추가
+    - **체크리스트 E 신설** — 논리삭제 컬럼 DDL·위치·DELETE 금지·UPDATE 패턴·SELECT 필터 의무·적용/제외 범위 기술
+    - **【추록】 DDL 패턴** — `del_yn·del_dtm` 컬럼 위치(시스템컬럼 바로 위) + 부분 인덱스 반영
+    - **【추록2】 신설** — 논리삭제 설계 규칙 전파 공문 (발신·기적용 현황 5건·물리삭제 유지 4건·신규 설계 체크포인트)
+
+- **TASK-061: 표준용어 일시 접미사 통일 (dts → dtm)** ✅ - 완료 (2026-06-03)
+  - ✅ **배경** — `reg_dts/mod_dts`(구형) vs `reg_dtm/mod_dtm`(신형) 혼용 불일치 해소. `del_dtm` 기준으로 `dtm`으로 통일
+  - ✅ **Supabase DB** — `ALTER TABLE RENAME COLUMN` 8개 테이블 16컬럼 일괄 변경 (`brd_post·brd_cmnt·brd_attch·brd_ctgr·i18n_cntry_mst·i18n_lang_mst·i18n_msg·i18n_ns_mst`)
+  - ✅ **트리거** — `fn_update_mod_dts()` 함수 바디 `NEW.mod_dtm`으로 재정의. 8개 트리거 이름 `RENAME TO trg_xxx_mod_dtm`
+  - ✅ **API 코드** — 4개 파일 `reg_dts/mod_dts` → `reg_dtm/mod_dtm` 일괄 치환
+  - ✅ **TypeScript** — 4개 컴포넌트 인터페이스 필드명 교체
+  - ✅ **표준 메타** — `lib/db.ts` 기동 시 `STD_DIC '일시' 약어 DTS → DTM` UPDATE. `01_meta_standard_insert.sql` 수정
+  - ✅ **문서** — `02_create_tables_postgresql.sql·06_logical_delete_migration.sql·물리DB구축_표준준수_전파.md·ROADMAP.md·PRD_MUL_LAN.md·erd-shopping.md·fill_domain_phyname.py·fix_register_mall_terms.py·create_excel.py` 9개 파일 전수 교체
+  - ✅ `tsc --noEmit` 타입 오류 0건 · `grep reg_dts` 잔존 파일 0건 확인
+
+---
+
+## 향후 계획 (Out of Scope — v6+)
 
 - 외부 ERD 도구 연동 (DBeaver, DataGrip)
 - 모바일 반응형 완전 최적화
@@ -631,6 +670,8 @@
 | M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-06-02 | 187개국 DB·콤보박스·번역관리·AI번역·국기SVG (TASK-036~041) | ✅ 완료 |
 | M11: 다국어 마무리 | Phase 3 (v4) | 2026-06-03 | 번역 100% 완성·환율 연동·E2E 77개 전체 통과 (TASK-042~044) | ✅ 완료 |
 | M12: UI표준화·Audit고도화·승인완성 | Phase 4 (v4) | 2026-06-02 | UI Alert 표준화·TIMESTAMPTZ·GroupTab·Audit 고도화·승인 워크플로우 완성 (TASK-045~049) | ✅ 완료 |
+| M-S: 보안 강화 v2 전체 완료 | 보안 강화 v2 | 2026-06-03 | 25개 보안 항목 조치율 100% (TASK-050~058) · `docs/security_checklist_result.md` 공식 제출 보고서 | ✅ 완료 |
+| M13: 데이터 아키텍처 고도화 | Phase 1 (v5) | 2026-06-03 | 논리삭제 전환(5테이블) · 설계가이드 체크리스트 E · 표준용어 dts→dtm 통일(8테이블) (TASK-059~061) | ✅ 완료 |
 
 ---
 
@@ -641,7 +682,7 @@
 | 등록 표준단어 수 | 53건 (+17 게시판용) | 100건 | STD_DIC 레코드 수 |
 | 등록 표준도메인 수 | 17건 (+5 게시판용) | 30건 | STD_DOM 레코드 수 |
 | 등록 표준용어 수 | 0건 (DA_TERM 비어있음) | 200건 | DA_TERM 레코드 수 |
-| 보안 취약점 (Critical/High) | ✅ 0건 (M-S1·M-S2 완료) | 0건 유지 | `docs/PRD_SECURITY.md` 체크리스트 |
+| 보안 취약점 (전체 25개) | ✅ 조치율 100% (M-S 전체 완료) | 0건 유지 | `docs/security_checklist_result.md` 공식 보고서 |
 | Playwright 테스트 | **i18n 77건 전체 통과** (Chromium) | 전 브라우저 통과 | `npx playwright test` |
 | 게시판 API 라우트 | 11개 | — | app/api/board 라우트 수 |
 | 지원 언어 수 | **14개** (11+de·sq·ps 추가) | 11개 | i18n_lang_mst use_yn='Y' 수 ✅ |
@@ -684,3 +725,7 @@
 | v4.9 | 2026-06-03 | 보안 강화 v2 전체 완료 — SEC-004(RLS교체)·SEC-009(검색어100자)·SEC-015(Open Redirect강화)·SEC-020(npm audit통과)·SEC-022/023 해소, npm audit high/critical 0건 | anakin |
 | v5.0 | 2026-06-03 | M11 완료 — TASK-044 다국어 E2E 77개 전체 통과, ADMIN_SECRET_KEY proxy 버그픽스, groupTab.colUsername 번역 누락 17개 언어 보정(JSON+DB), playwright.config.ts timeout 60s로 증가 | anakin |
 | v5.1 | 2026-06-03 | 핫픽스 6건 — groupTab.role.master 번역 누락(17개), state.noTerms 누락(17개), domain.detailTitle 누락(17개), field.logicalNameKey 누락(17개), React key=null 중복(GroupTab), requireAnyAuth 도입·Promise.all 병렬화(성능 개선) | anakin |
+| v5.2 | 2026-06-03 | TASK-058 — 보안 취약점 25개 항목 100% 완료. SEC-020(npm overrides 0 vulnerabilities)·SEC-021(공식 번역 SDK 전환)·SEC-024(requireAuth 단일화). `docs/security_checklist_result.md` 공식 제출 보고서 | anakin |
+| v5.3 | 2026-06-03 | TASK-059 — 물리삭제→논리삭제 전환 완료. `brd_post·brd_cmnt·brd_attch·STD_DIC·STD_DOM` 5개 테이블 `del_yn/del_dtm` 추가. Supabase 마이그레이션·SQLite 마이그레이션·API 6개 DELETE→UPDATE·SELECT 9개 필터 추가 | anakin |
+| v5.4 | 2026-06-03 | TASK-060 — 물리DB 설계가이드 체크리스트 E 신설. `물리DB구축_표준준수_전파.md` 논리삭제 컬럼 규칙·DDL 패턴·추록2 공문 추가. 향후 신규 테이블 설계 표준 확립 | anakin |
+| v5.5 | 2026-06-03 | TASK-061 — 표준용어 일시 접미사 `dts→dtm` 통일. Supabase 8테이블 16컬럼 RENAME + 트리거 재정의 + 트리거 이름 변경. API 4파일·컴포넌트 4파일·문서 9파일 전수 교체. `tsc --noEmit` 오류 0건·잔존 파일 0건 | anakin |

@@ -187,7 +187,7 @@ board.newPost            | 글쓰기     | ❌미번역 | ···  | ···
 | 폰트 로딩 | locale별 단일 Noto 서브셋, `display:swap` — LCP 영향 최소화 |
 | URL 호환성 | 기존 `/notice`, `/login`, `/admin` URL 무중단 유지 (ko prefix 생략) |
 | 국가 목록 로딩 | 콤보박스 오픈 시 500ms 이내 (캐싱 필수) |
-| DA 표준 준수 | 신규 테이블 전부 v2 (`regr_id→reg_dts→modr_id→mod_dts`) |
+| DA 표준 준수 | 신규 테이블 전부 v2 (`regr_id→reg_dtm→modr_id→mod_dtm`) |
 
 ---
 
@@ -207,7 +207,7 @@ board.newPost            | 글쓰기     | ❌미번역 | ···  | ···
 ## 7. 데이터 모델 (DA 표준 v2 준수)
 
 > **기준**: 물리DB 구축 표준준수 전파 (2026-05-30 총괄DA 승인)  
-> 시스템 컬럼 순서 `regr_id → reg_dts → modr_id → mod_dts`, 전부 NOT NULL, 맨 마지막 위치
+> 시스템 컬럼 순서 `regr_id → reg_dtm → modr_id → mod_dtm`, 전부 NOT NULL, 맨 마지막 위치
 
 ### ERD
 
@@ -238,9 +238,9 @@ i18n_cntry_mst ─── CountrySelector ────┘
 | `locale_cd` | varchar(10) | NULL | 매핑 locale (ko, en, …, NULL=fallback en) |
 | `use_yn` | varchar(1) | NOT NULL DEFAULT 'Y' | 사용여부 |
 | `regr_id` | varchar(20) | NOT NULL DEFAULT 'ADMIN' | 등록자ID |
-| `reg_dts` | timestamptz | NOT NULL DEFAULT CURRENT_TIMESTAMP | 등록일시 |
+| `reg_dtm` | timestamptz | NOT NULL DEFAULT CURRENT_TIMESTAMP | 등록일시 |
 | `modr_id` | varchar(20) | NOT NULL DEFAULT 'ADMIN' | 변경자ID |
-| `mod_dts` | timestamptz | NOT NULL DEFAULT CURRENT_TIMESTAMP | 변경일시 |
+| `mod_dtm` | timestamptz | NOT NULL DEFAULT CURRENT_TIMESTAMP | 변경일시 |
 
 ```sql
 CREATE TABLE i18n_cntry_mst (
@@ -254,9 +254,9 @@ CREATE TABLE i18n_cntry_mst (
     locale_cd         character varying(10)   NULL,
     use_yn            character varying(1)    NOT NULL DEFAULT 'Y',
     regr_id           character varying(20)   NOT NULL DEFAULT 'ADMIN',
-    reg_dts           timestamptz               NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_dtm           timestamptz               NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modr_id           character varying(20)   NOT NULL DEFAULT 'ADMIN',
-    mod_dts           timestamptz               NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    mod_dtm           timestamptz               NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_i18n_cntry_mst    PRIMARY KEY (country_cd),
     CONSTRAINT ck_i18n_cntry_use_yn CHECK (use_yn IN ('Y', 'N')),
     CONSTRAINT fk_i18n_cntry_locale FOREIGN KEY (locale_cd)
@@ -266,9 +266,9 @@ CREATE TABLE i18n_cntry_mst (
 CREATE INDEX idx_i18n_cntry_seq    ON i18n_cntry_mst (dis_ord_seq);
 CREATE INDEX idx_i18n_cntry_locale ON i18n_cntry_mst (locale_cd);
 
-CREATE TRIGGER trg_i18n_cntry_mst_mod_dts
+CREATE TRIGGER trg_i18n_cntry_mst_mod_dtm
     BEFORE UPDATE ON i18n_cntry_mst
-    FOR EACH ROW EXECUTE FUNCTION fn_update_mod_dts();
+    FOR EACH ROW EXECUTE FUNCTION fn_update_mod_dtm();
 ```
 
 ---
@@ -285,7 +285,7 @@ CREATE TRIGGER trg_i18n_cntry_mst_mod_dts
 | `dir_cd` | varchar(3) | NOT NULL DEFAULT 'ltr' | 텍스트 방향 |
 | `sort_ord` | integer | NOT NULL DEFAULT 0 | 정렬순서 |
 | `use_yn` | varchar(1) | NOT NULL DEFAULT 'Y' | 사용여부 |
-| 시스템 컬럼 v2 | — | — | `regr_id → reg_dts → modr_id → mod_dts` |
+| 시스템 컬럼 v2 | — | — | `regr_id → reg_dtm → modr_id → mod_dtm` |
 
 **초기 데이터 (11개)**:
 

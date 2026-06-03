@@ -17,14 +17,46 @@ export function getDb(): Database.Database {
     try {
       runCodeMigration(_db)
     } catch (e) {
-      // 마이그레이션 실패가 전체 DB 접근을 막지 않도록 격리
       console.error('[SysCode Migration] 실패:', e)
+    }
+    try {
+      runLogicalDeleteMigration(_db)
+    } catch (e) {
+      console.error('[LogicalDelete Migration] 실패:', e)
     }
   }
   return _db
 }
 
 export const STD_AREA = '{837B8059-C2C4-46DC-97DD-C64661CA447B}'
+
+// ──────────────────────────────────────────────────────────
+// 논리삭제 컬럼 마이그레이션
+// 대상: STD_DIC, STD_DOM
+// 논리위치: 시스템컬럼(REGR_ID / REG_DTM / MODR_ID / MOD_DTM) 바로 위
+// ──────────────────────────────────────────────────────────
+function runLogicalDeleteMigration(db: Database.Database) {
+  const hasCol = (tbl: string, col: string): boolean =>
+    (db.prepare(`PRAGMA table_info(${tbl})`).all() as { name: string }[])
+      .some(c => c.name === col)
+
+  // STD_DIC
+  if (!hasCol('STD_DIC', 'DEL_YN'))
+    db.exec("ALTER TABLE STD_DIC ADD COLUMN DEL_YN TEXT NOT NULL DEFAULT 'N'")
+  if (!hasCol('STD_DIC', 'DEL_DTM'))
+    db.exec('ALTER TABLE STD_DIC ADD COLUMN DEL_DTM TEXT NULL')
+
+  // STD_DOM
+  if (!hasCol('STD_DOM', 'DEL_YN'))
+    db.exec("ALTER TABLE STD_DOM ADD COLUMN DEL_YN TEXT NOT NULL DEFAULT 'N'")
+  if (!hasCol('STD_DOM', 'DEL_DTM'))
+    db.exec('ALTER TABLE STD_DOM ADD COLUMN DEL_DTM TEXT NULL')
+
+  // 표준단어 "일시" 약어 DTS → DTM (표준용어 통일)
+  db.prepare(
+    "UPDATE STD_DIC SET DIC_PHY_NM='DTM', DIC_PHY_FLL_NM='Datetime' WHERE DIC_LOG_NM='일시' AND DIC_PHY_NM='DTS'"
+  ).run()
+}
 
 // ──────────────────────────────────────────────────────────
 // 시스템 공통코드 관리 테이블 마이그레이션
