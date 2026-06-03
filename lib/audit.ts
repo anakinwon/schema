@@ -4,8 +4,9 @@ import { type NextRequest } from 'next/server'
 import { isAdminSession } from './admin-auth'
 import { supabase } from './supabase'
 
-export type EntityType  = 'STD_DIC' | 'STD_DOM' | 'APPROVAL' | 'SYS_CODE_GRP' | 'SYS_CODE_VAL'
-export type ActionType  = 'INSERT'  | 'UPDATE' | 'DELETE'
+export type EntityType   = 'STD_DIC' | 'STD_DOM' | 'APPROVAL' | 'SYS_CODE_GRP' | 'SYS_CODE_VAL' | 'SECURITY'
+export type ActionType   = 'INSERT'  | 'UPDATE' | 'DELETE'
+export type SecurityEvent = 'LOGIN_FAILURE' | 'ADMIN_LOGIN' | 'ROLE_CHANGE' | 'UNAUTHORIZED_ACCESS'
 
 let tableReady = false
 
@@ -48,6 +49,30 @@ export function writeAudit({
     before ? JSON.stringify(before) : null,
     after  ? JSON.stringify(after)  : null,
     changedBy,
+  )
+}
+
+/** 보안 이벤트 감사 로그 기록 (로그인 실패·역할 변경·권한 위반 등) */
+export function writeSecurityAudit(event: {
+  eventType: SecurityEvent
+  actor:     string
+  target?:   string
+  detail?:   string
+  ip?:       string
+}) {
+  ensureTable()
+  getDb().prepare(`
+    INSERT INTO STD_AUDIT_LOG
+      (LOG_ID, ENTITY_TYPE, ENTITY_ID, ENTITY_NM, ACTION_TYPE, BEFORE_DATA, AFTER_DATA, CHANGED_BY, CHANGED_AT)
+    VALUES (?, 'SECURITY', ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
+  `).run(
+    randomUUID(),
+    event.eventType,
+    event.target ?? '',
+    event.eventType,
+    event.ip    ? JSON.stringify({ ip: event.ip })         : null,
+    event.detail ? JSON.stringify({ detail: event.detail }) : null,
+    event.actor,
   )
 }
 

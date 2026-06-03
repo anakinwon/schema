@@ -97,9 +97,12 @@
     "de": "جرمني",
     "en": "انګلیسي",
     "en-ZA": "انګلیسي (سویلي افریقا)",
+    "es": "هسپانوي",
     "fil": "فیلیپیني",
+    "fr": "فرانسوي",
     "hi": "هندي",
     "id": "اندونیزیایي",
+    "it": "ایټالوي",
     "ja": "جاپاني",
     "ko": "کوریایي",
     "label": "ژبه",
@@ -125,10 +128,14 @@
       "delete": "ړنګول",
       "edit": "سمون",
       "editSave": "خوندي کول",
+      "history": "د بدلون تاریخچه",
+      "query": "لټون",
       "register": "ثبت",
       "reset": "بیا تنظیمول",
       "save": "خوندي کول",
-      "search": "لټون"
+      "search": "لټون",
+      "ddlExport": "DDL صادرول",
+      "new": "نوی"
     },
     "appName": "د معیاري معلوماتو مدیریت پروګرام",
     "appSub": "د معیاري معلوماتو مدیریت · د شاپینګ مال",
@@ -149,7 +156,8 @@
     },
     "boardLink": "د خبرتیا بورډ",
     "domain": {
-      "physicalTypeDesc": "Description (Physical Type)"
+      "physicalTypeDesc": "Physical Type Description",
+      "detailTitle": "د ډومین توضیحات"
     },
     "field": {
       "attrClass": "صفت (طبقه کونکی)",
@@ -177,10 +185,12 @@
       "physicalName": "فزیکي نوم",
       "physicalTermName": "د فزیک اصطلاح نوم",
       "physicalType": "فزیکي ډول",
+      "physicalTypeDesc": "فزیکي ډول (تشریح)",
       "range": "حد",
       "repDomain": "د نمایندګۍ ډومین",
       "repDomainPhysical": "استازی ډومین (فزیک)",
-      "scale": "لسیزه"
+      "scale": "لسیزه",
+      "logicalNameKey": "منطقي نوم (کلیدي)"
     },
     "groupTab": {
       "add": "اضافه کول",
@@ -195,6 +205,7 @@
       "colRemove": "لرې کول",
       "colSubPerm": "د فرعي مدیر اجازه",
       "colUserId": "د کارن ID",
+      "colUsername": "Username",
       "confirmDelete": "ایا تاسو ډاډه یاست چې تاسو د {grp} ګروپ حذف کول غواړئ؟",
       "confirmRemove": "ایا تاسو ډاډه یاست چې تاسو غواړئ غړی لرې کړئ؟",
       "createGroup": "+ ډله جوړه کړئ",
@@ -233,6 +244,7 @@
       "moveRole": {
         "admin": "ستر مدیر (اډمین)",
         "manager": "مدیر",
+        "master": "ماسټر (master)",
         "sub_admin": "فرعي مدیر (فرعي_اډمین)",
         "user": "کارن"
       },
@@ -244,6 +256,7 @@
       "remove": "لرې کول",
       "role": {
         "admin": "سوپر مدیر",
+        "master": "ماسټر",
         "manager": "مدیر",
         "sub_admin": "معاون مدیر",
         "user": "کارن"
@@ -262,6 +275,11 @@
       "systemGroupLabel": "سیسټم ګروپ",
       "totalMembers": "ټول {n} خلک"
     },
+    "placeholder": {
+      "domain": "د ډومین نوم لټول",
+      "term": "د منطقي/فزیکي اصطلاح نوم لټول",
+      "word": "د منطقي/فزیکي نوم لټول"
+    },
     "role": {
       "dataAdmin": "د معلوماتو مدیر",
       "stdAdmin": "معیاري مدیر",
@@ -269,10 +287,22 @@
       "sysAdmin": "د سیسټم مدیر",
       "user": "عمومي کارونکي"
     },
+    "roleByCode": {
+      "ADMIN": "سیستم ادمین",
+      "MANAGER": "مدیر",
+      "MASTER": "ماسټر",
+      "SUBMANAGER": "فرعي مدیر",
+      "USER": "کارونکی"
+    },
+    "searchLabel": "لټون",
     "state": {
       "linked": "تړلی",
       "saveFail": "خوندي کول ناکام شول",
+      "noTerms": "هیڅ اصطلاح ثبت شوی نه دی",
       "select": "مهرباني وکړئ یو توکي وټاکئ",
+      "totalDomains": "ټول {n}",
+      "totalTerms": "ټول {n}",
+      "totalWords": "ټول {n}",
       "unused": "(نه کارول شوی)"
     },
     "tab": {
@@ -323,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

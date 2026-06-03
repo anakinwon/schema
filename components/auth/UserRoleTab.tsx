@@ -139,7 +139,7 @@ export default function UserRoleTab() {
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs transition-colors hover:opacity-80 ${rg.badge}`}>
             <span className={`w-2 h-2 rounded-full shrink-0 ${rg.dot}`} />
             <span className="font-semibold">{t(`userRole.${rg.role}.label` as any)}</span>
-            <span className="font-bold text-sm">{t('userRole.countBadge' as any, { n: countByRole(rg.role) })}</span>
+            <span className="font-bold text-sm">{(t as any)('userRole.countBadge', { n: countByRole(rg.role) })}</span>
             {rg.hasLimit && <span className="text-[10px] opacity-60">{t(`userRole.${rg.role}.limit` as any)}</span>}
           </button>
         ))}
@@ -183,7 +183,7 @@ export default function UserRoleTab() {
                 <div className="flex items-center gap-2 flex-1">
                   <span className="text-xs font-bold text-gray-700">{t(`userRole.${rg.role}.label` as any)}</span>
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${rg.badge}`}>
-                    {t('userRole.countBadge' as any, { n: totalInGroup })}
+                    {(t as any)('userRole.countBadge', { n: totalInGroup })}
                   </span>
                   <span className="text-[10px] text-gray-400">{t(`userRole.${rg.role}.desc` as any)}</span>
                   {rg.hasLimit && <span className="text-[10px] text-gray-400">{t(`userRole.${rg.role}.limit` as any)}</span>}
@@ -263,8 +263,8 @@ export default function UserRoleTab() {
 
       {/* ── 하단 요약 ── */}
       <div className="px-4 py-2 bg-gray-100 border-t text-xs text-gray-500 flex items-center gap-3 shrink-0">
-        <span>{t('userRole.totalCount' as any, { n: profiles.length })}</span>
-        {q && <span>{t('userRole.searchCount' as any, { n: filtered.length })}</span>}
+        <span>{(t as any)('userRole.totalCount', { n: profiles.length })}</span>
+        {q && <span>{(t as any)('userRole.searchCount', { n: filtered.length })}</span>}
         <span className="ml-auto text-[10px] text-gray-400">Supabase · profiles 테이블</span>
       </div>
     </div>

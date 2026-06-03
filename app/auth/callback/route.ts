@@ -3,11 +3,16 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { NextRequest, NextResponse } from 'next/server'
 
 // next 파라미터를 동일 오리진 상대경로로만 허용 (Open Redirect 방지)
+// URL 인코딩 우회(%2F%2Fevil.com 등) 방어를 위해 디코딩 후 재검증
 function sanitizeNext(next: string | null): string {
   if (!next) return '/'
-  // 반드시 '/'로 시작하고, '//'나 '/\' (프로토콜 상대 URL)이 아니어야 함
-  if (next.startsWith('/') && !next.startsWith('//') && !next.startsWith('/\\')) {
-    return next
+  try {
+    const decoded = decodeURIComponent(next)
+    if (decoded.startsWith('/') && !decoded.startsWith('//') && !decoded.startsWith('/\\')) {
+      return decoded
+    }
+  } catch {
+    // 디코딩 실패 시 기본값 반환
   }
   return '/'
 }

@@ -97,9 +97,12 @@
     "de": "Tiếng Đức",
     "en": "Tiếng Anh",
     "en-ZA": "Tiếng Anh (Nam Phi)",
+    "es": "Tiếng Tây Ban Nha",
     "fil": "Tiếng Philippines",
+    "fr": "Tiếng Pháp",
     "hi": "Tiếng Hindi",
     "id": "Tiếng Indonesia",
+    "it": "Tiếng Ý",
     "ja": "Tiếng Nhật",
     "ko": "Tiếng Hàn",
     "label": "Ngôn ngữ",
@@ -125,10 +128,14 @@
       "delete": "Xóa",
       "edit": "Chỉnh sửa",
       "editSave": "chỉnh sửa lưu",
+      "history": "Lịch sử thay đổi",
+      "query": "Tìm kiếm",
       "register": "đăng ký",
       "reset": "đặt lại",
       "save": "lưu lại",
-      "search": "tìm kiếm"
+      "search": "tìm kiếm",
+      "ddlExport": "Xuất DDL",
+      "new": "Mới"
     },
     "appName": "Chương trình quản lý dữ liệu tiêu chuẩn",
     "appSub": "Quản lý dữ liệu tiêu chuẩn DA · Trung tâm mua sắm",
@@ -148,6 +155,10 @@
       "users": "User Role Management"
     },
     "boardLink": "bảng thông báo",
+    "domain": {
+      "physicalTypeDesc": "Mô tả loại vật lý",
+      "detailTitle": "Chi tiết miền"
+    },
     "field": {
       "attrClass": "Thuộc tính (phân loại)",
       "category": "Phân loại",
@@ -174,10 +185,12 @@
       "physicalName": "tên vật lý",
       "physicalTermName": "Tên thuật ngữ vật lý",
       "physicalType": "Loại vật lý",
+      "physicalTypeDesc": "Loại vật lý (Mô tả)",
       "range": "phạm vi",
       "repDomain": "Miền đại diện",
       "repDomainPhysical": "Miền đại diện (vật lý)",
-      "scale": "số thập phân"
+      "scale": "số thập phân",
+      "logicalNameKey": "Tên logic (khóa)"
     },
     "groupTab": {
       "add": "추가",
@@ -192,6 +205,7 @@
       "colRemove": "제거",
       "colSubPerm": "SubManager 권한",
       "colUserId": "User ID",
+      "colUsername": "Username",
       "confirmDelete": "그룹 {grp}를 삭제하시겠습니까?",
       "confirmRemove": "구성원을 제거하시겠습니까?",
       "createGroup": "+ 그룹 생성",
@@ -230,6 +244,7 @@
       "moveRole": {
         "admin": "수퍼관리자 (admin)",
         "manager": "매니저 (manager)",
+        "master": "Master (master)",
         "sub_admin": "부매니저 (sub_admin)",
         "user": "사용자 (user)"
       },
@@ -241,6 +256,7 @@
       "remove": "제거",
       "role": {
         "admin": "수퍼관리자",
+        "master": "Master",
         "manager": "매니저",
         "sub_admin": "부매니저",
         "user": "사용자"
@@ -259,6 +275,11 @@
       "systemGroupLabel": "시스템 그룹",
       "totalMembers": "총 {n}명"
     },
+    "placeholder": {
+      "domain": "Tìm kiếm tên miền",
+      "term": "Tìm kiếm tên thuật ngữ logic/vật lý",
+      "word": "Tìm kiếm tên logic/vật lý"
+    },
     "role": {
       "dataAdmin": "quản lý dữ liệu",
       "stdAdmin": "quản lý tiêu chuẩn",
@@ -266,10 +287,22 @@
       "sysAdmin": "quản trị viên hệ thống",
       "user": "Người dùng chung"
     },
+    "roleByCode": {
+      "ADMIN": "Quản trị hệ thống",
+      "MANAGER": "Quản lý",
+      "MASTER": "Master",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "Người dùng"
+    },
+    "searchLabel": "Tìm kiếm",
     "state": {
       "linked": "đã kết nối",
       "saveFail": "lưu không thành công",
+      "noTerms": "Không có thuật ngữ nào được đăng ký",
       "select": "Vui lòng chọn một mục",
+      "totalDomains": "Tổng {n}",
+      "totalTerms": "Tổng {n}",
+      "totalWords": "Tổng {n}",
       "unused": "(không sử dụng)"
     },
     "tab": {
@@ -320,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

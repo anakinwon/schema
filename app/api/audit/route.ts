@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   const entity = sp.get('entity')
   const id     = sp.get('id')
   const action = sp.get('action')
-  const q      = sp.get('q')?.trim()
+  const q      = sp.get('q')?.trim().slice(0, 100)
   const from   = sp.get('from')   // YYYY-MM-DD
   const to     = sp.get('to')     // YYYY-MM-DD
   const limit  = Math.min(parseInt(sp.get('limit')  ?? '50', 10), 200)

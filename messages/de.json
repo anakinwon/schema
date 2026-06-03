@@ -97,9 +97,12 @@
     "de": "Deutsch",
     "en": "Englisch",
     "en-ZA": "Englisch (Südafrika)",
+    "es": "Spanisch",
     "fil": "Filipino",
+    "fr": "Französisch",
     "hi": "Hindi",
     "id": "Indonesisch",
+    "it": "Italienisch",
     "ja": "Japanisch",
     "ko": "Koreanisch",
     "label": "Sprache",
@@ -125,10 +128,14 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "editSave": "Bearbeiten Speichern",
+      "history": "Änderungsverlauf",
+      "query": "Suchen",
       "register": "Registrierung",
       "reset": "zurückgesetzt",
       "save": "speichern",
-      "search": "suchen"
+      "search": "suchen",
+      "ddlExport": "DDL exportieren",
+      "new": "Neu"
     },
     "appName": "Standard-Datenverwaltungsprogramm",
     "appSub": "DA-Standarddatenmanagement · Einkaufszentrum",
@@ -149,7 +156,8 @@
     },
     "boardLink": "Schwarzes Brett",
     "domain": {
-      "physicalTypeDesc": "Description (Physical Type)"
+      "physicalTypeDesc": "Physical Type Description",
+      "detailTitle": "Domain-Detail"
     },
     "field": {
       "attrClass": "Attribut (Klassifikator)",
@@ -177,10 +185,12 @@
       "physicalName": "physischer Name",
       "physicalTermName": "Name des Fachbegriffs Physik",
       "physicalType": "Körperlicher Typ",
+      "physicalTypeDesc": "Physischer Typ (Beschr.)",
       "range": "Bereich",
       "repDomain": "Repräsentative Domäne",
       "repDomainPhysical": "Repräsentativer Bereich (Physik)",
-      "scale": "dezimal"
+      "scale": "dezimal",
+      "logicalNameKey": "Logischer Name (Schlüssel)"
     },
     "groupTab": {
       "add": "hinzufügen",
@@ -195,6 +205,7 @@
       "colRemove": "entfernen",
       "colSubPerm": "Submanager-Berechtigungen",
       "colUserId": "Benutzer-ID",
+      "colUsername": "Username",
       "confirmDelete": "Sind Sie sicher, dass Sie die Gruppe {grp} löschen möchten?",
       "confirmRemove": "Möchten Sie das Mitglied wirklich entfernen?",
       "createGroup": "+ Gruppe erstellen",
@@ -233,6 +244,7 @@
       "moveRole": {
         "admin": "Superadministrator (admin)",
         "manager": "Manager",
+        "master": "Master (master)",
         "sub_admin": "Untermanager (sub_admin)",
         "user": "Benutzer"
       },
@@ -244,6 +256,7 @@
       "remove": "entfernen",
       "role": {
         "admin": "Superadministrator",
+        "master": "Master",
         "manager": "Manager",
         "sub_admin": "stellvertretender Geschäftsführer",
         "user": "Benutzer"
@@ -262,6 +275,11 @@
       "systemGroupLabel": "Systemgruppe",
       "totalMembers": "Insgesamt {n} Personen"
     },
+    "placeholder": {
+      "domain": "Domainnamen suchen",
+      "term": "Logischen/physischen Termin suchen",
+      "word": "Logischen/physischen Namen suchen"
+    },
     "role": {
       "dataAdmin": "Datenmanager",
       "stdAdmin": "Standardmanager",
@@ -269,10 +287,22 @@
       "sysAdmin": "Systemadministrator",
       "user": "Allgemeiner Benutzer"
     },
+    "roleByCode": {
+      "ADMIN": "Systemadmin",
+      "MANAGER": "Manager",
+      "MASTER": "Master",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "Benutzer"
+    },
+    "searchLabel": "Suchen",
     "state": {
       "linked": "verbunden",
       "saveFail": "Speichern fehlgeschlagen",
+      "noTerms": "Keine Begriffe registriert",
       "select": "Bitte wählen Sie einen Artikel aus",
+      "totalDomains": "{n} gesamt",
+      "totalTerms": "{n} gesamt",
+      "totalWords": "{n} gesamt",
       "unused": "(unbenutzt)"
     },
     "tab": {
@@ -323,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { createBrowserClient } from '@supabase/ssr'
-import AttachmentUploader, { UploadedFile } from './AttachmentUploader'
+import AttachmentUploader, { UploadedFile, ServerAttachment } from './AttachmentUploader'
+import { CustomAlert } from '@/components/custom-alert'
 
 interface Props {
   category: string
@@ -24,6 +25,10 @@ export default function PostForm({ category, postId }: Props) {
   const [submitting, setSubmitting]   = useState(false)
   const [loadingInit, setLoadingInit] = useState(isEdit)
   const [error, setError]             = useState<string | null>(null)
+  // 첨부파일 업로드 부분 실패 시: { postId, files[] } 보관 → CustomAlert 표시
+  const [uploadFailed, setUploadFailed] = useState<{ postId: string; files: string[] } | null>(null)
+  // 수정 모드: 서버에서 불러온 기존 첨부파일 목록
+  const [existingAttachments, setExistingAttachments] = useState<ServerAttachment[]>([])
 
   const supabase = useMemo(() => createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -36,17 +41,23 @@ export default function PostForm({ category, postId }: Props) {
     return { Authorization: `Bearer ${session.access_token}` }
   }, [supabase])
 
-  // 수정 모드: 기존 게시글 로드
+  // 수정 모드: 게시글 내용 + 기존 첨부파일 병렬 로드
   useEffect(() => {
     if (!isEdit || !postId) return
     const load = async () => {
       try {
         const headers = await authHeader()
-        const res = await fetch(`/api/board/${category}/posts/${postId}`, { headers })
-        if (res.ok) {
-          const data = await res.json()
+        const [postRes, attchRes] = await Promise.all([
+          fetch(`/api/board/${category}/posts/${postId}`, { headers }),
+          fetch(`/api/board/${category}/posts/${postId}/attachments`, { headers }),
+        ])
+        if (postRes.ok) {
+          const data = await postRes.json()
           setTitle(data.post_ttl ?? '')
           setContent(data.post_cont ?? '')
+        }
+        if (attchRes.ok) {
+          setExistingAttachments(await attchRes.json())
         }
       } finally {
         setLoadingInit(false)
@@ -54,6 +65,22 @@ export default function PostForm({ category, postId }: Props) {
     }
     load()
   }, [isEdit, postId, authHeader, category])
+
+  // 기존 첨부파일 개별 삭제 — 성공 시 목록에서 제거, 실패 시 throw하여 스피너 해제
+  const handleDeleteExisting = useCallback(async (attchId: string) => {
+    if (!postId) return
+    const headers = await authHeader()
+    const res = await fetch(
+      `/api/board/${category}/posts/${postId}/attachments/${attchId}`,
+      { method: 'DELETE', headers },
+    )
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      setError(body.error ?? '첨부파일 삭제에 실패했습니다')
+      throw new Error(body.error ?? '삭제 실패')
+    }
+    setExistingAttachments(prev => prev.filter(f => f.attch_id !== attchId))
+  }, [postId, category, authHeader])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -116,7 +143,8 @@ export default function PostForm({ category, postId }: Props) {
       }
 
       if (failedFiles.length > 0) {
-        alert(`게시글은 저장됐으나 일부 첨부파일 업로드에 실패했습니다:\n${failedFiles.join('\n')}`)
+        setUploadFailed({ postId: newPostId, files: failedFiles })
+        return
       }
 
       router.push(`/${category}/${newPostId}`)
@@ -179,11 +207,37 @@ export default function PostForm({ category, postId }: Props) {
         {/* 첨부파일 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">첨부파일</label>
-          <AttachmentUploader files={files} onChange={setFiles} onError={setAttachError} />
+          <AttachmentUploader
+            files={files}
+            onChange={setFiles}
+            onError={setAttachError}
+            existingFiles={existingAttachments}
+            onDeleteExisting={isEdit ? handleDeleteExisting : undefined}
+          />
         </div>
       </div>
 
       {error && <p className="text-sm text-red-500 px-1">{error}</p>}
+
+      {uploadFailed && (
+        <CustomAlert
+          variant='warning'
+          title='일부 첨부파일 업로드에 실패했습니다.'
+          description={
+            <ul className='mt-0.5 list-disc list-inside space-y-0.5'>
+              {uploadFailed.files.map((f, i) => (
+                <li key={i}>{f}</li>
+              ))}
+            </ul>
+          }
+          dismissible
+          onDismiss={() => setUploadFailed(null)}
+          onConfirm={() => router.push(`/${category}/${uploadFailed.postId}`)}
+          confirmLabel='게시글로 이동'
+          onCancel={() => setUploadFailed(null)}
+          cancelLabel='닫기'
+        />
+      )}
 
       <div className="flex justify-end gap-2">
         <button

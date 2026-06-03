@@ -97,9 +97,12 @@
     "de": "Jerman",
     "en": "Inggeris",
     "en-ZA": "Inggeris (SA)",
+    "es": "Bahasa Sepanyol",
     "fil": "Filipina",
+    "fr": "Bahasa Perancis",
     "hi": "हिन्दी",
     "id": "Bahasa Indonesia",
+    "it": "Bahasa Itali",
     "ja": "Bahasa Jepun",
     "ko": "Korea",
     "label": "bahasa",
@@ -125,10 +128,14 @@
       "delete": "Padam",
       "edit": "Sunting",
       "editSave": "edit simpan",
+      "history": "Sejarah Perubahan",
+      "query": "Cari",
       "register": "pendaftaran",
       "reset": "set semula",
       "save": "jimat",
-      "search": "cari"
+      "search": "cari",
+      "ddlExport": "Eksport DDL",
+      "new": "Baharu"
     },
     "appName": "Program pengurusan data standard",
     "appSub": "Pengurusan Data Standard DA · Pusat Beli-belah",
@@ -148,6 +155,10 @@
       "users": "User Role Management"
     },
     "boardLink": "papan kenyataan",
+    "domain": {
+      "physicalTypeDesc": "Penerangan Jenis Fizikal",
+      "detailTitle": "Butiran Domain"
+    },
     "field": {
       "attrClass": "Atribut (pengelas)",
       "category": "Pengelasan",
@@ -174,10 +185,12 @@
       "physicalName": "nama fizikal",
       "physicalTermName": "Nama istilah fizik",
       "physicalType": "Jenis fizikal",
+      "physicalTypeDesc": "Jenis Fizikal (Huraian)",
       "range": "julat",
       "repDomain": "Domain perwakilan",
       "repDomainPhysical": "Domain perwakilan (fizik)",
-      "scale": "perpuluhan"
+      "scale": "perpuluhan",
+      "logicalNameKey": "Nama Logik (Kunci)"
     },
     "groupTab": {
       "add": "tambah",
@@ -192,6 +205,7 @@
       "colRemove": "keluarkan",
       "colSubPerm": "SubManager Permissions",
       "colUserId": "ID pengguna",
+      "colUsername": "Username",
       "confirmDelete": "Adakah anda pasti mahu memadamkan kumpulan {grp}?",
       "confirmRemove": "Adakah anda pasti mahu mengalih keluar ahli itu?",
       "createGroup": "+ Create group",
@@ -230,6 +244,7 @@
       "moveRole": {
         "admin": "Pentadbir Super (pentadbir)",
         "manager": "pengurus",
+        "master": "Master (master)",
         "sub_admin": "Sub-pengurus (sub_admin)",
         "user": "pengguna"
       },
@@ -241,6 +256,7 @@
       "remove": "keluarkan",
       "role": {
         "admin": "Pentadbir Super",
+        "master": "Master",
         "manager": "pengurus",
         "sub_admin": "penolong pengurus",
         "user": "pengguna"
@@ -259,6 +275,11 @@
       "systemGroupLabel": "kumpulan sistem",
       "totalMembers": "Jumlah {n} orang"
     },
+    "placeholder": {
+      "domain": "Cari nama domain",
+      "term": "Cari nama istilah logik/fizikal",
+      "word": "Cari nama logik/fizikal"
+    },
     "role": {
       "dataAdmin": "pengurus data",
       "stdAdmin": "pengurus standard",
@@ -266,10 +287,22 @@
       "sysAdmin": "pentadbir sistem",
       "user": "Pengguna am"
     },
+    "roleByCode": {
+      "ADMIN": "Admin Sistem",
+      "MANAGER": "Pengurus",
+      "MASTER": "Master",
+      "SUBMANAGER": "Sub Pengurus",
+      "USER": "Pengguna"
+    },
+    "searchLabel": "Cari",
     "state": {
       "linked": "bersambung",
       "saveFail": "menyelamatkan gagal",
+      "noTerms": "Tiada istilah berdaftar",
       "select": "Sila pilih item",
+      "totalDomains": "Jumlah {n}",
+      "totalTerms": "Jumlah {n}",
+      "totalWords": "Jumlah {n}",
       "unused": "(tidak digunakan)"
     },
     "tab": {
@@ -320,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

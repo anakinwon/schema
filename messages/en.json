@@ -97,9 +97,12 @@
     "de": "German",
     "en": "English",
     "en-ZA": "English (SA)",
+    "es": "Spanish",
     "fil": "Filipino",
+    "fr": "French",
     "hi": "Hindi",
     "id": "Indonesian",
+    "it": "Italian",
     "ja": "Japanese",
     "ko": "Korean",
     "label": "Language",
@@ -125,10 +128,14 @@
       "delete": "Delete",
       "edit": "Edit",
       "editSave": "Save Changes",
+      "history": "Change History",
+      "query": "Search",
       "register": "Register",
       "reset": "Reset",
       "save": "Save",
-      "search": "Search"
+      "search": "Search",
+      "ddlExport": "DDL Export",
+      "new": "New"
     },
     "appName": "Standard Data Management",
     "appSub": "DA Standard Data Management · Shopping Mall",
@@ -148,6 +155,10 @@
       "users": "User Role Management"
     },
     "boardLink": "Board",
+    "domain": {
+      "physicalTypeDesc": "Physical Type Description",
+      "detailTitle": "Domain Detail"
+    },
     "field": {
       "attrClass": "Attribute",
       "category": "Category",
@@ -174,10 +185,12 @@
       "physicalName": "Physical Name",
       "physicalTermName": "Physical Term Name",
       "physicalType": "Physical Type",
+      "physicalTypeDesc": "Physical Type (Desc)",
       "range": "Range",
       "repDomain": "Representative Domain",
       "repDomainPhysical": "Rep. Domain (Physical)",
-      "scale": "Decimal"
+      "scale": "Decimal",
+      "logicalNameKey": "Logical Name (Key)"
     },
     "groupTab": {
       "add": "Add",
@@ -192,6 +205,7 @@
       "colRemove": "Remove",
       "colSubPerm": "SubManager Permission",
       "colUserId": "User ID",
+      "colUsername": "Username",
       "confirmDelete": "Delete group {grp}?",
       "confirmRemove": "Remove this member?",
       "createGroup": "+ Create Group",
@@ -230,6 +244,7 @@
       "moveRole": {
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
+        "master": "Master (master)",
         "sub_admin": "Sub Manager (sub_admin)",
         "user": "User (user)"
       },
@@ -241,6 +256,7 @@
       "remove": "Remove",
       "role": {
         "admin": "Super Admin",
+        "master": "Master",
         "manager": "Manager",
         "sub_admin": "Sub Manager",
         "user": "User"
@@ -259,6 +275,11 @@
       "systemGroupLabel": "System Groups",
       "totalMembers": "Total {n} members"
     },
+    "placeholder": {
+      "domain": "Search domain name",
+      "term": "Search logical/physical term name",
+      "word": "Search logical/physical name"
+    },
     "role": {
       "dataAdmin": "Data Admin",
       "stdAdmin": "Standards Admin",
@@ -266,10 +287,22 @@
       "sysAdmin": "System Admin",
       "user": "User"
     },
+    "roleByCode": {
+      "ADMIN": "System Admin",
+      "MANAGER": "Manager",
+      "MASTER": "Master",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "User"
+    },
+    "searchLabel": "Search",
     "state": {
       "linked": "Linked",
       "saveFail": "Save Failed",
+      "noTerms": "No terms registered",
       "select": "Select an item",
+      "totalDomains": "{n} total",
+      "totalTerms": "{n} total",
+      "totalWords": "{n} total",
       "unused": "(Unused)"
     },
     "tab": {
@@ -320,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

@@ -90,8 +90,9 @@ export async function proxy(request: NextRequest) {
     }
 
     // admin-session 쿠키 발급 (API 인증용 HMAC 토큰)
+    // ADMIN_SECRET_KEY 미설정 시 쿠키 발급 건너뜀 (Back Office API 호출은 Bearer 토큰으로 대체)
     const existing = request.cookies.get('admin-session')?.value
-    if (!existing || !verifyAdminToken(existing)) {
+    if (process.env.ADMIN_SECRET_KEY && (!existing || !verifyAdminToken(existing))) {
       response.cookies.set('admin-session', createAdminToken(), {
         httpOnly: true,
         secure:   process.env.NODE_ENV === 'production',

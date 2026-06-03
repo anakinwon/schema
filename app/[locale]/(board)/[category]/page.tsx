@@ -5,7 +5,6 @@ import type { Locale } from '@/i18n/routing'
 import { VALID_CATEGORIES, canWrite } from '@/lib/board'
 import BoardList from '@/components/board/BoardList'
 import { createSupabaseServer } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
 
 const PROFILE_ROLE_MAP: Record<string, string> = {
   admin: 'ADMIN', master: 'MASTER', manager: 'MANAGER', sub_admin: 'SUBMANAGER', user: 'USER',
@@ -32,7 +31,7 @@ export default async function CategoryPage({ params }: Props) {
 
   let writeAllowed = false
   if (user) {
-    const { data: profile } = await supabaseAdmin
+    const { data: profile } = await supabase
       .from('profiles').select('main_role').eq('user_id', user.id).maybeSingle()
     const roleCd = PROFILE_ROLE_MAP[profile?.main_role ?? ''] ?? 'USER'
     writeAllowed = canWrite(category.toUpperCase(), roleCd)

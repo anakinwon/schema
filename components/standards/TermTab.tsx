@@ -292,7 +292,7 @@ export default function TermTab() {
       </div>
 
       <div className="px-3 py-1.5 bg-gray-100 border-t text-xs text-gray-500">
-        {t('state.totalTerms' as any, { n: terms.length })}
+        {(t as any)('state.totalTerms', { n: terms.length })}
       </div>
     </div>
   )

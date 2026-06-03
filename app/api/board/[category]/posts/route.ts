@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { requireAuth } from '@/lib/auth-guard'
 import { canWrite, VALID_CATEGORIES } from '@/lib/board'
+import { handleDbError, noCacheHeaders } from '@/lib/api-error'
 
 const PAGE_SIZE     = 20
 const PAGE_SIZE_MIN = 5
@@ -57,7 +58,7 @@ export async function GET(req: NextRequest, { params }: Params) {
     .order('reg_dts', { ascending: false })
     .range(from, to)
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) return handleDbError(error, 'board/posts GET')
 
   const items = (data ?? []).map(p => ({
     ...p,
@@ -71,7 +72,7 @@ export async function GET(req: NextRequest, { params }: Params) {
     page,
     pageSize,
     totalPages: Math.ceil((count ?? 0) / pageSize),
-  })
+  }, { headers: noCacheHeaders() })
 }
 
 // POST /api/board/[category]/posts
@@ -103,6 +104,12 @@ export async function POST(req: NextRequest, { params }: Params) {
   if (!post_ttl?.trim()) {
     return NextResponse.json({ error: '제목은 필수입니다' }, { status: 400 })
   }
+  if (post_ttl.length > 200) {
+    return NextResponse.json({ error: '제목은 200자 이하여야 합니다' }, { status: 400 })
+  }
+  if (post_cont && post_cont.length > 10_000) {
+    return NextResponse.json({ error: '본문은 10,000자 이하여야 합니다' }, { status: 400 })
+  }
 
   // 작성자 명칭 — profiles에서 조회
   const { data: profile } = await supabaseAdmin
@@ -128,6 +135,6 @@ export async function POST(req: NextRequest, { params }: Params) {
     .select('post_id')
     .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) return handleDbError(error, 'board/posts POST')
   return NextResponse.json({ post_id: data.post_id }, { status: 201 })
 }

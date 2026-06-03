@@ -120,10 +120,16 @@ async function translateSection(
   return result
 }
 
+let isTranslating = false
+
 // POST /api/i18n/translate  body: { lang_cd }
 export async function POST(req: NextRequest) {
   const auth = await requireAuth(req, ['ADMIN', 'MASTER'])
   if (!auth.ok) return auth.response
+
+  if (isTranslating) {
+    return NextResponse.json({ error: '번역이 이미 진행 중입니다. 잠시 후 다시 시도하세요.' }, { status: 429 })
+  }
 
   const { lang_cd } = await req.json()
   if (!lang_cd || !LANG_CD_RE.test(lang_cd))
@@ -131,13 +137,18 @@ export async function POST(req: NextRequest) {
   if (lang_cd === 'ko')
     return NextResponse.json({ error: '한국어는 번역 대상이 아닙니다' }, { status: 400 })
 
+  isTranslating = true
+
+  try {
   // ko 전체 키 + 대상 언어 기존 번역 키 동시 조회
   const [{ data: koRows, error }, { data: existingRows }] = await Promise.all([
     supabaseAdmin.from('i18n_msg').select('ns_cd, msg_key, msg_val').eq('lang_cd', 'ko'),
     supabaseAdmin.from('i18n_msg').select('ns_cd, msg_key').eq('lang_cd', lang_cd),
   ])
-  if (error || !koRows?.length)
+  if (error || !koRows?.length) {
+    isTranslating = false
     return NextResponse.json({ error: '한국어 번역 키를 찾을 수 없습니다' }, { status: 500 })
+  }
 
   // 이미 번역된 키 Set 생성
   const alreadyDone = new Set(
@@ -211,7 +222,9 @@ export async function POST(req: NextRequest) {
   const outPath = safeLangPath(messagesDir, lang_cd)
   await fs.writeFile(outPath, JSON.stringify(obj, null, 2), 'utf8')
 
-  try { revalidateTag('i18n', 'max') } catch {}
+  try { revalidateTag('i18n', 'max') } catch (e) {
+    console.error('[translate] 캐시 무효화 실패:', e)
+  }
 
   return NextResponse.json({
     ok: true,
@@ -220,4 +233,7 @@ export async function POST(req: NextRequest) {
     lang_cd,
     partial: sectionErrors.length > 0 ? sectionErrors : undefined,
   })
+  } finally {
+    isTranslating = false
+  }
 }

@@ -97,9 +97,12 @@
     "de": "Gjermanisht",
     "en": "Anglisht",
     "en-ZA": "Anglisht (Afrika e Jugut)",
+    "es": "Spanjisht",
     "fil": "Filipinase",
+    "fr": "Frëngjisht",
     "hi": "Hindisht",
     "id": "Indoneziane",
+    "it": "Italisht",
     "ja": "Japoneze",
     "ko": "Koreane",
     "label": "Gjuha",
@@ -125,10 +128,14 @@
       "delete": "Fshije",
       "edit": "Redakto",
       "editSave": "redakto ruaj",
+      "history": "Historia e Ndryshimeve",
+      "query": "Kërko",
       "register": "regjistrimin",
       "reset": "rivendosur",
       "save": "kurseni",
-      "search": "kërkimi"
+      "search": "kërkimi",
+      "ddlExport": "Eksporto DDL",
+      "new": "Ri"
     },
     "appName": "Program standard i menaxhimit të të dhënave",
     "appSub": "DA Standard Menaxhimi i të Dhënave · Shopping Mall",
@@ -149,7 +156,8 @@
     },
     "boardLink": "tabela e buletinit",
     "domain": {
-      "physicalTypeDesc": "Description (Physical Type)"
+      "physicalTypeDesc": "Physical Type Description",
+      "detailTitle": "Detajet e domenit"
     },
     "field": {
       "attrClass": "Atribut (klasifikues)",
@@ -177,10 +185,12 @@
       "physicalName": "emër fizik",
       "physicalTermName": "Emri i termit fizik",
       "physicalType": "Lloji fizik",
+      "physicalTypeDesc": "Lloji Fizik (Përshkrim)",
       "range": "varg",
       "repDomain": "Domeni përfaqësues",
       "repDomainPhysical": "Domeni përfaqësues (fizikë)",
-      "scale": "dhjetore"
+      "scale": "dhjetore",
+      "logicalNameKey": "Emri logjik (çelës)"
     },
     "groupTab": {
       "add": "shtoni",
@@ -195,6 +205,7 @@
       "colRemove": "hiqni",
       "colSubPerm": "Lejet e nënmenaxherit",
       "colUserId": "ID e përdoruesit",
+      "colUsername": "Username",
       "confirmDelete": "Jeni i sigurt që dëshironi të fshini grupin {grp}?",
       "confirmRemove": "Jeni i sigurt që dëshironi të hiqni anëtarin?",
       "createGroup": "+ Krijo grup",
@@ -233,6 +244,7 @@
       "moveRole": {
         "admin": "Super Administrator (administrator)",
         "manager": "menaxher",
+        "master": "Master (master)",
         "sub_admin": "Nën-menaxher (sub_admin)",
         "user": "përdorues"
       },
@@ -244,6 +256,7 @@
       "remove": "hiqni",
       "role": {
         "admin": "Super Administrator",
+        "master": "Master",
         "manager": "menaxher",
         "sub_admin": "ndihmës menaxher",
         "user": "përdorues"
@@ -262,6 +275,11 @@
       "systemGroupLabel": "grupi i sistemit",
       "totalMembers": "Totali i njerëzve {n}"
     },
+    "placeholder": {
+      "domain": "Kërko emrin e domenit",
+      "term": "Kërko emrin e termit logjik/fizik",
+      "word": "Kërko emrin logjik/fizik"
+    },
     "role": {
       "dataAdmin": "menaxher i të dhënave",
       "stdAdmin": "menaxher standard",
@@ -269,10 +287,22 @@
       "sysAdmin": "administratori i sistemit",
       "user": "Përdorues i përgjithshëm"
     },
+    "roleByCode": {
+      "ADMIN": "Admin Sistemit",
+      "MANAGER": "Menaxher",
+      "MASTER": "Master",
+      "SUBMANAGER": "Sub Menaxher",
+      "USER": "Përdorues"
+    },
+    "searchLabel": "Kërko",
     "state": {
       "linked": "lidhur",
       "saveFail": "ruajtja dështoi",
+      "noTerms": "Nuk ka terma të regjistruar",
       "select": "Ju lutemi zgjidhni një artikull",
+      "totalDomains": "{n} gjithsej",
+      "totalTerms": "{n} gjithsej",
+      "totalWords": "{n} gjithsej",
       "unused": "(i papërdorur)"
     },
     "tab": {
@@ -323,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

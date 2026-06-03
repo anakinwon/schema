@@ -28,12 +28,19 @@ export default function CountrySelector({ triggerClass }: Props) {
   const router   = useRouter()
   const pathname = usePathname()
 
-  const [countries, setCountries] = useState<Country[]>([])
-  const [rates,     setRates]     = useState<Record<string, number>>({})
-  const [isOpen,    setIsOpen]    = useState(false)
-  const [query,     setQuery]     = useState('')
-  const [loading,   setLoading]   = useState(true)
+  const [countries,        setCountries]        = useState<Country[]>([])
+  const [rates,            setRates]            = useState<Record<string, number>>({})
+  const [isOpen,           setIsOpen]           = useState(false)
+  const [query,            setQuery]            = useState('')
+  const [loading,          setLoading]          = useState(true)
+  const [selectedCountryCd, setSelectedCountryCd] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  // localStorage에서 저장된 나라코드 복원
+  useEffect(() => {
+    const saved = localStorage.getItem('selectedCountryCd')
+    if (saved) setSelectedCountryCd(saved)
+  }, [])
 
   // 국가 목록 + 환율 동시 로드
   useEffect(() => {
@@ -59,12 +66,19 @@ export default function CountrySelector({ triggerClass }: Props) {
 
   const handleSelect = useCallback((c: Country) => {
     router.replace(pathname, { locale: (c.locale_cd ?? 'en') as Locale })
+    localStorage.setItem('selectedCountryCd', c.country_cd)
+    setSelectedCountryCd(c.country_cd)
     setIsOpen(false); setQuery('')
   }, [router, pathname])
 
   if (loading) return null
 
-  const current     = countries.find(c => c.locale_cd === locale)
+  // 선택한 나라코드가 현재 locale과 일치하면 우선 사용, 아니면 locale로 fallback
+  const current = (
+    selectedCountryCd
+      ? countries.find(c => c.country_cd === selectedCountryCd && c.locale_cd === locale)
+      : null
+  ) ?? countries.find(c => c.locale_cd === locale)
   const baseCurrCd  = current?.currency_cd ?? 'KRW'   // 현재 선택된 통화 기준
 
   // 통화 기호 간략 매핑
@@ -99,14 +113,26 @@ export default function CountrySelector({ triggerClass }: Props) {
   const priority = countries.filter(c => c.dis_ord_seq <= PRIORITY_LIMIT)
   const rest     = countries.filter(c => c.dis_ord_seq >  PRIORITY_LIMIT)
 
+  // rest 중 is_active=true 항목은 주요 언어 섹션으로 이동
+  const activeFromRest = rest.filter(c => c.is_active)
+  const inactiveRest   = rest.filter(c => !c.is_active)
+  const priorityBase   = [...priority, ...activeFromRest]
+
+  // 현재 선택 국가가 priorityBase에 없으면(비활성 국가인 경우) 맨 앞으로 추가
+  const currentInPriority = priorityBase.some(c => c.country_cd === current?.country_cd)
+  const displayPriority   = current && !currentInPriority ? [current, ...priorityBase] : priorityBase
+  const displayRest       = current && !currentInPriority
+    ? inactiveRest.filter(c => c.country_cd !== current.country_cd)
+    : inactiveRest
+
   const filterList = (list: Country[]) => !query.trim() ? list : list.filter(c =>
     c.country_eng_nm.toLowerCase().includes(query.toLowerCase()) ||
     c.country_mot_nm.includes(query) ||
     c.currency_cd.toLowerCase().includes(query.toLowerCase())
   )
 
-  const fp = filterList(priority)
-  const fr = filterList(rest)
+  const fp = filterList(displayPriority)
+  const fr = filterList(displayRest)
 
   const defaultTrigger = 'text-blue-200 border-blue-400/40 hover:text-white hover:bg-white/10 hover:border-white/30'
 
@@ -182,7 +208,7 @@ export default function CountrySelector({ triggerClass }: Props) {
                   </div>
                 )}
                 {fp.map(c => (
-                  <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} rateStr={fmtRate(c.currency_cd)} large />
+                  <FlagRow key={c.country_cd} country={c} selected={c.country_cd === current?.country_cd} onSelect={handleSelect} rateStr={fmtRate(c.currency_cd)} large />
                 ))}
               </>
             )}
@@ -196,7 +222,7 @@ export default function CountrySelector({ triggerClass }: Props) {
 
             {/* 나머지 176개국 */}
             {fr.map(c => (
-              <FlagRow key={c.country_cd} country={c} selected={c.locale_cd === locale} onSelect={handleSelect} rateStr={fmtRate(c.currency_cd)} />
+              <FlagRow key={c.country_cd} country={c} selected={c.country_cd === current?.country_cd} onSelect={handleSelect} rateStr={fmtRate(c.currency_cd)} />
             ))}
 
             {fp.length === 0 && fr.length === 0 && (
@@ -250,13 +276,13 @@ function FlagRow({
       <div className="flex-1 min-w-0">
         <div className={`text-sm truncate leading-tight ${
           selected  ? 'font-semibold text-blue-700' :
-          inactive  ? 'text-gray-300' :
+          inactive  ? 'text-gray-500' :
                       'text-gray-800'
         }`}>
           {country.country_mot_nm}
         </div>
         {large && (
-          <div className={`text-[11px] truncate leading-tight ${inactive ? 'text-gray-200' : 'text-gray-400'}`}>
+          <div className={`text-[11px] truncate leading-tight ${inactive ? 'text-gray-400' : 'text-gray-400'}`}>
             {country.country_eng_nm}
           </div>
         )}
@@ -264,7 +290,7 @@ function FlagRow({
 
       {/* 통화코드 + 환율 */}
       <div className="shrink-0 text-right">
-        <div className={`text-[11px] font-mono tabular-nums ${inactive ? 'text-gray-200' : 'text-gray-400'}`}>
+        <div className={`text-[11px] font-mono tabular-nums ${inactive ? 'text-gray-400' : 'text-gray-400'}`}>
           {country.currency_cd}
         </div>
         {rateStr && !inactive && (
@@ -280,7 +306,7 @@ function FlagRow({
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       ) : inactive ? (
-        <span className="text-[9px] text-gray-300 shrink-0 border border-gray-200 rounded px-1">미지원</span>
+        <span className="text-[9px] text-gray-500 shrink-0 border border-gray-300 rounded px-1">미지원</span>
       ) : null}
     </button>
   )

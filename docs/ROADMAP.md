@@ -2,8 +2,8 @@
 
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
-> **기준일**: 2026-06-02 (최종 업데이트: 2026-06-02)
-> **현재 버전**: v4 Phase 4 완료 (UI표준화·Audit고도화·승인워크플로우 완성) — 다국어 E2E만 잔여(M11)
+> **기준일**: 2026-06-03 (최종 업데이트: 2026-06-03)
+> **현재 버전**: v4 전체 완료 (M11 E2E 77개 통과 · 보안 강화 v2 전체 완료) — 신규 작업 대기 중
 > **기술 스택**: Next.js 16.2.6 (App Router) · React 19.2 · TypeScript · Tailwind CSS v4 · SQLite(better-sqlite3) · Supabase PostgreSQL
 
 ---
@@ -99,13 +99,14 @@
 
 ---
 
-### Phase 3-Legacy: 보안 강화 ✅ (완료: 2026-05, M3)
+### Phase 3-Legacy: 보안 1차 강화 ✅ (완료: 2026-05, M3)
 
-- **TASK-008: 보안 취약점 수정** ✅ - 완료
+- **TASK-008: 보안 취약점 1차 수정** ✅ - 완료
   - ✅ SQL Injection 방어 — 허용목록(allowlist) 기반 필드 검증
   - ✅ API 인증·인가 취약점 수정 (CRITICAL x4, HIGH x1)
-  - ✅ 인증 없는 API 접근 차단
-  - ✅ OWASP Top 10 주요 취약점 검토 완료
+  - ✅ 인증 없는 API 접근 차단 (부분)
+  - ✅ OWASP Top 10 주요 취약점 1차 검토 완료
+  - ⚠️ **보안 2차 점검**: `docs/PRD_SECURITY.md` 25개 추가 항목 도출 (M-S1~S3 조치 예정)
 
 ---
 
@@ -471,7 +472,7 @@
 
 ---
 
-## 📋 v4 마무리 일정 (M11) 🔄 (진행 중 — TASK-042·043 완료, TASK-044 잔여)
+## 📋 v4 마무리 일정 (M11) ✅ (완료: 2026-06-03)
 
 > **목표**: 번역 100% 달성 · 환율 연동 · 다국어 E2E 검증
 
@@ -486,10 +487,15 @@
   - ✅ 콤보박스 통화코드 옆 실시간 환율 표시
   - ✅ 환율 기준 통화를 현재 선택 locale로 동적 변경
 
-- **TASK-044: 다국어 E2E 테스트** ⏳ - 대기
-  - `tests/e2e/i18n.spec.ts` — locale 전환·URL prefix·번역 표시 검증
-  - 미인증 `/en/admin` → `/en/login` 리다이렉트 확인
-  - 콤보박스 국가 선택 → locale 전환 확인
+- **TASK-044: 다국어 E2E 테스트** ✅ - 완료 (2026-06-03)
+  - ✅ `tests/e2e/i18n.spec.ts` — 77개 테스트 (Layer 0~2) Chromium 전체 통과
+  - ✅ Layer 1-A: URL prefix 라우팅 (11개 언어 · ko as-needed 검증)
+  - ✅ Layer 1-B: `html[lang]` 속성 9개 언어 검증
+  - ✅ Layer 1-C: 미인증 `/admin` → `/login` locale prefix 보존 리다이렉트
+  - ✅ Layer 1-D: 로그인 페이지 번역 텍스트 + MISSING_MESSAGE 없음
+  - ✅ Layer 2: 게시판·admin/standards MISSING_MESSAGE 없음 (10개 언어)
+  - ✅ CountrySelector locale 전환 (US→en, ES→es, KR→ko as-needed, AU→en)
+  - ✅ 한국어·영어·중국어·일본어 텍스트 UI 표시 확인
 
 ---
 
@@ -540,6 +546,62 @@
 
 ---
 
+## 🔐 보안 강화 v2 계획
+
+> **참조**: `docs/PRD_SECURITY.md` — 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 + OWASP Top 10 기반  
+> **점검 결과**: Critical 2건 · High 4건 · Medium 13건 · Low 4건 · Info 2건 (총 25개 항목)
+
+### M-S1: Critical 보안 조치 🔴 (즉시 조치 필요)
+
+- **TASK-050: 관리자 인증 강화 (SEC-001/005)** ✅ - 완료 (2026-06-03)
+  - ✅ `app/api/admin/login/route.ts` — Rate Limiting (10회/분 per IP) 적용
+  - ✅ `crypto.timingSafeEqual()` 적용으로 타이밍 공격 방어
+  - ✅ `.env.local` `ADMIN_PASSWORD`, `ADMIN_SECRET_KEY` 삭제 (계정 비활성화)
+  - [ ] CI/CD 기본 패스워드 감지 스크립트 — 재활성화 시 추가
+
+---
+
+### M-S2: High 보안 조치 🔴 (2026-06-06 까지 — 72시간 이내)
+
+- **TASK-051: 인증 없는 API 엔드포인트 차단 (SEC-003)** ✅ - 완료 (2026-06-03)
+  - ✅ `app/api/check-dup/route.ts` — `requireAuth(['USER',...])` 추가
+  - ✅ `app/api/search/route.ts` — `requireAuth(['USER',...])` 추가
+  - ✅ `app/api/ddl/export/route.ts` — `requireAuth(['USER',...])` 추가
+
+- **TASK-052: 보안 HTTP 헤더 설정 (SEC-006)** ✅ - 완료 (2026-06-03)
+  - ✅ `next.config.ts` — `securityHeaders` 배열 + `headers()` 함수 추가
+  - ✅ 6종 설정: `HSTS`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `CSP`
+
+- **TASK-053: Service Role Key 서버 격리 (SEC-012)** ✅ - 완료 (2026-06-03)
+  - ✅ `server-only` 패키지 설치
+  - ✅ `lib/supabase.ts` 상단에 `import 'server-only'` 추가
+
+- **TASK-054: API Rate Limiting 구현 (SEC-016)** ✅ - 완료 (2026-06-03)
+  - ✅ `lib/rate-limit.ts` 신규 — `checkRateLimit()` + `getClientIp()` 헬퍼
+  - ✅ `/api/admin/login` 적용 (10회/분 per IP, `Retry-After` 헤더 반환)
+
+---
+
+### M-S3: Medium 보안 조치 ⚠️ (2026-07-03 까지 — 30일 이내)
+
+- **TASK-055: 쿠키·입력값·파일 보안 강화 (SEC-002/008/010/011)** ✅ - 완료 (2026-06-03)
+  - ✅ `lib/admin-auth.ts` Admin 쿠키 `sameSite: 'lax'` → `'strict'`
+  - ✅ `app/api/board/[category]/posts/route.ts` 제목 200자·본문 10,000자 길이 검증 추가
+  - ✅ `file-type` 패키지 설치 — 첨부파일 Magic Byte 서버 검증 (`dynamic import`)
+  - ✅ 첨부파일 경로 UUID 전용 생성 (`${id}/${uuid}.${ext}`)
+
+- **TASK-056: 오류 처리 · 감사 로그 · 캐시 개선 (SEC-007/018/019)** ✅ - 완료 (2026-06-03)
+  - ✅ `lib/api-error.ts` 신규 — `handleDbError()` + `noCacheHeaders()` 유틸리티
+  - ✅ `lib/audit.ts` — `writeSecurityAudit()` 추가 (SecurityEvent 타입 + admin login 연결)
+  - ✅ `app/api/board/[category]/posts/route.ts` — `handleDbError` + `noCacheHeaders` 적용
+
+- **TASK-057: 환경변수 · 외부 API 보안 (SEC-013/017)** ✅ - 완료 (2026-06-03)
+  - ✅ `.env` 파일 Slack Webhook URL 예시값으로 교체
+  - ✅ `app/api/i18n/translate/route.ts` — `isTranslating` 뮤텍스 + `try-finally` 보장
+  - ✅ `revalidateTag` 빈 catch → 로깅 추가 (SEC-023 동시 해결)
+
+---
+
 ## 향후 계획 (Out of Scope — v5+)
 
 - 외부 ERD 도구 연동 (DBeaver, DataGrip)
@@ -555,7 +617,10 @@
 | M0: 프로젝트 부트스트랩 | Phase 0 | 2026-04 | Next.js 16 + SQLite 셋업 | ✅ 완료 |
 | M1: 표준 CRUD 구현 | Phase 1-Legacy | 2026-05 | 표준단어/도메인/용어 3탭 | ✅ 완료 |
 | M2: RBAC 시스템 | Phase 2-Legacy | 2026-05 | 역할-권한 매트릭스 | ✅ 완료 |
-| M3: 보안 강화 | Phase 3-Legacy | 2026-05 | SQL Injection·인증 취약점 수정 | ✅ 완료 |
+| M3: 보안 1차 강화 | Phase 3-Legacy | 2026-05 | SQL Injection·필드 검증 취약점 수정 | ✅ 완료 |
+| M-S1: 보안 Critical 조치 | 보안 강화 v2 | 2026-06-03 | 관리자 브루트포스 방어·기본 패스워드 교체 (TASK-050) | ✅ 완료 |
+| M-S2: 보안 High 조치 | 보안 강화 v2 | 2026-06-03 | API 인증 보완·보안 헤더·Rate Limiting (TASK-051~054) | ✅ 완료 |
+| M-S3: 보안 Medium 조치 | 보안 강화 v2 | 2026-06-03 | 쿠키·파일·오류 처리 등 (TASK-055~057) | ✅ 완료 |
 | M4: 인증 시스템 + 관리자 | Phase 0 (v2) | 2026-05-31 | 회원가입·로그인·Google OAuth·Back Office | ✅ 완료 |
 | M5: 핵심 기능 고도화 | Phase 1 (v2) | 2026-05-31 | DDL Export·검색·MVP잔여·Audit Trail | ✅ 완료 |
 | M6: 동기화·승인·반응형 | Phase 2 (v2) | 2026-05-31 | Supabase 동기화·승인 워크플로우·E2E | ✅ 완료 |
@@ -564,7 +629,7 @@
 | M8.5: 게시판 UX 개선 | Phase 3 (v3) | 2026-06-02 | 라우팅 재구성·반응형 페이지네이션·첨부파일·권한 제어 | ✅ 완료 |
 | M9: i18n 기반 구축 | Phase 1 (v4) | 2026-06-02 | next-intl·라우팅·레이아웃·proxy 체이닝·버그 수정 4건 (TASK-032~035) | ✅ 완료 |
 | M10: 국가DB·번역관리 | Phase 2 (v4) | 2026-06-02 | 187개국 DB·콤보박스·번역관리·AI번역·국기SVG (TASK-036~041) | ✅ 완료 |
-| M11: 다국어 마무리 | Phase 3 (v4) | 2026-06-02 | 번역 100% 완성·환율 연동·E2E (TASK-042~044) | 🔄 진행 중 (042·043 완료, 044 잔여) |
+| M11: 다국어 마무리 | Phase 3 (v4) | 2026-06-03 | 번역 100% 완성·환율 연동·E2E 77개 전체 통과 (TASK-042~044) | ✅ 완료 |
 | M12: UI표준화·Audit고도화·승인완성 | Phase 4 (v4) | 2026-06-02 | UI Alert 표준화·TIMESTAMPTZ·GroupTab·Audit 고도화·승인 워크플로우 완성 (TASK-045~049) | ✅ 완료 |
 
 ---
@@ -576,8 +641,8 @@
 | 등록 표준단어 수 | 53건 (+17 게시판용) | 100건 | STD_DIC 레코드 수 |
 | 등록 표준도메인 수 | 17건 (+5 게시판용) | 30건 | STD_DOM 레코드 수 |
 | 등록 표준용어 수 | 0건 (DA_TERM 비어있음) | 200건 | DA_TERM 레코드 수 |
-| 보안 취약점 | 0건 | 0건 유지 | 코드 리뷰 (PostgREST 인젝션 패치 포함) |
-| Playwright 테스트 | 15건 (4 passed · 11 skip) | 환경변수 설정 후 15 passed | `npx playwright test` |
+| 보안 취약점 (Critical/High) | ✅ 0건 (M-S1·M-S2 완료) | 0건 유지 | `docs/PRD_SECURITY.md` 체크리스트 |
+| Playwright 테스트 | **i18n 77건 전체 통과** (Chromium) | 전 브라우저 통과 | `npx playwright test` |
 | 게시판 API 라우트 | 11개 | — | app/api/board 라우트 수 |
 | 지원 언어 수 | **14개** (11+de·sq·ps 추가) | 11개 | i18n_lang_mst use_yn='Y' 수 ✅ |
 | 번역 키 수 | **98건** (ko 기준 100%) | ~50건 | i18n_msg DISTINCT(ns_cd,msg_key) 수 ✅ |
@@ -613,3 +678,9 @@
 | v4.3 | 2026-06-02 | M10 완료 반영 — TASK-037~041 (키치환·콤보박스·관리화면·AI번역·언어관리), 국기 SVG화(flag-icons), 보안패치, M11 잔여일정(번역100%·환율·E2E) 수립 | anakin |
 | v4.4 | 2026-06-02 | TASK-042·043 완료 반영 — 전 언어 번역 100%(de·sq·ps 추가), 환율 실시간 표시(open.er-api.com), M11 🔄 진행 중 전환 (TASK-044 잔여) | anakin |
 | v4.5 | 2026-06-02 | Phase 4 신규 — TASK-045~049 (UI Alert 표준화·TIMESTAMPTZ·GroupTab 마스터역할·Audit 고도화·승인 워크플로우 완성), M12 마일스톤 등록, 성공 지표 현행화 | anakin |
+| v4.6 | 2026-06-03 | 보안 강화 v2 계획 수립 — PRD_SECURITY.md 25개 항목 기반 TASK-050~057 등록, M-S1/S2/S3 마일스톤 신규 추가, 성공 지표 현행화 | anakin |
+| v4.7 | 2026-06-03 | M-S1·M-S2 완료 — TASK-050~054 (server-only·requireAuth 3개·보안헤더 6종·Rate Limiting·timingSafeEqual) 빌드 검증 완료 | anakin |
+| v4.8 | 2026-06-03 | M-S3 완료 — TASK-055~057 (SameSite·길이검증·Magic Byte·UUID경로·handleDbError·writeSecurityAudit·번역뮤텍스·Slack URL 마스킹) 빌드 검증 완료 | anakin |
+| v4.9 | 2026-06-03 | 보안 강화 v2 전체 완료 — SEC-004(RLS교체)·SEC-009(검색어100자)·SEC-015(Open Redirect강화)·SEC-020(npm audit통과)·SEC-022/023 해소, npm audit high/critical 0건 | anakin |
+| v5.0 | 2026-06-03 | M11 완료 — TASK-044 다국어 E2E 77개 전체 통과, ADMIN_SECRET_KEY proxy 버그픽스, groupTab.colUsername 번역 누락 17개 언어 보정(JSON+DB), playwright.config.ts timeout 60s로 증가 | anakin |
+| v5.1 | 2026-06-03 | 핫픽스 6건 — groupTab.role.master 번역 누락(17개), state.noTerms 누락(17개), domain.detailTitle 누락(17개), field.logicalNameKey 누락(17개), React key=null 중복(GroupTab), requireAnyAuth 도입·Promise.all 병렬화(성능 개선) | anakin |

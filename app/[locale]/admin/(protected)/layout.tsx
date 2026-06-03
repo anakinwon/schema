@@ -7,7 +7,6 @@ import { Link } from '@/i18n/navigation'
 import AdminLogoutButton from './AdminLogoutButton'
 import CountrySelector from '@/components/i18n/CountrySelector'
 import { createSupabaseServer } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
 import { verifyAdminToken } from '@/lib/admin-auth'
 
 type Props = { children: React.ReactNode; params: Promise<{ locale: string }> }
@@ -20,13 +19,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 const NAV_KEYS = [
   { href: '/admin',           key: 'dashboard', icon: '📊' },
-  { href: '/admin/standards', key: 'standards', icon: '📝' },
+  { href: '/admin/board',     key: 'board',     icon: '📢' },
+  { href: '/admin/users',     key: 'users',     icon: '👥' },
   { href: '/admin/codes',     key: 'codes',     icon: '🗂️' },
   { href: '/admin/audit',     key: 'audit',     icon: '📋' },
   { href: '/admin/approval',  key: 'approval',  icon: '✅' },
+  { href: '/admin/standards', key: 'standards', icon: '📝' },
   { href: '/admin/sync',      key: 'sync',      icon: '🔄' },
-  { href: '/admin/users',     key: 'users',     icon: '👥' },
-  { href: '/admin/board',     key: 'board',     icon: '📢' },
   { href: '/admin/i18n',      key: 'i18n',      icon: '🌐' },
 ] as const
 
@@ -39,7 +38,7 @@ async function getAdminUserInfo(): Promise<{ userName: string; isAdminSession: b
   const { data: { user } } = await supabase.auth.getUser()
 
   if (user) {
-    const { data: profile } = await supabaseAdmin
+    const { data: profile } = await supabase
       .from('profiles')
       .select('full_name, username')
       .eq('user_id', user.id)

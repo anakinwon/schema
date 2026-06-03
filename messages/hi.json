@@ -97,9 +97,12 @@
     "de": "जर्मन",
     "en": "अंग्रेज़ी",
     "en-ZA": "अंग्रेज़ी (दक्षिण अफ्रीका)",
+    "es": "स्पेनिश",
     "fil": "फिलिपिनो",
+    "fr": "फ्रेंच",
     "hi": "हिंदी",
     "id": "इंडोनेशियाई",
+    "it": "इतालवी",
     "ja": "जापानी",
     "ko": "कोरियाई",
     "label": "भाषा",
@@ -125,10 +128,14 @@
       "delete": "हटाएँ",
       "edit": "संपादित करें",
       "editSave": "संपादित करें सहेजें",
+      "history": "परिवर्तन इतिहास",
+      "query": "खोज",
       "register": "पंजीकरण",
       "reset": "रीसेट करें",
       "save": "सहेजें",
-      "search": "खोज"
+      "search": "खोज",
+      "ddlExport": "DDL निर्यात",
+      "new": "नया"
     },
     "appName": "मानक डेटा प्रबंधन कार्यक्रम",
     "appSub": "डीए मानक डेटा प्रबंधन · शॉपिंग मॉल",
@@ -148,6 +155,10 @@
       "users": "User Role Management"
     },
     "boardLink": "बुलेटिन बोर्ड",
+    "domain": {
+      "physicalTypeDesc": "भौतिक प्रकार विवरण",
+      "detailTitle": "डोमेन विवरण"
+    },
     "field": {
       "attrClass": "विशेषता (वर्गीकरणकर्ता)",
       "category": "वर्गीकरण",
@@ -174,10 +185,12 @@
       "physicalName": "भौतिक नाम",
       "physicalTermName": "भौतिकी शब्द का नाम",
       "physicalType": "भौतिक प्रकार",
+      "physicalTypeDesc": "भौतिक प्रकार(विवरण)",
       "range": "रेंज",
       "repDomain": "प्रतिनिधि डोमेन",
       "repDomainPhysical": "प्रतिनिधि डोमेन (भौतिकी)",
-      "scale": "दशमलव"
+      "scale": "दशमलव",
+      "logicalNameKey": "तार्किक नाम (की)"
     },
     "groupTab": {
       "add": "जोड़ें",
@@ -192,6 +205,7 @@
       "colRemove": "हटाओ",
       "colSubPerm": "उप प्रबंधक अनुमतियाँ",
       "colUserId": "उपयोगकर्ता आईडी",
+      "colUsername": "Username",
       "confirmDelete": "क्या आप वाकई समूह {grp} को हटाना चाहते हैं?",
       "confirmRemove": "क्या आप वाकई सदस्य को हटाना चाहते हैं?",
       "createGroup": "+ समूह बनाएँ",
@@ -230,6 +244,7 @@
       "moveRole": {
         "admin": "सुपर एडमिनिस्ट्रेटर (एडमिन)",
         "manager": "मैनेजर",
+        "master": "मास्टर (master)",
         "sub_admin": "उप-प्रबंधक (sub_admin)",
         "user": "उपयोगकर्ता"
       },
@@ -241,6 +256,7 @@
       "remove": "हटाओ",
       "role": {
         "admin": "सुपर प्रशासक",
+        "master": "मास्टर",
         "manager": "मैनेजर",
         "sub_admin": "सहायक प्रबंधक",
         "user": "उपयोगकर्ता"
@@ -259,6 +275,11 @@
       "systemGroupLabel": "सिस्टम समूह",
       "totalMembers": "कुल {n} लोग"
     },
+    "placeholder": {
+      "domain": "डोमेन नाम खोजें",
+      "term": "तार्किक/भौतिक शब्द नाम खोजें",
+      "word": "तार्किक/भौतिक नाम खोजें"
+    },
     "role": {
       "dataAdmin": "डेटा मैनेजर",
       "stdAdmin": "मानक प्रबंधक",
@@ -266,10 +287,22 @@
       "sysAdmin": "सिस्टम प्रशासक",
       "user": "सामान्य उपयोगकर्ता"
     },
+    "roleByCode": {
+      "ADMIN": "सिस्टम एडमिन",
+      "MANAGER": "मैनेजर",
+      "MASTER": "मास्टर",
+      "SUBMANAGER": "सब मैनेजर",
+      "USER": "उपयोगकर्ता"
+    },
+    "searchLabel": "खोज",
     "state": {
       "linked": "जुड़ा हुआ",
       "saveFail": "सहेजना विफल",
+      "noTerms": "कोई शब्द पंजीकृत नहीं",
       "select": "कृपया एक आइटम चुनें",
+      "totalDomains": "कुल {n}",
+      "totalTerms": "कुल {n}",
+      "totalWords": "कुल {n}",
       "unused": "(अप्रयुक्त)"
     },
     "tab": {
@@ -320,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

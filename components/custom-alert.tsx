@@ -68,8 +68,8 @@ interface CustomAlertProps
     VariantProps<typeof customAlertVariants> {
   // 알림 제목 (필수)
   title: string
-  // 알림 설명 (선택)
-  description?: string
+  // 알림 설명 (선택) — 문자열 또는 JSX 모두 허용
+  description?: React.ReactNode
   // 닫기 버튼 표시 여부
   dismissible?: boolean
   // 닫기 버튼 클릭 시 콜백

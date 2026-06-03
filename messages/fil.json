@@ -97,9 +97,12 @@
     "de": "Aleman",
     "en": "English",
     "en-ZA": "English (SA)",
+    "es": "Espanyol",
     "fil": "Filipino",
+    "fr": "Pranses",
     "hi": "हिन्दी",
     "id": "Bahasa Indonesia",
+    "it": "Italyano",
     "ja": "wikang Hapon",
     "ko": "Korean",
     "label": "wika",
@@ -125,10 +128,14 @@
       "delete": "Tanggalin",
       "edit": "I-edit",
       "editSave": "edit save",
+      "history": "Kasaysayan ng Pagbabago",
+      "query": "Maghanap",
       "register": "pagpaparehistro",
       "reset": "i-reset",
       "save": "iligtas",
-      "search": "paghahanap"
+      "search": "paghahanap",
+      "ddlExport": "I-export ang DDL",
+      "new": "Bago"
     },
     "appName": "Standard na programa sa pamamahala ng data",
     "appSub": "DA Standard Data Management · Shopping Mall",
@@ -148,6 +155,10 @@
       "users": "User Role Management"
     },
     "boardLink": "bulletin board",
+    "domain": {
+      "physicalTypeDesc": "Paglalarawan ng Pisikal na Uri",
+      "detailTitle": "Detalye ng Domain"
+    },
     "field": {
       "attrClass": "Katangian (classifier)",
       "category": "Pag-uuri",
@@ -174,10 +185,12 @@
       "physicalName": "pisikal na pangalan",
       "physicalTermName": "Pangalan ng termino sa pisika",
       "physicalType": "Pisikal na uri",
+      "physicalTypeDesc": "Pisikal na Uri (Paglalarawan)",
       "range": "saklaw",
       "repDomain": "Representative na domain",
       "repDomainPhysical": "Representative domain (physics)",
-      "scale": "decimal"
+      "scale": "decimal",
+      "logicalNameKey": "Lohikal na Pangalan (Susi)"
     },
     "groupTab": {
       "add": "idagdag",
@@ -192,6 +205,7 @@
       "colRemove": "tanggalin",
       "colSubPerm": "Mga Pahintulot sa SubManager",
       "colUserId": "User ID",
+      "colUsername": "Username",
       "confirmDelete": "Sigurado ka bang gusto mong tanggalin ang pangkat na {grp}?",
       "confirmRemove": "Sigurado ka bang gusto mong tanggalin ang miyembro?",
       "createGroup": "+ Lumikha ng pangkat",
@@ -230,6 +244,7 @@
       "moveRole": {
         "admin": "Super Administrator (admin)",
         "manager": "manager",
+        "master": "Master (master)",
         "sub_admin": "Sub-manager (sub_admin)",
         "user": "gumagamit"
       },
@@ -241,6 +256,7 @@
       "remove": "tanggalin",
       "role": {
         "admin": "Super Administrator",
+        "master": "Master",
         "manager": "manager",
         "sub_admin": "assistant manager",
         "user": "gumagamit"
@@ -259,6 +275,11 @@
       "systemGroupLabel": "pangkat ng sistema",
       "totalMembers": "Kabuuang {n} tao"
     },
+    "placeholder": {
+      "domain": "Hanapin ang pangalan ng domain",
+      "term": "Hanapin ang pangalan ng termino",
+      "word": "Hanapin ang lohikal/pisikong pangalan"
+    },
     "role": {
       "dataAdmin": "tagapamahala ng data",
       "stdAdmin": "karaniwang tagapamahala",
@@ -266,10 +287,22 @@
       "sysAdmin": "tagapangasiwa ng system",
       "user": "Pangkalahatang gumagamit"
     },
+    "roleByCode": {
+      "ADMIN": "System Admin",
+      "MANAGER": "Manager",
+      "MASTER": "Master",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "Gumagamit"
+    },
+    "searchLabel": "Maghanap",
     "state": {
       "linked": "konektado",
       "saveFail": "nabigo ang pag-save",
+      "noTerms": "Walang nakalista na mga termino",
       "select": "Mangyaring pumili ng isang item",
+      "totalDomains": "Kabuuan {n}",
+      "totalTerms": "Kabuuan {n}",
+      "totalWords": "Kabuuan {n}",
       "unused": "(hindi nagamit)"
     },
     "tab": {
@@ -320,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

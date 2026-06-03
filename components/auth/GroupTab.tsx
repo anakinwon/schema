@@ -118,7 +118,7 @@ export default function GroupTab() {
 
   const deleteGroup = async (grp_cd: string) => {
     if (SYSTEM_GRP_CODES.has(grp_cd)) return alert(t('groupTab.alertSystemDelete' as any))
-    if (!confirm(t('groupTab.confirmDelete' as any, { grp: grp_cd }))) return
+    if (!confirm((t as any)('groupTab.confirmDelete', { grp: grp_cd }))) return
     await fetch('/api/auth/groups', {
       method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ grp_cd }),
     })
@@ -174,8 +174,8 @@ export default function GroupTab() {
         const next = new Set(prev); has ? next.delete(perm_cd) : next.add(perm_cd); return next
       })
       showToast(has
-        ? t('groupTab.permRevoked' as any, { perm: perm_cd })
-        : t('groupTab.permGranted' as any, { perm: perm_cd })
+        ? (t as any)('groupTab.permRevoked', { perm: perm_cd })
+        : (t as any)('groupTab.permGranted', { perm: perm_cd })
       )
     }
   }
@@ -250,7 +250,7 @@ export default function GroupTab() {
                     <span className={`text-[9px] font-bold px-1 rounded border ${sg.badge.cls}`}>{sg.badge.text}</span>
                     <span className="text-[10px] text-gray-400">
                       {sg.profile_role
-                        ? t('userRole.countBadge' as any, { n: profileCnt })
+                        ? (t as any)('userRole.countBadge', { n: profileCnt })
                         : t('groupTab.daOnly' as any)}
                     </span>
                   </div>
@@ -264,7 +264,7 @@ export default function GroupTab() {
         {/* 커스텀 그룹 */}
         <div className="px-3 pt-3 pb-1 shrink-0 border-t border-gray-200 mt-2">
           <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">
-            {t('groupTab.customGroupLabel' as any, { n: customGroups.length })}
+            {(t as any)('groupTab.customGroupLabel', { n: customGroups.length })}
           </span>
         </div>
         <div className="flex-1 overflow-auto px-2 space-y-0.5">
@@ -280,7 +280,7 @@ export default function GroupTab() {
                 <div className="min-w-0 flex-1">
                   <div className="text-xs font-semibold text-gray-800 truncate">{g.grp_nm}</div>
                   <div className="text-[10px] text-gray-400 font-mono truncate">
-                    {g.grp_cd} · {t('groupTab.totalMembers' as any, { n: g.grp_mbr?.length ?? 0 })}
+                    {g.grp_cd} · {(t as any)('groupTab.totalMembers', { n: g.grp_mbr?.length ?? 0 })}
                   </div>
                 </div>
                 {isActive && <span className="text-blue-400 text-xs shrink-0">›</span>}
@@ -376,7 +376,7 @@ export default function GroupTab() {
                       </thead>
                       <tbody>
                         {profilesForGroup.map((p, i) => (
-                          <tr key={p.user_id}
+                          <tr key={p.user_id ?? p.username ?? `profile-${i}`}
                             className={`border-b border-gray-100 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition-colors`}>
                             <td className="px-4 py-2.5 font-medium text-gray-800">{p.full_name ?? '—'}</td>
                             <td className="px-4 py-2.5 text-gray-500">{p.username ?? '—'}</td>
@@ -445,7 +445,7 @@ export default function GroupTab() {
                       {t('groupTab.add' as any)}
                     </button>
                     <span className="ml-auto text-xs text-gray-400">
-                      {t('groupTab.totalMembers' as any, { n: selected.grp_mbr?.length ?? 0 })}
+                      {(t as any)('groupTab.totalMembers', { n: selected.grp_mbr?.length ?? 0 })}
                     </span>
                   </div>
 

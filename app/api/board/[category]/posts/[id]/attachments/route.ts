@@ -10,6 +10,23 @@ const BUCKET       = 'board-attachments'
 const MAX_FILE_MB  = 20
 const MAX_FILES    = 5
 
+// Supabase 버킷 allowed_mime_types와 동기화 — 버킷이 거부하기 전에 명확한 한국어 오류 반환
+const ALLOWED_MIME_TYPES = new Set([
+  'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
+  'application/pdf',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'text/plain', 'text/csv',
+  'application/zip', 'application/x-zip-compressed',
+  'application/sql', 'text/x-sql', 'application/x-sql',
+  'application/octet-stream', 'text/xml', 'application/xml',
+  'application/json', 'text/markdown', 'text/x-markdown',
+])
+
 // GET /api/board/[category]/posts/[id]/attachments
 export async function GET(req: NextRequest, { params }: Params) {
   const auth = await requireAuth(req, ['USER', 'SUBMANAGER', 'MANAGER', 'MASTER', 'ADMIN'])
@@ -87,11 +104,25 @@ export async function POST(req: NextRequest, { params }: Params) {
     )
   }
 
-  // Storage 업로드
-  const ext      = file.name.split('.').pop() ?? 'bin'
+  const buffer = Buffer.from(await file.arrayBuffer())
+
+  // Magic Byte 기반 실제 MIME 탐지 (클라이언트 file.type 신뢰 불가)
+  const { fileTypeFromBuffer } = await import('file-type')
+  const detected = await fileTypeFromBuffer(buffer)
+  const trueMime = detected?.mime ?? file.type
+
+  if (!ALLOWED_MIME_TYPES.has(trueMime)) {
+    const extLabel = file.name.split('.').pop()?.toUpperCase() ?? ''
+    return NextResponse.json(
+      { error: `지원하지 않는 파일 형식입니다${extLabel ? `: ${extLabel}` : ''}` },
+      { status: 400 },
+    )
+  }
+
+  // Storage 업로드 — 경로는 UUID 전용 (파일명 Path Traversal 방지)
+  const ext      = (detected?.ext ?? file.name.split('.').pop() ?? 'bin').toLowerCase()
   const fileUuid = randomUUID()
-  const fl_pth   = `${id}/${fileUuid}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`
-  const buffer   = Buffer.from(await file.arrayBuffer())
+  const fl_pth   = `${id}/${fileUuid}.${ext}`
 
   const { error: uploadErr } = await supabaseAdmin.storage
     .from(BUCKET)

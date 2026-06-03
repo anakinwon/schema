@@ -1,0 +1,379 @@
+{
+  "admin": {
+    "adminLabel": "Administrador",
+    "backOffice": "Área de Administración (Back Office)",
+    "dashboard": {
+      "card": {
+        "domains": "Dominios Estándar",
+        "terms": "Términos Estándar",
+        "users": "Usuarios Activos",
+        "words": "Palabras Estándar"
+      },
+      "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
+      "pageSubtitle": "Estado del Sistema de Gestión de Datos Estándar",
+      "pageTitle": "Panel de Administración",
+      "quick": {
+        "audit": "Historial de Cambios",
+        "auditDesc": "Audit Trail STD_DIC·STD_DOM",
+        "codes": "Gestión de Códigos Comunes",
+        "codesDesc": "Gestión DA §40 STD_CODE",
+        "domains": "Gestión de Dominios",
+        "domainsDesc": "STD_DOM Registrar/Editar/Eliminar",
+        "terms": "Gestión de Términos",
+        "termsDesc": "DA_TERM Registrar/Editar/Eliminar",
+        "users": "Lista de Usuarios",
+        "userScreen": "Pantalla de Usuario",
+        "userScreenDesc": "Ver/Editar Datos Estándar",
+        "usersDesc": "Asignación de Roles y Control de Acceso",
+        "words": "Gestión de Palabras",
+        "wordsDesc": "STD_DIC Registrar/Editar/Eliminar"
+      },
+      "quickMenu": "Navegación Rápida"
+    },
+    "menu": {
+      "approval": "Aprobaciones",
+      "audit": "Registro de Auditoría",
+      "board": "Admin. Tablón",
+      "codes": "Códigos Comunes",
+      "dashboard": "Panel de control",
+      "i18n": "Multilingüe",
+      "standards": "Estándares",
+      "sync": "Sincronización",
+      "users": "Gestión de Usuarios"
+    },
+    "noPermission": "Acceso denegado"
+  },
+  "auth": {
+    "email": "Correo electrónico",
+    "login": "Iniciar sesión",
+    "loginButton": "Iniciar sesión",
+    "loginError": "Correo electrónico o contraseña incorrectos",
+    "loginTitle": "{appName} — Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "password": "Contraseña",
+    "signup": "Registrarse"
+  },
+  "board": {
+    "answered": "Respondido",
+    "author": "Autor",
+    "backToList": "← Lista",
+    "categories": {
+      "ARCHIVE": "Archivo",
+      "FREE": "Tablón libre",
+      "NOTICE": "Avisos",
+      "QNA": "P&R"
+    },
+    "comments": "Comentarios",
+    "content": "Contenido",
+    "createdAt": "Fecha",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esta publicación?",
+    "editPost": "Editar publicación",
+    "empty": "No se encontraron publicaciones",
+    "goToNotice": "Ir a Avisos",
+    "newPost": "Escribir",
+    "noSearchResult": "No hay resultados para '{query}'",
+    "notFound": "Tablón no encontrado",
+    "perPage": "{size} por página",
+    "pinned": "Fijado",
+    "searchPlaceholder": "Buscar por título o autor",
+    "title": "Título",
+    "totalCount": "Total {count}",
+    "unanswered": "Sin respuesta",
+    "views": "Vistas",
+    "write": "Escribir"
+  },
+  "common": {
+    "appName": "Gestión de Datos Estándar",
+    "back": "Volver",
+    "cancel": "Cancelar",
+    "dashboard": "Panel de control",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "search": "Buscar"
+  },
+  "languageSwitcher": {
+    "de": "Alemán",
+    "en": "Inglés",
+    "en-ZA": "Inglés (SA)",
+    "es": "Spanish",
+    "fil": "Filipino",
+    "fr": "Francés",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "it": "Italiano",
+    "ja": "日本語",
+    "ko": "한국어",
+    "label": "Idioma",
+    "ms": "Bahasa Melayu",
+    "ps": "Pastún",
+    "sq": "Albanés",
+    "th": "ไทย",
+    "vi": "Tiếng Việt",
+    "zh": "Chino"
+  },
+  "profile": {
+    "edit": "Editar Perfil",
+    "fullName": "Nombre Completo",
+    "role": "Rol",
+    "title": "Mi Perfil",
+    "username": "Nombre de usuario"
+  },
+  "standards": {
+    "action": {
+      "add": "+ Agregar",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "editSave": "Guardar cambios",
+      "history": "Historial de Cambios",
+      "query": "Buscar",
+      "register": "Registrar",
+      "reset": "Restablecer",
+      "save": "Guardar",
+      "search": "Buscar",
+      "ddlExport": "Exportar DDL",
+      "new": "Nuevo"
+    },
+    "appName": "Gestión de Datos Estándar",
+    "appSub": "Gestión de Datos Estándar DA · Centro Comercial",
+    "auth": {
+      "adminNote": "※ Los permisos de ADMIN son fijos / Haga clic en las casillas para conceder o revocar permisos de rol inmediatamente",
+      "cat": {
+        "STD_DOM": "Dominios Estándar",
+        "STD_MGMT": "Gestión Estándar",
+        "STD_TERM": "Términos Estándar",
+        "STD_WORD": "Palabras Estándar",
+        "SYS_MGMT": "Gestión del Sistema"
+      },
+      "groups": "Gestión de Grupos",
+      "matrix": "Matriz Rol-Permiso",
+      "permHeader": "Permiso",
+      "roleLevel": "Nivel de Rol:",
+      "users": "Gestión de Roles de Usuario"
+    },
+    "boardLink": "Tablón",
+    "domain": {
+      "physicalTypeDesc": "Descripción Tipo Físico",
+      "detailTitle": "Detalle del dominio"
+    },
+    "field": {
+      "attrClass": "Atributo",
+      "category": "Categoría",
+      "classWord": "Palabra Base",
+      "dataFormat": "Formato de Datos",
+      "dataLength": "Longitud de Datos",
+      "description": "Descripción",
+      "domain": "Dominio",
+      "domainLink": "Enlace de Dominio",
+      "domainName": "Nombre de Dominio",
+      "domainNameRep": "Nombre de Dominio / Dom. Representativo",
+      "domainType": "Tipo de Dominio",
+      "entityAttr": "Entidad/Atributo",
+      "entityClass": "Entidad",
+      "length": "Longitud",
+      "logicalDataType": "Tipo de Dato Lógico",
+      "logicalName": "Nombre Lógico",
+      "logicalPhysical": "Lógico / Físico",
+      "logicalPhysicalTerm": "Término Lógico / Físico",
+      "logicalTermName": "Nombre de Término Lógico",
+      "logicalType": "Tipo Lógico",
+      "no": "N.º",
+      "physicalFullName": "Nombre Completo en Inglés",
+      "physicalName": "Nombre Físico",
+      "physicalTermName": "Nombre de Término Físico",
+      "physicalType": "Tipo Físico",
+      "physicalTypeDesc": "Tipo Físico (Desc.)",
+      "range": "Rango",
+      "repDomain": "Dominio Representativo",
+      "repDomainPhysical": "Dom. Representativo (Físico)",
+      "scale": "Decimales",
+      "logicalNameKey": "Nombre lógico (clave)"
+    },
+    "groupTab": {
+      "add": "Agregar",
+      "alertRequired": "El código de grupo y el nombre de grupo son obligatorios.",
+      "alertSystemDelete": "Los grupos del sistema no pueden eliminarse.",
+      "clickToSetPerm": "Clic → Establecer Permiso",
+      "colEmpNo": "N.º Empleado",
+      "colGroupMove": "Mover Grupo",
+      "colGroupRole": "Rol en el Grupo",
+      "colName": "Nombre",
+      "colProfileRole": "Rol de Perfil",
+      "colRemove": "Eliminar",
+      "colSubPerm": "Permiso SubManager",
+      "colUserId": "ID de Usuario",
+      "colUsername": "Nombre de usuario",
+      "confirmDelete": "¿Eliminar el grupo {grp}?",
+      "confirmRemove": "¿Eliminar este miembro?",
+      "createGroup": "+ Crear Grupo",
+      "customGroupLabel": "Grupos Personalizados ({n})",
+      "daOnly": "Solo DA",
+      "deleteGroup": "Eliminar Grupo",
+      "groupAdd": "Agregar Grupo",
+      "groupCodePlaceholder": "Código (ej. DA_TEAM)",
+      "groupNamePlaceholder": "Nombre de Grupo",
+      "groups": {
+        "G_MASTER": {
+          "desc": "Sub Admin (Solo DA)",
+          "name": "Master"
+        },
+        "G_MNGR": {
+          "desc": "Usuario con Máximos Privilegios",
+          "name": "Manager"
+        },
+        "G_SMNGR": {
+          "desc": "Sub Manager asignado por el Manager",
+          "name": "Sub Manager"
+        },
+        "G_SUPER": {
+          "desc": "Administrador de Primer Nivel",
+          "name": "Super Admin"
+        },
+        "G_USER": {
+          "desc": "Usuario Normal",
+          "name": "Usuario"
+        }
+      },
+      "masterGroupDesc1": "No mapeado directamente a profiles.main_role.",
+      "masterGroupDesc2": "Agregar miembros directamente a través de la gestión de miembros a continuación.",
+      "masterGroupTitle": "Grupo Master (Solo DA)",
+      "memberAdd": "Agregar Miembro",
+      "moveRole": {
+        "admin": "Super Admin (admin)",
+        "manager": "Manager (manager)",
+        "master": "Master (master)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "Usuario (user)"
+      },
+      "noGroupUsers": "No hay usuarios en este grupo.",
+      "noMembers": "No hay miembros.",
+      "notCreated": "No creado",
+      "permGranted": "Permiso {perm} concedido",
+      "permRevoked": "Permiso {perm} revocado",
+      "remove": "Eliminar",
+      "role": {
+        "admin": "Super Admin",
+        "master": "Master",
+        "manager": "Manager",
+        "sub_admin": "Sub Manager",
+        "user": "Usuario"
+      },
+      "roleChangeToast": "✅ Rol modificado",
+      "saving": "Guardando…",
+      "seedDone": "✓ Completado",
+      "seedDoneToast": "✅ Grupos del sistema inicializados",
+      "seedInit": "+ Inicializar",
+      "seedInitializing": "Inicializando…",
+      "selectGroup": "Selecciona un grupo a la izquierda",
+      "selectUser": "— Seleccionar Usuario —",
+      "subPermOnly": "Solo se pueden conceder permisos de escritura/eliminación",
+      "subPermPanel": "Permiso SubManager",
+      "systemGroupBadge": "Grupo del Sistema",
+      "systemGroupLabel": "Grupos del Sistema",
+      "totalMembers": "Total {n} miembros"
+    },
+    "placeholder": {
+      "domain": "Buscar nombre de dominio",
+      "term": "Buscar nombre de término lógico/físico",
+      "word": "Buscar nombre lógico/físico"
+    },
+    "role": {
+      "dataAdmin": "Admin de Datos",
+      "stdAdmin": "Admin Estándar",
+      "subAdmin": "Sub Admin",
+      "sysAdmin": "Admin del Sistema",
+      "user": "Usuario"
+    },
+    "roleByCode": {
+      "ADMIN": "Admin del Sistema",
+      "MANAGER": "Manager",
+      "MASTER": "Master",
+      "SUBMANAGER": "Sub Manager",
+      "USER": "Usuario"
+    },
+    "searchLabel": "Buscar",
+    "state": {
+      "linked": "Enlazado",
+      "saveFail": "Error al guardar",
+      "noTerms": "No hay términos registrados",
+      "select": "Selecciona un elemento",
+      "totalDomains": "{n} en total",
+      "totalTerms": "{n} en total",
+      "totalWords": "{n} en total",
+      "unused": "(No utilizado)"
+    },
+    "tab": {
+      "auth": "Control de Acceso",
+      "domain": "Gestión de Dominios",
+      "term": "Gestión de Términos",
+      "word": "Gestión de Palabras"
+    },
+    "term": {
+      "addMode": "Registrar Término",
+      "autoLogicalName": "Nombre de Término Lógico (Auto-generado)",
+      "autoPhysicalName": "Nombre de Término Físico (Auto-generado)",
+      "baseWordSelect": "Selección de Palabra Base (Clic para Agregar)",
+      "compositionInfo": "Composición (Orden de Palabra Base Seleccionada)",
+      "domainSelectPlaceholder": "-- Seleccionar Dominio --",
+      "editMode": "Editar Término",
+      "infoSection": "Información del Término",
+      "saving": "Guardando…",
+      "selectBaseWord": "Selecciona una palabra base",
+      "termDesc": "Descripción del Término"
+    },
+    "userRole": {
+      "admin": {
+        "desc": "Administrador de Primer Nivel",
+        "label": "Super Admin",
+        "limit": "(Máx. 1)"
+      },
+      "changeFailed": "Error al cambiar",
+      "colCurrentRole": "Rol Actual",
+      "colName": "Nombre",
+      "colRoleChange": "Cambiar Rol",
+      "colUserId": "ID de Usuario",
+      "colUsername": "Nombre de usuario",
+      "countBadge": "{n} usuarios",
+      "emptyGroup": "No hay usuarios en este grupo",
+      "manager": {
+        "desc": "Usuario con Máximos Privilegios",
+        "label": "Manager"
+      },
+      "master": {
+        "desc": "Sub Admin",
+        "label": "Master",
+        "limit": "(Máx. 2)"
+      },
+      "noUserId": "Sin user_id",
+      "roleChanged": "Rol cambiado con éxito",
+      "roleOption": {
+        "admin": "Super Admin (admin)",
+        "manager": "Manager (manager)",
+        "master": "Master (master)",
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
+      },
+      "saving": "Guardando…",
+      "searchCount": "Resultados de búsqueda: {n} usuarios",
+      "searchPlaceholder": "Buscar por nombre / nombre de usuario",
+      "sub_admin": {
+        "desc": "Sub Manager asignado por el Manager",
+        "label": "Sub Manager"
+      },
+      "totalCount": "Total {n} usuarios",
+      "user": {
+        "desc": "Usuario Normal",
+        "label": "Usuario"
+      }
+    }
+  },
+  "validation": {
+    "fileSizeExceeded": "El archivo supera el límite de {maxMb}MB",
+    "invalidEmail": "Formato de correo electrónico no válido",
+    "required": "Este campo es obligatorio",
+    "tooShort": "Debe tener al menos {min} caracteres"
+  }
+}

@@ -133,7 +133,7 @@ export default function DomainTab() {
       </div>
 
       <div className="px-3 py-1.5 bg-gray-100 border-t text-xs text-gray-500">
-        {t('state.totalDomains' as any, { n: rows.length })}
+        {(t as any)('state.totalDomains', { n: rows.length })}
       </div>
 
       <DomainDialog

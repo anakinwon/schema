@@ -8,8 +8,8 @@ export default defineConfig({
   // 테스트 파일 위치
   testDir: './tests/e2e',
 
-  // 전체 타임아웃 설정
-  timeout: 30 * 1000,
+  // 전체 타임아웃 설정 (Layer 2 admin 페이지 로딩 여유값)
+  timeout: 60 * 1000,
 
   // 단언(assertion) 타임아웃
   expect: {
@@ -72,7 +72,7 @@ export default defineConfig({
   // 테스트 실행 전 개발 서버 자동 시작
   webServer: {
     command: 'npm run dev -- --port 3001',
-    url: 'http://localhost:3001',
+    url: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3001',
     reuseExistingServer: true,
     timeout: 120 * 1000,
   },

@@ -97,9 +97,12 @@
     "de": "ドイツ語",
     "en": "English",
     "en-ZA": "English (SA)",
+    "es": "スペイン語",
     "fil": "Filipino",
+    "fr": "フランス語",
     "hi": "銭िन्दी",
     "id": "Bahasa Indonesia",
+    "it": "イタリア語",
     "ja": "日本語",
     "ko": "韓国語",
     "label": "言語",
@@ -125,10 +128,14 @@
       "delete": "削除",
       "edit": "修正",
       "editSave": "修正保存",
+      "history": "変更履歴",
+      "query": "照会",
       "register": "登録",
       "reset": "初期化",
       "save": "保存",
-      "search": "検索"
+      "search": "検索",
+      "ddlExport": "DDL エクスポート",
+      "new": "新規"
     },
     "appName": "標準データ管理プログラム",
     "appSub": "DA Standard Data Management・ショッピングモール",
@@ -148,6 +155,10 @@
       "users": "User Role Management"
     },
     "boardLink": "掲示板",
+    "domain": {
+      "physicalTypeDesc": "物理型の説明",
+      "detailTitle": "ドメイン詳細"
+    },
     "field": {
       "attrClass": "属性（分類語）",
       "category": "分類",
@@ -174,10 +185,12 @@
       "physicalName": "物理名",
       "physicalTermName": "物理用語名",
       "physicalType": "物理タイプ",
+      "physicalTypeDesc": "物理型(説明)",
       "range": "範囲",
       "repDomain": "代表ドメイン",
       "repDomainPhysical": "代表ドメイン（物理）",
-      "scale": "少数"
+      "scale": "少数",
+      "logicalNameKey": "論理名（キー）"
     },
     "groupTab": {
       "add": "追加",
@@ -192,6 +205,7 @@
       "colRemove": "削除",
       "colSubPerm": "SubManager権限",
       "colUserId": "User ID",
+      "colUsername": "Username",
       "confirmDelete": "グループ{grp}を削除しますか？",
       "confirmRemove": "メンバーを削除しますか？",
       "createGroup": "+ グループの作成",
@@ -230,6 +244,7 @@
       "moveRole": {
         "admin": "スーパー管理者（admin）",
         "manager": "マネージャー(manager)",
+        "master": "マスター (master)",
         "sub_admin": "副マネージャー(sub_admin)",
         "user": "ユーザー(user)"
       },
@@ -241,6 +256,7 @@
       "remove": "削除",
       "role": {
         "admin": "スーパー管理者",
+        "master": "マスター",
         "manager": "マネージャー",
         "sub_admin": "副マネージャー",
         "user": "ユーザー"
@@ -259,6 +275,11 @@
       "systemGroupLabel": "システムグループ",
       "totalMembers": "総{n}名"
     },
+    "placeholder": {
+      "domain": "ドメイン名検索",
+      "term": "論理/物理用語名検索",
+      "word": "論理名/物理名検索"
+    },
     "role": {
       "dataAdmin": "データ管理者",
       "stdAdmin": "標準管理者",
@@ -266,10 +287,22 @@
       "sysAdmin": "システム管理者",
       "user": "一般ユーザー"
     },
+    "roleByCode": {
+      "ADMIN": "システム管理者",
+      "MANAGER": "マネージャー",
+      "MASTER": "マスター",
+      "SUBMANAGER": "サブマネージャー",
+      "USER": "ユーザー"
+    },
+    "searchLabel": "検索",
     "state": {
       "linked": "接続済み",
       "saveFail": "保存失敗",
+      "noTerms": "登録された用語がありません",
       "select": "アイテムを選択してください",
+      "totalDomains": "全{n}件",
+      "totalTerms": "全{n}件",
+      "totalWords": "全{n}件",
       "unused": "(未使用)"
     },
     "tab": {
@@ -320,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

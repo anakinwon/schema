@@ -3,7 +3,6 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { VALID_CATEGORIES } from '@/lib/board'
 import { createSupabaseServer } from '@/lib/supabase-server'
-import { supabaseAdmin } from '@/lib/supabase'
 import { verifyAdminToken } from '@/lib/admin-auth'
 import BoardUserMenu from './BoardUserMenu'
 import CountrySelector from '@/components/i18n/CountrySelector'
@@ -25,7 +24,7 @@ async function getSessionInfo(): Promise<SessionInfo> {
   const supabase = await createSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { isAdmin: false, isAdminSession: false, userName: null }
-  const { data: profile } = await supabaseAdmin
+  const { data: profile } = await supabase
     .from('profiles')
     .select('main_role, full_name, username')
     .eq('user_id', user.id)

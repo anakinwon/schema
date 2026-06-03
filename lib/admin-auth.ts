@@ -8,7 +8,8 @@ const MAX_AGE_MS = 24 * 60 * 60 * 1000 // 24시간
 // 형식: nonce.timestamp.signature
 // secret key는 서버에만 존재하며, 쿠키에는 절대 포함되지 않음
 export function createAdminToken(): string {
-  const secret = process.env.ADMIN_SECRET_KEY!
+  const secret = process.env.ADMIN_SECRET_KEY
+  if (!secret) throw new Error('ADMIN_SECRET_KEY 환경변수가 설정되지 않았습니다')
   const nonce = crypto.randomBytes(16).toString('hex')
   const timestamp = Date.now().toString()
   const payload = `${nonce}.${timestamp}`
@@ -62,7 +63,7 @@ export function setAdminSessionCookie(response: NextResponse): void {
   response.cookies.set(ADMIN_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'strict',
     maxAge: MAX_AGE_MS / 1000, // 초 단위
     path: '/',
   })

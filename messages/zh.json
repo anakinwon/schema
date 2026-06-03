@@ -1,7 +1,7 @@
 {
   "admin": {
-    "adminLabel": "STD_DIC 注册/修改/删除 |||标准域名管理|||注册/修改/删除 STD_DOM |||标准术语管理",
-    "backOffice": "管理员页面（后台）|||管理员|||您没有访问权限 |||仪表板|||规范管理|||通用代码|||更改历史|||审批管理|||同步|||用户管理|||公告板管理|||多语言管理|||管理员仪表板 |||标准数据管理系统状态|||快速旅行||| DA#5 SQLiteDB_for_META · Supabase PostgreSQL |||标准字|||标准域|||标准术语 |||活跃用户|||标准文字管理",
+    "adminLabel": "管理员",
+    "backOffice": "管理员页面（后台）",
     "dashboard": {
       "card": {
         "domains": "标准域",
@@ -31,91 +31,94 @@
       "quickMenu": "快速导航"
     },
     "menu": {
-      "approval": "승인관리",
-      "audit": "변경이력",
-      "board": "게시판관리",
-      "codes": "공통코드",
-      "dashboard": "대시보드",
-      "i18n": "다국어관리",
-      "standards": "표준관리",
-      "sync": "동기화",
-      "users": "사용자관리"
+      "approval": "审批管理",
+      "audit": "更改历史",
+      "board": "公告板管理",
+      "codes": "通用代码",
+      "dashboard": "仪表板",
+      "i18n": "多语言管理",
+      "standards": "规范管理",
+      "sync": "同步",
+      "users": "用户管理"
     },
-    "noPermission": "DA_TERM 注册/修改/删除 |||常用代码管理||| DA §40 STD_CODE 管理 |||更改历史||| STD_DIC·STD_DOM 审计跟踪 |||用户列表 |||角色授予和权限管理 |||一般用户屏幕 |||标准数据查询/编辑"
+    "noPermission": "无访问权限"
   },
   "auth": {
-    "email": "이메일",
-    "login": "登录 |||退出 |||注册",
-    "loginButton": "로그인",
-    "loginError": "이메일 또는 비밀번호가 올바르지 않습니다",
-    "loginTitle": "{appName} — 로그인",
-    "logout": "{appName} — 登录 |||电子邮件 |||密码|||登录 |||电子邮件或密码不正确",
-    "password": "비밀번호",
-    "signup": "회원가입"
+    "email": "电子邮件",
+    "login": "登录",
+    "loginButton": "登录",
+    "loginError": "电子邮件或密码不正确",
+    "loginTitle": "{appName} — 登录",
+    "logout": "退出",
+    "password": "密码",
+    "signup": "注册"
   },
   "board": {
-    "answered": "채택완료",
-    "author": "작성자",
-    "backToList": "← 목록",
+    "answered": "已采纳",
+    "author": "作者",
+    "backToList": "← 列表",
     "categories": {
-      "ARCHIVE": "{size} 每个|||书名/作者搜索 |||没有搜索结果“{query}”|||通知|||领养完毕 |||未答复||| ← 列表 |||该公告板不存在 |||前往公告",
-      "FREE": "자유게시판",
-      "NOTICE": "通知|||资料室 |||免费公告板|||问答 |||写作 |||标题|||内容|||作者 |||写者 |||查看|||评论|||没有帖子|||您确定要删除您的帖子吗？ |||写作 |||编辑帖子||| {count} 病例总数",
+      "ARCHIVE": "资料室",
+      "FREE": "自由公告板",
+      "NOTICE": "通知",
       "QNA": "Q&A"
     },
-    "comments": "댓글",
-    "content": "내용",
-    "createdAt": "작성일",
-    "deleteConfirm": "게시글을 삭제하시겠습니까?",
-    "editPost": "게시글 수정",
-    "empty": "게시글이 없습니다",
-    "goToNotice": "공지사항으로 이동",
-    "newPost": "글쓰기",
-    "noSearchResult": "'{query}' 검색 결과가 없습니다",
-    "notFound": "존재하지 않는 게시판입니다",
-    "perPage": "{size}개씩",
-    "pinned": "공지",
-    "searchPlaceholder": "제목·작성자 검색",
-    "title": "제목",
-    "totalCount": "총 {count}건",
-    "unanswered": "미답변",
-    "views": "조회",
-    "write": "글쓰기"
+    "comments": "评论",
+    "content": "内容",
+    "createdAt": "发布日期",
+    "deleteConfirm": "您确定要删除这篇帖子吗？",
+    "editPost": "编辑帖子",
+    "empty": "没有帖子",
+    "goToNotice": "前往公告",
+    "newPost": "写作",
+    "noSearchResult": "没有\"{query}\"的搜索结果",
+    "notFound": "该公告板不存在",
+    "perPage": "每{size}条",
+    "pinned": "置顶",
+    "searchPlaceholder": "按标题/作者搜索",
+    "title": "标题",
+    "totalCount": "共{count}条",
+    "unanswered": "未答复",
+    "views": "查看",
+    "write": "写作"
   },
   "common": {
-    "appName": "标准数据管理程序|||仪表板|||保存|||取消|||删除|||编辑|||返回|||正在加载... |||搜索",
-    "back": "뒤로",
-    "cancel": "취소",
-    "dashboard": "대시보드",
-    "delete": "삭제",
-    "edit": "수정",
-    "loading": "불러오는 중…",
-    "save": "저장",
-    "search": "검색"
+    "appName": "标准数据管理程序",
+    "back": "返回",
+    "cancel": "取消",
+    "dashboard": "仪表板",
+    "delete": "删除",
+    "edit": "编辑",
+    "loading": "正在加载...",
+    "save": "保存",
+    "search": "搜索"
   },
   "languageSwitcher": {
     "de": "德语",
-    "en": "हिन्दी |||越南 |||印度尼西亚语 |||马来语 |||英语（南澳）|||菲律宾语",
-    "en-ZA": "English (SA)",
-    "fil": "Filipino",
+    "en": "英语",
+    "en-ZA": "英语（南澳）",
+    "es": "西班牙语",
+    "fil": "菲律宾语",
+    "fr": "法语",
     "hi": "हिन्दी",
-    "id": "Bahasa Indonesia",
-    "ja": "日本語",
-    "ko": "中文 |||日语",
-    "label": "语言|||韩语|||英语",
-    "ms": "Bahasa Melayu",
+    "id": "印度尼西亚语",
+    "it": "意大利语",
+    "ja": "日语",
+    "ko": "韩语",
+    "label": "语言",
+    "ms": "马来语",
     "ps": "普什图语",
     "sq": "阿尔巴尼亚语",
     "th": "ไทย",
-    "vi": "Tiếng Việt",
-    "zh": "ไทย"
+    "vi": "越南语",
+    "zh": "中文"
   },
   "profile": {
-    "edit": "Edit Profile",
-    "fullName": "Full Name",
-    "role": "Role",
-    "title": "我的信息|||姓名|||身份证号|||角色|||编辑个人资料",
-    "username": "Username"
+    "edit": "编辑个人资料",
+    "fullName": "姓名",
+    "role": "角色",
+    "title": "我的信息",
+    "username": "用户名"
   },
   "standards": {
     "action": {
@@ -125,10 +128,14 @@
       "delete": "删除",
       "edit": "编辑",
       "editSave": "编辑保存",
+      "history": "变更历史",
+      "query": "查询",
       "register": "登记",
       "reset": "重置",
       "save": "保存",
-      "search": "搜索"
+      "search": "搜索",
+      "ddlExport": "DDL 导出",
+      "new": "新建"
     },
     "appName": "标准数据管理程序",
     "appSub": "DA标准数据管理·商城",
@@ -148,6 +155,10 @@
       "users": "User Role Management"
     },
     "boardLink": "布告栏",
+    "domain": {
+      "physicalTypeDesc": "物理类型描述",
+      "detailTitle": "域详情"
+    },
     "field": {
       "attrClass": "属性（分类器）",
       "category": "分类",
@@ -169,177 +180,200 @@
       "logicalPhysicalTerm": "逻辑术语名称/物理术语名称",
       "logicalTermName": "逻辑术语名称",
       "logicalType": "逻辑类型",
-      "no": "数量",
+      "no": "编号",
       "physicalFullName": "英文全名",
       "physicalName": "物理名称",
       "physicalTermName": "物理术语名称",
       "physicalType": "物理型",
+      "physicalTypeDesc": "物理类型(描述)",
       "range": "范围",
       "repDomain": "代表域",
       "repDomainPhysical": "代表领域（物理）",
-      "scale": "小数"
+      "scale": "小数",
+      "logicalNameKey": "逻辑名称(键)"
     },
     "groupTab": {
-      "add": "추가",
-      "alertRequired": "그룹코드와 그룹명은 필수입니다.",
-      "alertSystemDelete": "시스템 그룹은 삭제할 수 없습니다.",
-      "clickToSetPerm": "클릭 → 권한 설정",
-      "colEmpNo": "사원번호",
-      "colGroupMove": "그룹 이동",
-      "colGroupRole": "그룹 내 역할",
-      "colName": "이름",
-      "colProfileRole": "Profiles 역할",
-      "colRemove": "제거",
-      "colSubPerm": "SubManager 권한",
-      "colUserId": "User ID",
-      "confirmDelete": "그룹 {grp}를 삭제하시겠습니까?",
-      "confirmRemove": "구성원을 제거하시겠습니까?",
-      "createGroup": "+ 그룹 생성",
-      "customGroupLabel": "커스텀 그룹 ({n})",
-      "daOnly": "DA 전용",
-      "deleteGroup": "그룹 삭제",
-      "groupAdd": "그룹 추가",
-      "groupCodePlaceholder": "코드 (예: DA_TEAM)",
-      "groupNamePlaceholder": "그룹명",
+      "add": "添加",
+      "alertRequired": "组代码和组名称为必填项。",
+      "alertSystemDelete": "系统组无法删除。",
+      "clickToSetPerm": "点击 → 设置权限",
+      "colEmpNo": "员工编号",
+      "colGroupMove": "移动组",
+      "colGroupRole": "组内角色",
+      "colName": "姓名",
+      "colProfileRole": "Profiles 角色",
+      "colRemove": "移除",
+      "colSubPerm": "SubManager 权限",
+      "colUserId": "用户ID",
+      "colUsername": "用户名",
+      "confirmDelete": "确定删除组 {grp} 吗？",
+      "confirmRemove": "确定移除该成员吗？",
+      "createGroup": "+ 创建组",
+      "customGroupLabel": "自定义组 ({n})",
+      "daOnly": "DA 专用",
+      "deleteGroup": "删除组",
+      "groupAdd": "添加组",
+      "groupCodePlaceholder": "代码（例：DA_TEAM）",
+      "groupNamePlaceholder": "组名称",
       "groups": {
         "G_MASTER": {
-          "desc": "부관리자 (DA 전용)",
-          "name": "마스터"
+          "desc": "副管理员 (DA 专用)",
+          "name": "主管"
         },
         "G_MNGR": {
-          "desc": "사용자 중 최고권한자",
-          "name": "매니저"
+          "desc": "用户中最高权限者",
+          "name": "管理员"
         },
         "G_SMNGR": {
-          "desc": "매니저가 지정하는 서브매니저",
-          "name": "부매니저"
+          "desc": "由管理员指定的副管理员",
+          "name": "副管理员"
         },
         "G_SUPER": {
-          "desc": "최상위 관리자",
-          "name": "수퍼관리자"
+          "desc": "最高级管理员",
+          "name": "超级管理员"
         },
         "G_USER": {
-          "desc": "일반 사용자",
-          "name": "사용자"
+          "desc": "普通用户",
+          "name": "用户"
         }
       },
-      "masterGroupDesc1": "Profiles의 main_role과 직접 매핑되지 않습니다.",
-      "masterGroupDesc2": "아래 구성원 관리를 통해 직접 추가해 주세요.",
-      "masterGroupTitle": "마스터 그룹 (DA 전용)",
-      "memberAdd": "구성원 추가",
+      "masterGroupDesc1": "不直接映射到 Profiles 的 main_role。",
+      "masterGroupDesc2": "请通过下方的成员管理直接添加。",
+      "masterGroupTitle": "主管组 (DA 专用)",
+      "memberAdd": "添加成员",
       "moveRole": {
-        "admin": "수퍼관리자 (admin)",
-        "manager": "매니저 (manager)",
-        "sub_admin": "부매니저 (sub_admin)",
-        "user": "사용자 (user)"
+        "admin": "超级管理员 (admin)",
+        "manager": "管理员 (manager)",
+        "master": "主管 (master)",
+        "sub_admin": "副管理员 (sub_admin)",
+        "user": "用户 (user)"
       },
-      "noGroupUsers": "이 그룹에 해당하는 사용자가 없습니다.",
-      "noMembers": "구성원이 없습니다.",
-      "notCreated": "미생성",
-      "permGranted": "{perm} 권한 부여",
-      "permRevoked": "{perm} 권한 회수",
-      "remove": "제거",
+      "noGroupUsers": "该组没有对应用户。",
+      "noMembers": "暂无成员。",
+      "notCreated": "未创建",
+      "permGranted": "已授予 {perm} 权限",
+      "permRevoked": "已撤销 {perm} 权限",
+      "remove": "移除",
       "role": {
-        "admin": "수퍼관리자",
-        "manager": "매니저",
-        "sub_admin": "부매니저",
-        "user": "사용자"
+        "admin": "超级管理员",
+        "master": "主管",
+        "manager": "管理员",
+        "sub_admin": "副管理员",
+        "user": "用户"
       },
-      "roleChangeToast": "✅ 역할 변경 완료",
-      "saving": "저장 중…",
-      "seedDone": "✓ 완료",
-      "seedDoneToast": "✅ 시스템 그룹 초기화 완료",
-      "seedInit": "+ 초기화",
-      "seedInitializing": "초기화 중…",
-      "selectGroup": "왼쪽에서 그룹을 선택하세요",
-      "selectUser": "— 사용자 선택 —",
-      "subPermOnly": "쓰기·삭제 권한만 부여 가능",
-      "subPermPanel": "SubManager 권한",
-      "systemGroupBadge": "시스템 그룹",
-      "systemGroupLabel": "시스템 그룹",
-      "totalMembers": "총 {n}명"
+      "roleChangeToast": "✅ 角色变更完成",
+      "saving": "保存中…",
+      "seedDone": "✓ 完成",
+      "seedDoneToast": "✅ 系统组初始化完成",
+      "seedInit": "+ 初始化",
+      "seedInitializing": "初始化中…",
+      "selectGroup": "请从左侧选择组",
+      "selectUser": "— 选择用户 —",
+      "subPermOnly": "仅可授予写入·删除权限",
+      "subPermPanel": "SubManager 权限",
+      "systemGroupBadge": "系统组",
+      "systemGroupLabel": "系统组",
+      "totalMembers": "共{n}名"
+    },
+    "placeholder": {
+      "domain": "搜索域名",
+      "term": "搜索逻辑/物理术语名称",
+      "word": "搜索逻辑/物理名称"
     },
     "role": {
-      "dataAdmin": "数据管理器",
-      "stdAdmin": "标准经理",
-      "subAdmin": "标准副经理",
+      "dataAdmin": "数据管理员",
+      "stdAdmin": "标准管理员",
+      "subAdmin": "副标准管理员",
       "sysAdmin": "系统管理员",
       "user": "普通用户"
     },
+    "roleByCode": {
+      "ADMIN": "系统管理员",
+      "MANAGER": "管理员",
+      "MASTER": "主管",
+      "SUBMANAGER": "副管理员",
+      "USER": "用户"
+    },
+    "searchLabel": "搜索",
     "state": {
       "linked": "已连接",
       "saveFail": "保存失败",
+      "noTerms": "没有已注册的术语",
       "select": "请选择一个项目",
+      "totalDomains": "共{n}件",
+      "totalTerms": "共{n}件",
+      "totalWords": "共{n}件",
       "unused": "（未使用）"
     },
     "tab": {
       "auth": "权限管理",
       "domain": "标准域管理",
       "term": "标准术语管理",
-      "word": "标准文字管理"
+      "word": "标准词汇管理"
     },
     "term": {
-      "addMode": "Register Term",
-      "autoLogicalName": "Logical Term Name (Auto-generated)",
-      "autoPhysicalName": "Physical Term Name (Auto-generated)",
-      "baseWordSelect": "Base Word Selection (Click to Add)",
-      "compositionInfo": "Composition (Selected Base Word Order)",
-      "domainSelectPlaceholder": "-- Select Domain --",
-      "editMode": "Edit Term",
-      "infoSection": "Term Information",
-      "saving": "Saving…",
-      "selectBaseWord": "Please select a base word",
-      "termDesc": "Term Description"
+      "addMode": "注册术语",
+      "autoLogicalName": "逻辑术语名称（自动生成）",
+      "autoPhysicalName": "物理术语名称（自动生成）",
+      "baseWordSelect": "基本词选择（点击添加）",
+      "compositionInfo": "构成信息（所选基本词顺序）",
+      "domainSelectPlaceholder": "-- 选择域 --",
+      "editMode": "编辑术语",
+      "infoSection": "术语信息",
+      "saving": "保存中…",
+      "selectBaseWord": "请选择基本词",
+      "termDesc": "术语说明"
     },
     "userRole": {
       "admin": {
-        "desc": "Top-level Admin",
-        "label": "Super Admin",
-        "limit": "(Max 1)"
+        "desc": "最高级管理员",
+        "label": "超级管理员",
+        "limit": "（最多1名）"
       },
-      "changeFailed": "Change failed",
-      "colCurrentRole": "Current Role",
-      "colName": "Name",
-      "colRoleChange": "Change Role",
-      "colUserId": "User ID",
-      "colUsername": "Username",
-      "countBadge": "{n}",
-      "emptyGroup": "No users in this group",
+      "changeFailed": "变更失败",
+      "colCurrentRole": "当前角色",
+      "colName": "姓名",
+      "colRoleChange": "变更角色",
+      "colUserId": "用户ID",
+      "colUsername": "用户名",
+      "countBadge": "{n}名",
+      "emptyGroup": "该组暂无用户",
       "manager": {
-        "desc": "Highest Privilege User",
-        "label": "Manager"
+        "desc": "最高权限用户",
+        "label": "管理员"
       },
       "master": {
-        "desc": "Sub Admin",
-        "label": "Master",
-        "limit": "(Max 2)"
+        "desc": "副管理员",
+        "label": "主管",
+        "limit": "（最多2名）"
       },
-      "noUserId": "No user_id",
-      "roleChanged": "Role changed successfully",
+      "noUserId": "无用户ID",
+      "roleChanged": "角色变更成功",
       "roleOption": {
-        "admin": "Super Admin (admin)",
-        "manager": "Manager (manager)",
-        "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "admin": "超级管理员 (admin)",
+        "manager": "管理员 (manager)",
+        "master": "主管 (master)",
+        "sub_admin": "副管理员 (sub_admin)",
+        "user": "用户 (user)"
       },
-      "saving": "Saving…",
-      "searchCount": "Search results: {n} users",
-      "searchPlaceholder": "Search by name / username",
+      "saving": "保存中…",
+      "searchCount": "搜索结果：{n}名",
+      "searchPlaceholder": "按姓名/用户名搜索",
       "sub_admin": {
-        "desc": "Sub Manager assigned by Manager",
-        "label": "Sub Manager"
+        "desc": "由管理员指定的副管理员",
+        "label": "副管理员"
       },
-      "totalCount": "Total {n} users",
+      "totalCount": "共{n}名",
       "user": {
-        "desc": "Regular User",
-        "label": "User"
+        "desc": "普通用户",
+        "label": "用户"
       }
     }
   },
   "validation": {
-    "fileSizeExceeded": "업로드 파일크기제한 {maxMb}MB를 초과했습니다",
-    "invalidEmail": "올바른 이메일 형식이 아닙니다",
-    "required": "此字段为必填项 |||电子邮件格式不正确|||请输入 {min} 个字符或更多|||已超出 {maxMb}MB 的上传文件大小限制。",
-    "tooShort": "{min}자 이상 입력하세요"
+    "fileSizeExceeded": "已超出{maxMb}MB的上传文件大小限制",
+    "invalidEmail": "电子邮件格式不正确",
+    "required": "此字段为必填项",
+    "tooShort": "请输入{min}个或更多字符"
   }
 }

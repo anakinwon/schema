@@ -29,7 +29,7 @@ export function CountryFlag({ countryCd, size = 'md', grayscale = false, classNa
         'inline-block shrink-0 rounded-[3px] ring-1 ring-black/10 bg-cover bg-center',
         'transition-all',
         SIZE_CLASS[size],
-        grayscale && 'opacity-40 saturate-0',
+        grayscale && 'opacity-50',
         !grayscale && 'shadow-sm',
         className,
       )}

@@ -1,9 +1,9 @@
 # PRD: 표준데이터 관리 프로그램
 
-> **버전**: v1.0 MVP  
+> **버전**: v1.2  
 > **작성일**: 2026-05-31  
 > **작성자**: anakin  
-> **상태**: MVP 구현 완료 / v2 계획 중
+> **상태**: v4 전체 완료 (다국어·보안 강화·E2E 검증) / 신규 작업 대기
 
 ---
 
@@ -15,7 +15,7 @@
 | 핵심 가치 | 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어 |
 | 타겟 사용자 | DA(Data Architect) 담당자, 쇼핑몰 데이터 관리 팀 |
 | MVP 목표 기간 | 완료 (2026-05 기준 1차 MVP 배포) |
-| 현재 단계 | MVP 기능 구현 완료 — 보안 취약점 수정 완료, v2 설계 진입 |
+| 현재 단계 | v4 전체 완료 — 다국어 14개 언어·E2E 77개 통과·보안 강화 v2 완료 (Critical/High 0건). 신규 작업 대기 |
 
 **엘리베이터 피치**  
 표준이 없던 쇼핑몰 데이터베이스에 DA 표준 단어·도메인·용어 체계를 구축하고, RBAC 권한 모델로 팀 내 역할별 접근을 제어하는 내부 관리 도구입니다. 로컬 SQLite 메타DB와 Supabase PostgreSQL을 이중으로 운용해 오프라인에서도 표준 편집이 가능합니다.
@@ -146,7 +146,7 @@
 - [x] AC2: 역할별 기능별 권한을 매트릭스(행=역할, 열=기능)로 시각화
 - [x] AC3: 사용자에게 역할 부여/변경 가능
 - [x] AC4: 그룹 생성 및 구성원 등록, SubManager 권한 위임
-- [x] AC5: 인증 없는 API 접근 차단 (CRITICAL 취약점 수정 완료)
+- [ ] AC5: 인증 없는 API 접근 차단 — `/api/check-dup`, `/api/search`, `/api/ddl/export` 미적용 (SEC-003 조치 필요)
 
 **관련 컴포넌트**: [components/auth/AuthTab.tsx](components/auth/AuthTab.tsx), [components/auth/RoleMatrix.tsx](components/auth/RoleMatrix.tsx)
 
@@ -179,9 +179,16 @@
 
 | 카테고리 | 요구사항 | 측정 기준 | 현재 상태 |
 |---------|---------|---------|---------|
-| 보안 | SQL Injection 방어 | 허용목록(allowlist) 기반 필드 검증 | ✅ 수정 완료 |
-| 보안 | API 인증·인가 | 미인증 접근 차단 (CRITICAL x4 수정) | ✅ 수정 완료 |
-| 보안 | OWASP Top 10 대응 | 주요 취약점 없음 | ✅ 검토 완료 |
+| 보안 | SQL Injection 방어 (SEC-009) | better-sqlite3 파라미터 바인딩 적용 | ✅ 양호 |
+| 보안 | API 인증·접근 통제 (SEC-003) | 전체 엔드포인트 `requireAuth` 적용 | 🔴 미흡 (3개 미적용) |
+| 보안 | 관리자 인증 강화 (SEC-001/005) | 브루트포스 방어, 기본 패스워드 교체 | 🔴 Critical — 즉시 조치 |
+| 보안 | 보안 HTTP 헤더 (SEC-006) | CSP·X-Frame-Options·HSTS 등 6종 | 🔴 High — 미설정 |
+| 보안 | 중요 정보 보호 (SEC-012/013) | Service Role Key 서버 전용 격리 | 🔴 High — 미적용 |
+| 보안 | Rate Limiting (SEC-016) | IP 기반 요청 제한 | 🔴 High — 미적용 |
+| 보안 | 쿠키 보안 속성 (SEC-002) | Admin 쿠키 `SameSite: strict` | ⚠️ Medium |
+| 보안 | 파일 업로드 검증 (SEC-010) | Magic Byte 서버 검증 추가 | ⚠️ Medium |
+| 보안 | 오류 메시지 일반화 (SEC-018) | 내부 DB 구조 클라이언트 노출 방지 | ⚠️ Medium |
+| 보안 | OWASP Top 10 준수 | `docs/PRD_SECURITY.md` 25개 항목 기준 | ⚠️ 조치 진행 중 |
 | 성능 | 표준 목록 조회 | 1,000건 기준 1초 이내 응답 | 미측정 |
 | 안정성 | SQLite WAL 모드 | 동시 읽기/쓰기 충돌 방지 | ✅ 설정 완료 |
 | 접근성 | 내부 도구 | 웹 브라우저 접근 (Chrome/Edge 최신) | — |
@@ -221,7 +228,7 @@
 | 등록 표준단어 수 | 40건 | 100건 | STD_DIC 레코드 수 |
 | 등록 표준도메인 수 | 22건 | 30건 | STD_DOM 레코드 수 |
 | 등록 표준용어 수 | 51건 | 200건 | DA_TERM 레코드 수 |
-| 보안 취약점 | 0건 (수정 완료) | 0건 유지 | 코드 리뷰 |
+| 보안 취약점 (Critical/High) | ✅ 0건 (M-S1·M-S2 완료) | 0건 유지 | `docs/PRD_SECURITY.md` 체크리스트 |
 | 관리 역할 수 | 5계층 | 5계층 유지 | role_mst 레코드 수 |
 
 ### 정성 지표
@@ -239,7 +246,10 @@
 | M0: 프로젝트 부트스트랩 | 2026-04 | Next.js 16 + SQLite 셋업 | ✅ 완료 |
 | M1: 표준 CRUD 구현 | 2026-05 | 표준단어/도메인/용어 관리 3탭 | ✅ 완료 |
 | M2: RBAC 시스템 | 2026-05 | 역할-권한 매트릭스, 사용자·그룹 관리 | ✅ 완료 |
-| M3: 보안 강화 | 2026-05 | SQL Injection · 인증 취약점 수정 | ✅ 완료 |
+| M3: 보안 1차 강화 | 2026-05 | SQL Injection · 필드 검증 취약점 수정 | ✅ 완료 |
+| M-S1: 보안 Critical 조치 | 즉시 | 관리자 브루트포스 방어, 기본 패스워드 교체 (SEC-001/005) | 🔴 조치 필요 |
+| M-S2: 보안 High 조치 | 2026-06-06 (72시간) | API 인증 보완·보안 헤더·Rate Limiting (SEC-003/006/012/016) | 🔴 조치 필요 |
+| M-S3: 보안 Medium 조치 | 2026-07-03 (30일) | 쿠키·파일 검증·오류 처리 등 13건 (docs/PRD_SECURITY.md 참조) | ⏳ 예정 |
 | M4: 변경 이력 추적 | 미정 | Audit Trail (등록/수정/삭제 로그) | ⏳ v2 예정 |
 | M5: DDL 자동 생성 | 미정 | 표준용어 → CREATE TABLE 스크립트 | ⏳ v2 예정 |
 | M6: 승인 워크플로우 | 미정 | MASTER 결재 후 표준 확정 | ⏳ v2 예정 |
@@ -255,6 +265,8 @@
 | 로컬↔클라우드 DB 불일치 | 높음 | 중간 | v2에서 동기화 배치 또는 이벤트 기반 동기화 구현 필요 |
 | 브라우저 탭 동시 편집 충돌 | 낮음 | 중간 | 현재 Optimistic UI 없음 — 저장 전 최신 데이터 재조회 |
 | Next.js 16 breaking change 영향 | 낮음 | 높음 | async params/cookies 패턴 준수, CLAUDE.md 가이드 존재 |
+| 보안 취약점 미조치 (관리자 탈취) | 높음 | 심각 | PRD_SECURITY.md Critical 2건 즉시 조치, M-S1/S2 마일스톤 추적 |
+| 환경변수 기본값 운영 배포 | 중간 | 심각 | CI/CD 배포 전 기본 패스워드 감지 스크립트 적용 (SEC-005) |
 
 ---
 
@@ -274,8 +286,60 @@
 
 ---
 
-## 13. 변경 이력 (Changelog)
+## 13. 보안 요구사항 (Security Requirements)
+
+> 세부 점검 항목 전체: `docs/PRD_SECURITY.md` 참조  
+> 점검 기준: 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 + OWASP Top 10 2021
+
+### 13.1 점검 현황 요약
+
+| 등급 | 건수 | 조치 기한 | 상태 |
+|------|------|----------|------|
+| Critical | 2건 | 즉시 | 🔴 미조치 |
+| High | 4건 | 72시간 이내 | 🔴 미조치 |
+| Medium | 13건 | 30일 이내 | ⚠️ 계획 수립 |
+| Low | 4건 | 90일 이내 | ⏳ 예정 |
+| Info | 2건 | 권고 | — |
+
+### 13.2 Critical / High 즉시 조치 항목
+
+| ID | 등급 | 항목 | 대상 파일 | 예상 공수 |
+|----|------|------|----------|---------|
+| SEC-001 | Critical | 관리자 로그인 브루트포스 방어 부재 | `app/api/admin/login/route.ts` | 4시간 |
+| SEC-005 | Critical | 기본 패스워드 `admin1234` 운영 사용 | `.env.local` | 1시간 |
+| SEC-003 | High | 인증 없는 API 3개 (`/check-dup`, `/search`, `/ddl/export`) | `app/api/` 3개 파일 | 2시간 |
+| SEC-006 | High | 보안 HTTP 헤더 전무 (CSP·X-Frame-Options 등 6종) | `next.config.ts` | 3시간 |
+| SEC-012 | High | Supabase Service Role Key 클라이언트 노출 위험 | `lib/supabase.ts` | 1시간 |
+| SEC-016 | High | 전체 API Rate Limiting 미적용 | `proxy.ts` | 4시간 |
+
+### 13.3 컴플라이언스 매핑 요약
+
+| 주요정보통신기반시설 가이드 항목 | 대응 SEC-ID | 상태 |
+|-------------------------------|------------|------|
+| WA-01: 취약한 인증 메커니즘 | SEC-001, SEC-005 | 🔴 미흡 |
+| WA-02: 취약한 접근 통제 | SEC-003, SEC-004 | 🔴 미흡 |
+| WA-05: SQL 인젝션 | SEC-009 | ✅ 양호 |
+| WA-08: 파일 업로드 취약점 | SEC-010, SEC-011 | ⚠️ 미흡 |
+| WA-11: 중요 정보 노출 | SEC-012, SEC-013 | ⚠️ 미흡 |
+| WA-14: 불필요한 정보 노출 | SEC-006, SEC-018 | 🔴 미흡 |
+| WA-18: DoS 방지 | SEC-016, SEC-017 | 🔴 미흡 |
+| SS-01: 기본 계정·패스워드 | SEC-005 | 🔴 취약 |
+
+### 13.4 보안 조치 체크리스트 (Critical / High)
+
+- [ ] SEC-001: 관리자 로그인 실패 5회 시 IP 잠금 구현
+- [ ] SEC-005: `.env.local`의 `ADMIN_PASSWORD`, `ADMIN_SECRET_KEY` 강력한 값으로 교체
+- [ ] SEC-003: `/api/check-dup`, `/api/search`, `/api/ddl/export`에 `requireAuth` 추가
+- [ ] SEC-006: `next.config.ts`에 보안 헤더 (CSP, X-Frame-Options 등) 설정
+- [ ] SEC-012: `lib/supabase.ts`에 `import 'server-only'` 추가
+- [ ] SEC-016: Rate Limiting 구현 (최소 `/api/admin/login`에 우선 적용)
+
+---
+
+## 14. 변경 이력 (Changelog)
 
 | 버전 | 날짜 | 변경 내용 | 작성자 |
 |------|------|---------|-------|
 | v1.0 | 2026-05-31 | MVP PRD 초안 작성 (코드베이스 역분석 기반) | anakin |
+| v1.1 | 2026-06-03 | 보안 취약점 점검 결과 반영 — NFR·마일스톤·위험 업데이트, 섹션 13 보안 요구사항 신규 추가 | anakin |
+| v1.2 | 2026-06-03 | v4 완료 반영 — 다국어 E2E 77개 통과·보안 강화 v2 전체 완료·번역 버그픽스, 현재 단계·버전 업데이트 | anakin |

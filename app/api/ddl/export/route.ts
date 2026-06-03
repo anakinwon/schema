@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { generateDDL, type Dbms, type TermColumn } from '@/lib/ddl-generator'
+import { requireAnyAuth } from '@/lib/auth-guard'
 
 // TASK-010: DDL Export API
 // POST /api/ddl/export
 // body: { tableName: string, termIds: string[], dbms: 'postgresql'|'mysql' }
 export async function POST(req: NextRequest) {
+  const auth = await requireAnyAuth(req)
+  if (!auth.ok) return auth.response
+
   const body = await req.json()
   const { tableName, termIds, dbms = 'postgresql' } = body as {
     tableName: string

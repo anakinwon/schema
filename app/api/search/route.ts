@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 import { matchesQuery, isInitialSearch } from '@/lib/korean-utils'
+import { requireAnyAuth } from '@/lib/auth-guard'
 
 // TASK-011: 통합 검색 API (초성 검색 + 약어 역방향 검색)
 // GET /api/search?q=사용자&mode=all|word|domain|term
 export async function GET(req: NextRequest) {
-  const q = (req.nextUrl.searchParams.get('q') ?? '').trim()
+  const auth = await requireAnyAuth(req)
+  if (!auth.ok) return auth.response
+
+  const q = (req.nextUrl.searchParams.get('q') ?? '').trim().slice(0, 100)
   const mode = req.nextUrl.searchParams.get('mode') ?? 'all'
 
   if (!q) return NextResponse.json({ words: [], domains: [], terms: [] })

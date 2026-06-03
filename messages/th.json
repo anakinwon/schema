@@ -97,9 +97,12 @@
     "de": "เยอรมัน",
     "en": "อังกฤษ",
     "en-ZA": "อังกฤษ (SA)",
+    "es": "สเปน",
     "fil": "ฟิลิปปินส์",
+    "fr": "ฝรั่งเศส",
     "hi": "สวัสดี",
     "id": "บาฮาซาอินโดนีเซีย",
+    "it": "อิตาลี",
     "ja": "ภาษาญี่ปุ่น",
     "ko": "เกาหลี",
     "label": "ภาษา",
@@ -125,10 +128,14 @@
       "delete": "ลบ",
       "edit": "แก้ไข",
       "editSave": "แก้ไขบันทึก",
+      "history": "ประวัติการเปลี่ยนแปลง",
+      "query": "ค้นหา",
       "register": "การลงทะเบียน",
       "reset": "รีเซ็ต",
       "save": "บันทึก",
-      "search": "ค้นหา"
+      "search": "ค้นหา",
+      "ddlExport": "ส่งออก DDL",
+      "new": "ใหม่"
     },
     "appName": "โปรแกรมจัดการข้อมูลมาตรฐาน",
     "appSub": "การจัดการข้อมูลมาตรฐาน DA · ห้างสรรพสินค้า",
@@ -149,7 +156,8 @@
     },
     "boardLink": "กระดานข่าว",
     "domain": {
-      "physicalTypeDesc": "Description (Physical Type)"
+      "physicalTypeDesc": "Physical Type Description",
+      "detailTitle": "รายละเอียดโดเมน"
     },
     "field": {
       "attrClass": "คุณสมบัติ (ลักษณนาม)",
@@ -177,10 +185,12 @@
       "physicalName": "ชื่อทางกายภาพ",
       "physicalTermName": "ชื่อศัพท์ฟิสิกส์",
       "physicalType": "ประเภททางกายภาพ",
+      "physicalTypeDesc": "ประเภทฟิสิกส์ (คำอธิบาย)",
       "range": "ช่วง",
       "repDomain": "โดเมนตัวแทน",
       "repDomainPhysical": "โดเมนตัวแทน (ฟิสิกส์)",
-      "scale": "ทศนิยม"
+      "scale": "ทศนิยม",
+      "logicalNameKey": "ชื่อตรรกะ (คีย์)"
     },
     "groupTab": {
       "add": "เพิ่ม",
@@ -195,6 +205,7 @@
       "colRemove": "ลบ",
       "colSubPerm": "สิทธิ์ของผู้จัดการย่อย",
       "colUserId": "รหัสผู้ใช้",
+      "colUsername": "Username",
       "confirmDelete": "คุณแน่ใจหรือไม่ว่าต้องการลบกลุ่ม {grp}",
       "confirmRemove": "คุณแน่ใจหรือไม่ว่าต้องการลบสมาชิกรายนี้?",
       "createGroup": "+ สร้างกลุ่ม",
@@ -233,6 +244,7 @@
       "moveRole": {
         "admin": "수퍼관리자 (admin)",
         "manager": "매니저 (manager)",
+        "master": "มาสเตอร์ (master)",
         "sub_admin": "부매니저 (sub_admin)",
         "user": "사용자 (user)"
       },
@@ -244,6 +256,7 @@
       "remove": "제거",
       "role": {
         "admin": "수퍼관리자",
+        "master": "มาสเตอร์",
         "manager": "매니저",
         "sub_admin": "부매니저",
         "user": "사용자"
@@ -262,6 +275,11 @@
       "systemGroupLabel": "시스템 그룹",
       "totalMembers": "총 {n}명"
     },
+    "placeholder": {
+      "domain": "ค้นหาชื่อโดเมน",
+      "term": "ค้นหาชื่อคำศัพท์ลอจิก/ฟิสิกส์",
+      "word": "ค้นหาชื่อลอจิก/ฟิสิกส์"
+    },
     "role": {
       "dataAdmin": "ผู้จัดการข้อมูล",
       "stdAdmin": "ผู้จัดการมาตรฐาน",
@@ -269,10 +287,22 @@
       "sysAdmin": "ผู้ดูแลระบบ",
       "user": "ผู้ใช้ทั่วไป"
     },
+    "roleByCode": {
+      "ADMIN": "ผู้ดูแลระบบ",
+      "MANAGER": "ผู้จัดการ",
+      "MASTER": "มาสเตอร์",
+      "SUBMANAGER": "ผู้จัดการรอง",
+      "USER": "ผู้ใช้"
+    },
+    "searchLabel": "ค้นหา",
     "state": {
       "linked": "เชื่อมต่อแล้ว",
       "saveFail": "บันทึกล้มเหลว",
+      "noTerms": "ไม่มีคำศัพท์ที่ลงทะเบียน",
       "select": "กรุณาเลือกรายการ",
+      "totalDomains": "ทั้งหมด {n}",
+      "totalTerms": "ทั้งหมด {n}",
+      "totalWords": "ทั้งหมด {n}",
       "unused": "(ไม่ได้ใช้)"
     },
     "tab": {
@@ -323,7 +353,8 @@
         "admin": "Super Admin (admin)",
         "manager": "Manager (manager)",
         "master": "Master (master)",
-        "sub_admin": "Sub Manager (sub_admin)"
+        "sub_admin": "Sub Manager (sub_admin)",
+        "user": "User (user)"
       },
       "saving": "Saving…",
       "searchCount": "Search results: {n} users",

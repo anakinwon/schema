@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
@@ -14,6 +15,7 @@ const GoogleIcon = () => (
 
 export default function LoginForm() {
   const router = useRouter()
+  const t = useTranslations('auth')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -35,7 +37,7 @@ export default function LoginForm() {
     if (signInError) {
       setError(
         signInError.message === 'Invalid login credentials'
-          ? '이메일 또는 비밀번호가 올바르지 않습니다'
+          ? t('loginError')
           : signInError.message
       )
       setLoading(false)
@@ -59,11 +61,11 @@ export default function LoginForm() {
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-8">
-      <h2 className="text-lg font-semibold text-gray-800 mb-6">로그인</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-6">{t('login')}</h2>
 
       <form onSubmit={handleEmailLogin} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">{t('email')}</label>
           <input
             id="email"
             type="email"
@@ -76,7 +78,7 @@ export default function LoginForm() {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">비밀번호</label>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">{t('password')}</label>
           <input
             id="password"
             type="password"
@@ -99,7 +101,7 @@ export default function LoginForm() {
           disabled={loading}
           className="w-full py-2.5 px-4 bg-[#1e3a5f] text-white rounded-lg text-sm font-medium hover:bg-[#162d4a] disabled:opacity-60 transition-colors"
         >
-          {loading ? '로그인 중...' : '로그인'}
+          {loading ? `${t('loginButton')}…` : t('loginButton')}
         </button>
       </form>
 

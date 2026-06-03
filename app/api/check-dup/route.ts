@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
+import { requireAnyAuth } from '@/lib/auth-guard'
 
 const ALLOWED_DIC_FIELDS = new Set(['DIC_LOG_NM', 'DIC_PHY_NM', 'DIC_PHY_FLL_NM'])
 const ALLOWED_DOM_FIELDS = new Set(['DOM_NM', 'KEY_DOM_NM', 'KEY_DOM_PHY_NM'])
 
 export async function GET(req: NextRequest) {
+  const auth = await requireAnyAuth(req)
+  if (!auth.ok) return auth.response
+
   const table = req.nextUrl.searchParams.get('table') ?? 'dic'
   const fieldParam = req.nextUrl.searchParams.get('field') ?? 'DIC_LOG_NM'
   const value = req.nextUrl.searchParams.get('value') ?? ''

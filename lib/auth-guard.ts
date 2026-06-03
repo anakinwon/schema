@@ -59,12 +59,11 @@ export async function requireAuth(
     }
   }
 
-  // profiles에서 역할 조회 (단일 소스 — user_info.role_cd 동기화 불완전 우회)
-  const { data: profile } = await supabaseAdmin
-    .from('profiles')
-    .select('main_role')
-    .eq('user_id', user.id)
-    .maybeSingle()
+  // profiles + user_info 병렬 조회 (순차 → 병렬로 변경하여 ~100ms 단축)
+  const [{ data: profile }, { data: userInfo }] = await Promise.all([
+    supabaseAdmin.from('profiles').select('main_role').eq('user_id', user.id).maybeSingle(),
+    supabaseAdmin.from('user_info').select('usr_no').eq('eml_addr', user.email).maybeSingle(),
+  ])
 
   const role_cd = PROFILE_ROLE_MAP[profile?.main_role ?? 'user'] ?? 'USER'
 
@@ -78,14 +77,37 @@ export async function requireAuth(
     }
   }
 
-  // usr_no: user_info에 없으면 null (하위 호환)
-  const { data: userInfo } = await supabaseAdmin
-    .from('user_info')
-    .select('usr_no')
-    .eq('eml_addr', user.email)
-    .maybeSingle()
-
   return { ok: true, email: user.email, role_cd, usr_no: userInfo?.usr_no ?? null, user_id: user.id }
+}
+
+/**
+ * 경량 인증 — JWT 유효성만 검증 (역할 체크 없음)
+ * 모든 로그인 사용자에게 허용되는 엔드포인트에 사용.
+ * requireAuth 대비 Supabase API 호출 3회 → 1회로 단축.
+ */
+export async function requireAnyAuth(req: NextRequest): Promise<AuthResult> {
+  const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '')
+
+  if (!token && isAdminSession(req)) {
+    return { ok: true, email: 'admin@system', role_cd: 'ADMIN', usr_no: null, user_id: null }
+  }
+
+  if (!token) {
+    return {
+      ok: false,
+      response: NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 }),
+    }
+  }
+
+  const { data: { user }, error } = await supabase.auth.getUser(token)
+  if (error || !user?.email) {
+    return {
+      ok: false,
+      response: NextResponse.json({ error: '유효하지 않은 세션입니다' }, { status: 401 }),
+    }
+  }
+
+  return { ok: true, email: user.email, role_cd: 'USER', usr_no: null, user_id: user.id }
 }
 
 /** MANAGER가 특정 그룹의 담당자인지 확인 (그룹 스코프 권한) */

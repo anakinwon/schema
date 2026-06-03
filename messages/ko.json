@@ -97,9 +97,12 @@
     "de": "독일어",
     "en": "English",
     "en-ZA": "English (SA)",
+    "es": "스페인어",
     "fil": "Filipino",
+    "fr": "프랑스어",
     "hi": "हिन्दी",
     "id": "Bahasa Indonesia",
+    "it": "이탈리아어",
     "ja": "日本語",
     "ko": "한국어",
     "label": "언어",
@@ -125,10 +128,14 @@
       "delete": "삭제",
       "edit": "수정",
       "editSave": "수정저장",
+      "history": "변경이력",
+      "query": "조회",
       "register": "등록",
       "reset": "초기화",
       "save": "저장",
-      "search": "검색"
+      "search": "검색",
+      "ddlExport": "DDL 내보내기",
+      "new": "신규"
     },
     "appName": "표준데이터 관리 프로그램",
     "appSub": "DA Standard Data Management · 쇼핑몰",
@@ -148,6 +155,10 @@
       "users": "사용자 역할 관리"
     },
     "boardLink": "게시판",
+    "domain": {
+      "physicalTypeDesc": "물리타입 설명",
+      "detailTitle": "도메인 상세"
+    },
     "field": {
       "attrClass": "속성(분류어)",
       "category": "분류",
@@ -174,10 +185,12 @@
       "physicalName": "물리명",
       "physicalTermName": "물리용어명",
       "physicalType": "물리타입",
+      "physicalTypeDesc": "물리타입(설명)",
       "range": "범위",
       "repDomain": "대표도메인",
       "repDomainPhysical": "대표도메인(물리)",
-      "scale": "소수"
+      "scale": "소수",
+      "logicalNameKey": "논리명(키)"
     },
     "groupTab": {
       "add": "추가",
@@ -192,6 +205,7 @@
       "colRemove": "제거",
       "colSubPerm": "SubManager 권한",
       "colUserId": "User ID",
+      "colUsername": "사용자명",
       "confirmDelete": "그룹 {grp}를 삭제하시겠습니까?",
       "confirmRemove": "구성원을 제거하시겠습니까?",
       "createGroup": "+ 그룹 생성",
@@ -230,6 +244,7 @@
       "moveRole": {
         "admin": "수퍼관리자 (admin)",
         "manager": "매니저 (manager)",
+        "master": "마스터 (master)",
         "sub_admin": "부매니저 (sub_admin)",
         "user": "사용자 (user)"
       },
@@ -241,6 +256,7 @@
       "remove": "제거",
       "role": {
         "admin": "수퍼관리자",
+        "master": "마스터",
         "manager": "매니저",
         "sub_admin": "부매니저",
         "user": "사용자"
@@ -259,6 +275,11 @@
       "systemGroupLabel": "시스템 그룹",
       "totalMembers": "총 {n}명"
     },
+    "placeholder": {
+      "domain": "도메인명 검색",
+      "term": "논리용어명 / 물리용어명 검색",
+      "word": "논리명 / 물리명 검색"
+    },
     "role": {
       "dataAdmin": "데이터관리자",
       "stdAdmin": "표준관리자",
@@ -266,10 +287,22 @@
       "sysAdmin": "시스템관리자",
       "user": "일반사용자"
     },
+    "roleByCode": {
+      "ADMIN": "시스템관리자",
+      "MANAGER": "매니저",
+      "MASTER": "마스터",
+      "SUBMANAGER": "부매니저",
+      "USER": "사용자"
+    },
+    "searchLabel": "검색어",
     "state": {
       "linked": "연결됨",
       "saveFail": "저장 실패",
+      "noTerms": "등록된 용어가 없습니다",
       "select": "항목을 선택하세요",
+      "totalDomains": "전체 {n}건",
+      "totalTerms": "전체 {n}건",
+      "totalWords": "전체 {n}건",
       "unused": "(미사용)"
     },
     "tab": {
@@ -320,7 +353,8 @@
         "admin": "수퍼관리자 (admin)",
         "manager": "매니저 (manager)",
         "master": "마스터 (master)",
-        "sub_admin": "부매니저 (sub_admin)"
+        "sub_admin": "부매니저 (sub_admin)",
+        "user": "사용자 (user)"
       },
       "saving": "저장 중…",
       "searchCount": "검색 결과 {n}명",
