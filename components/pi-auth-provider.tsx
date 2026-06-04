@@ -132,12 +132,17 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   // Pi Browser 환경에서 세션 복원 실패 시 자동 인증
+  // 로그인/회원가입 페이지에서만 발동 — 다른 페이지에서 Pi.init() 호출 시
+  // Pi Browser가 "Initializing Pi SDK" 오버레이를 전체 화면으로 띄워 무한로딩 유발
   useEffect(() => {
     if (isRestoring) return
-    if (isInPiBrowser && !user && !autoAuthAttempted.current) {
-      autoAuthAttempted.current = true
-      void signIn()
-    }
+    if (!isInPiBrowser || user || autoAuthAttempted.current) return
+    if (typeof window === 'undefined') return
+    const path = window.location.pathname
+    const isAuthPage = path.endsWith('/login') || path.endsWith('/signup') || path === '/'
+    if (!isAuthPage) return
+    autoAuthAttempted.current = true
+    void signIn()
   }, [isRestoring, isInPiBrowser, user, signIn])
 
   return (
