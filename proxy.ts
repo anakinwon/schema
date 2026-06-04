@@ -3,6 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminToken, verifyAdminToken } from '@/lib/admin-auth'
 import { supabaseAdmin } from '@/lib/supabase'
+import { verifyPiSession } from '@/lib/pi-session'
 import { routing } from '@/i18n/routing'
 
 // ── 상수 ──────────────────────────────────────────────────────────────
@@ -73,12 +74,18 @@ export async function proxy(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
+  // Pi 세션 확인 — Pi Browser 로그인 사용자도 보호 경로 접근 허용
+  const piCookie = request.cookies.get('pi_session')?.value
+  const hasPiSession = piCookie ? !!verifyPiSession(piCookie) : false
+  // 인증 여부: Supabase 세션 OR Pi 세션 중 하나라도 유효하면 인증됨
+  const isAuthed = !!user || hasPiSession
+
   // 4) 인증 판단 기준: locale prefix 제거한 cleanPath
   const { cleanPath, localePrefix } = extractLocale(pathname)
   // ko (as-needed): localePrefix = ''    → /login
   // en:             localePrefix = '/en' → /en/login
 
-  // 5) /admin 보호: 인증 + admin/master 역할 검증
+  // 5) /admin 보호: Supabase 인증 + admin/master 역할 검증 (Pi 세션 제외)
   if (cleanPath.startsWith('/admin')) {
     if (!user) {
       return NextResponse.redirect(new URL(`${localePrefix}/login`, request.url))
@@ -105,12 +112,12 @@ export async function proxy(request: NextRequest) {
   }
 
   // 6) 비인증 → login (locale prefix 보존)
-  if (!user && !isPublicPath(cleanPath)) {
+  if (!isAuthed && !isPublicPath(cleanPath)) {
     return NextResponse.redirect(new URL(`${localePrefix}/login`, request.url))
   }
 
   // 7) 인증 사용자가 auth 페이지 접근 → 홈 (locale prefix 보존)
-  if (user && (cleanPath === '/login' || cleanPath === '/signup')) {
+  if (isAuthed && (cleanPath === '/login' || cleanPath === '/signup')) {
     return NextResponse.redirect(new URL(`${localePrefix}/`, request.url))
   }
 

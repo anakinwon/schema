@@ -99,6 +99,13 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
 
       const data = (await res.json()) as { success: boolean; user: PiSessionUser }
       setUser(data.user)
+      // Pi 인증 완료 후 로그인/회원가입 페이지이면 홈으로 이동
+      if (typeof window !== 'undefined') {
+        const p = window.location.pathname
+        if (p.endsWith('/login') || p.endsWith('/signup')) {
+          window.location.href = '/'
+        }
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Pi 인증 중 오류가 발생했습니다'
       console.error('[Pi] 인증 오류:', err)

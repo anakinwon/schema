@@ -1,35 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import crypto from 'crypto'
+import { signPiSession, verifyPiSession } from '@/lib/pi-session'
+
+export { verifyPiSession }
 
 const PI_API_URL = 'https://api.minepi.com/v2/me'
-
-// base64url은 '.'을 포함하지 않으므로 payload.sig 분리가 안전함
-function signSession(data: object): string {
-  const secret = process.env.SESSION_SECRET
-  if (!secret) throw new Error('SESSION_SECRET 환경 변수가 설정되지 않았습니다')
-  const payload = Buffer.from(JSON.stringify(data)).toString('base64url')
-  const sig = crypto.createHmac('sha256', secret).update(payload).digest('base64url')
-  return `${payload}.${sig}`
-}
-
-export function verifyPiSession(cookie: string): Record<string, unknown> | null {
-  const secret = process.env.SESSION_SECRET
-  if (!secret) return null
-  const dotIdx = cookie.lastIndexOf('.')
-  if (dotIdx === -1) return null
-  const payload = cookie.slice(0, dotIdx)
-  const sig = cookie.slice(dotIdx + 1)
-  const expected = crypto.createHmac('sha256', secret).update(payload).digest('base64url')
-  // 타이밍 공격 방지: timingSafeEqual 사용
-  const sigBuf = Buffer.from(sig)
-  const expBuf = Buffer.from(expected)
-  if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) return null
-  try {
-    return JSON.parse(Buffer.from(payload, 'base64url').toString()) as Record<string, unknown>
-  } catch {
-    return null
-  }
-}
 
 // CSRF 방어: 변이 요청의 Origin이 앱 사이트와 일치하는지 검증
 // Pi Browser WebView는 Origin 헤더를 포함하지 않을 수 있으므로
@@ -98,7 +72,7 @@ export async function POST(request: NextRequest) {
 
   let signedCookie: string
   try {
-    signedCookie = signSession(sessionData)
+    signedCookie = signPiSession(sessionData)
   } catch (err) {
     console.error('[Pi] 세션 서명 실패:', err)
     return NextResponse.json({ error: '서버 설정 오류' }, { status: 500 })
