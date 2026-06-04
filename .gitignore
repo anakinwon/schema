@@ -49,6 +49,7 @@ next-env.d.ts
 
 # DA 스킬 레퍼런스 바이너리 (대용량, git 추적 제외)
 .claude/skills/**/*.db
+!.claude/skills/data-architecture-team/1-chief-data-architect/da-common-sqlite-ops/references/SQLiteDB_for_META_v5.db
 .claude/skills/**/*.docx
 .claude/skills/**/*.pptx
 .claude/skills/**/*.xls
