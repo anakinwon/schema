@@ -39,12 +39,25 @@ const securityHeaders = [
   },
 ]
 
+// Pi Browser는 null origin WebView iframe으로 앱을 로드함.
+// frame-ancestors에 어떤 origin을 명시해도 null origin은 차단되므로
+// 앱 페이지는 불가피하게 frame-ancestors 미설정 (트레이드오프 인지).
+// API 라우트는 HTML 임베딩 대상이 아니므로 별도로 DENY 적용.
+const apiFrameHeaders = [
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
+]
+
 const nextConfig: NextConfig = {
   async headers() {
     return [
       {
         source: '/(.*)',
         headers: securityHeaders,
+      },
+      {
+        source: '/api/(.*)',
+        headers: apiFrameHeaders,
       },
     ]
   },
