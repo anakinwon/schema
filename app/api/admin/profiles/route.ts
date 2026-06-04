@@ -3,7 +3,7 @@ import { requireAuth } from '@/lib/auth-guard'
 import { supabaseAdmin } from '@/lib/supabase'
 
 export async function GET(request: NextRequest) {
-  const auth = await requireAuth(request, ['ADMIN'])
+  const auth = await requireAuth(request, ['ADMIN', 'MASTER'])
   if (!auth.ok) return auth.response
 
   const { data, error } = await supabaseAdmin
@@ -25,7 +25,7 @@ const PROFILE_TO_ROLE_CD: Record<string, string> = {
 }
 
 export async function PATCH(request: NextRequest) {
-  const auth = await requireAuth(request, ['ADMIN'])
+  const auth = await requireAuth(request, ['ADMIN', 'MASTER'])
   if (!auth.ok) return auth.response
 
   const { user_id, main_role } = await request.json()

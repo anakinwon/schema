@@ -21,6 +21,7 @@ export interface PiSessionUser {
 interface PiAuthContextValue {
   user: PiSessionUser | null
   isLoading: boolean
+  isRestoring: boolean
   isInPiBrowser: boolean
   signIn: () => Promise<void>
   signOut: () => Promise<void>
@@ -57,6 +58,7 @@ function waitForPiSdk(maxMs = 5000): Promise<PiSDK> {
 export function PiAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<PiSessionUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isRestoring, setIsRestoring] = useState(true)
   const [isInPiBrowser] = useState<boolean>(() =>
     typeof window !== 'undefined' ? detectPiBrowser() : false
   )
@@ -102,16 +104,28 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }, [])
 
-  // Pi Browser 환경에서 앱 로드 시 자동 인증
+  // 앱 로드 시 기존 pi_session 쿠키로 세션 복원 시도
   useEffect(() => {
-    if (isInPiBrowser && !autoAuthAttempted.current) {
+    fetch('/api/auth/pi')
+      .then(r => r.json())
+      .then((data: { user: PiSessionUser | null }) => {
+        if (data.user) setUser(data.user)
+      })
+      .catch(() => {})
+      .finally(() => setIsRestoring(false))
+  }, [])
+
+  // Pi Browser 환경에서 세션 복원 실패 시 자동 인증
+  useEffect(() => {
+    if (isRestoring) return
+    if (isInPiBrowser && !user && !autoAuthAttempted.current) {
       autoAuthAttempted.current = true
       void signIn()
     }
-  }, [isInPiBrowser, signIn])
+  }, [isRestoring, isInPiBrowser, user, signIn])
 
   return (
-    <PiAuthContext.Provider value={{ user, isLoading, isInPiBrowser, signIn, signOut }}>
+    <PiAuthContext.Provider value={{ user, isLoading, isRestoring, isInPiBrowser, signIn, signOut }}>
       {children}
     </PiAuthContext.Provider>
   )

@@ -49,6 +49,14 @@ function isOriginAllowed(request: NextRequest): boolean {
   return origin === expected
 }
 
+export async function GET(request: NextRequest) {
+  const cookie = request.cookies.get('pi_session')?.value
+  if (!cookie) return NextResponse.json({ user: null })
+  const data = verifyPiSession(cookie)
+  if (!data) return NextResponse.json({ user: null })
+  return NextResponse.json({ user: data })
+}
+
 export async function POST(request: NextRequest) {
   if (!isOriginAllowed(request)) {
     return NextResponse.json({ error: '허용되지 않은 Origin입니다' }, { status: 403 })

@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
+import { supabaseBrowser } from '@/lib/supabase-browser'
 
 interface Profile {
   id: string
@@ -74,7 +75,11 @@ export default function UserRoleTab() {
   }
 
   const load = useCallback(async () => {
-    const r = await fetch('/api/admin/profiles')
+    const { data: { session } } = await supabaseBrowser.auth.getSession()
+    const headers: HeadersInit = session?.access_token
+      ? { Authorization: `Bearer ${session.access_token}` }
+      : {}
+    const r = await fetch('/api/admin/profiles', { headers })
     const data = await r.json()
     setProfiles(Array.isArray(data) ? data : [])
   }, [])
@@ -85,9 +90,13 @@ export default function UserRoleTab() {
     const profile = profiles.find(p => p.user_id === user_id)
     if (!profile) return
     setSaving(profile.id)
+    const { data: { session } } = await supabaseBrowser.auth.getSession()
     const r = await fetch('/api/admin/profiles', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+      },
       body: JSON.stringify({ user_id, main_role }),
     })
     if (r.ok) {
