@@ -1,18 +1,31 @@
 import Database from 'better-sqlite3'
 import path from 'path'
+import fs from 'fs'
 
-const DB_PATH = path.join(
+const SOURCE_DB_PATH = path.join(
   process.cwd(),
   '.claude', 'skills', 'data-architecture-team',
   '1-chief-data-architect', 'da-common-sqlite-ops',
   'references', 'SQLiteDB_for_META_v5.db'
 )
 
+// Vercel 서버리스는 프로젝트 디렉토리가 읽기 전용 — /tmp 로 복사 후 사용
+function resolveDbPath(): string {
+  if (process.env.VERCEL) {
+    const tmpPath = '/tmp/SQLiteDB_for_META_v5.db'
+    if (!fs.existsSync(tmpPath)) {
+      fs.copyFileSync(SOURCE_DB_PATH, tmpPath)
+    }
+    return tmpPath
+  }
+  return SOURCE_DB_PATH
+}
+
 let _db: Database.Database | null = null
 
 export function getDb(): Database.Database {
   if (!_db) {
-    _db = new Database(DB_PATH)
+    _db = new Database(resolveDbPath())
     _db.pragma('journal_mode = WAL')
     try {
       runCodeMigration(_db)
