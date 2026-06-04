@@ -37,6 +37,23 @@ function onIncompletePaymentFound(payment: PiIncompletePayment) {
   console.warn('[Pi] 미완료 결제 발견:', payment.identifier)
 }
 
+// afterInteractive 전략으로 SDK가 hydration 후 로드되므로 준비될 때까지 폴링
+function waitForPiSdk(maxMs = 5000): Promise<PiSDK> {
+  return new Promise((resolve, reject) => {
+    if (window.Pi) { resolve(window.Pi); return }
+    const start = Date.now()
+    const timer = setInterval(() => {
+      if (window.Pi) {
+        clearInterval(timer)
+        resolve(window.Pi)
+      } else if (Date.now() - start >= maxMs) {
+        clearInterval(timer)
+        reject(new Error('Pi SDK 로드 타임아웃 (5초)'))
+      }
+    }, 100)
+  })
+}
+
 export function PiAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<PiSessionUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -46,21 +63,19 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
   const autoAuthAttempted = useRef(false)
 
   const signIn = useCallback(async () => {
-    if (!window.Pi) {
-      console.warn('[Pi] Pi SDK가 로드되지 않았습니다')
-      return
-    }
     setIsLoading(true)
     try {
+      const Pi = await waitForPiSdk()
+
       // Pi.init()은 void 또는 Promise<void>를 반환하므로 항상 await 가능하도록 래핑
       await Promise.resolve(
-        window.Pi.init({
+        Pi.init({
           version: '2.0',
           sandbox: process.env.NEXT_PUBLIC_PI_SANDBOX === 'true',
         })
       )
 
-      const authResult = await window.Pi.authenticate(['username'], onIncompletePaymentFound)
+      const authResult = await Pi.authenticate(['username'], onIncompletePaymentFound)
 
       const res = await fetch('/api/auth/pi', {
         method: 'POST',

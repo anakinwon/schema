@@ -23,8 +23,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
       className={cn('h-full antialiased', ...ALL_FONT_VARS, "font-sans", oxanium.variable)}
     >
-      {/* beforeInteractive: Pi SDK가 hydration 전에 window.Pi를 등록하도록 보장 */}
-      <Script src="https://sdk.minepi.com/pi-sdk.js" strategy="beforeInteractive" />
+      {/* afterInteractive: React 19는 <head> 외부에 sync 스크립트 금지.
+          window.Pi 접근은 useEffect 이후이므로 afterInteractive로 충분함.
+          SDK 로드 전 인증 시도는 pi-auth-provider의 waitForPiSdk()가 대기함. */}
+      <Script src="https://sdk.minepi.com/pi-sdk.js" strategy="afterInteractive" />
       <body suppressHydrationWarning className="min-h-full flex flex-col">
         <PiAuthProvider>
           {children}
