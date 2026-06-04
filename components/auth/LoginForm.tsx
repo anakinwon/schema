@@ -2,10 +2,23 @@
 import { useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { useRouter } from 'next/navigation'
-import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { PiLoginButton } from '@/components/pi-login-button'
 import { usePiAuth } from '@/components/pi-auth-provider'
+
+// OAuth 콜백 에러 코드 허용 목록 — URL 파라미터를 직접 렌더링하지 않아 텍스트 주입 방지
+const OAUTH_ERROR_MAP: Record<string, string> = {
+  oauth_callback_failed:  'OAuth 로그인 처리 중 오류가 발생했습니다. 다시 시도해주세요.',
+  access_denied:          '로그인 접근이 거부되었습니다.',
+  disallowed_useragent:   'Pi Browser에서는 Google 로그인을 지원하지 않습니다. 이메일 또는 Pi Network로 로그인해주세요.',
+  session_expired:        '세션이 만료되었습니다. 다시 로그인해주세요.',
+}
+const GENERIC_OAUTH_ERROR = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.'
+
+function resolveErrorMessage(code?: string): string {
+  if (!code) return ''
+  return OAUTH_ERROR_MAP[code] ?? GENERIC_OAUTH_ERROR
+}
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
@@ -16,17 +29,13 @@ const GoogleIcon = () => (
   </svg>
 )
 
-export default function LoginForm() {
+export default function LoginForm({ errorCode }: { errorCode?: string }) {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const t = useTranslations('auth')
   const { isInPiBrowser } = usePiAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState(
-    // OAuth 콜백 에러 파라미터를 초기 에러 메시지로 표시
-    searchParams.get('error') ? decodeURIComponent(searchParams.get('error')!) : ''
-  )
+  const [error, setError] = useState(() => resolveErrorMessage(errorCode))
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
 
