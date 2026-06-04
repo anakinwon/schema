@@ -35,8 +35,12 @@ export async function GET(request: NextRequest) {
     const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!exchangeError && data.user) {
-      // 신규 사용자인 경우 user_info에 USER 역할 자동 부여
-      await ensureUserInfo(data.user.id, data.user.email ?? '')
+      // 신규 사용자 user_info 자동 생성 — 실패해도 세션 교환은 이미 성공했으므로 로그인 진행
+      try {
+        await ensureUserInfo(data.user.id, data.user.email ?? '')
+      } catch (err) {
+        console.error('[auth/callback] ensureUserInfo 실패 (무시하고 로그인 진행):', err)
+      }
       return NextResponse.redirect(new URL(safeNext, origin))
     }
   }
