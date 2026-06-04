@@ -20,7 +20,7 @@ const PiIcon = () => (
 )
 
 export function PiLoginButton() {
-  const { user, isLoading, isRestoring, signIn, signOut } = usePiAuth()
+  const { user, isLoading, isRestoring, authError, signIn, signOut } = usePiAuth()
 
   if (user) {
     return (
@@ -41,13 +41,18 @@ export function PiLoginButton() {
   }
 
   return (
-    <button
-      onClick={() => void signIn()}
-      disabled={isLoading || isRestoring}
-      className="w-full py-2.5 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
-    >
-      <PiIcon />
-      {isRestoring ? '세션 확인 중...' : isLoading ? 'Pi 인증 중...' : 'Pi Network로 로그인'}
-    </button>
+    <div className="w-full space-y-2">
+      <button
+        onClick={() => void signIn()}
+        disabled={isLoading || isRestoring}
+        className="w-full py-2.5 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
+      >
+        <PiIcon />
+        {isRestoring ? '세션 확인 중...' : isLoading ? 'Pi 인증 중...' : 'Pi Network로 로그인'}
+      </button>
+      {authError && (
+        <p className="text-xs text-red-500 text-center px-1">{authError}</p>
+      )}
+    </div>
   )
 }

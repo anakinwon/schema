@@ -22,6 +22,7 @@ interface PiAuthContextValue {
   user: PiSessionUser | null
   isLoading: boolean
   isRestoring: boolean
+  authError: string | null
   isInPiBrowser: boolean
   signIn: () => Promise<void>
   signOut: () => Promise<void>
@@ -59,23 +60,29 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<PiSessionUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isRestoring, setIsRestoring] = useState(true)
+  const [authError, setAuthError] = useState<string | null>(null)
   const [isInPiBrowser] = useState<boolean>(() =>
     typeof window !== 'undefined' ? detectPiBrowser() : false
   )
   const autoAuthAttempted = useRef(false)
+  const piInitializedRef = useRef(false)
 
   const signIn = useCallback(async () => {
     setIsLoading(true)
+    setAuthError(null)
     try {
       const Pi = await waitForPiSdk()
 
-      // Pi.init()은 void 또는 Promise<void>를 반환하므로 항상 await 가능하도록 래핑
-      await Promise.resolve(
-        Pi.init({
-          version: '2.0',
-          sandbox: process.env.NEXT_PUBLIC_PI_SANDBOX === 'true',
-        })
-      )
+      // Pi.init()은 앱 생명주기에서 1회만 호출 — 중복 호출 시 SDK가 reject함
+      if (!piInitializedRef.current) {
+        await Promise.resolve(
+          Pi.init({
+            version: '2.0',
+            sandbox: process.env.NEXT_PUBLIC_PI_SANDBOX === 'true',
+          })
+        )
+        piInitializedRef.current = true
+      }
 
       const authResult = await Pi.authenticate(['username'], onIncompletePaymentFound)
 
@@ -93,7 +100,9 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
       const data = (await res.json()) as { success: boolean; user: PiSessionUser }
       setUser(data.user)
     } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Pi 인증 중 오류가 발생했습니다'
       console.error('[Pi] 인증 오류:', err)
+      setAuthError(msg)
     } finally {
       setIsLoading(false)
     }
@@ -125,7 +134,7 @@ export function PiAuthProvider({ children }: { children: ReactNode }) {
   }, [isRestoring, isInPiBrowser, user, signIn])
 
   return (
-    <PiAuthContext.Provider value={{ user, isLoading, isRestoring, isInPiBrowser, signIn, signOut }}>
+    <PiAuthContext.Provider value={{ user, isLoading, isRestoring, authError, isInPiBrowser, signIn, signOut }}>
       {children}
     </PiAuthContext.Provider>
   )
