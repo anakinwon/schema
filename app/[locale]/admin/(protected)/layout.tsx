@@ -66,7 +66,7 @@ export default async function AdminProtectedLayout({ children, params }: Props) 
         <div className="flex items-center gap-2">
           <span className="text-xl">🔐</span>
           <div>
-            <div className="text-sm font-bold leading-tight">표준데이터 관리 · 관리자</div>
+            <div className="text-sm font-bold leading-tight">스키마 · 관리자</div>
             <div className="text-[11px] text-gray-400 leading-tight">Back Office · Admin</div>
           </div>
         </div>

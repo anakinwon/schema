@@ -6,7 +6,7 @@
 |------|------|
 | 작성일 | 2026-06-03 |
 | 참조 가이드 | 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 |
-| 프로젝트 | claude-nextjs-starters (표준데이터 관리 시스템) |
+| 프로젝트 | claude-nextjs-starters (스키마 시스템) |
 | 기술 스택 | Next.js 16.2.6 + React 19 + TypeScript + Tailwind CSS v4 + Supabase |
 | 점검 기준 | OWASP Top 10 2021 + 주요정보통신기반시설 가이드 웹 취약점 항목 |
 

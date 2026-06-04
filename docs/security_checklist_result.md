@@ -8,7 +8,7 @@
 | 점검 기준 문서 | `docs/PRD_SECURITY.md` |
 | 점검 완료일 | 2026-06-03 |
 | 점검 수행자 | anakin.won@gmail.com |
-| 프로젝트명 | claude-nextjs-starters (표준데이터 관리 시스템) |
+| 프로젝트명 | claude-nextjs-starters (스키마 시스템) |
 | 기술 스택 | Next.js 16.2.6 + React 19 + TypeScript + Tailwind CSS v4 + Supabase |
 | 점검 기준 | 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 + OWASP Top 10 2021 |
 | 총 점검 항목 수 | 25개 (SEC-001 ~ SEC-025) |

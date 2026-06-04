@@ -10,7 +10,7 @@
         "words": "표준단어"
       },
       "footer": "DA#5 SQLiteDB_for_META · Supabase PostgreSQL",
-      "pageSubtitle": "표준데이터 관리 시스템 현황",
+      "pageSubtitle": "스키마 시스템 현황",
       "pageTitle": "관리자 대시보드",
       "quick": {
         "audit": "변경 이력",
@@ -83,7 +83,7 @@
     "write": "글쓰기"
   },
   "common": {
-    "appName": "표준데이터 관리 프로그램",
+    "appName": "스키마 프로그램",
     "back": "뒤로",
     "cancel": "취소",
     "dashboard": "대시보드",
@@ -137,7 +137,7 @@
       "ddlExport": "DDL 내보내기",
       "new": "신규"
     },
-    "appName": "표준데이터 관리 프로그램",
+    "appName": "스키마 프로그램",
     "appSub": "DA Standard Data Management · 쇼핑몰",
     "auth": {
       "adminNote": "※ ADMIN은 모든 권한 고정 / 체크박스 클릭으로 역할-권한을 즉시 부여·회수합니다",

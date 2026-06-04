@@ -11,7 +11,7 @@ import { Oxanium } from "next/font/google";
 const oxanium = Oxanium({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: '표준데이터 관리 프로그램',
+  title: '스키마 프로그램',
   description: 'DA Standard Data Management',
 }
 

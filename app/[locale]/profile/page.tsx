@@ -208,7 +208,7 @@ export default function ProfilePage() {
       <header className="bg-[#1e3a5f] text-white px-6 py-3 flex items-center gap-3 shadow">
         <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <span className="text-xl">🗃️</span>
-          <span className="text-sm font-bold">표준데이터 관리 프로그램</span>
+          <span className="text-sm font-bold">스키마 프로그램</span>
         </a>
         <span className="text-blue-400 text-sm">/ 내 프로필</span>
         <div className="ml-auto">

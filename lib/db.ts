@@ -36,26 +36,37 @@ export const STD_AREA = '{837B8059-C2C4-46DC-97DD-C64661CA447B}'
 // 논리위치: 시스템컬럼(REGR_ID / REG_DTM / MODR_ID / MOD_DTM) 바로 위
 // ──────────────────────────────────────────────────────────
 function runLogicalDeleteMigration(db: Database.Database) {
+  // 대상 테이블이 없으면(메타DB 미초기화 상태) 마이그레이션을 건너뛴다.
+  // — 빈 DB에서 ALTER/UPDATE 가 'no such table' 로 전체 페이지를 크래시시키는 것을 방지.
+  const hasTable = (tbl: string): boolean =>
+    !!db.prepare(
+      `SELECT 1 FROM sqlite_master WHERE type='table' AND name=?`
+    ).get(tbl)
+
   const hasCol = (tbl: string, col: string): boolean =>
     (db.prepare(`PRAGMA table_info(${tbl})`).all() as { name: string }[])
       .some(c => c.name === col)
 
   // STD_DIC
-  if (!hasCol('STD_DIC', 'DEL_YN'))
-    db.exec("ALTER TABLE STD_DIC ADD COLUMN DEL_YN TEXT NOT NULL DEFAULT 'N'")
-  if (!hasCol('STD_DIC', 'DEL_DTM'))
-    db.exec('ALTER TABLE STD_DIC ADD COLUMN DEL_DTM TEXT NULL')
+  if (hasTable('STD_DIC')) {
+    if (!hasCol('STD_DIC', 'DEL_YN'))
+      db.exec("ALTER TABLE STD_DIC ADD COLUMN DEL_YN TEXT NOT NULL DEFAULT 'N'")
+    if (!hasCol('STD_DIC', 'DEL_DTM'))
+      db.exec('ALTER TABLE STD_DIC ADD COLUMN DEL_DTM TEXT NULL')
+
+    // 표준단어 "일시" 약어 DTS → DTM (표준용어 통일)
+    db.prepare(
+      "UPDATE STD_DIC SET DIC_PHY_NM='DTM', DIC_PHY_FLL_NM='Datetime' WHERE DIC_LOG_NM='일시' AND DIC_PHY_NM='DTS'"
+    ).run()
+  }
 
   // STD_DOM
-  if (!hasCol('STD_DOM', 'DEL_YN'))
-    db.exec("ALTER TABLE STD_DOM ADD COLUMN DEL_YN TEXT NOT NULL DEFAULT 'N'")
-  if (!hasCol('STD_DOM', 'DEL_DTM'))
-    db.exec('ALTER TABLE STD_DOM ADD COLUMN DEL_DTM TEXT NULL')
-
-  // 표준단어 "일시" 약어 DTS → DTM (표준용어 통일)
-  db.prepare(
-    "UPDATE STD_DIC SET DIC_PHY_NM='DTM', DIC_PHY_FLL_NM='Datetime' WHERE DIC_LOG_NM='일시' AND DIC_PHY_NM='DTS'"
-  ).run()
+  if (hasTable('STD_DOM')) {
+    if (!hasCol('STD_DOM', 'DEL_YN'))
+      db.exec("ALTER TABLE STD_DOM ADD COLUMN DEL_YN TEXT NOT NULL DEFAULT 'N'")
+    if (!hasCol('STD_DOM', 'DEL_DTM'))
+      db.exec('ALTER TABLE STD_DOM ADD COLUMN DEL_DTM TEXT NULL')
+  }
 }
 
 // ──────────────────────────────────────────────────────────

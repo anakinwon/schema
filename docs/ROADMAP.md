@@ -1,4 +1,4 @@
-# 표준데이터 관리 프로그램 개발 로드맵
+# 스키마 프로그램 개발 로드맵
 
 쇼핑몰 DB 물리설계 표준을 단일 UI에서 관리하고 RBAC로 접근을 제어하는 DA 내부 관리 도구
 
@@ -10,7 +10,7 @@
 
 ## 개요
 
-**표준데이터 관리 프로그램**은 DA(Data Architect) 담당자와 쇼핑몰 데이터 관리 팀을 위한 표준 거버넌스 도구로 다음 기능을 제공합니다:
+**스키마 프로그램**은 DA(Data Architect) 담당자와 쇼핑몰 데이터 관리 팀을 위한 표준 거버넌스 도구로 다음 기능을 제공합니다:
 
 - **표준 사전 관리**: 표준단어(STD_DIC) · 도메인(STD_DOM) · 용어(DA_TERM)를 단일 UI에서 조회·등록·수정
 - **RBAC 권한 제어**: 5계층 역할(ADMIN > MASTER > MANAGER > SUBMANAGER > USER)별 편집 권한 제어
@@ -325,7 +325,7 @@
 
 - **게시판 라우팅 재구성** ✅ - 완료
   - ✅ `app/board/` → `app/(board)/` Route Group 이동 (URL: `/board/notice` → `/notice`)
-  - ✅ 표준데이터 관리 프로그램 → `/admin` Back Office 전용 전환
+  - ✅ 스키마 프로그램 → `/admin` Back Office 전용 전환
   - ✅ 루트 `/` → `/notice` redirect (`app/page.tsx`)
   - ✅ 기존 `/notice`, `/login`, `/admin` URL 무중단 유지
 

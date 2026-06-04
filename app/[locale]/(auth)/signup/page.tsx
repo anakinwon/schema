@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import SignupForm from '@/components/auth/SignupForm'
 
 export const metadata: Metadata = {
-  title: '회원가입 — 표준데이터 관리 프로그램',
+  title: '회원가입 — 스키마 프로그램',
 }
 
 export default function SignupPage() {
