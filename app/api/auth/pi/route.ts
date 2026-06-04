@@ -31,7 +31,29 @@ export function verifyPiSession(cookie: string): Record<string, unknown> | null 
   }
 }
 
+// CSRF 방어: 변이 요청의 Origin이 앱 사이트와 일치하는지 검증
+// Pi Browser WebView는 Origin 헤더를 포함하지 않을 수 있으므로
+// 미설정 환경(null/undefined Origin)은 개발 환경에서만 허용
+function isOriginAllowed(request: NextRequest): boolean {
+  const origin = request.headers.get('origin')
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+
+  // 프로덕션에서 NEXT_PUBLIC_SITE_URL 미설정 시 보수적으로 거부
+  if (!siteUrl && process.env.NODE_ENV === 'production') return false
+
+  // Origin 헤더가 없으면 허용 (Pi Browser WebView, SSR fetches)
+  if (!origin) return true
+
+  // siteUrl 미설정 시 같은 호스트 여부를 Host 헤더로 폴백
+  const expected = siteUrl ?? `https://${request.headers.get('host') ?? ''}`
+  return origin === expected
+}
+
 export async function POST(request: NextRequest) {
+  if (!isOriginAllowed(request)) {
+    return NextResponse.json({ error: '허용되지 않은 Origin입니다' }, { status: 403 })
+  }
+
   let body: unknown
   try {
     body = await request.json()
@@ -80,6 +102,8 @@ export async function POST(request: NextRequest) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
+    // Pi 토큰 유효기간(tokenValidUntil)과 동기화가 이상적이나,
+    // 클라이언트가 재인증할 수 있으므로 7일 고정으로 단순화
     maxAge: 60 * 60 * 24 * 7,
     path: '/',
   })
@@ -87,7 +111,11 @@ export async function POST(request: NextRequest) {
   return response
 }
 
-export async function DELETE() {
+export async function DELETE(request: NextRequest) {
+  if (!isOriginAllowed(request)) {
+    return NextResponse.json({ error: '허용되지 않은 Origin입니다' }, { status: 403 })
+  }
+
   const response = NextResponse.json({ success: true })
   response.cookies.delete('pi_session')
   return response
