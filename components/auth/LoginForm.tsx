@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { PiLoginButton } from '@/components/pi-login-button'
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
@@ -51,10 +52,13 @@ export default function LoginForm() {
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true)
+    // NEXT_PUBLIC_SITE_URL 이 없으면 현재 origin 으로 폴백
+    // Vercel 배포 URL 변경 시 env 변수만 갱신하면 되도록 외부화
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${siteUrl}/auth/callback`,
       },
     })
   }
@@ -119,6 +123,10 @@ export default function LoginForm() {
         <GoogleIcon />
         {googleLoading ? '연결 중...' : 'Google로 로그인'}
       </button>
+
+      <div className="mt-3">
+        <PiLoginButton />
+      </div>
 
       <p className="mt-6 text-center text-sm text-gray-500">
         계정이 없으신가요?{' '}

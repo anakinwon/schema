@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
+import Script from 'next/script'
 import { ALL_FONT_VARS } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
+import { PiAuthProvider } from '@/components/pi-auth-provider'
 import './globals.css'
 import 'flag-icons/css/flag-icons.min.css'
 import { Oxanium } from "next/font/google";
@@ -21,8 +23,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
       className={cn('h-full antialiased', ...ALL_FONT_VARS, "font-sans", oxanium.variable)}
     >
+      {/* beforeInteractive: Pi SDK가 hydration 전에 window.Pi를 등록하도록 보장 */}
+      <Script src="https://sdk.minepi.com/pi-sdk.js" strategy="beforeInteractive" />
       <body suppressHydrationWarning className="min-h-full flex flex-col">
-        {children}
+        <PiAuthProvider>
+          {children}
+        </PiAuthProvider>
       </body>
     </html>
   )
