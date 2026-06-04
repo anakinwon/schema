@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
+import { supabaseBrowser } from '@/lib/supabase-browser'
 
 interface Member  { usr_no: string; mbr_role_cd: string; use_yn: string; user_info: { usr_nm: string } | null }
 interface Group   { grp_cd: string; grp_nm: string; grp_cont: string | null; use_yn: string; grp_mbr: Member[] }
@@ -64,12 +65,18 @@ export default function GroupTab() {
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
+  const getAuthHeaders = async (): Promise<HeadersInit> => {
+    const { data: { session } } = await supabaseBrowser.auth.getSession()
+    return session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}
+  }
+
   const load = useCallback(async () => {
+    const hdrs = await getAuthHeaders()
     const [g, u, p, pr] = await Promise.all([
-      fetch('/api/auth/groups').then(r => r.json()),
-      fetch('/api/auth/users').then(r => r.json()),
-      fetch('/api/auth/perms').then(r => r.json()),
-      fetch('/api/admin/profiles').then(r => r.json()),
+      fetch('/api/auth/groups', { headers: hdrs }).then(r => r.json()),
+      fetch('/api/auth/users', { headers: hdrs }).then(r => r.json()),
+      fetch('/api/auth/perms', { headers: hdrs }).then(r => r.json()),
+      fetch('/api/admin/profiles', { headers: hdrs }).then(r => r.json()),
     ])
     const safeG = Array.isArray(g) ? g : []
     setGroups(safeG)
@@ -83,11 +90,12 @@ export default function GroupTab() {
 
   const seedSystemGroups = async () => {
     setSeeding(true)
+    const hdrs = await getAuthHeaders()
     const existing = new Set(groups.map(g => g.grp_cd))
     for (const sg of SYSTEM_GROUPS) {
       if (!existing.has(sg.grp_cd)) {
         await fetch('/api/auth/groups', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json', ...hdrs },
           body: JSON.stringify({
             grp_cd: sg.grp_cd,
             grp_nm: t(`groupTab.groups.${sg.grp_cd}.name` as any),
@@ -108,8 +116,9 @@ export default function GroupTab() {
   const createGroup = async () => {
     if (!newGrp.grp_cd || !newGrp.grp_nm) return alert(t('groupTab.alertRequired' as any))
     setSaving(true)
+    const hdrs = await getAuthHeaders()
     const r = await fetch('/api/auth/groups', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newGrp),
+      method: 'POST', headers: { 'Content-Type': 'application/json', ...hdrs }, body: JSON.stringify(newGrp),
     })
     setSaving(false)
     if (r.ok) { setNewGrp({ grp_cd: '', grp_nm: '', grp_cont: '' }); load() }
@@ -119,8 +128,9 @@ export default function GroupTab() {
   const deleteGroup = async (grp_cd: string) => {
     if (SYSTEM_GRP_CODES.has(grp_cd)) return alert(t('groupTab.alertSystemDelete' as any))
     if (!confirm((t as any)('groupTab.confirmDelete', { grp: grp_cd }))) return
+    const hdrs = await getAuthHeaders()
     await fetch('/api/auth/groups', {
-      method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ grp_cd }),
+      method: 'DELETE', headers: { 'Content-Type': 'application/json', ...hdrs }, body: JSON.stringify({ grp_cd }),
     })
     if (selected?.grp_cd === grp_cd) setSelected(null)
     load()
@@ -128,8 +138,9 @@ export default function GroupTab() {
 
   const addMember = async () => {
     if (!selected || !addUsr.usr_no) return
+    const hdrs = await getAuthHeaders()
     const r = await fetch('/api/auth/grp-mbr', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json', ...hdrs },
       body: JSON.stringify({ grp_cd: selected.grp_cd, ...addUsr }),
     })
     if (r.ok) { setAddUsr({ usr_no: '', mbr_role_cd: 'USER' }); load() }
@@ -138,8 +149,9 @@ export default function GroupTab() {
 
   const removeMember = async (usr_no: string) => {
     if (!selected || !confirm(t('groupTab.confirmRemove' as any))) return
+    const hdrs = await getAuthHeaders()
     await fetch('/api/auth/grp-mbr', {
-      method: 'DELETE', headers: { 'Content-Type': 'application/json' },
+      method: 'DELETE', headers: { 'Content-Type': 'application/json', ...hdrs },
       body: JSON.stringify({ grp_cd: selected.grp_cd, usr_no }),
     })
     if (focusMbr === usr_no) { setFocusMbr(null); setSubPerms(new Set()) }
@@ -147,8 +159,9 @@ export default function GroupTab() {
   }
 
   const changeProfileRole = async (user_id: string, main_role: string) => {
+    const hdrs = await getAuthHeaders()
     const r = await fetch('/api/admin/profiles', {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      method: 'PATCH', headers: { 'Content-Type': 'application/json', ...hdrs },
       body: JSON.stringify({ user_id, main_role }),
     })
     if (r.ok) { showToast(t('groupTab.roleChangeToast' as any)); load() }
@@ -156,7 +169,8 @@ export default function GroupTab() {
   }
 
   const loadSubPerms = async (grp_cd: string, usr_no: string) => {
-    const r = await fetch(`/api/auth/grp-mbr/perm?grp_cd=${grp_cd}&usr_no=${usr_no}`)
+    const hdrs = await getAuthHeaders()
+    const r = await fetch(`/api/auth/grp-mbr/perm?grp_cd=${grp_cd}&usr_no=${usr_no}`, { headers: hdrs })
     if (r.ok) {
       const data = await r.json()
       setSubPerms(new Set((data as { perm_cd: string }[]).map(x => x.perm_cd)))
@@ -165,8 +179,9 @@ export default function GroupTab() {
 
   const toggleSubPerm = async (perm_cd: string, has: boolean) => {
     if (!selected || !focusMbr) return
+    const hdrs = await getAuthHeaders()
     const r = await fetch('/api/auth/grp-mbr', {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      method: 'PUT', headers: { 'Content-Type': 'application/json', ...hdrs },
       body: JSON.stringify({ grp_cd: selected.grp_cd, usr_no: focusMbr, perm_cd, grnt_yn: has ? 'N' : 'Y' }),
     })
     if (r.ok) {
