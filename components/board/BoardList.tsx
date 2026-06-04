@@ -95,8 +95,12 @@ export default function BoardList({ category, canWrite = false }: Props) {
       if (search) params.set('q', search)
       const res = await fetch(`/api/board/${category}/posts?${params}`, { headers })
       if (!res.ok) {
-        const body = await res.json()
-        setError(body.error ?? '게시글을 불러오지 못했습니다')
+        let message = `게시글을 불러오지 못했습니다 (${res.status})`
+        try {
+          const body = await res.json()
+          message = body.error ?? message
+        } catch { /* 500 HTML 응답 등 JSON이 아닌 경우 무시 */ }
+        setError(message)
         return
       }
       setData(await res.json())

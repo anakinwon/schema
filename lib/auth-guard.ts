@@ -51,11 +51,22 @@ export async function requireAuth(
   }
 
   // JWT 검증 (Supabase Auth)
-  const { data: { user }, error } = await supabase.auth.getUser(token)
-  if (error || !user?.email) {
+  // env 미설정 등으로 Supabase 클라이언트 초기화 실패 시 throw될 수 있으므로 try-catch
+  let user: { id: string; email: string } | null = null
+  try {
+    const { data, error } = await supabase.auth.getUser(token)
+    if (error || !data.user?.email) {
+      return {
+        ok: false,
+        response: NextResponse.json({ error: '유효하지 않은 세션입니다' }, { status: 401 }),
+      }
+    }
+    user = { id: data.user.id, email: data.user.email }
+  } catch (err) {
+    console.error('[requireAuth] Supabase 초기화 오류:', err)
     return {
       ok: false,
-      response: NextResponse.json({ error: '유효하지 않은 세션입니다' }, { status: 401 }),
+      response: NextResponse.json({ error: '서버 인증 서비스 오류' }, { status: 503 }),
     }
   }
 
@@ -99,15 +110,22 @@ export async function requireAnyAuth(req: NextRequest): Promise<AuthResult> {
     }
   }
 
-  const { data: { user }, error } = await supabase.auth.getUser(token)
-  if (error || !user?.email) {
+  try {
+    const { data, error } = await supabase.auth.getUser(token)
+    if (error || !data.user?.email) {
+      return {
+        ok: false,
+        response: NextResponse.json({ error: '유효하지 않은 세션입니다' }, { status: 401 }),
+      }
+    }
+    return { ok: true, email: data.user.email, role_cd: 'USER', usr_no: null, user_id: data.user.id }
+  } catch (err) {
+    console.error('[requireAnyAuth] Supabase 초기화 오류:', err)
     return {
       ok: false,
-      response: NextResponse.json({ error: '유효하지 않은 세션입니다' }, { status: 401 }),
+      response: NextResponse.json({ error: '서버 인증 서비스 오류' }, { status: 503 }),
     }
   }
-
-  return { ok: true, email: user.email, role_cd: 'USER', usr_no: null, user_id: user.id }
 }
 
 /** MANAGER가 특정 그룹의 담당자인지 확인 (그룹 스코프 권한) */
