@@ -2,8 +2,10 @@
 import { useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { PiLoginButton } from '@/components/pi-login-button'
+import { usePiAuth } from '@/components/pi-auth-provider'
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
@@ -16,10 +18,15 @@ const GoogleIcon = () => (
 
 export default function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const t = useTranslations('auth')
+  const { isInPiBrowser } = usePiAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState(
+    // OAuth 콜백 에러 파라미터를 초기 에러 메시지로 표시
+    searchParams.get('error') ? decodeURIComponent(searchParams.get('error')!) : ''
+  )
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
 
@@ -115,14 +122,21 @@ export default function LoginForm() {
         <div className="flex-1 h-px bg-gray-200" />
       </div>
 
-      <button
-        onClick={handleGoogleLogin}
-        disabled={googleLoading}
-        className="w-full py-2.5 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
-      >
-        <GoogleIcon />
-        {googleLoading ? '연결 중...' : 'Google로 로그인'}
-      </button>
+      {isInPiBrowser ? (
+        <div className="w-full py-2.5 px-4 border border-gray-200 rounded-lg text-sm text-gray-400 bg-gray-50 flex items-center justify-center gap-2 cursor-not-allowed select-none">
+          <GoogleIcon />
+          <span>Google 로그인은 Pi Browser에서 지원되지 않습니다</span>
+        </div>
+      ) : (
+        <button
+          onClick={handleGoogleLogin}
+          disabled={googleLoading}
+          className="w-full py-2.5 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60 transition-colors flex items-center justify-center gap-2"
+        >
+          <GoogleIcon />
+          {googleLoading ? '연결 중...' : 'Google로 로그인'}
+        </button>
+      )}
 
       <div className="mt-3">
         <PiLoginButton />
